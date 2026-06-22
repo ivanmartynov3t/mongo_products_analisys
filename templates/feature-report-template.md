@@ -1,14 +1,16 @@
-# Feature Report Template — <Product Name> / <Feature Name>
+# Feature Report — <Product Name> / <Feature Display Name>
 
 ## Navigation
 
-- Product report (relative path in product folder): `../../product-report.md`
-- Feature matrix (same feature folder): `feature-matrix.md`
-- Global low-level comparison: `../reports/comparisons/low-level-feature-comparison.md`
+- [Product report](../../product-report.md)
+- [Feature matrix](feature-matrix.md)
+- [Feature dictionary](../../../../../feature-dictionary.md)
+- [Low-level comparison](../../../../../reports/comparisons/low-level-feature-comparison.md)
 
 ## Scope
 
 - Feature name:
+- Feature ID: F-<FEATURE> (see [feature-dictionary.md](../../../../../feature-dictionary.md))
 - Product:
 - Product group: third-party | 3t
 - Analysis date:
@@ -17,14 +19,14 @@
 
 Describe the feature flow at implementation level.
 
-## Capability-by-capability notes
+## Sub-feature notes
 
-Reference capability IDs from `feature-matrix.md`.
+Reference sub-feature IDs from `feature-matrix.md` (all IDs are from the unified feature dictionary).
 
-| Capability ID | Finding | Impact | Evidence |
+| Sub-feature ID | Finding | Impact | Evidence |
 | --- | --- | --- | --- |
-| F-001 |  |  |  |
-| F-002 |  |  |  |
+| FEAT-sub-feature-1 |  |  |  |
+| FEAT-sub-feature-2 |  |  |  |
 
 ## Constraints and risks
 

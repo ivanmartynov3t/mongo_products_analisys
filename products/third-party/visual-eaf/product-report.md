@@ -1,5 +1,13 @@
 # VisuaLeaf — Product Report
 
+## Navigation
+
+- [Repository README](../../../README.md)
+- [Feature dictionary](../../../feature-dictionary.md)
+- [Third-Party Products Index](../)
+- [High-level comparison](../../../reports/comparisons/high-level-product-comparison.md)
+- [Low-level comparison](../../../reports/comparisons/low-level-feature-comparison.md)
+
 ## Product Overview
 
 | Field | Value |
@@ -18,18 +26,20 @@
 
 ## Feature Inventory
 
-| Feature | Report | Matrix | Plan |
-|---|---|---|---|
-| Connectivity | [feature-report.md](features/connectivity/feature-report.md) | [feature-matrix.md](features/connectivity/feature-matrix.md) | All (Community: 3-connection cap) |
-| Querying | [feature-report.md](features/querying/feature-report.md) | [feature-matrix.md](features/querying/feature-matrix.md) | All (Visual Query Builder: Basic+; AI Query: Professional) |
-| Aggregation | [feature-report.md](features/aggregation/feature-report.md) | [feature-matrix.md](features/aggregation/feature-matrix.md) | All |
-| Schema Validation | [feature-report.md](features/schema-validation/feature-report.md) | [feature-matrix.md](features/schema-validation/feature-matrix.md) | Basic+ |
-| Indexing & Performance | [feature-report.md](features/indexing-performance/feature-report.md) | [feature-matrix.md](features/indexing-performance/feature-matrix.md) | All |
-| Data Import/Export | [feature-report.md](features/data-import-export/feature-report.md) | [feature-matrix.md](features/data-import-export/feature-matrix.md) | Basic+ (Community: 0 tasks) |
-| Visual Schema Designer | [feature-report.md](features/visual-schema/feature-report.md) | [feature-matrix.md](features/visual-schema/feature-matrix.md) | Basic+ |
-| MongoDB Shell | [feature-report.md](features/shell/feature-report.md) | [feature-matrix.md](features/shell/feature-matrix.md) | All |
-| AI Assistant | [feature-report.md](features/ai-assistant/feature-report.md) | [feature-matrix.md](features/ai-assistant/feature-matrix.md) | Professional only |
-| Security & Governance | [feature-report.md](features/security-governance/feature-report.md) | [feature-matrix.md](features/security-governance/feature-matrix.md) | Basic+ (RBAC/Audit: Professional) |
+Feature IDs and folder names from [feature-dictionary.md](../../../feature-dictionary.md).
+
+| Feature ID | Feature | Matrix | Report | Plan |
+|---|---|---|---|---|
+| F-CONN | Connectivity | [feature-matrix.md](features/connectivity/feature-matrix.md) | [feature-report.md](features/connectivity/feature-report.md) | All (Community: 3-connection cap) |
+| F-QUERY | Querying | [feature-matrix.md](features/querying/feature-matrix.md) | [feature-report.md](features/querying/feature-report.md) | All (VQB: Basic+; AI Query: Professional) |
+| F-AGG | Aggregation | [feature-matrix.md](features/aggregation/feature-matrix.md) | [feature-report.md](features/aggregation/feature-report.md) | All |
+| F-SCHEMA | Schema | [feature-matrix.md](features/schema/feature-matrix.md) | [feature-report.md](features/schema/feature-report.md) | Basic+ (Validation + Visual Designer: Basic+) |
+| F-IDX | Indexing & Performance | [feature-matrix.md](features/indexing-performance/feature-matrix.md) | [feature-report.md](features/indexing-performance/feature-report.md) | All |
+| F-TRANSFER | Data Transfer | [feature-matrix.md](features/data-transfer/feature-matrix.md) | [feature-report.md](features/data-transfer/feature-report.md) | Basic+ (Community: 0 tasks) |
+| F-SHELL | Shell | [feature-matrix.md](features/shell/feature-matrix.md) | [feature-report.md](features/shell/feature-report.md) | All |
+| F-AI | AI Features | [feature-matrix.md](features/ai/feature-matrix.md) | [feature-report.md](features/ai/feature-report.md) | Professional only |
+| F-GOV | Governance & Security | [feature-matrix.md](features/governance/feature-matrix.md) | [feature-report.md](features/governance/feature-report.md) | Basic+ (RBAC/Audit: Professional) |
+| F-SCHED | Task Scheduler | [feature-matrix.md](features/task-scheduler/feature-matrix.md) | [feature-report.md](features/task-scheduler/feature-report.md) | Basic+ (Community: 0 tasks) |
 
 ---
 
@@ -37,8 +47,8 @@
 
 | Edition | Price | Key Capabilities | Key Limits |
 |---|---|---|---|
-| **Community** | Free | Core querying, aggregation, shell, index management | 3 connections max; no Visual Query Builder; no Saved Queries; no Tasks; no Schema Validation; no Visual Schema; no RBAC |
-| **Basic** | $42 one-time **or** $42/year | All Community + unlimited connections, Visual Query Builder, Saved Queries, up to 2 import/export tasks, Schema Validation, Visual Schema Designer, Data Masking | No AI Assistant; No RBAC Dashboard; No Collection Compare & Sync |
+| **Community** | Free | Core querying, aggregation, shell, index management | 3 connections max; no VQB; no Saved Queries; no Tasks; no Schema Validation; no Visual Schema; no RBAC |
+| **Basic** | $42 one-time **or** $42/year | All Community + unlimited connections, VQB, Saved Queries, up to 2 import/export tasks, Schema Validation, Visual Schema Designer, Data Masking | No AI Assistant; No RBAC Dashboard; No Collection Compare & Sync |
 | **Professional** | $149/year | All Basic + AI Assistant, unlimited tasks, RBAC Dashboard, Audit Logging, Collection Compare & Sync | — |
 
 Source: https://visualeaf.com
@@ -84,20 +94,3 @@ Sources: https://visualeaf.com/docs/connection-manager, https://visualeaf.com/fe
 | **snappy/zstd compression** | Only zlib compression documented; MongoDB 4.2+ snappy/zstd support not referenced |
 | **Team licensing / multi-seat** | Saved queries can be shared via JSON export but no explicit team seat management documented |
 | **Export diagram format** | Visual Schema Designer export format not specified |
-
----
-
-## Navigation
-
-- [→ Connectivity](features/connectivity/feature-report.md)
-- [→ Querying](features/querying/feature-report.md)
-- [→ Aggregation](features/aggregation/feature-report.md)
-- [→ Schema Validation](features/schema-validation/feature-report.md)
-- [→ Indexing & Performance](features/indexing-performance/feature-report.md)
-- [→ Data Import/Export](features/data-import-export/feature-report.md)
-- [→ Visual Schema Designer](features/visual-schema/feature-report.md)
-- [→ MongoDB Shell](features/shell/feature-report.md)
-- [→ AI Assistant](features/ai-assistant/feature-report.md)
-- [→ Security & Governance](features/security-governance/feature-report.md)
-- [← Third-Party Products Index](../)
-- [Comparison Reports](../../../reports/comparisons/)

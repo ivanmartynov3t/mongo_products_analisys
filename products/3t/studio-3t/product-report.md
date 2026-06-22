@@ -3,6 +3,7 @@
 ## Navigation
 
 - [Repository README](../../../README.md)
+- [Feature dictionary](../../../feature-dictionary.md)
 - [3T products index](../README.md)
 - [High-level comparison](../../../reports/comparisons/high-level-product-comparison.md)
 - [Low-level comparison](../../../reports/comparisons/low-level-feature-comparison.md)
@@ -26,18 +27,21 @@ Studio 3T's key differentiators versus MongoDB Compass include: SQL query/migrat
 
 ## Feature inventory
 
-| Feature | Matrix | Report | Status |
-| --- | --- | --- | --- |
-| connectivity | [feature-matrix.md](features/connectivity/feature-matrix.md) | [feature-report.md](features/connectivity/feature-report.md) | Completed |
-| querying | [feature-matrix.md](features/querying/feature-matrix.md) | [feature-report.md](features/querying/feature-report.md) | Completed |
-| aggregation | [feature-matrix.md](features/aggregation/feature-matrix.md) | [feature-report.md](features/aggregation/feature-report.md) | Completed |
-| schema-explorer | [feature-matrix.md](features/schema-explorer/feature-matrix.md) | [feature-report.md](features/schema-explorer/feature-report.md) | Completed |
-| indexing-performance | [feature-matrix.md](features/indexing-performance/feature-matrix.md) | [feature-report.md](features/indexing-performance/feature-report.md) | Completed |
-| data-import-export | [feature-matrix.md](features/data-import-export/feature-matrix.md) | [feature-report.md](features/data-import-export/feature-report.md) | Completed |
-| sql-tools | [feature-matrix.md](features/sql-tools/feature-matrix.md) | [feature-report.md](features/sql-tools/feature-report.md) | Completed |
-| ai-features | [feature-matrix.md](features/ai-features/feature-matrix.md) | [feature-report.md](features/ai-features/feature-report.md) | Completed |
-| governance-platform | [feature-matrix.md](features/governance-platform/feature-matrix.md) | [feature-report.md](features/governance-platform/feature-report.md) | Completed |
-| task-scheduler | [feature-matrix.md](features/task-scheduler/feature-matrix.md) | [feature-report.md](features/task-scheduler/feature-report.md) | Completed |
+Feature IDs and folder names from [feature-dictionary.md](../../../feature-dictionary.md).
+
+| Feature ID | Feature | Matrix | Report | Status |
+| --- | --- | --- | --- | --- |
+| F-CONN | Connectivity | [feature-matrix.md](features/connectivity/feature-matrix.md) | [feature-report.md](features/connectivity/feature-report.md) | Completed |
+| F-QUERY | Querying | [feature-matrix.md](features/querying/feature-matrix.md) | [feature-report.md](features/querying/feature-report.md) | Completed |
+| F-AGG | Aggregation | [feature-matrix.md](features/aggregation/feature-matrix.md) | [feature-report.md](features/aggregation/feature-report.md) | Completed |
+| F-SCHEMA | Schema | [feature-matrix.md](features/schema/feature-matrix.md) | [feature-report.md](features/schema/feature-report.md) | Completed |
+| F-IDX | Indexing & Performance | [feature-matrix.md](features/indexing-performance/feature-matrix.md) | [feature-report.md](features/indexing-performance/feature-report.md) | Completed |
+| F-TRANSFER | Data Transfer | [feature-matrix.md](features/data-transfer/feature-matrix.md) | [feature-report.md](features/data-transfer/feature-report.md) | Completed |
+| F-SHELL | Shell | [feature-matrix.md](features/shell/feature-matrix.md) | [feature-report.md](features/shell/feature-report.md) | Completed |
+| F-AI | AI Features | [feature-matrix.md](features/ai/feature-matrix.md) | [feature-report.md](features/ai/feature-report.md) | Completed |
+| F-SQL | SQL Tools | [feature-matrix.md](features/sql-tools/feature-matrix.md) | [feature-report.md](features/sql-tools/feature-report.md) | Completed |
+| F-GOV | Governance & Security | [feature-matrix.md](features/governance/feature-matrix.md) | [feature-report.md](features/governance/feature-report.md) | Completed |
+| F-SCHED | Task Scheduler | [feature-matrix.md](features/task-scheduler/feature-matrix.md) | [feature-report.md](features/task-scheduler/feature-report.md) | Completed |
 
 ## Product-level conclusions
 

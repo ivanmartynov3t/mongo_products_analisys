@@ -4,6 +4,7 @@
 
 - [Product report](../../product-report.md)
 - [Feature matrix](feature-matrix.md)
+- [Feature dictionary](../../../../../feature-dictionary.md)
 - [High-level comparison](../../../../../reports/comparisons/high-level-product-comparison.md)
 
 ## Scope

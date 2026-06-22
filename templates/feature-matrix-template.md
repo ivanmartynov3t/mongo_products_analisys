@@ -1,16 +1,18 @@
-# Feature Matrix Template — <Product Name> / <Feature Name>
+# Feature Matrix — <Product Name> / <Feature Display Name>
 
 ## Navigation
 
-- Product report (relative path in product folder): `../../product-report.md`
-- Feature report (same feature folder): `feature-report.md`
-- Global low-level comparison: `../reports/comparisons/low-level-feature-comparison.md`
+- [Product report](../../product-report.md)
+- [Feature report](feature-report.md)
+- [Feature dictionary](../../../../../feature-dictionary.md)
+- [Low-level comparison](../../../../../reports/comparisons/low-level-feature-comparison.md)
 
 ## Feature metadata
 
 - Product name:
 - Product group: third-party | 3t
-- Feature name:
+- Feature ID: F-<FEATURE> (see [feature-dictionary.md](../../../../../feature-dictionary.md))
+- Feature folder: `<feature-folder>`
 - Analysis date:
 - Version/release context:
 
@@ -22,12 +24,14 @@
 
 ## Capability matrix (low-level)
 
-| Capability ID | Capability | Current support | Detailed behavior | Constraints / prerequisites | Roadmap status | Sources | Notes |
+Capability IDs must use descriptive sub-feature IDs from the [unified feature dictionary](../../../../../feature-dictionary.md).
+Pattern: `<FEATURE>-<suffix>` (e.g., `CONN-topology`, `QUERY-filter-bar`).
+
+| Sub-feature ID | Sub-feature name | Current support | Detailed behavior | Constraints / prerequisites | Roadmap status | Sources | Notes |
 | --- | --- | --- | --- | --- | --- | --- | --- |
-| F-001 |  | Unknown |  |  | Unknown |  |  |
-| F-002 |  | Unknown |  |  | Unknown |  |  |
-| F-003 |  | Unknown |  |  | Unknown |  |  |
-| F-004 |  | Unknown |  |  | Unknown |  |  |
+| FEAT-sub-feature-1 |  | Unknown |  |  | Unknown |  |  |
+| FEAT-sub-feature-2 |  | Unknown |  |  | Unknown |  |  |
+| FEAT-sub-feature-3 |  | Unknown |  |  | Unknown |  |  |
 
 ## Feature-level conclusion
 

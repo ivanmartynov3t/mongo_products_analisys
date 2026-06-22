@@ -4,6 +4,7 @@
 
 - [Cumulative report index](../reports/cumulative-report.md)
 - [Low-level comparison](../reports/comparisons/low-level-feature-comparison.md)
+- [Feature dictionary](../feature-dictionary.md)
 
 ## Compared products
 
@@ -12,20 +13,27 @@
 
 ## Product-level comparison
 
-| Product | Positioning | Core feature coverage | Main strengths | Main gaps | Sources |
+| Product | Positioning | Feature IDs covered | Main strengths | Main gaps | Sources |
 | --- | --- | --- | --- | --- | --- |
 |  |  |  |  |  |  |
 
 ## Feature-group comparison
 
-| Feature group | Third-party products | 3t products | Gap assessment | Notes |
-| --- | --- | --- | --- | --- |
-| Connectivity |  |  |  |  |
-| Querying |  |  |  |  |
-| Aggregation |  |  |  |  |
-| Schema / validation |  |  |  |  |
-| Indexing / performance |  |  |  |  |
-| Security / governance |  |  |  |  |
+Feature IDs reference the [unified feature dictionary](../feature-dictionary.md).
+
+| Feature ID | Feature | Third-party products | 3t products | Gap assessment | Notes |
+| --- | --- | --- | --- | --- | --- |
+| F-CONN | Connectivity |  |  |  |  |
+| F-QUERY | Querying |  |  |  |  |
+| F-AGG | Aggregation |  |  |  |  |
+| F-SCHEMA | Schema |  |  |  |  |
+| F-IDX | Indexing & Performance |  |  |  |  |
+| F-TRANSFER | Data Transfer |  |  |  |  |
+| F-SHELL | Shell |  |  |  |  |
+| F-AI | AI Features |  |  |  |  |
+| F-SQL | SQL Tools |  |  |  |  |
+| F-GOV | Governance & Security |  |  |  |  |
+| F-SCHED | Task Scheduler |  |  |  |  |
 
 ## Conclusions
 

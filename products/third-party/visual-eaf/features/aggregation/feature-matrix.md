@@ -1,82 +1,41 @@
-# VisuaLeaf — Aggregation Feature Matrix
-
-| ID | Capability | Status | Detail | Source |
-|---|---|---|---|---|
-| AGG-001 | Stage: $match | **confirmed** | Filter stage; uses Visual Query Builder or raw JSON | https://visualeaf.com/docs/aggregation |
-| AGG-002 | Stage: $limit | **confirmed** | Filter stage; integer limit on document count | https://visualeaf.com/docs/aggregation |
-| AGG-003 | Stage: $skip | **confirmed** | Filter stage; skip N documents | https://visualeaf.com/docs/aggregation |
-| AGG-004 | Stage: $sample | **confirmed** | Filter stage; randomly selects N documents | https://visualeaf.com/docs/aggregation |
-| AGG-005 | Stage: $count | **confirmed** | Filter stage; counts matching documents, outputs count field | https://visualeaf.com/docs/aggregation |
-| AGG-006 | Stage: $project | **confirmed** | Transformation stage; include/exclude/compute fields | https://visualeaf.com/docs/aggregation |
-| AGG-007 | Stage: $addFields | **confirmed** | Transformation stage; add computed fields | https://visualeaf.com/docs/aggregation |
-| AGG-008 | Stage: $set | **confirmed** | Transformation stage; alias for $addFields | https://visualeaf.com/docs/aggregation |
-| AGG-009 | Stage: $unset | **confirmed** | Transformation stage; remove fields from documents | https://visualeaf.com/docs/aggregation |
-| AGG-010 | Stage: $sort | **confirmed** | Transformation stage; sort ascending (1) or descending (-1) per field | https://visualeaf.com/docs/aggregation |
-| AGG-011 | Stage: $unwind | **confirmed** | Transformation stage; deconstruct array fields | https://visualeaf.com/docs/aggregation |
-| AGG-012 | Stage: $replaceRoot | **confirmed** | Transformation stage; promote subdocument to root | https://visualeaf.com/docs/aggregation |
-| AGG-013 | Stage: $replaceWith | **confirmed** | Transformation stage; alias for $replaceRoot | https://visualeaf.com/docs/aggregation |
-| AGG-014 | Stage: $redact | **confirmed** | Transformation stage; restrict document content per ACL rules | https://visualeaf.com/docs/aggregation |
-| AGG-015 | Stage: $densify | **confirmed** | Transformation stage; fill gaps in numeric/date sequences | https://visualeaf.com/docs/aggregation |
-| AGG-016 | Stage: $fill | **confirmed** | Transformation stage; fill null/missing field values | https://visualeaf.com/docs/aggregation |
-| AGG-017 | Stage: $setWindowFields | **confirmed** | Transformation stage; window functions over ordered document sets | https://visualeaf.com/docs/aggregation |
-| AGG-018 | Stage: $group | **confirmed** | Group stage; group by _id expression with accumulators | https://visualeaf.com/docs/aggregation |
-| AGG-019 | Stage: $bucket | **confirmed** | Group stage; categorize documents into defined buckets | https://visualeaf.com/docs/aggregation |
-| AGG-020 | Stage: $bucketAuto | **confirmed** | Group stage; auto-determine bucket boundaries | https://visualeaf.com/docs/aggregation |
-| AGG-021 | Stage: $sortByCount | **confirmed** | Group stage; sort by occurrence count | https://visualeaf.com/docs/aggregation |
-| AGG-022 | Stage: $lookup | **confirmed** | Join stage; left outer join with another collection | https://visualeaf.com/docs/aggregation |
-| AGG-023 | Stage: $graphLookup | **confirmed** | Join stage; recursive graph traversal across collection | https://visualeaf.com/docs/aggregation |
-| AGG-024 | Stage: $unionWith | **confirmed** | Join stage; union documents from another collection | https://visualeaf.com/docs/aggregation |
-| AGG-025 | Stage: $facet | **confirmed** | Multi-pipeline stage; run multiple sub-pipelines simultaneously | https://visualeaf.com/docs/aggregation |
-| AGG-026 | Stage: $out | **confirmed** | Output stage; write results to a collection (replaces existing) | https://visualeaf.com/docs/aggregation |
-| AGG-027 | Stage: $merge | **confirmed** | Output stage; merge results into an existing collection | https://visualeaf.com/docs/aggregation |
-| AGG-028 | Stage: $geoNear | **confirmed** | Geospatial stage; orders documents by geographic proximity | https://visualeaf.com/docs/aggregation |
-| AGG-029 | Stage: $search (Atlas) | **confirmed** | Atlas Search stage; full-text search via Lucene indexes | https://visualeaf.com/docs/aggregation |
-| AGG-030 | Stage: $documents | **confirmed** | Literal stage; returns a hardcoded sequence of documents | https://visualeaf.com/docs/aggregation |
-| AGG-031 | Stage: $collStats | **confirmed** | Stats stage; collection-level statistics | https://visualeaf.com/docs/aggregation |
-| AGG-032 | Stage: $indexStats | **confirmed** | Stats stage; index usage statistics | https://visualeaf.com/docs/aggregation |
-| AGG-033 | Stage: $planCacheStats | **confirmed** | Stats stage; query plan cache statistics | https://visualeaf.com/docs/aggregation |
-| AGG-034 | Stage: $listSearchIndexes | **confirmed** | Atlas stage; list Atlas Search indexes on a collection | https://visualeaf.com/docs/aggregation |
-| AGG-035 | Total stage count | **confirmed** | 37+ stages in palette | https://visualeaf.com/docs/aggregation |
-| AGG-036 | Stage config: Form Mode (Visual) | **confirmed** | Field dropdowns with schema auto-complete; Visual Query Builder integration for $match; data type validation | https://visualeaf.com/docs/aggregation |
-| AGG-037 | Stage config: Accumulator expression builder | **confirmed** | Visual builder for $sum, $avg, $max, $min, $first, $last, $push, $addToSet in $group | https://visualeaf.com/docs/aggregation |
-| AGG-038 | Stage config: MongoDB Editor (Raw JSON) | **confirmed** | Monaco editor per stage with MongoDB-aware syntax highlighting | https://visualeaf.com/docs/aggregation |
-| AGG-039 | Stage config: Monaco IntelliSense | **confirmed** | Field names, operators, MongoDB functions auto-complete in Monaco editor | https://visualeaf.com/docs/aggregation |
-| AGG-040 | Stage config: Real-time validation | **confirmed** | Real-time error detection and highlighting in Monaco editor | https://visualeaf.com/docs/aggregation |
-| AGG-041 | Stage config: Mode switch per stage | **confirmed** | Form Mode ↔ MongoDB Editor toggleable per individual stage; preference saved per stage | https://visualeaf.com/docs/aggregation |
-| AGG-042 | Stage Preview: Input/Output split view | **confirmed** | Side-by-side panel showing stage input and output documents | https://visualeaf.com/docs/aggregation |
-| AGG-043 | Stage Preview: Auto-Preview mode | **confirmed** | Updates stage preview on every config change; toggleable on/off | https://visualeaf.com/docs/aggregation |
-| AGG-044 | Stage Preview: Sample limit | **confirmed** | 20 documents sampled for quick per-stage preview | https://visualeaf.com/docs/aggregation |
-| AGG-045 | Stage Preview: Disabled for terminal stages | **confirmed** | $out and $merge stages have preview disabled (would write to collection) | https://visualeaf.com/docs/aggregation |
-| AGG-046 | Stage Preview: Resizable panels | **confirmed** | Input and output panels are individually resizable; doc count shown | https://visualeaf.com/docs/aggregation |
-| AGG-047 | Execution: Allow Disk Use toggle | **confirmed** | Default: false; toggle to allow large in-memory sort overflow to disk | https://visualeaf.com/docs/aggregation |
-| AGG-048 | Execution: Max Time | **confirmed** | Default: 300 seconds; configurable maximum execution time | https://visualeaf.com/docs/aggregation |
-| AGG-049 | Execution: Auto Collapse stages | **confirmed** | Default: false; collapses all stage cards for pipeline overview | https://visualeaf.com/docs/aggregation |
-| AGG-050 | Execution: Pagination for large results | **confirmed** | First / Previous / Next / Last navigation for paginated results | https://visualeaf.com/docs/aggregation |
-| AGG-051 | Execution: Live timer + cancel | **confirmed** | Real-time execution timer with cancel button to abort pipeline | https://visualeaf.com/docs/aggregation |
-| AGG-052 | Keyboard: Ctrl+Enter execute | **confirmed** | Execute pipeline | https://visualeaf.com/docs/aggregation |
-| AGG-053 | Keyboard: Ctrl+S save | **confirmed** | Save current pipeline | https://visualeaf.com/docs/aggregation |
-| AGG-054 | Keyboard: Delete stage | **confirmed** | Delete key removes selected stage | https://visualeaf.com/docs/aggregation |
-| AGG-055 | Keyboard: Ctrl+D duplicate stage | **confirmed** | Duplicate selected stage | https://visualeaf.com/docs/aggregation |
-| AGG-056 | Keyboard: Ctrl+Space auto-complete | **confirmed** | Triggers IntelliSense in MongoDB Editor mode | https://visualeaf.com/docs/aggregation |
-| AGG-057 | Export: Pipeline to .js file | **confirmed** | Exports as mongosh format: db.collection.aggregate([…]) | https://visualeaf.com/docs/aggregation |
-| AGG-058 | Import: Pipeline from .js file | **confirmed** | Reimport previously exported .js pipeline | https://visualeaf.com/docs/aggregation |
-| AGG-059 | Query Code tab: bidirectional JSON | **confirmed** | Read-only or editable JSON; Format Code; Apply Code Changes syncs back to visual builder | https://visualeaf.com/docs/aggregation |
-| AGG-060 | Export Results: JSON | **confirmed** | Export pipeline output as JSON | https://visualeaf.com/docs/aggregation |
-| AGG-061 | Export Results: CSV | **confirmed** | Export pipeline output as CSV | https://visualeaf.com/docs/aggregation |
-| AGG-062 | Export Results: BSON | **confirmed** | Export pipeline output as BSON | https://visualeaf.com/docs/aggregation |
-| AGG-063 | Export Results: SQL INSERT | **confirmed** | Export pipeline output as SQL INSERT statements | https://visualeaf.com/docs/aggregation |
-| AGG-064 | Create Chart from pipeline | **confirmed** | Opens Chart Builder using pipeline as data source | https://visualeaf.com/docs/aggregation |
-| AGG-065 | Save/load pipelines with folder hierarchy | **confirmed** | Save with name, folder, description; tagged with connection/DB/collection; quick load by double-click | https://visualeaf.com/docs/aggregation |
+# Feature Matrix — VisuaLeaf / Aggregation
 
 ## Navigation
 
 - [← Product Report](../../product-report.md)
 - [Feature Report](feature-report.md)
 - [← Querying Matrix](../querying/feature-matrix.md)
-- [→ Schema Validation Matrix](../schema-validation/feature-matrix.md)
+- [→ Schema Matrix](../schema/feature-matrix.md)
 - [→ Indexing & Performance Matrix](../indexing-performance/feature-matrix.md)
-- [→ Data Import/Export Matrix](../data-import-export/feature-matrix.md)
-- [→ Visual Schema Matrix](../visual-schema/feature-matrix.md)
+- [→ Data Transfer Matrix](../data-transfer/feature-matrix.md)
 - [→ Shell Matrix](../shell/feature-matrix.md)
-- [→ AI Assistant Matrix](../ai-assistant/feature-matrix.md)
-- [→ Security & Governance Matrix](../security-governance/feature-matrix.md)
+- [→ AI Matrix](../ai/feature-matrix.md)
+- [→ Governance Matrix](../governance/feature-matrix.md)
+- [→ Task Scheduler Matrix](../task-scheduler/feature-matrix.md)
+
+## Source index
+
+- S1: https://visualeaf.com/docs/aggregation
+
+## Capability matrix
+
+| Sub-feature ID | Capability | Status | Detailed behavior | Constraints / prerequisites | Roadmap status | Sources |
+| --- | --- | --- | --- | --- | --- | --- |
+| AGG-stage-count | Supported stage types | confirmed | 37+ stages in palette: $match, $limit, $skip, $sample, $count, $project, $addFields, $set, $unset, $sort, $unwind, $replaceRoot, $replaceWith, $redact, $densify, $fill, $setWindowFields, $group, $bucket, $bucketAuto, $sortByCount, $lookup, $graphLookup, $unionWith, $facet, $out, $merge, $geoNear, $search (Atlas), $documents, $collStats, $indexStats, $planCacheStats, $listSearchIndexes. | — | confirmed | S1 |
+| AGG-editor-layout | Pipeline editor layout | confirmed | Visual pipeline canvas with stage cards; stages displayed sequentially; each card shows stage type, collapsed/expanded config, and per-stage preview. | — | confirmed | S1 |
+| AGG-stage-mgmt | Stage management | confirmed | Add stage; reorder via drag-and-drop; duplicate stage (Ctrl+D); delete stage (Delete key). | — | confirmed | S1 |
+| AGG-stage-modes | Stage configuration modes | confirmed | Form Mode: field dropdowns with schema autocomplete; Visual Query Builder integration for $match; data-type validation. Accumulator Expression Builder: visual builder for $group accumulators ($sum, $avg, $max, $min, $first, $last, $push, $addToSet). MongoDB Editor (raw JSON): Monaco editor per stage with MongoDB-aware syntax highlighting; IntelliSense auto-complete for field names, operators, MongoDB functions (Ctrl+Space); real-time error detection and highlighting. Form Mode ↔ MongoDB Editor toggle per individual stage; preference saved per stage. | — | confirmed | S1 |
+| AGG-stage-preview | Stage preview | confirmed | Input/Output split-view panel; side-by-side stage input and output documents; 20-document sample for quick per-stage preview; Auto-Preview mode (updates on every config change, toggleable); preview disabled for $out and $merge (would write to collection); input and output panels individually resizable; doc count shown. | — | confirmed | S1 |
+| AGG-stage-toggle | Stage enable/disable toggle | unknown/unverified | No explicit per-stage enable/disable toggle documented in VisuaLeaf docs. | — | unknown/unverified | S1 |
+| AGG-pipeline-opts | Pipeline execution options | confirmed | Allow Disk Use: default false; toggle to allow large in-memory sort overflow to disk. Max Time: default 300 seconds; configurable. Auto Collapse: default false; collapses all stage cards for pipeline overview. | — | confirmed | S1 |
+| AGG-timer-cancel | Execution timer and cancel | confirmed | Real-time execution timer with cancel button to abort pipeline. | — | confirmed | S1 |
+| AGG-pagination | Result pagination | confirmed | First / Previous / Next / Last navigation for paginated results. | — | confirmed | S1 |
+| AGG-keyboard | Keyboard shortcuts | confirmed | Ctrl+Enter: execute pipeline; Ctrl+S: save current pipeline; Delete: remove selected stage; Ctrl+D: duplicate selected stage; Ctrl+Space: trigger IntelliSense in MongoDB Editor mode. | — | confirmed | S1 |
+| AGG-js-import-export | Pipeline .js import/export | confirmed | Export pipeline as .js file (mongosh format: db.collection.aggregate([…])). Import pipeline from previously exported .js file. | — | confirmed | S1 |
+| AGG-code-tab | Query Code tab | confirmed | Bidirectional JSON view of the pipeline; Format Code button; Apply Code Changes syncs edits back to visual builder. | — | confirmed | S1 |
+| AGG-export-results | Export pipeline results | confirmed | Export pipeline output in 4 formats: JSON; CSV; BSON; SQL INSERT statements. | — | confirmed | S1 |
+| AGG-chart-builder | Create Chart from pipeline | confirmed | Opens Chart Builder using the pipeline output as data source. | — | confirmed | S1 |
+| AGG-save-load | Save/load pipelines | confirmed | Save with name, folder, description; tagged with connection/DB/collection; quick load by double-click. | — | confirmed | S1 |
+| AGG-code-gen | Export pipeline to driver languages | unknown/unverified | No source found in VisuaLeaf docs for export to driver languages (Java, Python, Node.js, etc.). | — | unknown/unverified | S1 |
+| AGG-create-view | Create view from pipeline output | unknown/unverified | Not documented in VisuaLeaf aggregation docs. | — | unknown/unverified | S1 |
+| AGG-clipboard | Copy/paste full pipeline JSON | unknown/unverified | Not explicitly documented; Query Code tab may provide equivalent capability. | — | unknown/unverified | S1 |

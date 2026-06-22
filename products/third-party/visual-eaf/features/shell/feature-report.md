@@ -49,6 +49,6 @@ VisuaLeaf's MongoDB Shell embeds a Monaco (VS Code–engine) editor with full Ja
 
 - [← Product Report](../../product-report.md)
 - [Feature Matrix](feature-matrix.md)
-- [← Visual Schema Designer](../visual-schema/feature-report.md)
-- [→ AI Assistant](../ai-assistant/feature-report.md)
-- [→ Security & Governance](../security-governance/feature-report.md)
+- [← Schema Designer](../schema/feature-report.md)
+- [→ AI Assistant](../ai/feature-report.md)
+- [→ Security & Governance](../governance/feature-report.md)
