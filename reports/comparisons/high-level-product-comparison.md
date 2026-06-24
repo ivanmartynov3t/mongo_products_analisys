@@ -88,6 +88,218 @@ This report summarizes each product's positioning, feature breadth, and key gaps
 | F-SCHED | SCHED-types-time | Preset schedule types | ✅ | ❌ | ✅ |
 | F-SCHED | SCHED-cron | Cron expression support | ✅ | ❌ | ✅ |
 
+## Detailed iconized tables
+
+These are icon-only analogs of the detailed comparison tables below. Product columns are iconized; non-product columns are preserved.
+
+### F-CONN — Connectivity — iconized
+
+| Dimension | Studio 3T | MongoDB Compass | VisuaLeaf |
+| --- | --- | --- | --- |
+| Topology coverage | ✅ | ✅ | ✅ |
+| Enterprise auth | 🏢 | ✅ | 🗺️ |
+| TLS | ✅ | ✅ | ✅ |
+| SSH tunnel | ✅ | ✅ | ✅ |
+| Proxy | ✅ | ✅ | ❓ |
+| Connection pool params | ✅ | ❓ | ✅ |
+| Connection organization | ✅ | ✅ | ✅ |
+| In-use encryption (QE/CSFLE) | ❌ | ✅ | ❌ |
+| Connection test validation | ❓ | ❓ | ✅ |
+| Team sharing | 💼 | ❌ | ❌ |
+| Credential storage | ✅ | ✅ | ✅ |
+| Unique: Compass | ❌ | ✅ | ❌ |
+| Unique: VisuaLeaf | ❌ | 🗺️ | ❌ |
+| Unique: Studio 3T | ❌ | ✅ | ❌ |
+
+### F-QUERY — Querying — iconized
+
+| Dimension | Studio 3T | MongoDB Compass | VisuaLeaf |
+| --- | --- | --- | --- |
+| Filter bar / autocomplete | ✅ | ✅ | ✅ |
+| Visual Query Builder | ✅ | ❌ | 💼 |
+| Date tags / shortcuts | ✅ | ❌ | ❌ |
+| AI query builder | 💼 | ❌ | 💼 |
+| Query history | 💼 | ✅ | 💼 |
+| Saved queries / manager | ✅ | ✅ | 💼 |
+| Multi-document update | ✅ | ❓ | ✅ |
+| Performance timer | ❓ | ❓ | ✅ |
+| Cancel in-flight query | ❓ | ❓ | ✅ |
+| Explain view | ✅ | ✅ | ✅ |
+| Export to driver language | ✅ | ✅ | ❓ |
+| Undo/redo | ❓ | ❓ | ✅ |
+| Unique: Compass | ❌ | ✅ | ❌ |
+| Unique: VisuaLeaf | ❌ | 🔌 | ❌ |
+| Unique: Studio 3T | ❌ | ✅ | ❌ |
+
+### F-AGG — Aggregation — iconized
+
+| Dimension | Studio 3T | MongoDB Compass | VisuaLeaf |
+| --- | --- | --- | --- |
+| Stage count / coverage | ✅ | ✅ | ✅ |
+| Editor layout | ✅ | ✅ | ✅ |
+| Per-stage editing mode | ✅ | ✅ | ✅ |
+| Stage toggle (enable/disable) | ✅ | ✅ | ❓ |
+| Stage preview | ✅ | ✅ | ✅ |
+| Code generation | ✅ | ✅ | ❓ |
+| Create MongoDB view | ✅ | ✅ | ❓ |
+| Export pipeline results | ✅ | ✅ | ✅ |
+| Chart builder from output | ❌ | ❌ | ✅ |
+| Pipeline options | ✅ | ✅ | ✅ |
+| Switch collection mid-session | ✅ | ❓ | ❓ |
+| Date tags in $match | ✅ | ❌ | ❌ |
+| Execution timer + cancel | ❓ | ❓ | ✅ |
+| Unique: Compass | ❌ | ✅ | ❌ |
+| Unique: VisuaLeaf | ❌ | ✅ | ❌ |
+| Unique: Studio 3T | ❌ | ✅ | ❌ |
+
+### F-SCHEMA — Schema — iconized
+
+| Dimension | Studio 3T | MongoDB Compass | VisuaLeaf |
+| --- | --- | --- | --- |
+| Field statistics analytics (probability/type/histogram) | ✅ | ✅ | ✅ |
+| Geo field analysis | ❌ | ✅ | ❌ |
+| JSON schema editor | ❌ | ❌ | ✅ |
+| Schema validation deploy | ❌ | ✅ | ✅ |
+| Validation strictness (warn/error, strict/moderate) | ❌ | ✅ | ❓ |
+| Visual ERD designer | ❌ | ❌ | 💼 |
+| View creation from schema tool | ✅ | ❓ | ❓ |
+| Schema doc export | ✅ | ✅ | ✅ |
+| Explore docs by field presence | ✅ | ❓ | ❓ |
+| Rename field across all docs | ✅ | ❓ | ❓ |
+| Unique: Compass | ❌ | ✅ | ❌ |
+| Unique: VisuaLeaf | ❌ | ✅ | ❌ |
+| Unique: Studio 3T | ❌ | ✅ | ❌ |
+
+### F-IDX — Indexing & Performance — iconized
+
+| Dimension | Studio 3T | MongoDB Compass | VisuaLeaf |
+| --- | --- | --- | --- |
+| Index types supported | 🧪 | ❓ | 🧪 |
+| Atlas Search / Vector Search | ❌ | ✅ | ❌ |
+| Advanced index options | ❓ | ❓ | 🧪 |
+| Collation index options | ✅ | ❓ | ✅ |
+| Quick-action templates | ❌ | ❌ | ✅ |
+| Copy/paste index across connections | ✅ | ❌ | ❌ |
+| Hide/unhide index | ✅ | ✅ | ❓ |
+| Visual Explain | ✅ | ✅ | ✅ |
+| Profiler | ✅ | ❓ | ✅ |
+| Profiler export | ❌ | ❌ | ✅ |
+| Real-time performance monitoring | ❌ | ✅ | ❓ |
+| Kill running operations | ❌ | ✅ | ✅ |
+| Unique: Compass | ❌ | ✅ | ❌ |
+| Unique: VisuaLeaf | ❌ | ✅ | ❌ |
+| Unique: Studio 3T | ❌ | ✅ | ❌ |
+
+### F-TRANSFER — Data Transfer — iconized
+
+| Dimension | Studio 3T | VisuaLeaf |
+| --- | --- | --- |
+| Import formats | 💼 | ✅ |
+| Export formats | 💼 | ✅ |
+| Import write modes | ✅ | ✅ |
+| Document filter before import | ❌ | ✅ |
+| User-defined JS transform per document | ❌ | ✅ |
+| Server-side $pipeline pre-export transform | ❌ | ✅ |
+| Field mapping and rename | ✅ | ✅ |
+| Incremental export with resume points | ✅ | ❌ |
+| Data masking | 💼 | ❌ |
+| Task save for scheduler | 💼 | 💼 |
+| Export source granularity | ✅ | ❓ |
+
+### F-SHELL — Shell — iconized
+
+| Dimension | Studio 3T | VisuaLeaf |
+| --- | --- | --- |
+| Editor engine | ✅ | ✅ |
+| Autocomplete | ✅ | ✅ |
+| Live syntax validation | ✅ | ❌ |
+| Run all / selection | ✅ | ✅ |
+| Run to cursor line | ✅ | ❌ |
+| Shell modes | ✅ | ❓ |
+| Per-query result tabs (pinnable) | ✅ | ❌ |
+| Result views | ✅ | ✅ |
+| Multiple concurrent sessions | 🧪 | ✅ |
+| Background execution | ❌ | ✅ |
+| Auto-reconnect | ❌ | ✅ |
+| Persistent session variables | ❌ | ✅ |
+| History with search/filter/preview | ✅ | ✅ |
+| Open in shell from other tools | ✅ | ❌ |
+
+### F-AI — AI Features — iconized
+
+| Dimension | Studio 3T | VisuaLeaf |
+| --- | --- | --- |
+| NL → find() query | 💼 | 💼 |
+| NL → aggregation pipeline | 💼 | 💼 |
+| Plain-English explanation always on | ❓ | ✅ |
+| AI providers | ✅ | ❓ |
+| Model selection | ✅ | ✅ |
+| "Send sample data" privacy toggle | ❓ | ✅ |
+| Conversation turns for refinement | ❓ | ✅ |
+| Multiple named AI configs | ❓ | ✅ |
+| API key storage | ❓ | ✅ |
+| Local MCP server | ✅ | ❌ |
+| MCP client integrations | ✅ | ❌ |
+| Total MCP tools | 🔌 | ❌ |
+| stt-cli + PII scanner | ✅ | ❌ |
+
+### F-GOV — Governance — iconized
+
+| Dimension | Studio 3T | MongoDB Compass | VisuaLeaf |
+| --- | --- | --- | --- |
+| Protect / write-prevention mode | 🧪 | ✅ | ❌ |
+| Network policy | ❌ | ✅ | ❌ |
+| Telemetry configuration | ❌ | ✅ | ❌ |
+| Startup / CLI policy (EJSON/YAML) | ❌ | ✅ | ❌ |
+| Isolated / air-gapped edition | ❓ | ✅ | ✅ |
+| AI controls with human approval gate | ❌ | ✅ | ❌ |
+| RBAC user/role management | 🔌 | ❌ | 💼 |
+| Visual role inheritance tree | ❌ | ❌ | 💼 |
+| Audit log | 🔌 | ❌ | 💼 |
+| Collection compare (3-panel diff) | 💼 | ❌ | 💼 |
+| Collection sync with direction toggle | 💼 | ❌ | 💼 |
+| CDC pipeline (Kafka/Pub/Sub/HTTP) | 🔌 | ❌ | ❌ |
+| Kubernetes Helm chart | ✅ | ❌ | ❌ |
+| OIDC multi-provider for platform auth | ✅ | ❌ | ❌ |
+| Credential protection | ✅ | ✅ | ✅ |
+
+### F-SCHED — Task Scheduler — iconized
+
+| Dimension | Studio 3T | VisuaLeaf |
+| --- | --- | --- |
+| Task types | ✅ | 💼 |
+| Schedule options | ✅ | ✅ |
+| Timezone-aware with DST | ❓ | ✅ |
+| Execution config | ❓ | ✅ |
+| Task status states | ✅ | ✅ |
+| Task actions | ✅ | ✅ |
+| Email notifications | ✅ | 🔌 |
+| Multiple script units per task | ✅ | ❓ |
+| Compare/sync task with diff view | ✅ | ❌ |
+| Plan limits | 💼 | 💼 |
+
+### Edition / pricing constraints — iconized
+
+| Feature | Studio 3T | MongoDB Compass | VisuaLeaf |
+| --- | --- | --- | --- |
+| Visual Query Builder | ✅ | ❌ | 💼 |
+| AI query builder | 💼 | ❌ | 💼 |
+| Enterprise auth (Kerberos/LDAP/AWS/OIDC) | 🏢 | ✅ | 🗺️ |
+| Shell / IntelliShell | ✅ | ❌ | ✅ |
+| Data Transfer | 💼 | ❌ | ✅ |
+| Team connection sharing | 💼 | ❌ | ❌ |
+| Data masking | 💼 | ❌ | ❌ |
+| SQL tools | 💼 | ❌ | ❌ |
+| Task scheduler | 💼 | ❌ | 💼 |
+| Query Manager (multi-type) | ✅ | ✅ | 💼 |
+| Collection compare + sync | 💼 | ❌ | 💼 |
+| RBAC dashboard | 🔌 | ❌ | 💼 |
+| Audit log | 🔌 | ❌ | 💼 |
+| Schema validation UI | ❌ | ✅ | 💼 |
+| Visual ERD designer | ❌ | ❌ | 💼 |
+| Atlas Search / Vector Search indexes | ❌ | ✅ | ❌ |
+
+
 ## Deep-review coverage reconciliation
 
 | Scope | Result |
