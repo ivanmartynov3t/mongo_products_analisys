@@ -92,6 +92,22 @@ This report summarizes each product's positioning, feature breadth, and key gaps
 
 These are icon-only analogs of the detailed comparison tables below. Product columns are iconized; non-product columns are preserved.
 
+### Product-level comparison (feature areas present) — iconized
+
+| Feature area | Studio 3T | MongoDB Compass | VisuaLeaf |
+| --- | --- | --- | --- |
+| F-CONN — Connectivity | ✅ | ✅ | ✅ |
+| F-QUERY — Querying | ✅ | ✅ | ✅ |
+| F-AGG — Aggregation | ✅ | ✅ | ✅ |
+| F-SCHEMA — Schema | ✅ | ✅ | ✅ |
+| F-IDX — Indexing & Performance | ✅ | ✅ | ✅ |
+| F-TRANSFER — Data Transfer | ✅ | ❌ | ✅ |
+| F-SHELL — Shell | ✅ | ❌ | ✅ |
+| F-AI — AI features | ✅ | ❌ | ✅ |
+| F-SQL — SQL tools | ✅ | ❌ | ❌ |
+| F-GOV — Governance | ✅ | ✅ | ✅ |
+| F-SCHED — Task scheduler | ✅ | ❌ | ✅ |
+
 ### F-CONN — Connectivity — iconized
 
 | Dimension | Studio 3T | MongoDB Compass | VisuaLeaf |
@@ -107,9 +123,9 @@ These are icon-only analogs of the detailed comparison tables below. Product col
 | Connection test validation | ❓ | ❓ | ✅ |
 | Team sharing | 💼 | ❌ | ❌ |
 | Credential storage | ✅ | ✅ | ✅ |
-| Unique: Compass | ❌ | ✅ | ❌ |
-| Unique: VisuaLeaf | ❌ | 🗺️ | ❌ |
-| Unique: Studio 3T | ❌ | ✅ | ❌ |
+| Unique: Compass | — | ✅ | — |
+| Unique: VisuaLeaf | — | — | 🗺️ |
+| Unique: Studio 3T | ✅ | — | — |
 
 ### F-QUERY — Querying — iconized
 
@@ -127,9 +143,9 @@ These are icon-only analogs of the detailed comparison tables below. Product col
 | Explain view | ✅ | ✅ | ✅ |
 | Export to driver language | ✅ | ✅ | ❓ |
 | Undo/redo | ❓ | ❓ | ✅ |
-| Unique: Compass | ❌ | ✅ | ❌ |
-| Unique: VisuaLeaf | ❌ | 🔌 | ❌ |
-| Unique: Studio 3T | ❌ | ✅ | ❌ |
+| Unique: Compass | — | ✅ | — |
+| Unique: VisuaLeaf | — | — | 🔌 |
+| Unique: Studio 3T | ✅ | — | — |
 
 ### F-AGG — Aggregation — iconized
 
@@ -148,9 +164,9 @@ These are icon-only analogs of the detailed comparison tables below. Product col
 | Switch collection mid-session | ✅ | ❓ | ❓ |
 | Date tags in $match | ✅ | ❌ | ❌ |
 | Execution timer + cancel | ❓ | ❓ | ✅ |
-| Unique: Compass | ❌ | ✅ | ❌ |
-| Unique: VisuaLeaf | ❌ | ✅ | ❌ |
-| Unique: Studio 3T | ❌ | ✅ | ❌ |
+| Unique: Compass | — | ✅ | — |
+| Unique: VisuaLeaf | — | — | ✅ |
+| Unique: Studio 3T | ✅ | — | — |
 
 ### F-SCHEMA — Schema — iconized
 
@@ -166,9 +182,9 @@ These are icon-only analogs of the detailed comparison tables below. Product col
 | Schema doc export | ✅ | ✅ | ✅ |
 | Explore docs by field presence | ✅ | ❓ | ❓ |
 | Rename field across all docs | ✅ | ❓ | ❓ |
-| Unique: Compass | ❌ | ✅ | ❌ |
-| Unique: VisuaLeaf | ❌ | ✅ | ❌ |
-| Unique: Studio 3T | ❌ | ✅ | ❌ |
+| Unique: Compass | — | ✅ | — |
+| Unique: VisuaLeaf | — | — | ✅ |
+| Unique: Studio 3T | ✅ | — | — |
 
 ### F-IDX — Indexing & Performance — iconized
 
@@ -186,9 +202,9 @@ These are icon-only analogs of the detailed comparison tables below. Product col
 | Profiler export | ❌ | ❌ | ✅ |
 | Real-time performance monitoring | ❌ | ✅ | ❓ |
 | Kill running operations | ❌ | ✅ | ✅ |
-| Unique: Compass | ❌ | ✅ | ❌ |
-| Unique: VisuaLeaf | ❌ | ✅ | ❌ |
-| Unique: Studio 3T | ❌ | ✅ | ❌ |
+| Unique: Compass | — | ✅ | — |
+| Unique: VisuaLeaf | — | — | ✅ |
+| Unique: Studio 3T | ✅ | — | — |
 
 ### F-TRANSFER — Data Transfer — iconized
 
@@ -328,8 +344,8 @@ Detailed additions are captured in the low-level report under **Reconciliation t
 | Team sharing | Pro/Base+: invite by email; Manage/Edit/View permissions | — | — |
 | Credential storage | Built-in key store OR master password (cryptographic) | OS Keytar API | AES-256 local, never transmitted, air-gapped safe |
 | Unique: Compass | — | Multiple concurrent connections (1.44.0+); QE/CSFLE in-use encryption; required-access guide | — |
-| Unique: VisuaLeaf | — | 6-step connection test wizard; URI export; DocumentDB/Cosmos DB roadmap Q2 2026 | — |
-| Unique: Studio 3T | — | SSH Profiles; 4-mode proxy; read-only UI lock; team sharing; import from Robo 3T/NoSQLBooster/.uri | — |
+| Unique: VisuaLeaf | — | — | 6-step connection test wizard; URI export; DocumentDB/Cosmos DB roadmap Q2 2026 |
+| Unique: Studio 3T | SSH Profiles; 4-mode proxy; read-only UI lock; team sharing; import from Robo 3T/NoSQLBooster/.uri | — | — |
 
 **Assessment:** All three products cover core connectivity (standalone/RS/sharded/SRV, standard auth, TLS, SSH). Compass leads on in-use encryption and enterprise auth completeness. VisuaLeaf offers the best connection-test UX and uniquely plans DocumentDB/Cosmos compatibility. Studio 3T has the most advanced proxy, SSH, team-sharing, and credential-import capabilities.
 
@@ -352,8 +368,8 @@ Detailed additions are captured in the low-level report under **Reconciliation t
 | Export to driver language | 9 languages (adds MongoDB Shell) | 8 languages (Java/Node/C#/Python/Ruby/Go/Rust/PHP) | Not documented |
 | Undo/redo | Not documented | Not documented | Ctrl+Z / Ctrl+Shift+Z |
 | Unique: Compass | — | Collation in filter bar; max-time (60,000ms default) | — |
-| Unique: VisuaLeaf | — | Performance timer; cancel button; Run Find One / Run Count variants; 7 "open in" integrations; undo/redo; batch update from table view; EJSON copy | — |
-| Unique: Studio 3T | — | Date tags (~20); Query Manager with 4 query types; "open in Aggregation Editor" converts filter → $match+$project | — |
+| Unique: VisuaLeaf | — | — | Performance timer; cancel button; Run Find One / Run Count variants; 7 "open in" integrations; undo/redo; batch update from table view; EJSON copy |
+| Unique: Studio 3T | Date tags (~20); Query Manager with 4 query types; "open in Aggregation Editor" converts filter → $match+$project | — | — |
 
 **Assessment:** Compass is the only product with collation in the filter bar. VisuaLeaf has the most user-friendly query execution UX (timer, cancel, run-variants, undo/redo). Studio 3T's date tags and Query Manager are unique value adds for power users. VQB is absent in Compass; VisuaLeaf's is plan-gated; Studio 3T's is available on all editions.
 
@@ -377,8 +393,8 @@ Detailed additions are captured in the low-level report under **Reconciliation t
 | Date tags in $match | ✓ all editions | — | — |
 | Execution timer + cancel | Not documented | Not documented | ✓ real-time timer + cancel |
 | Unique: Compass | — | Stage Wizard mode (GUI form for stage params) | — |
-| Unique: VisuaLeaf | — | 37+ stages (widest coverage); Form Mode with VQB for $match + accumulator builder for $group; chart builder from output; execution timer + cancel | — |
-| Unique: Studio 3T | — | 9-language code gen; date tags in $match; switch collection mid-session; clipboard copy of full pipeline JSON | — |
+| Unique: VisuaLeaf | — | — | 37+ stages (widest coverage); Form Mode with VQB for $match + accumulator builder for $group; chart builder from output; execution timer + cancel |
+| Unique: Studio 3T | 9-language code gen; date tags in $match; switch collection mid-session; clipboard copy of full pipeline JSON | — | — |
 
 **Assessment:** VisuaLeaf has the widest stage coverage and the most ergonomic per-stage editing (Form Mode). Studio 3T has the most powerful code-gen and integration options. Compass's Stage Wizard provides good accessibility for less-experienced users. Stage toggle availability is confirmed for Compass and Studio 3T but unverified in VisuaLeaf.
 
@@ -399,8 +415,8 @@ Detailed additions are captured in the low-level report under **Reconciliation t
 | Explore docs by field presence | ✓ right-click → opens Collection Tab with {$exists} filter | Not documented | Not documented |
 | Rename field across all docs | ✓ via schema tree outlier workflow | Not documented | Not documented |
 | Unique: Compass | — | Geo field analysis with interactive map and geo-query generation | — |
-| Unique: VisuaLeaf | — | Full JSON schema tree editor with BSON types; visual ERD designer with relationship detection | — |
-| Unique: Studio 3T | — | Field statistics analytics (top values, date distributions); explore docs by field presence; rename field workflow; create view from schema | — |
+| Unique: VisuaLeaf | — | — | Full JSON schema tree editor with BSON types; visual ERD designer with relationship detection |
+| Unique: Studio 3T | Field statistics analytics (top values, date distributions); explore docs by field presence; rename field workflow; create view from schema | — | — |
 
 **Assessment:** Compass and Studio 3T provide rich schema analytics (field probability, histograms). Compass adds geo analysis. VisuaLeaf uniquely offers a full JSON schema editor and a visual ERD designer with graph-theory relationship detection. Compass and VisuaLeaf have schema validator deploy; Studio 3T does not. Studio 3T has the most schema-to-data-repair workflows (explore, rename, view creation).
 
@@ -423,8 +439,8 @@ Detailed additions are captured in the low-level report under **Reconciliation t
 | Real-time performance monitoring | — | ✓ mongostat/mongotop/currentOp; pause/play | Not documented |
 | Kill running operations | — | ✓ (requires killop privilege) | ✓ kill button per operation |
 | Unique: Compass | — | Atlas Search + Vector Search index creation; real-time perf monitoring (mongostat/mongotop/currentOp) | — |
-| Unique: VisuaLeaf | — | P50/P95/P99 profiler percentiles; 4 index recommendation types; profiler export; hashed index; 60+ ICU locale collation; Commit Quorum; clustered index; 4 quick-action templates | — |
-| Unique: Studio 3T | — | Index copy-paste across connections; geoHaystack (unwarned deprecation); Explain available in 5 contexts incl. SQL Query + IntelliShell | — |
+| Unique: VisuaLeaf | — | — | P50/P95/P99 profiler percentiles; 4 index recommendation types; profiler export; hashed index; 60+ ICU locale collation; Commit Quorum; clustered index; 4 quick-action templates |
+| Unique: Studio 3T | Index copy-paste across connections; geoHaystack (unwarned deprecation); Explain available in 5 contexts incl. SQL Query + IntelliShell | — | — |
 
 **Assessment:** Compass exclusively supports Atlas Search and Vector Search. VisuaLeaf has the most complete index type coverage and the most sophisticated profiler (P50/P95/P99, 4 recommendation types, export). Studio 3T's Explain is available in the widest set of contexts. Note: geoHaystack displayed by Studio 3T without deprecation warning is a confirmed bug.
 
