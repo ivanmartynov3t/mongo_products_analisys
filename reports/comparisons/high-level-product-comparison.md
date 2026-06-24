@@ -81,12 +81,22 @@ This report summarizes each product's positioning, feature breadth, and key gaps
 | F-SQL | SQL-expressions | SQL SELECT/WHERE/GROUP BY/HAVING | 💼 | ❌ | ❌ |
 | F-SQL | SQL-join-mapping | SQL JOIN → $lookup mapping | ✅ | ❌ | ❌ |
 | F-SQL | SQL-code-gen | SQL query → driver language code gen | ✅ | ❌ | ❌ |
-| F-GOV | GOV-protect-mode | Protect / destructive-write prevention mode | 🧪 | ✅ | ❓ |
+| F-GOV | GOV-readonly-mode | Protect / destructive-write prevention mode | 🧪 | ✅ | ❓ |
 | F-GOV | GOV-network-policy | Network access policy | ❓ | ✅ | ❓ |
-| F-GOV | GOV-telemetry-config | Telemetry opt-out/configuration | ❓ | ✅ | ❓ |
+| F-GOV | GOV-telemetry | Telemetry opt-out/configuration | ❓ | ✅ | ❓ |
 | F-SCHED | SCHED-task-types | Task types supported | ✅ | ❌ | 💼 |
-| F-SCHED | SCHED-preset-types | Preset schedule types | ✅ | ❌ | ✅ |
+| F-SCHED | SCHED-types-time | Preset schedule types | ✅ | ❌ | ✅ |
 | F-SCHED | SCHED-cron | Cron expression support | ✅ | ❌ | ✅ |
+
+## Deep-review coverage reconciliation
+
+| Scope | Result |
+| --- | --- |
+| Product matrix IDs not present in low-level baseline table (before reconciliation pass) | 52 |
+| Product matrix IDs missing from feature dictionary | 0 |
+| Comparison-table IDs missing from feature dictionary | 0 |
+
+Detailed additions are captured in the low-level report under **Reconciliation table (product-matrix IDs added by deep review)**.
 
 ## Feature-group comparison
 
