@@ -271,6 +271,28 @@ Sub-feature IDs follow the pattern `<FEATURE>-<suffix>` where `<suffix>` is a sh
 | AI-key-storage | API key storage | Local encrypted storage of API keys; never transmitted to vendor |
 | AI-multi-config | Multiple configs | Multiple named AI configurations with enable/disable toggle |
 | AI-plan-req | Plan requirement | Edition or subscription tier required to access AI features |
+| AI-001 | AI helper backends | Studio 3T AI helper provider backend set (Azure/OpenAI/Anthropic) |
+| AI-002 | AI helper configuration | Studio 3T AI helper runtime configuration controls (temperature/enable) |
+| AI-003 | AI helper NL generation | Studio 3T natural-language query/pipeline/script generation workflow |
+| AI-004 | AI helper apply results | Apply/copy generated AI results into active editors |
+| AI-005 | AI helper history | Local AI session history and restore across restarts |
+| AI-006 | AI helper shortcuts | Keyboard shortcut support for AI helper actions |
+| AI-007 | Local MCP server config | Local MCP HTTP server availability and configuration |
+| AI-008 | Local MCP toolset | Local MCP tool catalog exposed by Studio 3T |
+| AI-009 | MCP client compatibility | Supported MCP client integrations for Studio 3T local server |
+| AI-010 | stt-cli binary | Standalone 3T MCP binary capability surface |
+| AI-011 | stt-cli feature set | stt-cli read-only browsing/query/schema/PII capabilities |
+| AI-012 | 3T Build AI agent | AI agent support in 3T Build browser IDE context |
+| AI-model-chooser | Model chooser | User-selectable AI model per configuration |
+| AI-sample-data-toggle | Sample data toggle | User-facing toggle for sending sample data to improve AI accuracy |
+| AI-context-turns | Conversation turns | Multi-turn context retention for iterative refinement |
+| AI-named-configs | Named AI configs | Multiple named AI configurations in settings |
+| AI-schema-context | Schema context | Injection of field/schema metadata into AI prompts |
+| AI-local-mcp | Local MCP server | Presence of local MCP server endpoint for AI tooling |
+| AI-mcp-client | MCP client support | External MCP clients supported by product integration |
+| AI-mcp-tools | MCP tools count | Number and scope of MCP tools exposed by product |
+| AI-stt-cli | stt-cli + PII scanner | Standalone CLI with read-only operations and PII scanner |
+| AI-plan-gate | AI plan gate | Edition/plan gating for AI features |
 
 ### F-SQL — SQL Tools
 
@@ -282,6 +304,13 @@ Sub-feature IDs follow the pattern `<FEATURE>-<suffix>` where `<suffix>` is a sh
 | SQL-reschema | Schema restructuring | Reshape MongoDB schema: merge, split, rename, type-change operations |
 | SQL-code-gen | Code generation | Generate equivalent MongoDB query/aggregation from SQL query |
 | SQL-query-manager | SQL query manager | Save, organize, and rerun SQL queries with target collection binding |
+| SQL-migration-schema | SQL migration schema mapping | Schema mapping/transformation stage in SQL→Mongo migration |
+| SQL-migration-1to1 | SQL one-to-one mapping | One-to-one relationship mapping in SQL→Mongo migration |
+| SQL-migration-1to-many | SQL one-to-many mapping | One-to-many relationship mapping in SQL→Mongo migration |
+| SQL-export-field-map | SQL export field mapping | Field-to-column mapping modes for Mongo→SQL export |
+| SQL-export-relations | SQL export relations | Relationship mapping options for Mongo→SQL export |
+| SQL-export-monitor | SQL export monitoring | SQL export preview/monitoring/logging workflow |
+| SQL-export-targets | SQL export targets | Supported destination SQL engines for Mongo→SQL export |
 
 ### F-GOV — Governance & Security
 
@@ -309,6 +338,21 @@ Sub-feature IDs follow the pattern `<FEATURE>-<suffix>` where `<suffix>` is a sh
 | GOV-platform-lens | 3T Lens workspace | 3T Lens browser-based governance workspace (Studio 3T platform) |
 | GOV-platform-access | 3T Access identity | 3T Access identity and permission management plane (Studio 3T platform) |
 | GOV-platform-cdc | CDC pipeline | 3TL Bridge change-data-capture pipeline engine (Studio 3T platform) |
+| GOV-002 | Lens policy templates | 3T Lens compliance policy templates and checks |
+| GOV-003 | Lens alert channels | 3T Lens alert channels (Slack/email/webhook) |
+| GOV-004 | Lens PII classification | 3T Lens PII scanning/classification workflow |
+| GOV-005 | Lens versioned diffs | 3T Lens field history and document diff tracking |
+| GOV-006 | Lens performance suggestions | 3T Lens performance/index suggestions |
+| GOV-007 | Lens MCP integration | 3T Lens MCP integration and governed tool access |
+| GOV-010 | Bridge transform studio | 3TL Bridge transformation studio pipeline tooling |
+| GOV-011 | Bridge PII masking | 3TL Bridge real-time PII masking with compliance templates |
+| GOV-012 | Bridge security identity | 3TL Bridge credentials/OIDC security configuration |
+| GOV-013 | Bridge deployment scaling | 3TL Bridge Helm/deployment/scaling/observability support |
+| GOV-platform-bridge | Platform bridge integration | 3TL Bridge integration surface for event/data pipelines |
+| GOV-platform-k8s | Platform Kubernetes deployment | Kubernetes Helm deployment support for platform components |
+| GOV-platform-oidc | Platform OIDC providers | Multi-provider OIDC support in platform auth stack |
+| GOV-protect-mode | Protect mode | UI-level destructive-write prevention mode |
+| GOV-telemetry-config | Telemetry configuration | Telemetry opt-out/configuration controls |
 
 ### F-SCHED — Task Scheduler
 
@@ -324,6 +368,36 @@ Sub-feature IDs follow the pattern `<FEATURE>-<suffix>` where `<suffix>` is a sh
 | SCHED-status-states | Task status states | Scheduled / Running / Completed / Failed / Paused state machine |
 | SCHED-actions | Task actions | Run Now, Pause/Resume, Edit, Clone, Delete, View History |
 | SCHED-notifications | Notifications | Email and in-app notifications on success, failure, warning |
+| SCHED-preset-types | Preset schedule types | Named schedule presets (once/hourly/daily/weekly/monthly) |
+| SCHED-task-actions | Task management actions | Run/enable-disable/edit/clone/delete style lifecycle actions |
+| SCHED-script-tasks | Script task units | Scheduler support for script-based task definitions |
+| SCHED-compare-setup | Compare setup | Data compare task setup workflow |
+| SCHED-compare-results | Compare results | Data compare result/diff presentation |
+| SCHED-compare-sync | Compare sync actions | Sync operations launched from compare results |
+| SCHED-compare-schedule | Compare schedule save | Save compare workflows as scheduled tasks |
+| SCHED-plan-limits | Scheduler plan limits | Plan-tier limits for task scheduler capabilities |
+| SCHED-task-save | Task save from tools | Save import/export/compare configs as scheduler tasks |
+| SCHED-retry | Retry policy | Retry behavior configuration for scheduled runs |
+| SCHED-concurrent | Concurrent execution | Max concurrent task execution control |
+| SCHED-batch | Batch size | Batch size configuration for scheduled execution |
+| SCHED-history | Execution history | Historical execution record visibility |
+| SCHED-email | Email provider config | Email notification provider-level configuration |
+| SCHED-recur-once | Recurrence once | One-time scheduled execution pattern |
+| SCHED-recur-daily | Recurrence daily | Daily scheduled execution pattern |
+| SCHED-recur-interval | Recurrence interval | Every N minutes/hours execution pattern |
+| SCHED-recur-weekly | Recurrence weekly | Weekly scheduled execution pattern |
+| SCHED-recur-monthly | Recurrence monthly | Monthly scheduled execution pattern |
+
+### Supplemental aliases used in current matrices
+
+| Sub-feature ID | Name | Description |
+|---|---|---|
+| SHELL-open-from | Open in shell from tools | Open shell from query/aggregation/profiler/manager contexts |
+| SHELL-sessions | Shell sessions | Multiple concurrent shell sessions |
+| SHELL-background-exec | Background execution | Shell script execution continues when switching tabs |
+| SHELL-auto-reconnect | Auto reconnect | Shell reconnect behavior on connection drop |
+| SHELL-persistent-vars | Persistent variables | Variables persist within same shell session |
+| TRANSFER-plan-limits | Transfer task plan limits | Plan-tier limits specifically for transfer task automation |
 
 ---
 
@@ -361,4 +435,5 @@ This table shows which features are applicable per product. Features not in a pr
 
 | Date | Change | Author |
 |---|---|---|
+| 2026-06-24 | Added missing sub-feature IDs currently used in `products/` and comparison reports; synchronized dictionary coverage with active matrices | Copilot |
 | 2026-06-22 | Initial unified dictionary created; all 11 features and all sub-feature IDs defined | Copilot |
