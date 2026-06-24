@@ -328,10 +328,6 @@ These are icon-only analogs of the detailed comparison tables below. Product col
 | F-SCHED | SCHED-exec-config | Concurrent task execution config | ❓ | ❌ | ✅ | Missing (Compass, Studio 3T) | [VisuaLeaf](../../products/third-party/visual-eaf/features/task-scheduler/feature-matrix.md) |
 | F-SCHED | SCHED-exec-config | Batch size configuration per task | ❓ | ❌ | ✅ | Missing (Compass, Studio 3T) | [VisuaLeaf](../../products/third-party/visual-eaf/features/task-scheduler/feature-matrix.md) |
 
-### Reconciliation table (product-matrix IDs added by deep review) — iconized
-
-| Feature ID | Sub-feature ID | Sub-feature name | Studio 3T | MongoDB Compass | VisuaLeaf | Gap type | Sources |
-| --- | --- | --- | --- | --- | --- | --- | --- |
 | F-AI | AI-001 | AI helper backends | ✅ | ❌ | ❓ | Missing | [Studio 3T](../../products/3t/studio-3t/features/ai/feature-matrix.md) |
 | F-AI | AI-002 | AI helper configuration | ✅ | ❌ | ❓ | Missing | [Studio 3T](../../products/3t/studio-3t/features/ai/feature-matrix.md) |
 | F-AI | AI-003 | AI helper NL generation | ✅ | ❌ | ❓ | Missing | [Studio 3T](../../products/3t/studio-3t/features/ai/feature-matrix.md) |
@@ -702,7 +698,7 @@ Gap types: `Missing` | `Partial` | `Mismatch` | `Constraint` | `Roadmap`
 ## Notes
 
 - The main sub-feature comparison table is the normalized baseline view.
-- The reconciliation table was added from a deep product-matrix audit to capture IDs present in `products/**/feature-matrix.md` but previously missing from the baseline table.
+- The main table already includes IDs captured during the deep product-matrix audit.
 - All sub-feature IDs in this table come from [feature-dictionary.md](../../feature-dictionary.md).
 - `N/A — not supported` means the feature area does not exist for that product (e.g., Compass has no shell, no data transfer, no AI, no SQL, no task scheduler).
 - `Not documented` means the capability may exist but was not confirmed in the product's feature matrix.
