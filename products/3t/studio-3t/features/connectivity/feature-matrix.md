@@ -11,6 +11,8 @@
 
 - S1: https://studio3t.com/knowledge-base/articles/connect-to-mongodb/
 - S2: https://studio3t.com/knowledge-base/articles/mongodb-password-encryption/
+- S3: https://studio3t.com/ (homepage — "Database Compatibility" section)
+- S4: https://blog.ferretdb.io/using-ferretdb-with-studio-3t/ (third-party corroboration)
 
 ## Capability matrix
 
@@ -30,3 +32,4 @@
 | CONN-team-sharing | Shared folders (team sharing) | Supported (Pro/Base+) | Invite team members by email to a shared folder; permission levels: Manage, Edit, View; shared connections are accessible to all invited members. | Requires Pro/Base or Ultimate edition. | confirmed | S1 | Pro/Base+ only. |
 | CONN-readonly-lock | Read-only connection lock | Supported | Per-connection read-only lock prevents all write operations within that connection's Result tabs. | Lock is enforced at the UI layer; does not modify MongoDB server permissions. | confirmed | S1 | All editions. |
 | CONN-cred-storage | Credential storage and encryption | Supported | Default: passwords encrypted at rest with built-in key. Cryptographic key store option: master password required at app startup; all connection files moved to encrypted store; previous unencrypted files deleted. | Cryptographic key store option increases security but adds a required startup step. | confirmed | S2 | All editions. |
+| CONN-compat-ferretdb | FerretDB compatibility | Supported | studio3t.com lists FerretDB alongside MongoDB, Amazon DocumentDB, and Azure Cosmos DB under "Database Compatibility." FerretDB is a MongoDB-wire-protocol-compatible open-source database; a third-party FerretDB blog post confirms Studio 3T can perform basic operations against FerretDB 1.0. | Specific FerretDB version/feature compatibility matrix not published by either vendor. | confirmed | S3, S4 | Existence of compatibility confirmed; depth of compatibility (e.g., which Studio 3T features work against FerretDB) is unknown/unverified. |

@@ -16,6 +16,7 @@
 ## Source index
 
 - S1: https://visualeaf.com/docs/aggregation
+- S2: https://visualeaf.com/ (homepage — "Charts & Dashboards" listed as Core Feature)
 
 ## Capability matrix
 
@@ -34,7 +35,7 @@
 | AGG-js-import-export | Pipeline .js import/export | confirmed | Export pipeline as .js file (mongosh format: db.collection.aggregate([…])). Import pipeline from previously exported .js file. | — | confirmed | S1 |
 | AGG-code-tab | Query Code tab | confirmed | Bidirectional JSON view of the pipeline; Format Code button; Apply Code Changes syncs edits back to visual builder. | — | confirmed | S1 |
 | AGG-export-results | Export pipeline results | confirmed | Export pipeline output in 4 formats: JSON; CSV; BSON; SQL INSERT statements. | — | confirmed | S1 |
-| AGG-chart-builder | Create Chart from pipeline | confirmed | Opens Chart Builder using the pipeline output as data source. | — | confirmed | S1 |
+| AGG-chart-builder | Create Chart from pipeline | confirmed | Opens Chart Builder using the pipeline output as data source. Corroborated by the homepage, which lists "Charts & Dashboards" as a standalone Core Feature (see QUERY-charts-dashboards in the Querying matrix for the broader, non-aggregation-specific capability). | — | confirmed | S1, S2 |
 | AGG-save-load | Save/load pipelines | confirmed | Save with name, folder, description; tagged with connection/DB/collection; quick load by double-click. | — | confirmed | S1 |
 | AGG-code-gen | Export pipeline to driver languages | unknown/unverified | No source found in VisuaLeaf docs for export to driver languages (Java, Python, Node.js, etc.). | — | unknown/unverified | S1 |
 | AGG-create-view | Create view from pipeline output | unknown/unverified | Not documented in VisuaLeaf aggregation docs. | — | unknown/unverified | S1 |

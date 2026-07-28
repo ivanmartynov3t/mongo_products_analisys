@@ -19,7 +19,9 @@
 
 ## Product summary
 
-Studio 3T is a multi-product MongoDB tooling platform anchored by the Studio 3T Desktop IDE — a full-featured fat client for Windows, macOS, and Linux. The platform spans six products: the Desktop IDE, 3T Build (browser IDE), 3T MCP (standalone MCP CLI), 3T Lens (governance workspace), 3T Access (identity/governance plane), and 3TL Bridge (CDC pipeline engine). The Desktop IDE delivers the deepest feature set and is the primary subject of this analysis, with platform-wide features noted where applicable.
+Studio 3T is a multi-product MongoDB tooling platform anchored by the Studio 3T Desktop IDE — a full-featured fat client for Windows, macOS, and Linux. Per studio3t.com, the platform is organized into three tracks: **Build** (Studio 3T Desktop IDE, 3T Explore, 3T MCP), **Pipeline** (3TL Bridge), and **Governed Access** (3T Lens, 3T Access). 3T Explore is the browser-based IDE product in the Build track (tagline: "The browser IDE for MongoDB and other document databases") — this report previously referred to it as "3T Build," which is actually the track name, not a product name; that naming has been corrected throughout. The Desktop IDE delivers the deepest feature set and is the primary subject of this analysis, with platform-wide features noted where applicable.
+
+Studio3t.com also states database compatibility with FerretDB, Amazon DocumentDB, and Azure Cosmos DB in addition to MongoDB (see CONN-compat-ferretdb). The vendor's website states ISO 27001 and SOC 2 certification and on-premises deployment options for the governance platform — this is a vendor claim from studio3t.com and has not been independently verified beyond that statement.
 
 The product is tiered across Free, Pro/Base, and Ultimate editions. The Free edition covers core querying, aggregation, import/export, IntelliShell, and the Visual Query Builder. Pro/Base adds SQL tooling, data masking, reschema, team sharing, and the task scheduler. Ultimate unlocks enterprise authentication mechanisms (Kerberos, LDAP, AWS IAM, MongoDB OIDC). Exact edition names are unverified — the pricing page returned 404 at analysis time.
 
@@ -71,3 +73,5 @@ Feature IDs and folder names from [feature-dictionary.md](../../../feature-dicti
 - Does 3T Lens replace or supplement the Desktop IDE connection manager in practice?
 - Is the Local MCP Server available in all editions or only Pro/Ultimate?
 - What MongoDB server version range is officially supported (minimum and maximum)?
+- What edition/plan is required for 3T Explore access, and does it require a separate license from the Desktop IDE?
+- Which specific FerretDB versions/features have been validated with Studio 3T (studio3t.com lists compatibility but does not give a version matrix)?

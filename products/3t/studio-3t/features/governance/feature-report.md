@@ -9,7 +9,7 @@
 
 ## Scope
 
-This report covers Studio 3T's governance platform tier: 3T Lens (governed data workspace), 3T Access (identity and governance plane), and 3TL Bridge (CDC pipeline engine with PII masking and compliance features). These are separate deployable products that extend the Studio 3T platform into enterprise governance and data pipeline use cases.
+This report covers Studio 3T's governance platform tier: 3T Lens (governed data workspace), 3T Access (identity and governance plane), 3TL Bridge (CDC pipeline engine with PII masking and compliance features), and the governance-relevant aspects of 3T Explore (browser IDE workspace switching and access control). These are separate deployable products that extend the Studio 3T platform into enterprise governance and data pipeline use cases. Per studio3t.com, 3T Explore, the Desktop IDE, and 3T MCP make up the "Build" track; 3TL Bridge is the "Pipeline" track; 3T Lens and 3T Access are the "Governed Access" track.
 
 ## Behavioral walkthrough
 
@@ -35,6 +35,7 @@ PII masking at the pipeline layer (before data reaches the destination) combined
 | GOV-009 | Checkpoint recovery in 3TL Bridge enables exact-position resume after restart/failover — not just best-effort replay. | Critical for production data pipelines where data loss or duplication on restart is unacceptable. |
 | GOV-011 | Pipeline-layer PII masking (before data reaches destination) means the masking policy is enforced regardless of destination tool or access method. | Stronger masking guarantee than application-layer masking, which can be bypassed by direct DB access. |
 | GOV-013 | Kubernetes Helm chart deployment with Prometheus/Grafana/Datadog integration and Docker Compose alternative covers both small-team and large-enterprise deployment patterns. | Reduces operational overhead for teams that already use standard Kubernetes observability stacks. |
+| GOV-platform-explore | 3T Explore's Workspace Switcher and 3T Access Manager integration extend pre-login, role-based access scoping to a browser-based surface aimed at non-developer users. | Lets teams hand out governed MongoDB access broadly (per studio3t.com: "the governance that makes it safe to hand out") without provisioning Desktop IDE licenses per user. |
 
 ## Constraints and risks
 
@@ -44,6 +45,7 @@ PII masking at the pipeline layer (before data reaches the destination) combined
 - Automated PII classification in 3T Lens uses heuristics; results require human review and cannot be treated as an authoritative compliance determination.
 - 10 categories and full tool list for the 59 MCP tools in 3T Lens are **unknown/unverified** beyond the total count.
 - Transform Studio scripting language is **unknown/unverified**.
+- 3T Explore's edition/plan requirements are **unknown/unverified** — studio3t.com describes the product's capabilities but not its pricing or licensing model relative to the Desktop IDE.
 
 ## Conclusion
 

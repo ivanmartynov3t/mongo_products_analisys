@@ -15,6 +15,8 @@ VisuaLeaf's collection querying supports four view modes (Tree, Table, BSON, Exp
 - **Execution timer with amber/red thresholds:** 2s amber, 5s red — immediate performance signal without opening a profiler.
 - **Multiple copy formats:** JSON, EJSON, value, field name, dot-notation path — essential for developer workflows.
 - **AI query builder with 11 OpenAI models and explicit privacy control:** "Send Schema Only" mode for privacy-sensitive environments; plain-English explanation on every result.
+- **GridFS Viewer:** Browse, preview (images/PDFs/documents with zoom), bulk upload/download, and edit metadata for GridFS-stored files — a dedicated file-management surface most competing MongoDB GUIs leave to the shell.
+- **Split Panel Views:** Horizontal/vertical/nested workspace splits with drag-and-drop tab management, enabling side-by-side document, query-result, or chart comparison in one workspace.
 
 ---
 
@@ -23,8 +25,8 @@ VisuaLeaf's collection querying supports four view modes (Tree, Table, BSON, Exp
 - **VQB requires Basic+ plan:** Community users have JSON editor only; no visual query building.
 - **AI requires Professional plan:** $149/year step up for natural language queries.
 - **Skip dropdown limited to 0/50/100:** No manual skip entry documented; large-collection offset navigation is constrained.
-- **SQL Query Mode:** Referenced in "Open In" context menu but no documentation found — **unknown/unverified**.
-- **Chart Builder:** Referenced in "Open In" but no dedicated chart documentation found — **unknown/unverified**.
+- **SQL Query Mode:** Now confirmed and documented as "SQL Mode" (visualeaf.com/features/sql-mode/) — see the dedicated [F-SQL feature report](../sql-tools/feature-report.md). Plan tier still unverified.
+- **Charts & Dashboards:** Confirmed as a Core Feature on the homepage and referenced from the Split Panel Views page, but a dedicated feature page (visualeaf.com/features/charts-dashboards/) returns 404 — chart types and dashboard composition remain **unknown/unverified**.
 - **findAndModify / replaceOne:** Replace-whole-document operation not directly exposed in the UI.
 
 ---

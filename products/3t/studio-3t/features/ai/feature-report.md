@@ -38,7 +38,7 @@ The 3T MCP standalone binary (stt-cli) is a separate product distributed via Git
 - The Local MCP Server requires Studio 3T to be running and the toggle enabled; it is not a persistent daemon.
 - Local MCP Server and 3T MCP have distinct transports (HTTP vs. stdio) and distinct capabilities; they are not interchangeable.
 - AI-generated queries should be reviewed before execution; the AI Helper does not validate generated queries against the actual collection schema before inserting them into the editor.
-- 3T Build AI Agent availability and edition requirements are **unknown/unverified**.
+- 3T Explore's AI Helper (formerly mislabeled "3T Build AI Agent" in this report — see AI-012) availability and edition/plan requirements are **unknown/unverified**.
 
 ## Conclusion
 

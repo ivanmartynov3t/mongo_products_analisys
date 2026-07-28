@@ -21,6 +21,7 @@
 | **Min Requirements** | 4 GB RAM, 500 MB disk space |
 | **Air-gapped Support** | Fully offline after one-time license activation |
 | **Credential Storage** | AES-256 encrypted, stored locally; never transmitted to SozoCode servers |
+| **Also connects to** | visualeaf.com (homepage, 2026-07-28) lists native support for PostgreSQL, MySQL, MariaDB, Microsoft SQL Server, SQLite, Oracle, CockroachDB, ClickHouse, DuckDB, and TiDB, in addition to MongoDB, Azure Cosmos DB, and Amazon DocumentDB. VisuaLeaf is positioned as a polyglot database GUI, not a MongoDB-only tool — this analysis covers its MongoDB-facing capabilities only; the non-MongoDB engines are out of scope for this repository. |
 
 ---
 
@@ -38,6 +39,7 @@ Feature IDs and folder names from [feature-dictionary.md](../../../feature-dicti
 | F-TRANSFER | Data Transfer | [feature-matrix.md](features/data-transfer/feature-matrix.md) | [feature-report.md](features/data-transfer/feature-report.md) | Basic+ (Community: 0 tasks) |
 | F-SHELL | Shell | [feature-matrix.md](features/shell/feature-matrix.md) | [feature-report.md](features/shell/feature-report.md) | All |
 | F-AI | AI Features | [feature-matrix.md](features/ai/feature-matrix.md) | [feature-report.md](features/ai/feature-report.md) | Professional only |
+| F-SQL | SQL Tools (partial — SQL Mode) | [feature-matrix.md](features/sql-tools/feature-matrix.md) | [feature-report.md](features/sql-tools/feature-report.md) | Plan tier unverified |
 | F-GOV | Governance & Security | [feature-matrix.md](features/governance/feature-matrix.md) | [feature-report.md](features/governance/feature-report.md) | Basic+ (RBAC/Audit: Professional) |
 | F-SCHED | Task Scheduler | [feature-matrix.md](features/task-scheduler/feature-matrix.md) | [feature-report.md](features/task-scheduler/feature-report.md) | Basic+ (Community: 0 tasks) |
 
@@ -87,8 +89,11 @@ Sources: https://visualeaf.com/docs/connection-manager, https://visualeaf.com/fe
 |---|---|
 | **Data Masking** | Available on Basic+ per pricing page but no dedicated documentation page found; implementation details **unknown/unverified** |
 | **Anthropic AI** | Mentioned in FAQ but absent from Settings documentation — **unknown/unverified** |
-| **Chart Builder** | Referenced in "Open In" context menus and aggregation export, but no dedicated documentation found — **unknown/unverified** |
-| **SQL Query Mode** | Listed in "Open In" context menu of query view but no documentation page found — **unknown/unverified** |
+| **Charts & Dashboards** | Resolved 2026-07-28: confirmed as a Core Feature on visualeaf.com and cross-referenced from Split Panel Views documentation; still **unknown/unverified** which chart types are supported and how dashboards (multi-chart composition) work — no dedicated feature page found (visualeaf.com/features/charts-dashboards/ returns 404) |
+| **SQL Mode** | Resolved 2026-07-28: confirmed as a documented Core Feature (visualeaf.com/features/sql-mode/) — SQL syntax querying against MongoDB only, not a relational migration tool. See [F-SQL feature report](features/sql-tools/feature-report.md). Plan tier still **unknown/unverified** |
+| **GridFS Viewer** | Added 2026-07-28: confirmed feature (visualeaf.com/features/gridfs-viewer/) — file browsing/preview/upload/download/metadata editing for GridFS storage. Plan tier **unknown/unverified** |
+| **Split Panel Views** | Added 2026-07-28: confirmed feature (visualeaf.com/features/split-panel-views/) — multi-panel layouts with drag-and-drop tab management. Plan tier **unknown/unverified** |
+| **MongoSync** | Added 2026-07-28: confirmed feature (visualeaf.com/features/mongosync/) — guided cross-server/cluster MongoDB-to-MongoDB data movement with selective sync, conflict handling, field filtering, transformation mappings, and scheduled jobs. Distinct from Collection Compare & Sync (GOV-collection-compare/GOV-collection-sync), which is a diff-then-directed-sync tool between already-linked collections; MongoSync is the broader migration/copy workflow (mapped to TRANSFER-import-mongo/TRANSFER-export-mongo). Plan tier: page mentions Pro tier inclusion but does not state this explicitly — **unknown/unverified** |
 | **Open-source scope** | GitHub repo is "partially open source"; which modules are open vs proprietary is not documented |
 | **MongoDB version matrix** | No published compatibility matrix; per-feature minimum versions noted (e.g., Hidden Index requires 4.4+) but no comprehensive table |
 | **snappy/zstd compression** | Only zlib compression documented; MongoDB 4.2+ snappy/zstd support not referenced |

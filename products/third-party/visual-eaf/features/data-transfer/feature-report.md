@@ -4,6 +4,8 @@
 
 VisuaLeaf's Task Manager provides a full data pipeline scheduling system for import and export operations. Supported export formats are JSON (pretty-print optional), CSV (configurable delimiters), BSON, and SQL INSERT statements. Import accepts JSON, CSV, and BSON. Tasks can be scheduled with cron-level granularity (One-Time, Hourly, Daily, Weekly, Monthly, raw cron expression), with DST-aware timezone support. Custom JavaScript transformations, field mapping, type conversion, aggregation pipeline pre-processing, and upsert mode are confirmed. Email notifications via SendGrid (user-supplied API key) and in-app notifications complete the monitoring stack. Community plan: 0 tasks; Basic: up to 2 tasks; Professional: unlimited.
 
+MongoSync (confirmed 2026-07-28) adds a guided cross-server/cluster MongoDB-to-MongoDB copy workflow — moving collections, indexes, and documents between local instances, Atlas, other clusters, or databases, with selective sync (database/collection choice plus a query filter), field filtering, transformation mappings, and scheduled jobs to keep environments aligned. This closes what was previously an undocumented gap for TRANSFER-import-mongo/TRANSFER-export-mongo. MongoSync is distinct from Collection Compare & Sync (see the Governance feature report): Collection Compare & Sync diffs and directionally syncs two already-linked collections, while MongoSync is the broader guided migration/copy tool — the two are complementary, with Collection Compare usable to verify a MongoSync run.
+
 ---
 
 ## Strengths
@@ -14,6 +16,7 @@ VisuaLeaf's Task Manager provides a full data pipeline scheduling system for imp
 - **Custom JavaScript transforms:** User-defined per-document JS functions allow arbitrary field transformation during import.
 - **Aggregation pipeline as pre-export transform:** Server-side transformation before export — efficient for large collections.
 - **Upsert mode:** Import can update existing or insert new — supports incremental sync patterns without duplicating data.
+- **MongoSync cross-server MongoDB copy:** Guided migration workflow between local instances, Atlas, clusters, or databases, with selective sync, field filtering, transformation mappings, and scheduled jobs — a capability previously undocumented in this repository.
 - **Comprehensive task lifecycle:** Run Now, Pause, Resume, Edit, Clone, Delete, View History — full task management without a separate scheduler.
 - **User-controlled SendGrid integration:** Users bring their own SendGrid API key — no external SozoCode dependency for email delivery; privacy-preserving.
 
@@ -46,6 +49,7 @@ VisuaLeaf's Task Manager provides a full data pipeline scheduling system for imp
 | Community plan support | 0 tasks | full import/export (ad-hoc) |
 | Concurrent task limit | 2 | N/A (ad-hoc only) |
 | Task history / audit log | **confirmed** (100 records) | not available |
+| Cross-server/cluster MongoDB copy (MongoSync) | **confirmed** | not available |
 
 ---
 

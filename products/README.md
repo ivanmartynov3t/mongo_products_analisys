@@ -23,7 +23,7 @@ Each product follows the same hierarchy:
 
 ### Studio 3T
 - **Type:** Internal (3t)
-- **Description:** A MongoDB IDE focused on advanced querying, aggregation, schema exploration, import/export, SQL tools, and automation workflows.
+- **Description:** A MongoDB IDE focused on advanced querying, aggregation, schema exploration, import/export, SQL tools, and automation workflows. Part of a broader 3T platform organized into three tracks: Build (Studio 3T Desktop IDE, 3T Explore browser IDE, 3T MCP), Pipeline (3TL Bridge CDC engine), and Governed Access (3T Lens, 3T Access).
 - **Website:** https://studio3t.com/
 
 ### MongoDB Compass
@@ -33,5 +33,5 @@ Each product follows the same hierarchy:
 
 ### VisuaLeaf
 - **Type:** Third-party
-- **Description:** A MongoDB GUI client aimed at visual data work, query building, and day-to-day database operations.
+- **Description:** A polyglot database GUI aimed at visual data work, query building, and day-to-day database operations. Natively supports MongoDB, Azure Cosmos DB, and Amazon DocumentDB, as well as PostgreSQL, MySQL, MariaDB, Microsoft SQL Server, SQLite, Oracle, CockroachDB, ClickHouse, DuckDB, and TiDB — this repository analyzes its MongoDB-facing capabilities only.
 - **Website:** https://visualeaf.com/

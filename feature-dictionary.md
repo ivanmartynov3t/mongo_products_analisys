@@ -63,6 +63,7 @@ Sub-feature IDs follow the pattern `<FEATURE>-<suffix>` where `<suffix>` is a sh
 | CONN-compat-docdb | Amazon DocumentDB | Compatibility with Amazon DocumentDB |
 | CONN-compat-cosmos | Azure Cosmos DB | Compatibility with Azure Cosmos DB (MongoDB API) |
 | CONN-compat-redis | Redis | Compatibility with Redis |
+| CONN-compat-ferretdb | FerretDB | Compatibility with FerretDB (open-source MongoDB-wire-protocol-compatible database) |
 
 ### F-QUERY — Querying
 
@@ -99,6 +100,9 @@ Sub-feature IDs follow the pattern `<FEATURE>-<suffix>` where `<suffix>` is a sh
 | QUERY-manager | Query manager | Folder-organized query library with search, preview, types |
 | QUERY-open-in | Open-in integration | Open collection in aggregation, shell, SQL, stats, chart, import, export |
 | QUERY-ai-builder | AI query builder | Natural language to query/filter via AI (in querying context) |
+| QUERY-view-gridfs | GridFS viewer | Browse, preview, upload/download, and edit metadata for GridFS-stored files |
+| QUERY-view-split | Split panel views | Multi-document/multi-panel side-by-side comparison with synchronized scrolling and flexible layouts |
+| QUERY-charts-dashboards | Charts & dashboards | Build charts from collection/query/pipeline data and combine into saved dashboards |
 
 ### F-AGG — Aggregation
 
@@ -282,7 +286,7 @@ Sub-feature IDs follow the pattern `<FEATURE>-<suffix>` where `<suffix>` is a sh
 | AI-009 | MCP client compatibility | Supported MCP client integrations for Studio 3T local server |
 | AI-010 | stt-cli binary | Standalone 3T MCP binary capability surface |
 | AI-011 | stt-cli feature set | stt-cli read-only browsing/query/schema/PII capabilities |
-| AI-012 | 3T Build AI agent | AI agent support in 3T Build browser IDE context |
+| AI-012 | 3T Explore AI agent | AI Helper agent support in the 3T Explore browser IDE context (this dictionary previously used the name "3T Build" for this product; corrected to "3T Explore" per studio3t.com, 2026-07-28) |
 | AI-model-chooser | Model chooser | User-selectable AI model per configuration |
 | AI-sample-data-toggle | Sample data toggle | User-facing toggle for sending sample data to improve AI accuracy |
 | AI-context-turns | Conversation turns | Multi-turn context retention for iterative refinement |
@@ -338,6 +342,7 @@ Sub-feature IDs follow the pattern `<FEATURE>-<suffix>` where `<suffix>` is a sh
 | GOV-platform-lens | 3T Lens workspace | 3T Lens browser-based governance workspace (Studio 3T platform) |
 | GOV-platform-access | 3T Access identity | 3T Access identity and permission management plane (Studio 3T platform) |
 | GOV-platform-cdc | CDC pipeline | 3TL Bridge change-data-capture pipeline engine (Studio 3T platform) |
+| GOV-platform-explore | 3T Explore workspace | 3T Explore browser IDE — workspace switcher and 3T Access Manager access-control integration (Studio 3T platform) |
 | GOV-002 | Lens policy templates | 3T Lens compliance policy templates and checks |
 | GOV-003 | Lens alert channels | 3T Lens alert channels (Slack/email/webhook) |
 | GOV-004 | Lens PII classification | 3T Lens PII scanning/classification workflow |
@@ -414,10 +419,12 @@ This table shows which features are applicable per product. Features not in a pr
 | F-IDX | ✓ | ✓ | ✓ |
 | F-TRANSFER | ✓ | — | ✓ |
 | F-SHELL | ✓ | — | ✓ |
-| F-AI | ✓ | — | ✓ |
-| F-SQL | ✓ | — | — |
+| F-AI | ✓ | ✓ (partial — see notes) | ✓ |
+| F-SQL | ✓ | — | ✓ (partial — see notes) |
 | F-GOV | ✓ | ✓ | ✓ |
 | F-SCHED | ✓ | — | ✓ |
+
+Notes: MongoDB Compass F-AI is limited to AI-nl-query (natural language querying, confirmed on the official product page); other F-AI sub-features are unconfirmed for Compass. VisuaLeaf F-SQL ("SQL Mode") is limited to SQL-expressions and SQL-code-gen against MongoDB collections only — it is not a SQL migration/export toolchain like Studio 3T's F-SQL.
 
 ---
 
@@ -435,5 +442,6 @@ This table shows which features are applicable per product. Features not in a pr
 
 | Date | Change | Author |
 |---|---|---|
+| 2026-07-28 | Added CONN-compat-ferretdb, GOV-platform-explore, QUERY-view-gridfs, QUERY-view-split, QUERY-charts-dashboards based on review of studio3t.com, mongodb.com/products/tools/compass, and visualeaf.com (plus verification fetches of studio3t.com/3t-explore/, visualeaf.com/features/sql-mode/, /mongosync/, /gridfs-viewer/, /split-panel-views/). Corrected AI-012 name from "3T Build" to "3T Explore" (Build is a product track, not a product name). Enabled F-AI (partial) for MongoDB Compass and F-SQL (partial) for VisuaLeaf in the coverage matrix. | Claude |
 | 2026-06-24 | Added missing sub-feature IDs currently used in `products/` and comparison reports; synchronized dictionary coverage with active matrices | Copilot |
 | 2026-06-22 | Initial unified dictionary created; all 11 features and all sub-feature IDs defined | Copilot |

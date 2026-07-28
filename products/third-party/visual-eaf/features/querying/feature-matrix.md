@@ -17,6 +17,9 @@
 ## Source index
 
 - S1: https://visualeaf.com/docs/mongo-query
+- S2: https://visualeaf.com/ (homepage — Core/Power Features list)
+- S3: https://visualeaf.com/features/gridfs-viewer/
+- S4: https://visualeaf.com/features/split-panel-views/
 
 ## Capability matrix
 
@@ -47,3 +50,6 @@
 | QUERY-history | Query history | confirmed | Basic+ plan; auto-saved per collection with timestamp and execution time. Reload restores all parameters: filter, projection, sort, limit, skip. | Basic or Professional plan required | confirmed | S1 |
 | QUERY-saved | Saved queries | confirmed | Basic+ plan; name and organize by collection or globally. Export/import saved query libraries as JSON files. Team sharing via exported JSON. | Basic or Professional plan required | confirmed | S1 |
 | QUERY-open-in | "Open In" context integration | confirmed | Opens collection context in: Aggregation Pipeline, MongoDB Shell, SQL Query Mode, Collection Statistics, Create Chart, Import Data, Export Data. | — | confirmed | S1 |
+| QUERY-view-gridfs | GridFS Viewer | confirmed | "Manage and preview files stored in GridFS with an intuitive interface." File browser: table view (filename/size/upload date/content type), search/filter, sorting, storage statistics. Upload/download: drag-and-drop or file picker, progress tracking, metadata editing, bulk export. Preview: images/PDFs/documents in-browser with zoom; JSON metadata viewing/editing (system + custom fields); chunk inspection. Integrates with Connection Manager (dev/staging/prod switching) and Collection Compare (cross-environment file sync). | Plan/tier requirement not specified on source page. | confirmed | S2, S3 |
+| QUERY-view-split | Split Panel Views | confirmed | "View and compare documents side by side with flexible panel layouts." Split workspace horizontally/vertically with nested splits; resizable drag handles. Drag-and-drop tabs between panels/zones; reorder, clone, context-menu tab management. Integrates with Visual Query Builder (side-by-side result comparison) and Charts & Dashboards (combined panel + chart views). | Plan/tier requirement not specified on source page. | confirmed | S2, S4 |
+| QUERY-charts-dashboards | Charts & Dashboards | confirmed | Listed as a Core Feature on the VisuaLeaf homepage (alongside Connection Manager, Visual Schema, AI Assistant, SQL Mode, etc.), distinct from the aggregation-pipeline-triggered chart builder (see AGG-chart-builder). Referenced by the Split Panel Views page as combinable with panel layouts. | Dedicated feature page (visualeaf.com/features/charts-dashboards/) returns 404; chart types, dashboard composition (multi-chart), and data-refresh behavior are unknown/unverified. | confirmed (existence); unknown/unverified (implementation) | S2 |

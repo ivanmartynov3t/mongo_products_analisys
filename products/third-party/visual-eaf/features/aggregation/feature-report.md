@@ -25,7 +25,7 @@ VisuaLeaf's Aggregation Pipeline Builder provides a visual, dual-mode stage edit
 - **$out/$merge preview disabled:** Cannot preview terminal stage effects before execution — expected by design, but noted.
 - **Allow Disk Use defaults to false:** Large aggregations on unindexed data will hit memory limits without manually toggling.
 - **Max Time default 300s:** Long-running analytical pipelines may time out without manual adjustment.
-- **Chart Builder not documented:** "Create Chart" referenced in export but no dedicated documentation found — **unknown/unverified** implementation.
+- **Chart Builder confirmed, implementation depth unverified:** "Create Chart" from pipeline output is confirmed via docs and corroborated by the homepage's standalone "Charts & Dashboards" Core Feature listing, but chart types and dashboard composition are **unknown/unverified** — no dedicated chart documentation page was found (see QUERY-charts-dashboards).
 - **No AI assistance in aggregation builder directly:** AI-generated aggregation pipelines are available through the AI Assistant (Professional), not from within the visual pipeline builder itself.
 
 ---

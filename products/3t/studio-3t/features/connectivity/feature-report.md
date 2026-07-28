@@ -33,6 +33,7 @@ Color-coding connections by environment is a low-effort but high-value safety gu
 | CONN-008 | SSH Profiles with profile-level password updates propagating to all assigned connections is a significant operational convenience. | Reduces credential hygiene burden in multi-connection SSH environments. |
 | CONN-011 | Color-coding per connection is visual-only and does not enforce access policies. | Useful signal but not a security control — read-only lock (CONN-013) is the enforcement layer. |
 | CONN-014 | Cryptographic key store (master password mode) provides strong local encryption; previous plaintext files are deleted on migration. | Meaningful improvement over default built-in-key encryption for security-conscious users. |
+| CONN-compat-ferretdb | studio3t.com lists FerretDB as a compatible database alongside MongoDB, DocumentDB, and Cosmos DB; corroborated by a third-party FerretDB blog post covering basic-operation testing. | Widens Studio 3T's addressable use cases to teams running the open-source FerretDB alternative, though depth of feature compatibility is unverified. |
 
 ## Constraints and risks
 
