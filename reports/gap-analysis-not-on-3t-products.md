@@ -1,6 +1,6 @@
 # Gap Analysis — Sub-features NOT on Any 3T Product
 
-This report compiles every dictionary sub-feature that is **not confirmed present on any product made by 3T Software Labs** — Studio 3T (Desktop IDE), 3T Explore, 3T MCP, 3T Lens, 3T Access, and 3TL Bridge, collectively. It is derived from the "Studio 3T" column of [low-level-feature-comparison.md](comparisons/low-level-feature-comparison.md), which represents the whole 3T product family as a single comparison column (per [products/3t/README.md](../products/3t/README.md)).
+This report checks **every sub-feature ID in [feature-dictionary.md](../feature-dictionary.md)** (311 unique IDs across all 11 feature areas) against whether it is confirmed present on any product made by 3T Software Labs — Studio 3T (Desktop IDE), 3T Explore, 3T MCP, 3T Lens, 3T Access, and 3TL Bridge, collectively.
 
 ## Navigation
 
@@ -12,153 +12,187 @@ This report compiles every dictionary sub-feature that is **not confirmed presen
 
 ## Methodology
 
-- Source: the "Detailed iconized" sub-feature comparison table in [low-level-feature-comparison.md](comparisons/low-level-feature-comparison.md), which covers 307 comparison rows across all 11 feature areas.
-- **Confirmed absent** = the Studio 3T column shows ❌ ("not supported"). Per this repo's icon legend, this means the gap has been positively confirmed, not just undocumented.
-- **Unverified** = the Studio 3T column shows ❓ ("unknown/unverified"). This means no 3T product's own documentation confirms the capability either way — it is not a confirmed gap, just an open question.
-- Every row in the low-level report (307 total) was cross-checked directly against Studio 3T's, MongoDB Compass's, and VisuaLeaf's own `feature-matrix.md` files, not just the comparison report itself, as of 2026-07-29. Six data-entry errors were found and fixed (one for Studio 3T, five for VisuaLeaf) and one missing row was added (`SQL-query-manager`, previously absent from the comparison report entirely). Full list in the low-level report's ["2026-07-29 deep-file verification pass"](comparisons/low-level-feature-comparison.md#2026-07-29-deep-file-verification-pass) note. The one fix relevant to this file: `CONN-auth-enterprise` was wrongly marked ❌ for Studio 3T — corrected to 🏢 (enterprise-tier-only, confirmed in Studio 3T's own connectivity matrix) — so it is excluded from the confirmed-absent list below.
+- **Master checklist:** every sub-feature ID defined in feature-dictionary.md's Sub-feature registry (311 total, including the "Supplemental aliases" section).
+- **Status source:** the "Studio 3T" column of [low-level-feature-comparison.md](comparisons/low-level-feature-comparison.md)'s iconized sub-feature table, which represents the whole 3T product family as one merged column. That report was itself cross-checked directly against every product's own `feature-matrix.md` files as of 2026-07-29 (six corrections made — see its ["2026-07-29 deep-file verification pass"](comparisons/low-level-feature-comparison.md#2026-07-29-deep-file-verification-pass) note).
+- **Why not check product `feature-matrix.md` files directly, ID-by-ID?** Tried that first and rejected it: product matrices frequently consolidate several dictionary IDs into one descriptive row (e.g. Studio 3T's `QUERY-filter-bar` row covers `QUERY-projection`, `QUERY-sort`, and `QUERY-skip-limit` in its prose without giving them separate rows), and some capabilities are cross-referenced under a *different* ID depending on which feature area views them (e.g. `GOV-readonly-mode` and `CONN-readonly-lock` are the same capability). A literal "does this exact ID have its own row" check produced false positives for "not implemented" — e.g. it would have flagged basic projection/sort support as missing from Studio 3T, which is false. The comparison report's status column already reconciles this.
+- **Confirmed absent** = comparison report shows ❌ for every row matching that ID.
+- **Unverified** = comparison report shows ❓ (no positive status anywhere for that ID), or the ID doesn't appear in the comparison report at all and isn't a near-duplicate of an ID that does.
+- **Dictionary aliases** = IDs that don't appear in the comparison report but are near-duplicates of an ID that does, and that duplicate is confirmed implemented — these are dictionary redundancy from earlier research passes, not real gaps, and are excluded from every count.
 
 ## Confirmed absent — no 3T product supports this (13)
 
 All 13 are in **F-SCHEMA (Schema)**. No other feature area has a single confirmed 3T-wide gap.
 
-| Sub-feature ID | Name | Held by (for contrast) |
-| --- | --- | --- |
-| SCHEMA-geo-analysis | Geo field map-backed analysis | MongoDB Compass |
-| SCHEMA-validation-model | Validation rule model ($jsonSchema / query-operator rules) | MongoDB Compass, VisuaLeaf |
-| SCHEMA-validation-ui | Validation UI workflow (add/edit/generate/preview/apply) | MongoDB Compass, VisuaLeaf (paid tier) |
-| SCHEMA-validation-strictness | Validation action (warn/error) and level (strict/moderate) | MongoDB Compass |
-| SCHEMA-deploy-validator | Deploy validator to collection | MongoDB Compass, VisuaLeaf |
-| SCHEMA-json-editor | JSON schema tree editor | VisuaLeaf |
-| SCHEMA-bson-types | BSON type support in schema editor | VisuaLeaf |
-| SCHEMA-field-constraints | Field-level constraint options (minLength/pattern/etc.) | MongoDB Compass, VisuaLeaf |
-| SCHEMA-designer-canvas | Visual ERD canvas | VisuaLeaf (paid tier) |
-| SCHEMA-designer-auto | Auto-generate ERD from all collections | VisuaLeaf |
-| SCHEMA-designer-links | Relationship detection (graph-theory) | VisuaLeaf |
-| SCHEMA-designer-color | ERD node color coding | VisuaLeaf |
-| SCHEMA-designer-portability | ERD export/import and named layouts | VisuaLeaf |
-
-**Takeaway:** the entire 3T product family's one confirmed capability gap versus competitors is schema **validation authoring/deployment** and the **visual ERD / JSON-schema-editor** cluster — both owned exclusively by MongoDB Compass and/or VisuaLeaf in this comparison.
-
-## Unverified — not confirmed present or absent on any 3T product (83)
-
-These are open research questions, not confirmed gaps. No 3T product's own documentation states support, and none states non-support either.
-
-### F-AI — AI Features (13)
 | Sub-feature ID | Name |
 | --- | --- |
-| AI-explanation | Plain-English explanation always included |
-| AI-models | User-selectable model per config |
-| AI-sample-context | "Send sample data" privacy toggle / Sample context |
-| AI-conversation | Conversation turns for iterative refinement / Conversation context |
-| AI-multi-config | Multiple named AI configurations / Multiple configs |
-| AI-key-storage | API key storage security |
-| AI-schema-aware | Schema and field names injected as AI context / Schema-aware |
-| AI-plan-req | Plan requirement |
-| AI-privacy | Privacy mode |
+| SCHEMA-geo-analysis | Geo schema analysis |
+| SCHEMA-validation-model | Validation rule model |
+| SCHEMA-validation-strictness | Validation strictness |
+| SCHEMA-validation-ui | Validation UI workflows |
+| SCHEMA-json-editor | JSON schema editor |
+| SCHEMA-deploy-validator | Deploy validator |
+| SCHEMA-bson-types | BSON type coverage |
+| SCHEMA-field-constraints | Field constraints |
+| SCHEMA-designer-canvas | Visual canvas |
+| SCHEMA-designer-auto | Auto-generate diagram |
+| SCHEMA-designer-links | Relationship detection |
+| SCHEMA-designer-color | Color coding |
+| SCHEMA-designer-portability | Diagram portability |
 
-### F-GOV — Governance & Security (13)
-| Sub-feature ID | Name |
-| --- | --- |
-| GOV-network-policy | Network access policy |
-| GOV-telemetry | Telemetry opt-out/configuration / Telemetry controls |
-| GOV-startup-policy | Startup policy enforcement (EJSON/YAML) |
-| GOV-cli-policy | CLI policy enforcement |
-| GOV-isolated-edition | Isolated / air-gapped edition |
-| GOV-ai-controls | AI feature controls with human approval gate |
-| GOV-rbac-tree | RBAC visual role inheritance tree |
-| GOV-air-gapped | Air-gapped deployment support |
-| GOV-cred-storage-os | OS credential storage |
-| GOV-rbac-actions | Privilege actions |
-| GOV-rbac-inheritance | Role inheritance |
-| GOV-readonly-mode | Read-only mode (as a distinct dimension from GOV-readonly-mode's protect-mode row, which IS confirmed 🧪) |
+**Takeaway:** the entire 3T product family's one confirmed capability gap versus competitors is schema **validation authoring/deployment** and the **visual ERD / JSON-schema-editor** cluster — both owned exclusively by MongoDB Compass and/or VisuaLeaf in the comparison reports.
+
+## Unverified — not confirmed present or absent (78)
+
+Open research questions, not confirmed gaps. Grouped by feature area.
 
 ### F-CONN — Connectivity (9)
 | Sub-feature ID | Name |
 | --- | --- |
-| CONN-multi-active | Multiple concurrent connections |
-| CONN-uri-export | URI export from form fields |
-| CONN-search-nav | Connection search and keyboard navigation |
-| CONN-in-use-enc | In-use encryption (QE/CSFLE) |
-| CONN-role-docs | Required roles documentation |
-| CONN-test-steps | Step-by-step connection test |
-| CONN-compat-docdb | DocumentDB compatibility |
-| CONN-compat-cosmos | Cosmos DB compatibility |
-| CONN-compat-redis | Redis compatibility |
-
-### F-IDX — Indexing & Performance (10)
-| Sub-feature ID | Name |
-| --- | --- |
-| IDX-type-hashed | Hashed index |
-| IDX-advanced-opts | Advanced index options (commit quorum, clustered) |
-| IDX-quick-actions | Quick-action index templates |
-| IDX-atlas-search | Atlas Search index creation |
-| IDX-vector-search | Vector Search index creation |
-| IDX-profiler-export | Export profiler data |
-| IDX-profiler-live | Live running operations view |
-| IDX-stop-ops | Kill/stop running operations |
-| IDX-realtime-perf | Real-time performance monitoring |
-| IDX-perf-insights | Performance insights / advisory |
+| CONN-uri-export | URI export |
+| CONN-multi-active | Multiple active |
+| CONN-in-use-enc | In-use encryption |
+| CONN-role-docs | Role/privilege docs |
+| CONN-test-steps | Connection test |
+| CONN-search-nav | Search & keyboard nav |
+| CONN-compat-docdb | Amazon DocumentDB |
+| CONN-compat-cosmos | Azure Cosmos DB |
+| CONN-compat-redis | Redis |
 
 ### F-QUERY — Querying (9)
 | Sub-feature ID | Name |
 | --- | --- |
 | QUERY-collation | Collation |
-| QUERY-max-time | Max execution time |
-| QUERY-perf-timer | Performance timer with color thresholds |
-| QUERY-run-variants | Run variants (findOne, count) |
-| QUERY-cancel | Cancel in-flight query |
-| QUERY-undo-redo | Undo/redo edits |
+| QUERY-max-time | Max time |
+| QUERY-run-variants | Run variants |
+| QUERY-cancel | Cancel query |
+| QUERY-perf-timer | Execution timer |
+| QUERY-undo-redo | Undo/redo |
 | QUERY-view-gridfs | GridFS viewer |
 | QUERY-view-split | Split panel views |
 | QUERY-charts-dashboards | Charts & dashboards |
 
-### F-SCHED — Task Scheduler (10)
-| Sub-feature ID | Name |
-| --- | --- |
-| SCHED-timezone | Timezone-aware scheduling with DST |
-| SCHED-exec-config | Execution configuration options / Retry policy / Concurrent execution / Batch size |
-| SCHED-notifications | Email notification provider |
-| SCHED-actions | Task actions |
-| SCHED-history-retention | History retention |
-| SCHED-progress | Progress monitoring |
-| SCHED-types-time | Time-based schedules |
-
-### F-SHELL — Shell (8)
-| Sub-feature ID | Name |
-| --- | --- |
-| SHELL-background | Background script execution |
-| SHELL-reconnect | Auto-reconnect on connection drop |
-| SHELL-minimap | Code minimap in editor |
-| SHELL-sessions-vars | Persistent session variables across runs / Session variable scope |
-| SHELL-sessions-multi | Multiple sessions |
-
-### F-TRANSFER — Data Transfer (4)
-| Sub-feature ID | Name |
-| --- | --- |
-| TRANSFER-export-sql-stmts | Export as SQL INSERT statements |
-| TRANSFER-transform-filter | Document filter condition before import |
-| TRANSFER-transform-js | User-defined JS transform per document |
-| TRANSFER-transform-pipeline | Server-side $pipeline pre-export transform |
-
 ### F-AGG — Aggregation (4)
 | Sub-feature ID | Name |
 | --- | --- |
-| AGG-stage-count | Number of supported pipeline stages |
-| AGG-chart-builder | Open pipeline output in Chart Builder |
-| AGG-timer-cancel | Execution timer + cancel button |
-| AGG-pagination | Pipeline output pagination |
+| AGG-pagination | Result pagination |
+| AGG-timer-cancel | Timer & cancel |
+| AGG-chart-builder | Chart builder |
+| AGG-stage-count | Stage catalog |
 
 ### F-SCHEMA — Schema (2, distinct from the confirmed-absent list above)
 | Sub-feature ID | Name |
 | --- | --- |
-| SCHEMA-designer-layouts | Named layouts |
 | SCHEMA-validation-limits | Validation limits |
+| SCHEMA-designer-layouts | Named layouts |
+
+### F-IDX — Indexing & Performance (10)
+| Sub-feature ID | Name |
+| --- | --- |
+| IDX-type-hashed | Hashed index |
+| IDX-atlas-search | Atlas Search index |
+| IDX-vector-search | Vector Search index |
+| IDX-advanced-opts | Advanced index opts |
+| IDX-quick-actions | Quick-action presets |
+| IDX-profiler-export | Profiler export |
+| IDX-profiler-live | Live monitoring |
+| IDX-perf-insights | Performance insights |
+| IDX-realtime-perf | Real-time performance |
+| IDX-stop-ops | Stop operations |
+
+### F-TRANSFER — Data Transfer (4)
+| Sub-feature ID | Name |
+| --- | --- |
+| TRANSFER-export-sql-stmts | Export SQL INSERT |
+| TRANSFER-transform-filter | Import filter |
+| TRANSFER-transform-js | Custom JS transform |
+| TRANSFER-transform-pipeline | Pipeline pre-export |
+
+### F-SHELL — Shell (7)
+| Sub-feature ID | Name |
+| --- | --- |
+| SHELL-minimap | Minimap |
+| SHELL-sessions-vars | Session variable scope |
+| SHELL-reconnect | Auto-reconnect |
+| SHELL-background | Background execution |
+| SHELL-background-exec | Background execution (dictionary alias of `SHELL-background`, itself unverified) |
+| SHELL-auto-reconnect | Auto reconnect (dictionary alias of `SHELL-reconnect`, itself unverified) |
+| SHELL-persistent-vars | Persistent variables (dictionary alias of `SHELL-sessions-vars`, itself unverified) |
+
+### F-AI — AI Features (12)
+| Sub-feature ID | Name |
+| --- | --- |
+| AI-explanation | Query explanation |
+| AI-schema-aware | Schema-aware |
+| AI-sample-context | Sample context |
+| AI-conversation | Conversation context |
+| AI-privacy | Privacy mode |
+| AI-key-storage | API key storage |
+| AI-multi-config | Multiple configs |
+| AI-sample-data-toggle | Sample data toggle (dictionary alias of `AI-sample-context`, itself unverified) |
+| AI-context-turns | Conversation turns (dictionary alias of `AI-conversation`, itself unverified) |
+| AI-named-configs | Named AI configs (dictionary alias of `AI-multi-config`, itself unverified) |
+| AI-schema-context | Schema context (dictionary alias of `AI-schema-aware`, itself unverified) |
+| AI-model-chooser | Model chooser (dictionary alias of `AI-models` — that ID's "specific models available" aspect is ✅ confirmed, but its "user-selectable model per config" aspect, which is what this ID means, is ❓ unverified) |
 
 ### F-SQL — SQL Tools (1)
 | Sub-feature ID | Name |
 | --- | --- |
-| SQL-query-manager | SQL query manager (save/organize/rerun SQL queries with target collection binding) — Studio 3T's general Query Manager includes an "SQL Query" type, but equivalence to this dictionary ID is unconfirmed |
+| SQL-query-manager | SQL query manager (Studio 3T's general Query Manager includes an "SQL Query" query type, but whether that satisfies this dictionary ID's intent — save/organize/rerun with target collection binding — is unconfirmed) |
 
-## Feature areas with zero gaps
+### F-GOV — Governance & Security (12)
+| Sub-feature ID | Name |
+| --- | --- |
+| GOV-network-policy | Network policy |
+| GOV-telemetry | Telemetry controls |
+| GOV-startup-policy | Startup policy |
+| GOV-cli-policy | CLI policy |
+| GOV-ai-controls | AI data controls |
+| GOV-cred-storage-os | OS credential storage |
+| GOV-isolated-edition | Isolated edition |
+| GOV-air-gapped | Air-gapped support |
+| GOV-rbac-inheritance | Role inheritance |
+| GOV-rbac-tree | Privilege tree view |
+| GOV-rbac-actions | Privilege actions |
+| GOV-telemetry-config | Telemetry configuration (dictionary alias of `GOV-telemetry`, itself unverified) |
 
-Every one of the 11 feature areas has at least one confirmed-absent or unverified row for the 3T portfolio — F-SQL is the smallest, with a single unverified row (`SQL-query-manager`).
+### F-SCHED — Task Scheduler (8)
+| Sub-feature ID | Name |
+| --- | --- |
+| SCHED-timezone | Timezone support |
+| SCHED-exec-config | Execution config |
+| SCHED-progress | Progress monitoring |
+| SCHED-retry | Retry policy (dictionary alias of `SCHED-exec-config`, itself unverified) |
+| SCHED-concurrent | Concurrent execution (dictionary alias of `SCHED-exec-config`, itself unverified) |
+| SCHED-batch | Batch size (dictionary alias of `SCHED-exec-config`, itself unverified) |
+| SCHED-email | Email provider config (dictionary alias of `SCHED-notifications` — that ID's "task completion notifications" aspect is ✅ confirmed, but its "email notification provider" aspect, which is what this ID means, is ❓ unverified) |
+| SCHED-plan-limits | Scheduler plan limits (no matching row found anywhere in the comparison report — not an alias of anything else; a genuine open question) |
+
+## Dictionary aliases excluded from the counts above (17)
+
+These 17 dictionary IDs are near-duplicates of an already-implemented ID (same underlying capability, documented under a different name from an earlier research pass — six of them are explicitly labeled "Supplemental aliases" in the dictionary itself). They are **not** additional gaps.
+
+A verification pass on the first draft of this table caught 3 IDs that had been placed here incorrectly — `AI-model-chooser`, `SCHED-email`, and `SCHED-plan-limits` — because their target ID's *specific* matching row was actually ❓ or (for `SCHED-plan-limits`) didn't exist at all; those three now live in the Unverified section above.
+
+| Sub-feature ID | Name | Duplicate of (confirmed implemented) |
+| --- | --- | --- |
+| CONN-color-coding | Color coding | `CONN-org-folders` |
+| AGG-result-formats | Export format range | `AGG-export-results` |
+| AI-local-mcp | Local MCP server | `AI-007` |
+| AI-mcp-client | MCP client support | `AI-009` |
+| AI-mcp-tools | MCP tools count | `AI-008` |
+| AI-stt-cli | stt-cli + PII scanner | `AI-010` |
+| AI-plan-gate | AI plan gate | `AI-plan-req` |
+| GOV-platform-bridge | Platform bridge integration | `GOV-platform-cdc` |
+| GOV-platform-k8s | Platform Kubernetes deployment | `GOV-013` |
+| GOV-platform-oidc | Platform OIDC providers | `GOV-012` |
+| GOV-protect-mode | Protect mode | `GOV-readonly-mode` |
+| SCHED-preset-types | Preset schedule types | `SCHED-types-time` |
+| SCHED-task-actions | Task management actions | `SCHED-actions` |
+| SCHED-task-save | Task save from tools | `TRANSFER-task-save` |
+| SCHED-history | Execution history | `SCHED-history-retention` |
+| SHELL-open-from | Open in shell from tools | `SHELL-integrations` |
+| SHELL-sessions | Shell sessions | `SHELL-sessions-multi` |
+
+## Coverage accounting
+
+311 dictionary IDs = 203 implemented (excluded from this report) + 13 confirmed absent + 78 unverified + 17 dictionary-alias redundancies.

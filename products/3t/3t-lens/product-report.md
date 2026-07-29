@@ -26,7 +26,7 @@ Compliance features are built around configurable policy templates (ACID, Schema
 
 Notably, 3T Lens extends its access control to AI agents: the 59 MCP tools available to AI agents are governed by the same 3T Access role policies as human users — an AI agent cannot exceed the permissions of the access policy it operates under.
 
-3T Lens is a separate deployable product — not a feature of the Studio 3T Desktop IDE. It requires infrastructure provisioning and is likely separately priced (unknown/unverified pricing). Integration between 3T Lens centralized connections and the Desktop IDE connection manager is not explicitly documented.
+3T Lens is a separate deployable product — not a feature of the Studio 3T Desktop IDE. It requires infrastructure provisioning; pricing is unknown/unverified. Integration between 3T Lens centralized connections and the Desktop IDE connection manager is not explicitly documented.
 
 ## Feature inventory
 

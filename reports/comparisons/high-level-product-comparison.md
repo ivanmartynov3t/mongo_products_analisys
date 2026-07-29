@@ -500,7 +500,7 @@ Detailed additions are captured in the low-level report under **Reconciliation t
 | Run all / selection | ✓ F5 (all) / F9 or Ctrl+Enter (selection) | ✓ |
 | Run to cursor line | ✓ F6 | ✓ Ctrl+Shift+F5 |
 | Shell modes | Shell mode (all → Raw tab) vs Query Assist mode (per-query editable result tabs; Visual Explain; destructive op warnings) | Not documented as named modes |
-| Per-query result tabs (pinnable) | ✓ pin tab persists across re-runs | 🧪 separate per-query result tab confirmed; pin/keep-across-re-run behavior unconfirmed |
+| Per-query result tabs (pinnable) | ✓ pin tab persists across re-runs | Separate per-query result tab confirmed; pin/keep-across-re-run behavior unconfirmed |
 | Result views | Tree View, Table View, JSON/BSON View, Query Code tab (9 languages), Visual Explain tab | Tree View, Table View, BSON View |
 | Multiple concurrent sessions | Single session per tab | ✓ |
 | Background execution | — | ✓ |

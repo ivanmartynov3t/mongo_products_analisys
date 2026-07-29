@@ -22,7 +22,7 @@
 
 3TL Bridge is a real-time Change Data Capture (CDC) pipeline engine. Its supported topology covers MongoDB, Kafka, Google Pub/Sub, and HTTP as both sources and destinations. The Transform Studio feature allows writing and testing in-flight transformation logic against real data before deployment, with test assertions to catch errors pre-production. Checkpoint recovery enables exact-position resume after restart or failover — a critical reliability feature for production data pipelines. Edit-in-place (modify and redeploy a running pipeline without stopping data flow) reduces pipeline downtime.
 
-PII masking at the pipeline layer (before data reaches the destination) combined with GDPR, HIPAA, and CCPA built-in templates positions 3TL Bridge as a compliance-aware data movement tool. Structured audit logging exportable to SIEM completes the compliance triad. Deployment is via Kubernetes (single Helm chart covering ingress, secrets, monitoring, HA, and multi-customer namespaces) or Docker Compose, with Prometheus-compatible metrics and Grafana/Datadog integration.
+PII masking at the pipeline layer (before data reaches the destination) combined with GDPR, HIPAA, and CCPA built-in templates positions 3TL Bridge as a compliance-aware data movement tool. Structured audit logging exportable to SIEM completes the compliance triad. Security and identity are handled via encrypted credentials and multi-provider OIDC (Google Workspace, Azure AD, standards-compliant providers), configurable at runtime without container rebuilds. Deployment is via Kubernetes (single Helm chart covering ingress, secrets, monitoring, HA, and multi-customer namespaces) or Docker Compose, with Prometheus-compatible metrics and Grafana/Datadog integration.
 
 3TL Bridge is a separate deployable product — not a feature of the Studio 3T Desktop IDE. It requires MongoDB Change Streams (replica set or sharded cluster) for CDC sourcing; standalone MongoDB deployments are not supported.
 
@@ -40,6 +40,7 @@ Feature IDs and folder names from [feature-dictionary.md](../../../feature-dicti
 
 - Checkpoint recovery enables exact-position resume after restart/failover — not just best-effort replay.
 - Pipeline-layer PII masking (before data reaches destination) is enforced regardless of destination tool or access method — a stronger guarantee than application-layer masking.
+- Multi-provider OIDC (Google Workspace, Azure AD, standards-compliant providers) reconfigurable at runtime without container rebuilds.
 - Kubernetes Helm chart deployment with Prometheus/Grafana/Datadog integration and a Docker Compose alternative covers both small-team and large-enterprise deployment patterns.
 
 ### Strategic risks / gaps

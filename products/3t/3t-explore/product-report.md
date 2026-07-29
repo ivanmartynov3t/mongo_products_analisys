@@ -44,7 +44,7 @@ Feature IDs and folder names from [feature-dictionary.md](../../../feature-dicti
 ### Strategic risks / gaps
 
 - Edition/plan requirements are unknown/unverified, including whether it requires a separate license from the Desktop IDE.
-- As a separate deployment, integration maturity with the Desktop IDE connection manager is not fully verified.
+- As a separate deployment, integration maturity with the Desktop IDE connection manager is unknown/unverified.
 
 ### Open questions
 

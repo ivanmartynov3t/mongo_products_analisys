@@ -26,7 +26,7 @@ The 3T MCP standalone binary (stt-cli) is distributed via GitHub releases. Unlik
 
 - Requires a 3T account (OAuth login); credentials stored locally.
 - stdio-only transport; HTTP-only clients need a bridge adapter.
-- PII scanner uses name/pattern heuristics — results require human review and are not an authoritative compliance determination.
+- PII scanner uses an unspecified heuristic approach (matching mechanism not published by the vendor) — results require human review and are not an authoritative compliance determination.
 
 ## Interactions and dependencies
 

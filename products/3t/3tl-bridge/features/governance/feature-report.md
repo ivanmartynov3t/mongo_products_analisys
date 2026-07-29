@@ -17,12 +17,15 @@ This report covers 3TL Bridge, the CDC (Change Data Capture) pipeline engine —
 
 PII masking at the pipeline layer (before data reaches the destination) combined with GDPR, HIPAA, and CCPA built-in templates positions 3TL Bridge as a compliance-aware data movement tool. Structured audit logging exportable to SIEM completes the compliance triad.
 
+Security and identity are handled separately from the data-plane concerns above: credentials are encrypted, and authentication supports multi-provider OIDC (Google Workspace, Azure AD, or any standards-compliant OIDC provider), configurable via runtime environment variables without requiring container rebuilds.
+
 ## Sub-feature notes
 
 | Sub-feature ID | Finding | Impact | Evidence |
 | --- | --- | --- | --- |
 | GOV-platform-cdc | Checkpoint recovery in 3TL Bridge enables exact-position resume after restart/failover — not just best-effort replay. | Critical for production data pipelines where data loss or duplication on restart is unacceptable. | studio3t.com/3tl-bridge/ |
 | GOV-011 | Pipeline-layer PII masking (before data reaches destination) means the masking policy is enforced regardless of destination tool or access method. | Stronger masking guarantee than application-layer masking, which can be bypassed by direct DB access. | studio3t.com/3tl-bridge/ |
+| GOV-012 | Multi-provider OIDC configurable via runtime environment variables means identity provider changes don't require redeploying the container image. | Lower operational friction for enterprises switching or adding OIDC providers post-deployment. | studio3t.com/3tl-bridge/ |
 | GOV-013 | Kubernetes Helm chart deployment with Prometheus/Grafana/Datadog integration and Docker Compose alternative covers both small-team and large-enterprise deployment patterns. | Reduces operational overhead for teams that already use standard Kubernetes observability stacks. | studio3t.com/3tl-bridge/ |
 
 ## Constraints and risks
@@ -43,6 +46,7 @@ PII masking at the pipeline layer (before data reaches the destination) combined
 
 - Production-grade CDC reliability via checkpoint recovery and edit-in-place pipeline updates.
 - Pipeline-layer PII masking with built-in compliance templates (GDPR/HIPAA/CCPA).
+- Multi-provider OIDC (Google Workspace, Azure AD, standards-compliant providers) reconfigurable at runtime without container rebuilds.
 - Flexible deployment (Kubernetes Helm or Docker Compose) with standard observability integrations.
 
 ### Limitations

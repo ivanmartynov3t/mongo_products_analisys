@@ -29,7 +29,7 @@ This report covers 3T Access, the identity and governance plane in the "Governed
 
 ## Interactions and dependencies
 
-- Shared identity plane for [3T Lens](../../../3t-lens/product-report.md), [3T Explore](../../../3t-explore/product-report.md), [3TL Bridge](../../../3tl-bridge/product-report.md), and the Studio 3T Desktop IDE.
+- Shared identity plane for [3T Lens](../../../3t-lens/product-report.md), [3T Explore](../../../3t-explore/product-report.md), [3TL Bridge](../../../3tl-bridge/product-report.md), and the Studio 3T Desktop IDE — this list is quoted from studio3t.com/3t-lens/ and does not name [3T MCP](../../../3t-mcp/product-report.md); whether 3T MCP is in scope for 3T Access is unverified.
 
 ## Conclusions
 

@@ -44,7 +44,7 @@ Feature IDs and folder names from [feature-dictionary.md](../../../feature-dicti
 ### Strategic risks / gaps
 
 - Requires a 3T account (OAuth login) — an extra credential/dependency versus the Desktop IDE's Local MCP Server, which needs no auth for local loopback access.
-- PII scanner identifies candidate fields by name/pattern heuristics only; results require human review and are not an authoritative compliance determination.
+- PII scanner identifies candidate fields using an unspecified heuristic approach (the vendor does not publish the exact matching mechanism); results require human review and are not an authoritative compliance determination.
 - stdio-only transport means HTTP-only MCP clients need a bridge adapter.
 
 ### Open questions

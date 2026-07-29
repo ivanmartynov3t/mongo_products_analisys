@@ -27,7 +27,7 @@ This report covers 3T Lens, the browser-based governed data workspace in the "Go
 
 ## Constraints and risks
 
-- 3T Lens is a separate deployable product — not a feature of the Desktop IDE. It requires infrastructure provisioning and is likely separately priced (unknown/unverified pricing).
+- 3T Lens is a separate deployable product — not a feature of the Desktop IDE. It requires infrastructure provisioning; pricing is unknown/unverified.
 - Integration between 3T Lens centralized connections and the Desktop IDE connection manager is not explicitly documented — it is unverified whether Desktop IDE users can consume 3T Lens-managed connections seamlessly.
 - Automated PII classification uses heuristics; results require human review and cannot be treated as an authoritative compliance determination.
 - 10 categories and full tool list for the 59 MCP tools are unknown/unverified beyond the total count.
