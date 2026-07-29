@@ -61,20 +61,35 @@ We maintain the same structure for two product groups:
 │   └── prompts/
 ├── products/
 │   ├── 3t/
-│   │   └── studio-3t/
+│   │   ├── studio-3t/
+│   │   │   ├── product-report.md
+│   │   │   └── features/
+│   │   │       ├── connectivity/
+│   │   │       ├── querying/
+│   │   │       ├── aggregation/
+│   │   │       ├── schema/
+│   │   │       ├── indexing-performance/
+│   │   │       ├── data-transfer/
+│   │   │       ├── shell/
+│   │   │       ├── ai/
+│   │   │       ├── sql-tools/
+│   │   │       ├── governance/
+│   │   │       └── task-scheduler/
+│   │   ├── 3t-explore/          ← browser IDE (Build track)
+│   │   │   ├── product-report.md
+│   │   │   └── features/{ai,governance}/
+│   │   ├── 3t-mcp/              ← standalone MCP binary (Build track)
+│   │   │   ├── product-report.md
+│   │   │   └── features/ai/
+│   │   ├── 3tl-bridge/          ← CDC pipeline engine (Pipeline track)
+│   │   │   ├── product-report.md
+│   │   │   └── features/governance/
+│   │   ├── 3t-lens/             ← governed workspace (Governed Access track)
+│   │   │   ├── product-report.md
+│   │   │   └── features/governance/
+│   │   └── 3t-access/           ← identity plane (Governed Access track)
 │   │       ├── product-report.md
-│   │       └── features/
-│   │           ├── connectivity/
-│   │           ├── querying/
-│   │           ├── aggregation/
-│   │           ├── schema/
-│   │           ├── indexing-performance/
-│   │           ├── data-transfer/
-│   │           ├── shell/
-│   │           ├── ai/
-│   │           ├── sql-tools/
-│   │           ├── governance/
-│   │           └── task-scheduler/
+│   │       └── features/governance/
 │   └── third-party/
 │       ├── mongodb-compass/
 │       │   └── features/

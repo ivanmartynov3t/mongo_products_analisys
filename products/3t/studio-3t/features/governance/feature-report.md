@@ -9,44 +9,27 @@
 
 ## Scope
 
-This report covers Studio 3T's governance platform tier: 3T Lens (governed data workspace), 3T Access (identity and governance plane), 3TL Bridge (CDC pipeline engine with PII masking and compliance features), and the governance-relevant aspects of 3T Explore (browser IDE workspace switching and access control). These are separate deployable products that extend the Studio 3T platform into enterprise governance and data pipeline use cases. Per studio3t.com, 3T Explore, the Desktop IDE, and 3T MCP make up the "Build" track; 3TL Bridge is the "Pipeline" track; 3T Lens and 3T Access are the "Governed Access" track.
+As of 2026-07-29, this report no longer covers the governance-tier products directly — they have each been split into their own product folder under `products/3t/` with an independent product report and feature report:
+
+- [3T Lens](../../../3t-lens/features/governance/feature-report.md) — governed data workspace (centralized connection management, compliance policy templates, PII classification, versioned field history, MCP integration)
+- [3T Access](../../../3t-access/features/governance/feature-report.md) — identity and governance plane (RBAC, audit trail, pre-login access scoping)
+- [3TL Bridge](../../../3tl-bridge/features/governance/feature-report.md) — CDC pipeline engine (Transform Studio, PII masking, security/identity, deployment/scaling)
+- [3T Explore](../../../3t-explore/features/governance/feature-report.md) — the governance-relevant aspects (Workspace Switcher, Access Control) of the browser IDE product
+
+Previously, this report treated all four as a single "governance platform tier" of Studio 3T. Per studio3t.com, 3T Explore, the Desktop IDE, and 3T MCP make up the "Build" track; 3TL Bridge is the "Pipeline" track; 3T Lens and 3T Access are the "Governed Access" track — three separate tracks, five separate products (excluding the Desktop IDE itself), now documented independently.
+
+This report's remaining scope is the Studio 3T Desktop IDE's own native governance capabilities. That capability matrix has not yet been authored (see the [feature matrix](feature-matrix.md)'s Scope note) — it is a pre-existing gap, not something introduced by the 2026-07-29 split. Comparison reports already reference `GOV-readonly-mode`, `GOV-rbac-users`, `GOV-rbac-roles`, `GOV-audit-log`, `GOV-collection-compare`, `GOV-collection-sync`, `GOV-data-masking`, and `GOV-cred-protection` against this product; those references are unaffected by this split.
 
 ## Behavioral walkthrough
 
-The Studio 3T governance tier spans three separate products that operate above the Desktop IDE layer. Understanding each is important because they are not features of the Desktop IDE — they are distinct deployments that integrate with the IDE and with each other via 3T Access as the shared identity plane.
-
-**3T Lens** is a browser-based governed data workspace. Its primary function is centralizing MongoDB connection management: connections are defined once and shared to all users without distributing passwords. Access scoping happens before login — a user who does not have View permission for a production database cannot see that connection at all. Compliance features are built around configurable policy templates (ACID, Schema, Index, Security, Naming, Operational) with one-click environment-level health checks. Alert channels (Slack, email, webhook) make compliance failures visible in the team's existing notification infrastructure.
-
-3T Lens also provides PII classification (automated scanning with sensitivity grouping and timestamped scan records), versioned field history (schema drift detection before production), and document-level diffs (exact field-by-field comparison between snapshots). Query performance suggestions surface index recommendations within the governance context. Notably, 3T Lens extends its access control to AI agents: the 59 MCP tools available to AI agents are governed by the same 3T Access role policies as human users — an AI agent cannot exceed the permissions of the access policy it operates under.
-
-**3T Access** is the identity and governance plane, deployed on customer infrastructure. It provides centralized user/role/permission management across all 3T products and maintains a full audit trail of every connection (who connected, to what, when) for both human and AI agent access. Pre-login access scoping ensures that access policy is applied before any connection attempt, not after.
-
-**3TL Bridge** is a CDC (Change Data Capture) pipeline engine. Its supported topology covers MongoDB, Kafka, Google Pub/Sub, and HTTP as both sources and destinations. The Transform Studio feature allows writing and testing in-flight transformation logic against real data before deployment, with test assertions to catch errors pre-production. Checkpoint recovery enables exact-position resume after restart or failover — a critical reliability feature for production data pipelines. Edit-in-place (modify and redeploy a running pipeline without stopping data flow) reduces pipeline downtime.
-
-PII masking at the pipeline layer (before data reaches the destination) combined with GDPR, HIPAA, and CCPA built-in templates positions 3TL Bridge as a compliance-aware data movement tool. Structured audit logging exportable to SIEM completes the compliance triad.
-
-## Capability findings
-
-| Capability ID | Finding | Impact |
-| --- | --- | --- |
-| GOV-001 | Centralized connection management with no shared passwords and pre-login access scoping eliminates the most common credential hygiene failure mode in team MongoDB environments. | Directly reduces production incident risk from credential sharing. |
-| GOV-005 | Versioned field history and document-level diffs provide schema change detection before production — proactive rather than reactive schema governance. | Enables schema contract enforcement across teams working on the same MongoDB deployment. |
-| GOV-007 | AI agent MCP tools governed by the same 3T Access policies as human users is a forward-looking design — agent permissions are not orthogonal to human permissions. | Prevents the emerging pattern of AI agents bypassing human-level access controls. |
-| GOV-009 | Checkpoint recovery in 3TL Bridge enables exact-position resume after restart/failover — not just best-effort replay. | Critical for production data pipelines where data loss or duplication on restart is unacceptable. |
-| GOV-011 | Pipeline-layer PII masking (before data reaches destination) means the masking policy is enforced regardless of destination tool or access method. | Stronger masking guarantee than application-layer masking, which can be bypassed by direct DB access. |
-| GOV-013 | Kubernetes Helm chart deployment with Prometheus/Grafana/Datadog integration and Docker Compose alternative covers both small-team and large-enterprise deployment patterns. | Reduces operational overhead for teams that already use standard Kubernetes observability stacks. |
-| GOV-platform-explore | 3T Explore's Workspace Switcher and 3T Access Manager integration extend pre-login, role-based access scoping to a browser-based surface aimed at non-developer users. | Lets teams hand out governed MongoDB access broadly (per studio3t.com: "the governance that makes it safe to hand out") without provisioning Desktop IDE licenses per user. |
+See the linked per-product reports above for full behavioral detail on 3T Lens, 3T Access, 3TL Bridge, and 3T Explore's governance surface. In summary: 3T Access is the shared identity/permission plane; 3T Lens is the browser-based governed workspace built on top of it (connection governance, compliance, PII classification); 3TL Bridge is the CDC pipeline engine with pipeline-layer PII masking; and 3T Explore extends the same access-scoping model to a browser IDE surface via its Workspace Switcher and 3T Access Manager integration.
 
 ## Constraints and risks
 
 - 3T Lens, 3T Access, and 3TL Bridge are separate deployable products — not features of the Desktop IDE. They require infrastructure provisioning and are likely separately priced (**unknown/unverified** pricing).
 - Integration between 3T Lens centralized connections and the Desktop IDE connection manager is not explicitly documented — it is unverified whether Desktop IDE users can consume 3T Lens-managed connections seamlessly.
-- 3TL Bridge requires MongoDB Change Streams (replica set or sharded cluster) for CDC sourcing — standalone MongoDB deployments are not supported for CDC.
-- Automated PII classification in 3T Lens uses heuristics; results require human review and cannot be treated as an authoritative compliance determination.
-- 10 categories and full tool list for the 59 MCP tools in 3T Lens are **unknown/unverified** beyond the total count.
-- Transform Studio scripting language is **unknown/unverified**.
-- 3T Explore's edition/plan requirements are **unknown/unverified** — studio3t.com describes the product's capabilities but not its pricing or licensing model relative to the Desktop IDE.
+- The Desktop IDE's own governance capabilities (RBAC, audit log, data masking, collection compare/sync, protect mode) do not yet have a dedicated feature report in this product folder.
 
 ## Conclusion
 
-The Studio 3T governance platform is architecturally ambitious: a three-product tier (3T Lens + 3T Access + 3TL Bridge) covering connection governance, identity management, audit trails, schema versioning, PII classification, CDC pipelines, and compliance-aware data movement. The design principle of applying the same access policies to AI agents and human users is noteworthy and positions the platform for enterprise AI governance use cases. The main caveat is that these are separate deployments, not IDE features — their adoption implies infrastructure investment beyond the Desktop IDE.
+The Studio 3T governance platform is architecturally ambitious: a three-product tier (3T Lens + 3T Access + 3TL Bridge) covering connection governance, identity management, audit trails, schema versioning, PII classification, CDC pipelines, and compliance-aware data movement, plus 3T Explore extending the same access model to a browser IDE. The design principle of applying the same access policies to AI agents and human users is noteworthy and positions the platform for enterprise AI governance use cases. As of 2026-07-29 each of these products is documented in its own folder — see the links in Scope above for full detail. The main caveat remains that these are separate deployments, not Desktop IDE features — their adoption implies infrastructure investment beyond the Desktop IDE.

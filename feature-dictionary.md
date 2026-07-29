@@ -410,21 +410,23 @@ Sub-feature IDs follow the pattern `<FEATURE>-<suffix>` where `<suffix>` is a sh
 
 This table shows which features are applicable per product. Features not in a product's folder do not apply to that product.
 
-| Feature | Studio 3T | MongoDB Compass | VisuaLeaf |
-|---|---|---|---|
-| F-CONN | ✓ | ✓ | ✓ |
-| F-QUERY | ✓ | ✓ | ✓ |
-| F-AGG | ✓ | ✓ | ✓ |
-| F-SCHEMA | ✓ | ✓ | ✓ |
-| F-IDX | ✓ | ✓ | ✓ |
-| F-TRANSFER | ✓ | — | ✓ |
-| F-SHELL | ✓ | — | ✓ |
-| F-AI | ✓ | ✓ (partial — see notes) | ✓ |
-| F-SQL | ✓ | — | ✓ (partial — see notes) |
-| F-GOV | ✓ | ✓ | ✓ |
-| F-SCHED | ✓ | — | ✓ |
+| Feature | Studio 3T | MongoDB Compass | VisuaLeaf | 3T Explore | 3T MCP | 3T Lens | 3T Access | 3TL Bridge |
+|---|---|---|---|---|---|---|---|---|
+| F-CONN | ✓ | ✓ | ✓ | — | — | — | — | — |
+| F-QUERY | ✓ | ✓ | ✓ | — | — | — | — | — |
+| F-AGG | ✓ | ✓ | ✓ | — | — | — | — | — |
+| F-SCHEMA | ✓ | ✓ | ✓ | — | — | — | — | — |
+| F-IDX | ✓ | ✓ | ✓ | — | — | — | — | — |
+| F-TRANSFER | ✓ | — | ✓ | — | — | — | — | — |
+| F-SHELL | ✓ | — | ✓ | — | — | — | — | — |
+| F-AI | ✓ | ✓ (partial — see notes) | ✓ | ✓ (partial — see notes) | ✓ (partial — see notes) | — | — | — |
+| F-SQL | ✓ | — | ✓ (partial — see notes) | — | — | — | — | — |
+| F-GOV | ✓ (partial — see notes) | ✓ | ✓ | ✓ (partial — see notes) | — | ✓ | ✓ | ✓ |
+| F-SCHED | ✓ | — | ✓ | — | — | — | — | — |
 
 Notes: MongoDB Compass F-AI is limited to AI-nl-query (natural language querying, confirmed on the official product page); other F-AI sub-features are unconfirmed for Compass. VisuaLeaf F-SQL ("SQL Mode") is limited to SQL-expressions and SQL-code-gen against MongoDB collections only — it is not a SQL migration/export toolchain like Studio 3T's F-SQL.
+
+3T Explore, 3T MCP, 3T Lens, 3T Access, and 3TL Bridge (2026-07-29) are separate products under `products/3t/`, split out of what this dictionary previously tracked as Studio 3T sub-sections. 3T Explore's F-AI coverage is limited to AI-012 (its AI Helper); its F-GOV coverage is limited to GOV-platform-explore (Workspace Switcher + Access Control) — both partial relative to the full F-AI/F-GOV sub-feature sets. 3T MCP's F-AI coverage is limited to AI-010/AI-011 (the standalone binary and its capabilities). Studio 3T's own F-GOV coverage is partial: its matrix documents the Desktop IDE-native sub-features referenced by the comparison reports (`GOV-readonly-mode`, `GOV-rbac-users`, `GOV-rbac-roles`, `GOV-audit-log`, `GOV-collection-compare`, `GOV-collection-sync`, `GOV-data-masking`, `GOV-cred-protection`) only by reference from the comparison reports — a dedicated capability matrix for them has not yet been authored (pre-existing gap, unrelated to the 2026-07-29 split). 3T Lens, 3T Access, and 3TL Bridge each have full coverage of their respective platform-tier F-GOV sub-features (see their own feature matrices).
 
 ---
 
@@ -442,6 +444,7 @@ Notes: MongoDB Compass F-AI is limited to AI-nl-query (natural language querying
 
 | Date | Change | Author |
 |---|---|---|
+| 2026-07-29 | Split 3T Explore, 3T MCP, 3TL Bridge, 3T Lens, and 3T Access out of the Studio 3T product folder into their own product folders under `products/3t/` (previously documented as sub-sections of Studio 3T's AI Features and Governance & Security matrices). No dictionary IDs changed; added 5 columns to the Product × feature coverage matrix. | Claude |
 | 2026-07-28 | Added CONN-compat-ferretdb, GOV-platform-explore, QUERY-view-gridfs, QUERY-view-split, QUERY-charts-dashboards based on review of studio3t.com, mongodb.com/products/tools/compass, and visualeaf.com (plus verification fetches of studio3t.com/3t-explore/, visualeaf.com/features/sql-mode/, /mongosync/, /gridfs-viewer/, /split-panel-views/). Corrected AI-012 name from "3T Build" to "3T Explore" (Build is a product track, not a product name). Enabled F-AI (partial) for MongoDB Compass and F-SQL (partial) for VisuaLeaf in the coverage matrix. | Claude |
 | 2026-06-24 | Added missing sub-feature IDs currently used in `products/` and comparison reports; synchronized dictionary coverage with active matrices | Copilot |
 | 2026-06-22 | Initial unified dictionary created; all 11 features and all sub-feature IDs defined | Copilot |

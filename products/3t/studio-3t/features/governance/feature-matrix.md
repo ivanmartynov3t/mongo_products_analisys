@@ -7,27 +7,31 @@
 - [Feature dictionary](../../../../../feature-dictionary.md)
 - [Low-level comparison](../../../../../reports/comparisons/low-level-feature-comparison.md)
 
-## Source index
+## Scope note
 
-- S1: https://studio3t.com/3t-lens/
-- S2: https://studio3t.com/3tl-bridge/
-- S3: https://studio3t.com/3t-explore/
+This file previously documented the Studio 3T platform's governance-tier products (3T Lens, 3T Access, 3TL Bridge) and 3T Explore's governance-relevant aspects as sub-sections of Studio 3T. As of 2026-07-29, each of those products has been split into its own product folder under `products/3t/` with its own `product-report.md` and `features/governance/{feature-matrix.md,feature-report.md}`. See the pointer table below.
 
-## Capability matrix
+The Desktop IDE's own native governance capabilities (RBAC user/role management, audit logging, data masking, collection compare/sync, read-only/protect mode) are tracked by dictionary IDs (`GOV-readonly-mode`, `GOV-rbac-users`, `GOV-rbac-roles`, `GOV-audit-log`, `GOV-collection-compare`, `GOV-collection-sync`, `GOV-data-masking`, `GOV-cred-protection`) that the [comparison reports](../../../../../reports/comparisons/low-level-feature-comparison.md) already reference against this file, but a dedicated capability matrix for them has not yet been authored here — this is an existing gap, not something introduced by the 2026-07-29 split.
 
-| Capability ID | Capability | Current support | Detailed behavior | Constraints / prerequisites | Roadmap status | Sources | Notes |
-| --- | --- | --- | --- | --- | --- | --- | --- |
-| GOV-platform-lens | 3T Lens — centralized connection management | Supported | MongoDB connections configured once in 3T Lens and shared automatically to all users. No shared passwords; no hidden connections. Access scoped before login via 3T Access roles. Same connection policies applied to both human users and AI agents. | 3T Lens is a separate product (browser-based); requires deployment distinct from the Desktop IDE. Integration with Desktop IDE connection manager is not explicitly documented. | confirmed | S1 | 3T Lens product; separate deployment. |
-| GOV-002 | 3T Lens — compliance policy templates | Supported | Ready-made policy templates: ACID, Schema, Index, Security, Naming, Operational. Templates are configurable per environment. One-click compliance health check per environment. | Template customization scope (which rules are modifiable) is unverified. | confirmed | S1 | 3T Lens product. |
-| GOV-003 | 3T Lens — alert channels | Supported | Alert channels: Slack, email, webhooks. Configurable severity levels per channel. | Slack and webhook endpoints must be configured by the administrator. | confirmed | S1 | 3T Lens product. |
-| GOV-004 | 3T Lens — PII classification | Supported | Automated PII scanning across collections. Sensitivity grouping of fields. Scan records with timestamps provide an audit trail of when PII was discovered or reclassified. | Automated scanning uses heuristics; results require human review and verification. | confirmed | S1 | 3T Lens product. |
-| GOV-005 | 3T Lens — versioned field history and document diffs | Supported | Versioned field history catches breaking schema changes before they reach production. Document-level diffs provide exact field-by-field comparison between two dataset snapshots. | Versioning granularity (commit, time, or snapshot-based) is unverified. | confirmed | S1 | 3T Lens product. |
-| GOV-006 | 3T Lens — query performance suggestions | Supported | Index recommendations surfaced within the governance workspace. | Recommendation engine details (algorithm, data source) are unverified. | confirmed | S1 | 3T Lens product. |
-| GOV-007 | 3T Lens — MCP integration (59 tools) | Supported | 59 MCP tools across 10 categories available to AI agents within 3T Lens. Tools are governed by the same 3T Access role-based access policies as human users — AI agents cannot exceed the permissions of the access policy assigned to them. | 10 categories and full tool list are unverified beyond the count of 59 total. | confirmed | S1 | 3T Lens product. |
-| GOV-platform-access | 3T Access — identity and governance plane | Supported | Deployed on customer infrastructure. Centralized user, role, and permission management across all 3T products (Desktop IDE, 3T Explore, 3T Lens, 3TL Bridge). Full audit trail: every connection recorded with who, what, and when — for both human and AI agent access. Pre-login access scoping applied before any connection is opened. | Customer-deployed; requires infrastructure provisioning. Integration details with individual 3T products are partially unverified. | confirmed | S1 | 3T Access product; customer-deployed. |
-| GOV-platform-explore | 3T Explore — browser IDE workspace and access control | Supported | Browser-based IDE extending the Desktop IDE experience (Explore data view/query/edit, Visual Query Builder, IntelliShell, Aggregation Editor, AI Helper) with two governance-relevant additions: Workspace Switcher (manage multiple workspaces with role-based data visibility) and Access Control (integration with 3T Access Manager for granular database/collection permissions). | 3T Explore is a separate product (browser-based); edition/plan requirements are unverified. This report previously referred to this product as "3T Build" — "Build" is the product track name (grouping Desktop IDE, 3T Explore, and 3T MCP), not the product itself. | confirmed | S3 | 3T Explore product; separate deployment. AI Helper aspect cross-referenced at AI-012. |
-| GOV-platform-cdc | 3TL Bridge — CDC pipeline engine | Supported | Real-time Change Data Capture pipeline engine. Supported sources and destinations: MongoDB, Kafka, Google Pub/Sub, HTTP. Checkpoint recovery: exact position resume after restart or failover. Edit live running pipelines (import → modify → redeploy without stopping data flow). | 3TL Bridge is a separate product deployed on Kubernetes (Helm) or Docker Compose. MongoDB Change Streams must be available on source (replica set or sharded cluster). | confirmed | S2 | 3TL Bridge product; separate deployment. |
-| GOV-010 | 3TL Bridge — Transform Studio | Supported | In-flight transformation engine. Write transformation logic in scripts. Test transformations against real data. Deploy tested transformations. Run test assertions before deployment to catch errors before production. | Scripting language for transformations is unverified. | confirmed | S2 | 3TL Bridge product. |
-| GOV-011 | 3TL Bridge — real-time PII masking | Supported | PII masking applied at the pipeline layer before data reaches the destination — original source not modified. Built-in compliance templates: GDPR, HIPAA, CCPA. Structured audit logging exportable to SIEM. | Template completeness for each compliance standard is unverified. SIEM export format is unverified. | confirmed | S2 | 3TL Bridge product. |
-| GOV-012 | 3TL Bridge — security and identity | Supported | Credentials encrypted. Multi-provider OIDC: Google Workspace, Azure AD, any standards-compliant OIDC provider. OIDC providers configurable via runtime environment variables (no container rebuilds required). | OIDC configuration requires environment variable access to the deployment. | confirmed | S2 | 3TL Bridge product. |
-| GOV-013 | 3TL Bridge — deployment and scaling | Supported | Kubernetes deployment via single Helm chart (ingress, secrets, monitoring, HA, multi-customer namespaces). Docker Compose single-command deployment. Prometheus-compatible metrics. Kubernetes ServiceMonitor. Grafana and Datadog integration. Horizontal scaling at app tier. Pipeline checkpoint recovery for HA. | Horizontal scaling scope (which components scale horizontally) is unverified. | confirmed | S2 | 3TL Bridge product. |
+## Pointer table — platform-tier products now documented separately
+
+| Sub-feature ID | Product | Matrix | Report |
+| --- | --- | --- | --- |
+| GOV-platform-lens, GOV-002, GOV-003, GOV-004, GOV-005, GOV-006, GOV-007 | 3T Lens | [feature-matrix.md](../../../3t-lens/features/governance/feature-matrix.md) | [feature-report.md](../../../3t-lens/features/governance/feature-report.md) |
+| GOV-platform-access | 3T Access | [feature-matrix.md](../../../3t-access/features/governance/feature-matrix.md) | [feature-report.md](../../../3t-access/features/governance/feature-report.md) |
+| GOV-platform-cdc, GOV-010, GOV-011, GOV-012, GOV-013 | 3TL Bridge | [feature-matrix.md](../../../3tl-bridge/features/governance/feature-matrix.md) | [feature-report.md](../../../3tl-bridge/features/governance/feature-report.md) |
+| GOV-platform-explore | 3T Explore | [feature-matrix.md](../../../3t-explore/features/governance/feature-matrix.md) | [feature-report.md](../../../3t-explore/features/governance/feature-report.md) |
+
+## Feature-level conclusion
+
+### Confirmed strengths
+
+- N/A here — see the linked per-product matrices above for confirmed platform-tier governance capabilities.
+
+### Confirmed limitations
+
+- Desktop IDE-native governance capabilities (RBAC, audit log, data masking, collection compare/sync) do not yet have a dedicated capability matrix in this file.
+
+### Open questions / unknowns
+
+- Author a Desktop IDE-native governance capability matrix covering `GOV-readonly-mode`, `GOV-rbac-users`, `GOV-rbac-roles`, `GOV-audit-log`, `GOV-collection-compare`, `GOV-collection-sync`, `GOV-data-masking`, and `GOV-cred-protection`.

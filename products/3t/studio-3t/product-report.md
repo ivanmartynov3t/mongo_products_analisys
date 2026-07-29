@@ -19,7 +19,9 @@
 
 ## Product summary
 
-Studio 3T is a multi-product MongoDB tooling platform anchored by the Studio 3T Desktop IDE — a full-featured fat client for Windows, macOS, and Linux. Per studio3t.com, the platform is organized into three tracks: **Build** (Studio 3T Desktop IDE, 3T Explore, 3T MCP), **Pipeline** (3TL Bridge), and **Governed Access** (3T Lens, 3T Access). 3T Explore is the browser-based IDE product in the Build track (tagline: "The browser IDE for MongoDB and other document databases") — this report previously referred to it as "3T Build," which is actually the track name, not a product name; that naming has been corrected throughout. The Desktop IDE delivers the deepest feature set and is the primary subject of this analysis, with platform-wide features noted where applicable.
+Studio 3T is a multi-product MongoDB tooling platform anchored by the Studio 3T Desktop IDE — a full-featured fat client for Windows, macOS, and Linux. Per studio3t.com, the platform is organized into three tracks: **Build** (Studio 3T Desktop IDE, [3T Explore](../3t-explore/product-report.md), [3T MCP](../3t-mcp/product-report.md)), **Pipeline** ([3TL Bridge](../3tl-bridge/product-report.md)), and **Governed Access** ([3T Lens](../3t-lens/product-report.md), [3T Access](../3t-access/product-report.md)). "Build" is the track name, not a product name. The Desktop IDE delivers the deepest feature set and is the primary subject of this analysis and this product folder.
+
+As of 2026-07-29, 3T Explore, 3T MCP, 3TL Bridge, 3T Lens, and 3T Access are each documented in their own product folder under `products/3t/` (linked above) rather than as sub-sections of this report — see [3T products index](../README.md) for the full list. This report previously documented them as sub-sections of the Desktop IDE's AI Features and Governance & Security matrices.
 
 Studio3t.com also states database compatibility with FerretDB, Amazon DocumentDB, and Azure Cosmos DB in addition to MongoDB (see CONN-compat-ferretdb). The vendor's website states ISO 27001 and SOC 2 certification and on-premises deployment options for the governance platform — this is a vendor claim from studio3t.com and has not been independently verified beyond that statement.
 
@@ -42,7 +44,7 @@ Feature IDs and folder names from [feature-dictionary.md](../../../feature-dicti
 | F-SHELL | Shell | [feature-matrix.md](features/shell/feature-matrix.md) | [feature-report.md](features/shell/feature-report.md) | Completed |
 | F-AI | AI Features | [feature-matrix.md](features/ai/feature-matrix.md) | [feature-report.md](features/ai/feature-report.md) | Completed |
 | F-SQL | SQL Tools | [feature-matrix.md](features/sql-tools/feature-matrix.md) | [feature-report.md](features/sql-tools/feature-report.md) | Completed |
-| F-GOV | Governance & Security | [feature-matrix.md](features/governance/feature-matrix.md) | [feature-report.md](features/governance/feature-report.md) | Completed |
+| F-GOV | Governance & Security | [feature-matrix.md](features/governance/feature-matrix.md) | [feature-report.md](features/governance/feature-report.md) | Partial — platform-tier products split to their own folders 2026-07-29 ([3T Lens](../3t-lens/product-report.md), [3T Access](../3t-access/product-report.md), [3TL Bridge](../3tl-bridge/product-report.md), [3T Explore](../3t-explore/product-report.md)); Desktop IDE-native governance (RBAC, audit log, masking, compare/sync) not yet authored |
 | F-SCHED | Task Scheduler | [feature-matrix.md](features/task-scheduler/feature-matrix.md) | [feature-report.md](features/task-scheduler/feature-report.md) | Completed |
 
 ## Product-level conclusions
@@ -55,14 +57,14 @@ Feature IDs and folder names from [feature-dictionary.md](../../../feature-dicti
 - Visual Query Builder with real-time bidirectional sync to the query bar and Aggregation Editor reduces the learning curve for non-developers.
 - Data masking is built in at the import, export, and standalone tool layers — not a bolt-on.
 - Enterprise auth mechanisms (Kerberos, LDAP, AWS IAM, OIDC) gate at Ultimate tier, aligning with enterprise IT requirements.
-- Platform breadth (Desktop IDE + Browser IDE + MCP + Governance + CDC) enables end-to-end MongoDB lifecycle management.
+- Platform breadth (Desktop IDE + [3T Explore](../3t-explore/product-report.md) + [3T MCP](../3t-mcp/product-report.md) + [3T Lens](../3t-lens/product-report.md)/[3T Access](../3t-access/product-report.md) governance + [3TL Bridge](../3tl-bridge/product-report.md) CDC) enables end-to-end MongoDB lifecycle management.
 
 ### Strategic risks / gaps
 
 - Pricing page returned 404 at analysis time — edition tier names and exact pricing are unverified (**unknown/unverified**).
 - Some high-value features (SQL tools, task scheduler, data masking, reschema, team sharing) are behind Pro/Base paywall — Free edition users face significant capability gaps.
 - Enterprise auth (Kerberos, LDAP, AWS IAM, OIDC) locked to Ultimate only — meaningful edition friction for enterprise self-service.
-- 3T Lens, 3T Access, and 3TL Bridge governance products are separate deployments; integration maturity with the Desktop IDE is not fully verified.
+- [3T Lens](../3t-lens/product-report.md), [3T Access](../3t-access/product-report.md), and [3TL Bridge](../3tl-bridge/product-report.md) governance products are separate deployments; integration maturity with the Desktop IDE is not fully verified.
 - The geoHaystack index type is deprecated in MongoDB 4.4 and removed in 5.0; Studio 3T still surfaces it in the UI — could mislead users on newer MongoDB versions.
 - AI Helper requires external API keys (Azure/OpenAI/Anthropic) — no bundled LLM; incurs per-token cost and requires user-managed key security.
 
@@ -70,8 +72,8 @@ Feature IDs and folder names from [feature-dictionary.md](../../../feature-dicti
 
 - Are edition names definitively "Free / Pro / Ultimate" or is "Base" a separate SKU?
 - What is the exact pricing for Pro/Base and Ultimate?
-- Does 3T Lens replace or supplement the Desktop IDE connection manager in practice?
+- Does [3T Lens](../3t-lens/product-report.md) replace or supplement the Desktop IDE connection manager in practice?
 - Is the Local MCP Server available in all editions or only Pro/Ultimate?
 - What MongoDB server version range is officially supported (minimum and maximum)?
-- What edition/plan is required for 3T Explore access, and does it require a separate license from the Desktop IDE?
+- What edition/plan is required for [3T Explore](../3t-explore/product-report.md) access, and does it require a separate license from the Desktop IDE?
 - Which specific FerretDB versions/features have been validated with Studio 3T (studio3t.com lists compatibility but does not give a version matrix)?
