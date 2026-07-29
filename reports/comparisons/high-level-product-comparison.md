@@ -74,7 +74,7 @@ This report summarizes each product's positioning, feature breadth, and key gaps
 | F-TRANSFER | TRANSFER-import-bson | BSON / mongodump import | ✅ | ❌ | ✅ |
 | F-SHELL | SHELL-engine | Shell engine and code editor | ✅ | ❌ | ✅ |
 | F-SHELL | SHELL-autocomplete | Shell autocomplete | ✅ | ❌ | ✅ |
-| F-SHELL | SHELL-validation | Live syntax validation | ✅ | ❌ | ❓ |
+| F-SHELL | SHELL-validation | Live syntax validation | ✅ | ❌ | ✅ |
 | F-AI | AI-nl-query | NL to find() query | 💼 | 🧪 | 💼 |
 | F-AI | AI-nl-pipeline | NL to aggregation pipeline | 💼 | ❓ | 💼 |
 | F-AI | AI-explanation | Plain-English explanation always included | ❓ | ❓ | ✅ |
@@ -232,11 +232,11 @@ These are icon-only analogs of the detailed comparison tables below. Product col
 | --- | --- | --- |
 | Editor engine | ✅ | ✅ |
 | Autocomplete | ✅ | ✅ |
-| Live syntax validation | ✅ | ❌ |
+| Live syntax validation | ✅ | ✅ |
 | Run all / selection | ✅ | ✅ |
-| Run to cursor line | ✅ | ❌ |
+| Run to cursor line | ✅ | ✅ |
 | Shell modes | ✅ | ❓ |
-| Per-query result tabs (pinnable) | ✅ | ❌ |
+| Per-query result tabs (pinnable) | ✅ | 🧪 |
 | Result views | ✅ | ✅ |
 | Multiple concurrent sessions | 🧪 | ✅ |
 | Background execution | ❌ | ✅ |
@@ -252,7 +252,7 @@ These are icon-only analogs of the detailed comparison tables below. Product col
 | NL → find() query | 💼 | 🧪 | 💼 |
 | NL → aggregation pipeline | 💼 | ❓ | 💼 |
 | Plain-English explanation always on | ❓ | ❓ | ✅ |
-| AI providers | ✅ | ❓ | ❓ |
+| AI providers | ✅ | ❓ | 🧪 |
 | Model selection | ✅ | ❓ | ✅ |
 | "Send sample data" privacy toggle | ❓ | ❓ | ✅ |
 | Conversation turns for refinement | ❓ | ❓ | ✅ |
@@ -320,7 +320,7 @@ These are icon-only analogs of the detailed comparison tables below. Product col
 | Shell / IntelliShell | ✅ | ❌ | ✅ |
 | Data Transfer | 💼 | ❌ | ✅ |
 | Team connection sharing | 💼 | ❌ | ❌ |
-| Data masking | 💼 | ❌ | ❌ |
+| Data masking | 💼 | ❌ | 💼 |
 | SQL tools | 💼 | ❌ | 🧪 (tier unverified) |
 | Task scheduler | 💼 | ❌ | 💼 |
 | Query Manager (multi-type) | ✅ | ✅ | 💼 |
@@ -496,11 +496,11 @@ Detailed additions are captured in the low-level report under **Reconciliation t
 | --- | --- | --- |
 | Editor engine | ACE editor (format code Ctrl+Alt+L, line comments Ctrl+/) | Monaco (minimap, multi-session) |
 | Autocomplete | Ctrl+Space — JS functions, shell types/methods, operators, collection names, field names | Contextual |
-| Live syntax validation | ✓ red gutter markers + right-ruler | — |
+| Live syntax validation | ✓ red gutter markers + right-ruler | ✓ real-time highlighting; failed execution line highlighted red |
 | Run all / selection | ✓ F5 (all) / F9 or Ctrl+Enter (selection) | ✓ |
-| Run to cursor line | ✓ F6 | — |
+| Run to cursor line | ✓ F6 | ✓ Ctrl+Shift+F5 |
 | Shell modes | Shell mode (all → Raw tab) vs Query Assist mode (per-query editable result tabs; Visual Explain; destructive op warnings) | Not documented as named modes |
-| Per-query result tabs (pinnable) | ✓ pin tab persists across re-runs | — |
+| Per-query result tabs (pinnable) | ✓ pin tab persists across re-runs | 🧪 separate per-query result tab confirmed; pin/keep-across-re-run behavior unconfirmed |
 | Result views | Tree View, Table View, JSON/BSON View, Query Code tab (9 languages), Visual Explain tab | Tree View, Table View, BSON View |
 | Multiple concurrent sessions | Single session per tab | ✓ |
 | Background execution | — | ✓ |
@@ -652,7 +652,7 @@ Detailed additions are captured in the low-level report under **Reconciliation t
 | Shell / IntelliShell | All editions (free) | N/A | Available (plan details unclear) |
 | Data Transfer | Pro/Base+ for task save; formats available all editions | N/A | Community: no automation (0 tasks); Basic: 2 tasks |
 | Team connection sharing | Pro/Base+ required | N/A | N/A |
-| Data masking | Pro/Base+ required | N/A | N/A |
+| Data masking | Pro/Base+ required | N/A | Basic/Professional — query-result masking; no dedicated import/export masking tool documented |
 | SQL tools | Pro/Base+ required (full migration toolchain) | N/A | Plan tier unverified (SQL Mode — query-only, no migration) |
 | Task scheduler | Pro/Base+ required | N/A | Community: 0 tasks; Basic: 2; Professional: unlimited |
 | Query Manager (multi-type) | All editions (Collection query type free) | No (My Queries only) | Basic+ for saved queries |

@@ -11,6 +11,8 @@ This repository is for **hierarchical, deep feature analysis** of products that 
 - [Cumulative report index](reports/cumulative-report.md)
 - [High-level comparison](reports/comparisons/high-level-product-comparison.md)
 - [Low-level comparison](reports/comparisons/low-level-feature-comparison.md)
+- [Gap analysis: NOT on any 3T product](reports/gap-analysis-not-on-3t-products.md)
+- [Gap analysis: NOT on Studio 3T Desktop](reports/gap-analysis-not-on-3t-desktop.md)
 - [Copilot instructions](.github/copilot-instructions.md)
 
 ## Core approach

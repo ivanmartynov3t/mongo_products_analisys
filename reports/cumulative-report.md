@@ -10,6 +10,8 @@ This report provides the top-level index for the MongoDB tools analysis project,
 - [Studio 3T product report](../products/3t/studio-3t/product-report.md)
 - [MongoDB Compass product report](../products/third-party/mongodb-compass/product-report.md)
 - [VisuaLeaf product report](../products/third-party/visual-eaf/product-report.md)
+- [Gap analysis: NOT on any 3T product](gap-analysis-not-on-3t-products.md)
+- [Gap analysis: NOT on Studio 3T Desktop](gap-analysis-not-on-3t-desktop.md)
 
 ## Comparison layers
 
@@ -18,6 +20,8 @@ This report provides the top-level index for the MongoDB tools analysis project,
 | Sub-feature comparison | [low-level-feature-comparison.md](comparisons/low-level-feature-comparison.md) | Row-per-sub-feature detail with source citations and gap types |
 | Product comparison | [high-level-product-comparison.md](comparisons/high-level-product-comparison.md) | Feature-area summaries, unique differentiators, edition/pricing constraints |
 | This report | cumulative-report.md | Coverage overview, executive summary, competitive positioning |
+| 3T-portfolio gap analysis | [gap-analysis-not-on-3t-products.md](gap-analysis-not-on-3t-products.md) | Sub-features confirmed absent or unverified across all 3T Software Labs products combined |
+| 3T Desktop gap analysis | [gap-analysis-not-on-3t-desktop.md](gap-analysis-not-on-3t-desktop.md) | Sub-features not on the Studio 3T Desktop IDE specifically, including ones covered by other 3T products |
 
 ## Current scope
 
@@ -141,7 +145,7 @@ This report provides the top-level index for the MongoDB tools analysis project,
 | AI query/pipeline builder | N/A | Professional ($$$) | Pro/Base+ ($$) |
 | Enterprise auth (Kerberos/LDAP/AWS/OIDC) | Free | LDAP/AWS free; others roadmap | Ultimate ($$$) |
 | SQL tools | N/A | Plan tier unverified (SQL Mode — query-only) | Pro/Base+ ($$) |
-| Data masking | N/A | N/A | Pro/Base+ ($$) |
+| Data masking | N/A | Basic/Professional (query-result masking; no import/export masking tool) | Pro/Base+ ($$) |
 | Task scheduler | N/A | Community: 0; Basic: 2; Pro: unlimited | Pro/Base+ |
 | Team connection sharing | N/A | N/A | Pro/Base+ |
 | Schema validation + deploy | Free | Basic+ | N/A |
@@ -155,3 +159,5 @@ This report provides the top-level index for the MongoDB tools analysis project,
 *Analysis covers publicly available documentation as of the matrix capture dates. Items marked unknown/unverified require direct product testing or vendor confirmation.*
 
 *Last updated 2026-07-28: reviewed studio3t.com, mongodb.com/products/tools/compass, and visualeaf.com homepages (plus targeted verification fetches). See the "2026-07-28 update scope" note in the [low-level comparison](comparisons/low-level-feature-comparison.md#2026-07-28-update-scope) for exactly what was and was not re-verified in this pass.*
+
+*Updated 2026-07-29: every row across all three comparison-layer reports was cross-checked directly against each product's own `feature-matrix.md` files. Six data-entry errors were found and fixed (Studio 3T's enterprise auth was wrongly marked unsupported; VisuaLeaf's live syntax validation, run-to-cursor, per-query result tabs, AI provider support, and data masking were wrongly marked unverified/absent) plus one missing row added (SQL-query-manager). See the "2026-07-29 deep-file verification pass" note in the [low-level comparison](comparisons/low-level-feature-comparison.md#2026-07-29-deep-file-verification-pass) for the full list. 3T Explore, 3T MCP, 3T Lens, 3T Access, and 3TL Bridge were also split out of the Studio 3T product folder into their own product folders under `products/3t/` on 2026-07-29 — see [products/3t/README.md](../products/3t/README.md).*
