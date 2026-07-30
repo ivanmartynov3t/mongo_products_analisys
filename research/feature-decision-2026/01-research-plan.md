@@ -125,6 +125,24 @@ The user reviewed Stage 5's output and imposed three additional, binding require
 **Output format:** corrections applied directly to Stages 1-4 files where a specific error is found (with the fix visible, e.g. a citation added or a claim corrected), an expanded ranked section in the Stage 5 memo covering ~15 candidates with prose rationale each, and this section recording that the requirement was added and why.
 **Files touched:** all of them, as needed — this is a review pass across the whole effort, not a new isolated stage file.
 
+### Stage 7 — Formal classification, deeper evidentiary depth & calculation transparency *(added 2026-07-30, after Stage 6 was delivered)*
+
+The user reviewed Stage 6's output and imposed four further, binding requirements:
+
+1. **A formal classification system for proposed features, defined in `feature-dictionary.md` itself, and used consistently across every research file and the final memo.** Not just prose labels invented per-candidate — a registered taxonomy with a legend, applied identically everywhere a candidate is discussed. Delivered as the **Proposed Feature Registry** section of `feature-dictionary.md`: a `PROP-<slug>` ID per candidate, plus three classification axes (**Competitive Framing**: Lead-Widener / Gap-Close / Parity-Unverified; **Origin**: Portfolio-Port / Net-New; **Dictionary linkage**: Dictionary-Tracked / Net-New-Concept) and a **Pipeline Status** (Proposed / Shortlisted / Recommended / Deferred / Cut / Implemented).
+2. **Deeper research verification with more rigorous, human-readable argumentation.** The user's assessment: "Level of argumenting and citations is poor." This means going back into the **full text** of the relevant `google_research/` files (not just `overview.md`'s condensed summaries, and not just the excerpts already quoted) to pull additional direct quotes, numbers, and specifics that strengthen or complicate each candidate's case — "read the google research directory again and use as much facts as possible related to each proposal."
+3. **"Deep sections" per proposal** — the top candidates (at minimum the recommendation and the shortlist) get materially expanded write-ups: more quotes, more competitive detail, more explicit reasoning chains connecting evidence to score, not just a paragraph summary.
+4. **Explicit calculation transparency in the final memo.** The user's specific complaint: "not clear in reports/next-feature-recommendation.md how metrics calculated." The memo must show, for each metric on each featured candidate, not just the final 1-5 number but the reasoning step that produced it — which source(s) were weighed, why they landed on that number and not one adjacent to it, and the arithmetic for the composite Priority Score spelled out (not just stated as a result).
+
+**Goal:** a reader with no prior context should be able to open `feature-dictionary.md`, see exactly what "Gap-Close" or "Lead-Widener" means and which candidates carry which tag; open the memo and see, for the recommended feature, not just "Reach: 4" but the specific evidence and reasoning that produced a 4 rather than a 3 or 5; and trust that every quote came from a file that still exists and says what's claimed.
+**Method:**
+- Design the classification taxonomy once, in `feature-dictionary.md`, as the single source of truth — every other file references it rather than redefining it.
+- Re-read the full raw text of the `google_research/` files backing the recommendation and shortlist (not relying solely on `overview.md` or previously-pulled excerpts), specifically hunting for additional quotable facts: numbers, named competitor behaviors, direct customer-facing language.
+- Rewrite `04-scored-longlist.md`'s candidate cards to (a) carry the three classification tags plus pipeline status, matching the dictionary's registry exactly, and (b) show the calculation reasoning per axis, not just the final number.
+- Rewrite `reports/next-feature-recommendation.md` to surface classification tags in the ranked table, add a per-metric "how this was calculated" explanation for the recommended candidate and full shortlist, and substantially deepen the evidentiary sections with the newly-mined facts.
+**Output format:** `feature-dictionary.md`'s new Proposed Feature Registry section (the taxonomy's single source of truth); revised `04-scored-longlist.md` with classification tags and calculation walkthroughs on every card; revised `reports/next-feature-recommendation.md` with a classification column, per-metric calculation transparency, and deep evidentiary sections citing newly re-mined `google_research/` facts.
+**Files touched:** `feature-dictionary.md` (new registry), `01-research-plan.md` (this section), `04-scored-longlist.md`, `reports/next-feature-recommendation.md`.
+
 ## File map
 
 | Stage | File | Status |
@@ -133,7 +151,8 @@ The user reviewed Stage 5's output and imposed three additional, binding require
 | — (this file) | `01-research-plan.md` | done |
 | 0 | `02-data-inventory.md` | done |
 | 1 | `03-candidate-longlist.md` | done, revised in Stage 6 |
-| 2 | `04-scored-longlist.md` | done, revised in Stage 6 |
+| 2 | `04-scored-longlist.md` | done, revised in Stage 6, deepened in Stage 7 |
 | 3 | `05-shortlist-deepdive.md` | done |
 | 4 | `06-verification-notes.md` | done, extended in Stage 6 |
-| 5 | `../../reports/next-feature-recommendation.md` | done, revised in Stage 6 |
+| 5 | `../../reports/next-feature-recommendation.md` | done, revised in Stage 6, deepened in Stage 7 |
+| 7 | `../../feature-dictionary.md` (Proposed Feature Registry section) | done |

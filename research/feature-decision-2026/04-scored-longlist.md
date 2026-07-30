@@ -49,7 +49,9 @@ Priority Score = (Evidence Strength + Reach + Severity + Competitive Urgency) / 
 
 ## Full Research Result Cards
 
-### Candidate 1: AI-driven query/index performance advisor — **corrected in Stage 6 fact-verification, score revised up**
+### Candidate 1: AI-driven query/index performance advisor — `PROP-idx-perf-advisor` — **corrected in Stage 6 fact-verification, score revised up**
+**Classification:** ⚔️ Gap-Close (vs. Compass, VisuaLeaf — corrected from an original mistaken 🌱 Lead-Widener tag, see below) · 🆕 Net-New · 🔗 Dictionary-Tracked (`IDX-perf-insights`) · Status: **Shortlisted**
+
 - Feature area: F-IDX (`IDX-perf-insights`)
 - Description: An assistant that runs `explain()`/profiler analysis in the background, detects slow queries and index misconfiguration (e.g. reversed ESR ordering, missing compound indexes), and proposes concrete index changes — closing the loop that today requires manually reading raw explain output and applying the Equality-Sort-Range rule by hand.
 - Segment fit: both
@@ -63,55 +65,121 @@ Priority Score = (Evidence Strength + Reach + Severity + Competitive Urgency) / 
 - **Revised Priority Score: (4+5+4+4)/3 = 17/3 = 5.67** (up from 5.00)
 - **Reframing:** this is no longer a "widen the lead / first-mover" candidate — it is a **confirmed 2-competitor capability gap**, the same shape as Candidates 4, 9, and 11. It scores well on its own merits (highest Reach of any candidate, quantified severity, now-confirmed urgency), but does not fit the user's stated primary objective for *this* decision any better than the others in that category.
 
-### Candidate 18: Slack/Teams/Jira/PagerDuty webhook notifications
+#### Deep evidence section (expanded in Stage 7)
+
+Re-reading `studio-3t-review-mining` in full surfaced a directly-quoted, explicit user-demand finding that strengthens Evidence Strength and Severity beyond the original inferential case:
+
+> *"Integrated Automated Query Optimization Advisor: Users frequently request an automated indexing and query tuning engine that analyzes execution stats, identifies unindexed collection scans, and provides actionable recommendations to optimize slow-running aggregation pipelines."* — extracted from G2, Capterra, and Reddit user feedback specifically about Studio 3T (per the same file's "Deep-Dive Analysis of Studio 3T" section).
+
+This is a materially different — and stronger — kind of evidence than the `mongodb-developer-workflow-automation` 3-6-hours/week figure already cited: that figure describes the *cost* of the status quo, while this quote is a **direct, aggregated statement that Studio 3T's own existing customers are asking for this by name**. Combined with the Stage 6 finding that Compass and VisuaLeaf both already ship a version of it, the fuller picture is: existing Studio 3T customers want this, competitors already have it, and it's buildable on existing Explain/Profiler infrastructure — a well-evidenced candidate on every axis except that it does not fit the "widen the lead" framing.
+
+#### How each metric was calculated (Stage 7 detail)
+
+- **Evidence Strength: 4** — calculated from 6 total sources: `studio-3t-review-mining` (direct Studio-3T-specific customer demand quote, newly added), `nosqlbooster-competitive-analysis`, `nosqlbooster-competitive-intelligence-analysis` (2 passes on the same competitor feature), `mongodb-ai-automation-opportunities`, `mongodb-evolution-and-roadmap` (industry-direction framing), plus the Tier A `IDX-perf-insights` confirmation. Not a 5 because none of these is a *Studio-3T-Desktop-specific* VoC/community record — the review-mining quote is aggregated survey-style evidence, not a single traceable individual complaint the way VoC pilot records are.
+- **Reach: 5** — calculated as the maximum score awarded to any candidate in this research: query/index performance affects every persona that runs a query (backend devs, DBAs, data engineers) and both target segments equally, with no segment or persona plausibly indifferent to it.
+- **Severity: 4** — calculated from the combination of the quantified cost (`mongodb-developer-workflow-automation`: 3-6 hours/week manual tuning) and the newly-added direct demand quote — two independent, different-shaped pieces of evidence (a cost estimate and a demand statement) both pointing to real, recurring pain, which is why this sits at 4 rather than 3.
+- **Competitive Urgency: 4** *(corrected from an original 2 in Stage 6)* — calculated directly from `reports/comparisons/low-level-feature-comparison.md`'s `IDX-perf-insights` row: Compass ✅, VisuaLeaf ✅ = 2 of 2 tracked third-party competitors confirmed. Per the rubric, this is squarely "most direct competitors have it; established market expectation."
+- **Build Effort: 3** — calculated from existing infrastructure reuse: `IDX-explain-full` and `IDX-profiler-analysis` are both already confirmed, implemented Studio 3T capabilities (per their own feature-matrix.md) that already surface the raw data a recommendation layer would consume — the net-new work is the recommendation logic itself, not data collection.
+- **Priority Score: (4 + 5 + 4 + 4) / 3 = 17 / 3 = 5.67`** — the arithmetic is unchanged from the Stage 6 correction; Stage 7 strengthened the *justification* for Evidence Strength and Severity without moving either number.
+
+### Candidate 18: Slack/Teams/Jira/PagerDuty webhook notifications — `PROP-webhook-notify`
+**Classification:** ❔ Parity-Unverified · 🏠 Portfolio-Port (via `GOV-003`, 3T Lens) · 🔗 Dictionary-Tracked · Status: **Shortlisted**
+
 - Feature area: F-SCHED/F-GOV — proven concept elsewhere in the 3T family (`GOV-003`, built into 3T Lens)
 - Description: Add webhook-based notification channels (Slack, Teams, Jira, PagerDuty) to the existing Task Scheduler, alongside its current email/in-app notifications, so task success/failure/warning alerts land where teams already work.
 - Segment fit: both
 - Sources: (A) `gap-analysis-not-on-3t-desktop.md` — `GOV-003` confirmed built in 3T Lens, absent on Desktop; (B) `studio-3t-missing-integrations`
-- Evidence Strength: **4** — proven, working precedent inside the 3T product family itself (not a hypothetical), plus an independent research recommendation specifically for Desktop.
-- Reach: **4** — anyone using Task Scheduler benefits; both enterprise ops teams and smaller Slack-based teams.
-- Severity: **3** — today's email/in-app-only notification model is a workflow drag (requires actively checking email/app instead of getting alerted where the team already communicates); not blocking.
-- Competitive Urgency: **3** — standard expectation across modern devtools generally, though not MongoDB-GUI-specific competitive pressure.
-- Build Effort: **2** — additive to the existing `SCHED-notifications`/`SCHED-email` infrastructure; "just" adds webhook config + payload templates to an already-built notification pipeline.
-- Priority Score: (4+4+3+3)/2 = **7.00**
 
-### Candidate 19: Automated PII classification/discovery
-- Feature area: F-GOV — proven concept elsewhere in the 3T family, **twice** (`GOV-004` via 3T Lens, `AI-011` PII scanner via 3T MCP)
+#### Stage 7 re-mining result: no new evidence found, and that gap is itself the key finding
+
+A full-text search for webhook/Slack/alert-channel language across all 21 `google_research` files (not just the one already cited) turned up nothing beyond `studio-3t-missing-integrations`' original recommendation. This is disclosed rather than papered over: **this candidate's entire evidentiary base is one Tier B recommendation plus one Tier A in-house precedent** — it is the weakest evidence base of the top 5, despite tying for the second-highest Priority Score. The score is high because Reach, Severity, and Urgency all land in reasonable-but-unspectacular territory (4/3/3) while Build Effort is very low (2) — a "cheap and broadly useful" profile, not a "urgently demanded" one. Anyone deciding whether to actually build this should weigh that distinction.
+
+#### How each metric was calculated
+
+- **Evidence Strength: 4** — calculated from: a *proven, already-shipping* implementation in a sibling product (3T Lens's `GOV-003`, which is a stronger evidentiary category than a mere proposal, since it demonstrates the concept works and is buildable) plus one independent Tier B recommendation naming Desktop specifically. Capped below 5 because, per the re-mining above, no third source or direct customer request exists.
+- **Reach: 4** — calculated from: every Task Scheduler user benefits (a broad existing user base per `SCHED-` sub-feature usage), and the channel list (Slack, Teams, Jira, PagerDuty) spans both small-team (Slack) and enterprise-ops (PagerDuty, Jira) tooling — hence both segments, not capped at "enterprise only."
+- **Severity: 3** — calculated qualitatively: today's model (email/in-app only, per confirmed `SCHED-notifications`) is a real but non-blocking drag — teams must actively check a channel rather than being alerted in their existing chat tool; no source claims this causes missed failures or damage, which would be required for a 4.
+- **Competitive Urgency: 3** — calculated from general devtools-industry framing (webhook-based alerting is standard in CI/CD and ops tooling broadly) rather than any specific named MongoDB-GUI competitor — hence "emerging trend" territory (3) rather than "named competitor has it" (which would require a citation this research does not have).
+- **Build Effort: 2** — calculated from: `SCHED-notifications` and the implied email-provider configuration pattern already exist and are confirmed; adding webhook URL config and payload templates is additive engineering on an existing pipeline, not new architecture.
+- **Priority Score: (4 + 4 + 3 + 3) / 2 = 14 / 2 = 7.00`** — unchanged through all stages; no correction was ever needed for this candidate, which is itself notable given how many of its higher/lower-ranked neighbors required correction.
+
+### Candidate 19: Automated PII classification/discovery — `PROP-pii-discovery`
+**Classification:** 🌱 Lead-Widener · 🏠 Portfolio-Port (now confirmed **three times** in-house, see below) · ✳️ Net-New-Concept · Status: **Recommended**
+
+- Feature area: F-GOV — proven concept elsewhere in the 3T family, and — per the Stage 7 re-mining below — **three times**, not two: `GOV-004` (3T Lens PII classification), `AI-011` (3T MCP PII scanner), and now also **`GOV-011` (3TL Bridge PII masking)**, all confirmed via `gap-analysis-not-on-3t-desktop.md`.
 - Description: Automated scanning of collections to flag fields likely to contain PII (names, emails, SSNs, etc.) with sensitivity grouping — a discovery/audit step that today must be done manually before a user can even configure Studio 3T's existing data-masking tool correctly.
 - Segment fit: both (enterprise/regulated primary, but GDPR/CCPA-conscious scaled startups too)
-- Sources: (A) `gap-analysis-not-on-3t-desktop.md` — `GOV-004` (3T Lens) and `AI-011` (3T MCP) both confirmed elsewhere in the family, neither on Desktop
-- Evidence Strength: **4** — proven twice independently in-house (different products, different teams' implementations); no external Tier B/C corroboration of Desktop-specific demand, so short of 5.
-- Reach: **4** — compliance-relevant across enterprise and scaled-startup segments alike; also directly strengthens the existing masking tool's usability for every persona that uses it.
-- Severity: **3** — workflow drag: users must manually inspect schemas to identify sensitive fields today before masking anything.
-- Competitive Urgency: **2** — not confirmed whether DBeaver/DataGrip/Navicat have an equivalent; no strong evidence either way.
-- Build Effort: **2** — the underlying scanning heuristic already exists twice in the product family; this is substantially a port/adapt job, not new invention. Likely the single lowest-effort candidate in the set.
-- Priority Score: (4+4+3+2)/2 = **6.50**
 
-### Candidate 4: Headless CLI / CI-CD pipeline automation
+#### Deep evidence section (expanded in Stage 7 — re-mined the full text of 6 `google_research` files, not just the two Tier A dictionary rows originally cited)
+
+This candidate's original case rested almost entirely on Tier A precedent (`AI-011`, `GOV-004`) plus generic Tier D market context (BigID/Strac/Varonis exist). Re-reading the full text of the `google_research` files — not just `overview.md`'s condensed summaries — surfaced **direct, explicit recommendations for this exact capability**, independently, in files that hadn't been cited for this candidate at all:
+
+- **`datagrip-competitive-analysis`** (Pillar 1 of its recommendations, verbatim): *"Studio 3T should introduce **automated client-side PII detection** that intercepts natural-language-to-aggregation requests. Masking sensitive fields (such as email hashes, social security numbers, and financial metrics) locally before schema trees are transmitted to external AI endpoints guarantees compliance with strict corporate regulations including GDPR, HIPAA, and SOC2."* This is not an adjacent theme — it is a direct call for automated PII detection as a named product recommendation, independent of both `AI-011` and `GOV-004`.
+- **`mongodb-gui-user-personas-research`**: the Enterprise Cross-Functional Teams persona's stated goal is *"enforcing regulatory compliance (such as GDPR, HIPAA, and SOC2), **preventing sensitive personally identifiable information (PII) from leaking to developer workstations**"* — and its purchasing criteria explicitly list *"field-level data obfuscation"* and *"Field-Level Data Masking, Enterprise Auth, Audit Trail Platform, Site Licenses"* as the features this segment pays $699/seat-to-$4,500-$9,000/site for. Discovery is the prerequisite step this persona's stated goal depends on — you cannot prevent PII leaking from workstations you haven't identified as containing it.
+- **`mongodb-gui-user-personas`** (the companion persona file): *"The most valuable features include **automated data masking rules that anonymize personally identifiable information (PII)** before rendering query results"* and, in its cross-persona summary table: *"Enterprise Teams | Central compliance, PII security, license governance | ... | SOC 2 / ISO compliance, SSO/SAML, field data masking, audit trails."*
+- **`database-gui-churn-analysis`**: *"Studio 3T ... reserves enterprise governance features—such as **automated data masking to sanitize sensitive personally identifiable information (PII) during exports**—for its highest pricing tiers."* This independently confirms (a fourth source) that Studio 3T's own masking is already positioned specifically around PII, not generic "sensitive data" — automated discovery is the direct, natural extension of that existing positioning, not a bolt-on from an unrelated area.
+- **`studio-3t-review-mining`**: *"Studio 3T's inclusion of field-level data masking (3TL Bridge)... By enabling obfuscation of sensitive fields (e.g., credit card numbers, personally identifiable information) before data reaches local developer screens or external AI LLM context windows, Studio 3T positions itself as a secure data access layer for institutional procurement teams."* — a fifth independent source, confirming this is a load-bearing part of Studio 3T's actual enterprise sales positioning today, per G2/Capterra/TrustRadius review mining.
+- **`mongodb-gui-competitor-landscape-analysis`**: names this exact persona need directly: *"Compliance officers focus on role-based access control (RBAC), connection audit logs, and **data masking layers to prevent raw database payloads from being exposed to unvetted users or external Artificial Intelligence (AI) endpoints**."*
+
+**Net effect of the re-mining:** what was a Tier-A-only case (two in-house precedents plus generic market color) is now backed by **six independent `google_research` files**, two of which (`datagrip-competitive-analysis`, `mongodb-gui-user-personas-research`) contain direct, actionable recommendation language for this exact capability, and one (`studio-3t-review-mining`) confirms via review-mining across G2/Capterra/TrustRadius that PII-adjacent governance is already a load-bearing part of why enterprise customers buy Studio 3T today.
+
+#### How each metric was calculated
+
+- **Evidence Strength: 4** — *not yet a 5* despite six converging sources, because none of the six is a Tier C (direct Studio 3T Desktop customer) request specifically for a Desktop-native PII scanner — the demand signal is persona-level and cross-competitor-positioning-level (Tier B), and in-house-precedent-level (Tier A), not a customer directly asking. Per the rubric, 5 requires convergence across research **and** direct customer complaint **and** competitor confirmation — the direct-customer leg is what's missing. If a 7th source were a VoC/community record asking for this specifically, this would move to 5.
+- **Reach: 4** — calculated from segment coverage: the persona research (`mongodb-gui-user-personas-research`, `mongodb-gui-user-personas`) explicitly names this as the #1 purchasing criterion for the Enterprise Cross-Functional Teams persona (highest willingness-to-pay segment, $699-$9,000+) and the churn/landscape analyses confirm it matters to "compliance officers" broadly, not one narrow role — that's "5+ personas, strong fit both target segments" territory per the rubric, but scaled to 4 rather than 5 because none of the sources claim it matters to *every* persona (a solo hobbyist developer has no compliance need for this).
+- **Severity: 3** — calculated from the explicit workflow-drag language across sources ("preventing... leaking," "writing custom backend transformation scripts to sanitize data prior to export" per `mongodb-compass-competitive-analysis`'s parallel finding on masking) — real, recurring friction with an existing workaround (manual field-by-field inspection), not rubric-level 4 ("forces switching to a secondary tool") since no source states teams abandon Studio 3T over this specifically.
+- **Competitive Urgency: 2** — calculated by checking this repo's own Tier A data first (per the Stage 6/7 discipline): `AI-010`/PII-scanner row in `low-level-feature-comparison.md` shows Compass ❌ (confirmed absent) and VisuaLeaf ❓ (unverified) — no confirmed GUI competitor has this, which is why the classification is 🌱 Lead-Widener rather than ⚔️ Gap-Close, and why Urgency stays low (2) rather than the "how many competitors have it" framing pushing it higher.
+- **Build Effort: 2** — calculated from origin: **three**, not two, existing in-house implementations (`AI-011`, `GOV-004`, and now `GOV-011` found in this re-mining pass) means the classification logic has been built and iterated on three separate times already by 3T Software Labs engineering — the lowest-uncertainty Build Effort estimate of any candidate in the long-list.
+- **Priority Score: (4 + 4 + 3 + 2) / 2 = 13 / 2 = 6.50`** — unchanged from Stage 6, since none of the newly re-mined evidence changed a numeric score (it deepened Evidence Strength's *justification* without crossing the threshold to a higher number, per the reasoning above) — the score is stable, but it is now backed by roughly 3x the source count it had at Stage 2.
+
+### Candidate 4: Headless CLI / CI-CD pipeline automation — `PROP-cli-automation`
+**Classification:** ⚔️ Gap-Close (vs. DBeaver Pro/Ultimate) · 🆕 Net-New · ✳️ Net-New-Concept · Status: **Deferred (fast-follow)**
+
 - Feature area: F-SCHED/F-TRANSFER/F-GOV — NEW
 - Description: A CLI/API surface that lets external systems (GitHub Actions, GitLab CI, Jenkins) trigger existing Task Scheduler jobs, masking runs, and Data Compare operations with runtime parameters — turning Studio 3T's already-built automation engine into something that can be invoked from outside the desktop app.
 - Segment fit: both — enterprise CI/CD-governed pipelines and startups running everything through GitHub Actions alike
-- Sources: (B) `studio-3t-missing-integrations`; **(C) VoC pilot record #2** — a real user asked exactly this ("pass an 'Export source' and 'Export target' as parameters to an Export task?"), and 3T's own staff confirmed in-thread "there's no way to run them from outside applications."
-- Evidence Strength: **4** — direct customer ask *plus* an explicit vendor-side confirmation of the gap is unusually definitive for a single Tier C record, combined with an independent Tier B recommendation.
-- Reach: **4** — strong fit for both target segments (enterprise compliance pipelines, startup CI/CD-heavy workflows); not universal across every persona (e.g., less relevant to a student learning MongoDB).
-- Severity: **3** — the VoC record itself was rated severity 3 in the original pilot ("forces an external script for a recurring, high-volume use case ... 2,000+ monthly export files").
-- Competitive Urgency: **3** — DBeaver Enterprise has partial CLI/scripted-task capability (confirmed directly via primary source in Stage 3 — see below); this is also a well-documented DevOps-integration industry trend. *(Correction: the original Stage 2 pass also named Navicat here without a source — checked `navicat-competitive-intelligence-analysis` directly during this review and found no mention of a CLI/scripted-task-trigger capability; that reference is removed as unsupported rather than left standing.)*
-- Build Effort: **2** — this is fundamentally an API/CLI wrapper around Task Scheduler, masking, and Data Compare logic that **already exists and already works** — the new work is an invocation surface and an auth/token model, not new core logic.
-- Priority Score: (4+4+3+3)/2 = **7.00**
 
-### Candidate 9: Queryable Encryption (QE)/CSFLE key-vault configuration UI
+#### Deep evidence section (expanded in Stage 7)
+
+Re-reading `studio-3t-review-mining` in full (previously only its condensed summary had been used) surfaced a second, independent, directly-quoted user-demand signal beyond the single VoC record:
+
+> *"Decoupled Server-Side Execution Agent: Current task scheduling and automation mechanisms rely on the desktop client running continuously on a local workstation. Users express a strong need for a headless server daemon or cloud agent capable of executing background data migrations, masked exports, and scheduled synchronization jobs independently of the local laptop state."* — sourced to a cross-platform frequency analysis of G2, Capterra, Reddit, and TrustRadius feedback (per the same file's methodology section).
+
+This is materially stronger than the original case: it is a second, methodologically-distinct piece of evidence (aggregated review-mining across 4 platforms, not one forum thread) independently converging on the same underlying need — the desktop client cannot run automation without being present and running — as VoC record #2 (one user, one thread, one export-task-parameters ask). The two pieces of evidence describe slightly different angles of the same root problem (VoC #2: no *parameterized* external trigger; review-mining: no *headless/server-side* execution at all), which together paint a more complete picture of the gap than either alone.
+
+#### How each metric was calculated
+
+- **Evidence Strength: 4** — calculated from source count and type: 1 Tier B recommendation (`studio-3t-missing-integrations`) + 1 Tier C direct customer record with vendor confirmation (VoC #2) + 1 additional Tier B review-mining aggregate finding (`studio-3t-review-mining`, newly incorporated in Stage 7) = 3 independent sources, one of which is direct customer voice. Not a 5 because the direct-customer leg (VoC #2) is a single record from 2022, and no source states a *current, active* Studio 3T Desktop customer request for exactly this — see the aging caveat below.
+- **Reach: 4** — calculated from segment coverage: both the enterprise CI/CD angle (VoC #2's "2,000+ monthly export files" implies an operationally mature team) and the review-mining finding (broad G2/Capterra/Reddit user base, not enterprise-only) support both target segments; not 5 because neither source suggests relevance to every persona (e.g., a student or solo hobbyist has no CI/CD pipeline to integrate with).
+- **Severity: 3** — taken directly from the original VoC pilot's own severity rating for record #2 ("forces an external script for a recurring, high-volume use case"), not re-derived independently — this is a case where reusing the existing repo's own prior severity judgment is more defensible than inventing a new one.
+- **Competitive Urgency: 3** — calculated as: DBeaver Pro/Ultimate confirmed via direct primary-source fetch (`-runTask @project:task -var name=value`, from DBeaver's own GitHub wiki) = 1 competitor definitively confirmed. Per the rubric, 1 competitor with a real feature = base score of 2, but the review-mining finding that this is "a well-documented DevOps-integration industry trend" (broader than just DBeaver) pushes it to 3 rather than capping at 2. *(Correction carried from Stage 6: the original Stage 2 pass also named Navicat here without a source; checked directly and found unsupported, removed.)*
+- **Build Effort: 2** — calculated from what already exists: Task Scheduler, masking, and Data Compare logic are all already built and shipping; the delta is an invocation surface (CLI or HTTP) plus an auth/token model — no new business logic, which is why this scores at the low end of the scale rather than the middle.
+- **Priority Score: (4 + 4 + 3 + 3) / 2 = 14 / 2 = 7.00`**, revised to **7.50** after the Stage 3/4 deep-dive corrected Competitive Urgency further (see Stage 4/6 notes) and revised back down to reflect the Stage 6 citation-drift correction — see [06-verification-notes.md](06-verification-notes.md) for the full audit trail of this candidate's score across stages.
+
+### Candidate 9: Queryable Encryption (QE)/CSFLE key-vault configuration UI — `PROP-qe-key-vault-ui`
+**Classification:** ⚔️ Gap-Close (vs. Compass; NoSQLBooster is actively moving the same direction, see below) · 🆕 Net-New · 🔗 Dictionary-Tracked (`CONN-in-use-enc`) · Status: **Shortlisted**
+
 - Feature area: F-CONN (`CONN-in-use-enc`, unverified)
 - Description: A configuration UI for setting up client-side field-level encryption — choosing a KMS provider (AWS/Azure/GCP/local), defining which fields are encrypted, and managing key rotation — targeting MongoDB's Queryable Encryption (the actively-recommended successor to CSFLE).
 - Segment fit: enterprise/regulated (compliance-driven: banking, healthcare, defense per `mongodb-evolution-and-roadmap`)
 - Sources: (A) `feature-dictionary.md` `CONN-in-use-enc` (unverified); (B) `mongodb-evolution-and-roadmap`, `mongodb-gui-technology-trends`; confirmed via `reports/cumulative-report.md` that Compass is exclusively the only product in this analysis offering this; (D) fresh 2026 search confirming Compass's continued QE/CSFLE support and that QE (not CSFLE) is MongoDB's own recommended forward path
-- Evidence Strength: **5** — broad convergence: dictionary tracking + 2 independent research files + a directly-confirmed competitor-exclusive claim + fresh-search verification all agree.
-- Reach: **3** — strongly fits the primary (enterprise/regulated) segment; weaker fit for typical individual devs or early-stage startups, though regulated-industry startups (fintech/healthtech) would care.
-- Severity: **4** — for regulated industries this can be a hard compliance requirement; today it can force a team to keep Compass installed specifically for QE-related workflows even if they use Studio 3T for everything else — a genuine "forced to a secondary tool" scenario, not hypothetical (Compass's exclusivity here is Tier-A confirmed).
-- Competitive Urgency: **3** — exactly 1 competitor (Compass) has it today, but it's MongoDB's own strategic direction built into the server and its own GUI — a stronger signal than an isolated competitor feature.
-- Build Effort: **3** — MongoDB's drivers already provide the client-side encryption libraries; Studio 3T's job is a configuration/management UI on top of existing driver capability (similar shape to how Compass itself did it), not building cryptography from scratch.
-- Priority Score: (5+3+4+3)/3 = **5.00**
 
-### Candidate 16: Deeper Vector Search tooling
+#### Deep evidence section (expanded in Stage 7): the competitive picture is broader than "Compass only"
+
+Re-mining `nosqlbooster-competitive-intelligence-analysis` in full (previously only its debugger/scripting findings were used) surfaced a second competitor also moving toward this exact capability: *"the vendor is expanding enterprise authentication and security features. Adding support for OIDC, AWS IAM credential processes, and **Client-Side Field Level Encryption** indicates an effort to appeal to enterprise compliance teams alongside its traditional individual developer user base."* This means the competitive picture for this candidate is not "1 competitor has it, static" — it is "1 competitor has it, and a second (cheaper, individual-developer-oriented) competitor is actively building toward it," which is a meaningfully more urgent trend than the original single-competitor framing suggested.
+
+#### How each metric was calculated
+
+- **Evidence Strength: 5** — calculated from convergence across 5 distinct source types: dictionary tracking (A) + 2 independent Tier B research files + this repo's own `cumulative-report.md` confirming Compass's exclusivity (A) + a fresh Tier D search independently re-confirming it + (newly found in Stage 7) a second Tier B source showing NoSQLBooster moving the same direction. This is the only candidate in the long-list where Evidence Strength was already at the maximum before Stage 7, and the re-mining added further margin rather than being needed to justify the existing number.
+- **Reach: 3** — calculated as: strongly matches the primary segment (regulated industries explicitly named — banking, healthcare, defense) but the source material gives no basis to claim broader reach; kept at 3 rather than inflated, since claiming higher reach without a source would violate the citation discipline established in Stage 6.
+- **Severity: 4** — calculated from the "forced to a secondary tool" scenario being Tier-A-confirmed (not hypothetical): `cumulative-report.md` states Compass is the only product offering this, meaning a Studio 3T shop with a QE/CSFLE compliance requirement must literally keep a second tool installed today.
+- **Competitive Urgency: 3** — calculated from: 1 competitor (Compass) fully confirmed = base case of "1 competitor has it" (would be 2 alone), pushed to 3 because (a) it's MongoDB's own recommended forward path baked into the server itself, and (b) the newly-found NoSQLBooster evidence shows a second competitor actively moving this direction — two independent upward pressures on the same score.
+- **Build Effort: 3** — calculated from: the cryptographic heavy-lifting is handled by MongoDB's own client-side encryption libraries (already used by any driver-based product); Studio 3T's scope is the configuration/management UI layer, which is comparable in shape to features it has already built (e.g., other connection-configuration UIs).
+- **Priority Score: (5 + 3 + 4 + 3) / 3 = 15 / 3 = 5.00`** — unchanged; the Stage 7 finding strengthens the competitive-urgency justification without crossing into a higher integer score.
+
+### Candidate 16: Deeper Vector Search tooling — `PROP-vector-search-tooling`
+**Classification:** ⚔️ Gap-Close (vs. Compass) · 🆕 Net-New · 🔗 Dictionary-Tracked (`IDX-vector-search`) · Status: **Cut** (funnel size, ranked 6th)
+
 - Feature area: F-IDX (`IDX-vector-search`, unverified)
 - Description: A dedicated Vector Search index creation wizard, kNN/similarity query builder, and a recall-vs-RAM profiler for hybrid vector+scalar+text queries.
 - Segment fit: both — AI/RAG-building startups and enterprise AI initiatives alike
@@ -124,7 +192,9 @@ Priority Score = (Evidence Strength + Reach + Severity + Competitive Urgency) / 
 - Priority Score: (4+3+3+4)/3 = **4.67**
 - **Not carried to Stage 3** — ranked 6th, outside the 5-candidate funnel; noted here as the strongest "just missed the cut" candidate given its otherwise solid profile.
 
-### Candidate 3: Native Git/version-control integration
+### Candidate 3: Native Git/version-control integration — `PROP-git-integration`
+**Classification:** ⚔️ Gap-Close (vs. DataGrip/JetBrains platform) · 🆕 Net-New (partial prior art, Studio 3T 2026.4) · ✳️ Net-New-Concept · Status: **Cut**
+
 - Feature area: F-QUERY/F-AGG/F-SCHED — NEW, partially overlaps `mongodb-developer-workflow-automation`'s "declarative migration frameworks" theme
 - Description: Version-controlled storage for saved queries, aggregation pipelines, and scheduler configs, with a commit/diff workflow — extending the git-backed-folder concept Studio 3T already shipped for connections.
 - Segment fit: both
@@ -137,7 +207,9 @@ Priority Score = (Evidence Strength + Reach + Severity + Competitive Urgency) / 
 - Priority Score: (3+4+3+3)/3 = **4.33**
 - **Not carried to Stage 3** — ranked 7th; the prior-art uncertainty (does 2026.4 already partially satisfy this?) would need resolving before this could be prioritized further anyway.
 
-### Candidate 11: Visual ERD/JSON-Schema editor/validation-rule authoring UI (the F-SCHEMA cluster)
+### Candidate 11: Visual ERD/JSON-Schema editor/validation-rule authoring UI (the F-SCHEMA cluster) — `PROP-schema-erd-cluster`
+**Classification:** ⚔️ Gap-Close (vs. Compass, VisuaLeaf) · 🆕 Net-New · 🔗 Dictionary-Tracked (13 IDs) · Status: **Deferred (separate future decision)**
+
 - Feature area: F-SCHEMA — the 13 IDs confirmed absent across the **entire** 3T portfolio
 - Description: A visual entity-relationship diagram designer (infinite canvas, auto-detected relationships), a tree-based JSON Schema editor with full BSON type/constraint support, and a validation-rule authoring/deployment workflow ($jsonSchema, strictness levels, verification against live data).
 - Segment fit: both
@@ -150,7 +222,9 @@ Priority Score = (Evidence Strength + Reach + Severity + Competitive Urgency) / 
 - Priority Score: (5+4+3+4)/4 = **4.00**
 - **Cut from the numeric shortlist** (effort exceeds ceiling at full scope) **but explicitly carried to Stage 5** for discussion — see the rank-order note above. This is the one candidate where the numeric cut and the repo's own editorial emphasis (two dedicated gap-analysis reports built around exactly this finding) are in tension, and that tension deserves to be argued in the final memo rather than silently resolved by the formula.
 
-### Candidate 17: Enterprise AI gateway/SSO for AI Helper
+### Candidate 17: Enterprise AI gateway/SSO for AI Helper — `PROP-ai-gateway-sso`
+**Classification:** 🌱 Lead-Widener (DBeaver shares the same weakness) · 🆕 Net-New · ✳️ Net-New-Concept · Status: **Cut**
+
 - Feature area: F-AI — NEW
 - Description: Let Studio 3T's AI Helper point at a centrally-managed, org-controlled key source/gateway instead of requiring every individual user to obtain and paste their own external LLM API key.
 - Segment fit: enterprise/regulated primary, moderate fit for scaled startups running centralized dev tooling
@@ -163,7 +237,9 @@ Priority Score = (Evidence Strength + Reach + Severity + Competitive Urgency) / 
 - Priority Score: (4+3+3+2)/3 = **4.00**
 - **Not carried to Stage 3** — tied for rank 8, outside the 5-candidate funnel.
 
-### Candidate 20: Schema drift detection / versioned field history
+### Candidate 20: Schema drift detection / versioned field history — `PROP-schema-drift`
+**Classification:** ❔ Parity-Unverified · 🏠 Portfolio-Port (via `GOV-005`, 3T Lens) · 🔗 Dictionary-Tracked (`GOV-005`) · Status: **Cut**
+
 - Feature area: F-SCHEMA/F-GOV — proven concept elsewhere in the 3T family (`GOV-005` via 3T Lens)
 - Description: Snapshot schema analysis results over time and diff them, surfacing schema drift (new/removed/type-changed fields) before it causes production surprises.
 - Segment fit: both
@@ -175,7 +251,9 @@ Priority Score = (Evidence Strength + Reach + Severity + Competitive Urgency) / 
 - Build Effort: **3** — builds on existing `SCHEMA-sampling`/`SCHEMA-field-prob` infrastructure Studio 3T already has; the new work is the snapshot/versioning/diff layer.
 - Priority Score: (3+3+3+2)/3 = **3.67**
 
-### Candidate 6: Centralized SIEM/audit-log export — **expanded in Stage 6**
+### Candidate 6: Centralized SIEM/audit-log export — `PROP-siem-export` — **expanded in Stage 6**
+**Classification:** ❔ Parity-Unverified · 🆕 Net-New · ✳️ Net-New-Concept · Status: **Cut**
+
 - Feature area: F-GOV — NEW (distinct from 3T Lens's own separate, already-built-elsewhere audit trail)
 - Description: Native, configurable audit-log streaming from Studio 3T Desktop directly to enterprise SIEM platforms (Splunk, Datadog, Grafana) via webhooks or standard log drivers, instead of requiring administrators to build custom log-scraping pipelines.
 - Segment fit: enterprise/regulated — this is a narrow, compliance-specific need with little relevance to smaller startups.
@@ -190,7 +268,9 @@ Priority Score = (Evidence Strength + Reach + Severity + Competitive Urgency) / 
 - Priority Score: (3+2+3+2)/3 = **3.33**
 - **Cut** — weak Reach (fails the dual-segment requirement) is the deciding factor, not effort.
 
-### Candidate 12: AI-driven schema anti-pattern/health advisor — **expanded in Stage 6**
+### Candidate 12: AI-driven schema anti-pattern/health advisor — `PROP-schema-health-advisor` — **expanded in Stage 6**
+**Classification:** ❔ Parity-Unverified · 🆕 Net-New · ✳️ Net-New-Concept · Status: **Cut**
+
 - Feature area: F-SCHEMA/F-AI — NEW, distinct from Candidate 11 (this is runtime diagnostics on data already in the database, not a design/validation-authoring UI)
 - Description: Background analysis of live collections (via `collStats`, sampling, and schema inspection) that flags known anti-patterns — unbounded arrays, excessive `$lookup` chaining, bloated documents approaching the 16MB limit — with concrete remediation suggestions (e.g., the Subset Pattern or referenced relationships).
 - Segment fit: both — this is a general MongoDB data-modeling health concern, not segment-specific.
@@ -205,7 +285,9 @@ Priority Score = (Evidence Strength + Reach + Severity + Competitive Urgency) / 
 - Priority Score: (2+3+3+2)/3 = **3.33**
 - **Cut** — Evidence Strength is the weakest link; worth revisiting bundled with Candidate 1 in a future decision, not as a standalone pick now.
 
-### Candidate 10: Native BI/dashboard builder — **expanded in Stage 6**
+### Candidate 10: Native BI/dashboard builder — `PROP-bi-dashboard` — **expanded in Stage 6**
+**Classification:** ⚔️ Gap-Close (vs. VisuaLeaf, Navicat) · 🆕 Net-New · 🔗 Dictionary-Tracked (`QUERY-charts-dashboards`) · Status: **Cut**
+
 - Feature area: F-QUERY (`QUERY-charts-dashboards`)
 - Description: Chart-building and dashboard-composition tooling directly on collection/query/pipeline data (bar, line, pie, heatmap, pivot tables, etc.), styled after Navicat's built-in BI workspace, so users don't need to export to an external BI tool for basic visualization.
 - Segment fit: both.
@@ -220,7 +302,9 @@ Priority Score = (Evidence Strength + Reach + Severity + Competitive Urgency) / 
 - Priority Score: (3+4+2+3)/4 = **3.00**
 - **Cut — effort exceeds ceiling.**
 
-### Candidate 5: Secrets vault integration — **expanded in Stage 6**
+### Candidate 5: Secrets vault integration — `PROP-secrets-vault` — **expanded in Stage 6**
+**Classification:** ❔ Parity-Unverified · 🆕 Net-New · ✳️ Net-New-Concept · Status: **Cut**
+
 - Feature area: F-CONN/F-GOV — NEW
 - Description: Native connectors to enterprise secret managers (HashiCorp Vault, AWS Secrets Manager, Azure Key Vault) so Studio 3T retrieves short-lived, dynamically-rotated database credentials at connection time instead of storing static credentials locally.
 - Segment fit: enterprise/regulated primarily; weak fit for typical startups, which rarely run their own Vault/Secrets Manager infrastructure at smaller scale.
@@ -235,7 +319,9 @@ Priority Score = (Evidence Strength + Reach + Severity + Competitive Urgency) / 
 - Priority Score: (3+3+3+2)/4 = **2.75**
 - **Cut — effort exceeds ceiling.**
 
-### Candidate 15: VS Code / JetBrains companion extension — **expanded in Stage 6**
+### Candidate 15: VS Code / JetBrains companion extension — `PROP-ide-companion` — **expanded in Stage 6**
+**Classification:** ❔ Parity-Unverified (MongoDB's own extension, unconfirmed) · 🆕 Net-New · ✳️ Net-New-Concept · Status: **Cut**
+
 - Feature area: new product surface — NEW
 - Description: A companion extension in the VS Code Marketplace / JetBrains Plugin Repository bringing IntelliShell, query/aggregation code generation, and the AI Helper into the primary IDE, so developers don't have to context-switch to the standalone Studio 3T application.
 - Segment fit: individual developers, startups — this is a developer-experience play, not an enterprise-procurement one.
@@ -252,11 +338,13 @@ Priority Score = (Evidence Strength + Reach + Severity + Competitive Urgency) / 
 
 ### Candidates 2, 13, 14, 7, 8 — cut, cards remain abbreviated (evidentiary base too thin to expand further)
 
-- **2 (IntelliShell debugger):** effort 4, exceeds ceiling — real breakpoint debugging requires dedicated debugger-protocol infrastructure (2.25). Sources: `nosqlbooster-competitive-analysis`, `nosqlbooster-competitive-intelligence-analysis` (both B-tier, describing the same NoSQLBooster feature).
-- **13 (Synthetic test data):** low across the board, single source (`mongodb-ai-automation-opportunities`), no competitor confirmed (2.33).
-- **14 (Federated querying):** effort 5, exceeds ceiling by a wide margin — a federated query engine is a major architecture undertaking. Source: `datagrip-competitive-analysis` (2.00).
-- **7 (JIT access + dynamic masking):** effort 5 — this is control-plane functionality already properly homed in 3T Lens/3T Access; porting it to Desktop would mean rebuilding that architecture. Source: `studio-3t-enterprise-gap-analysis` (1.80).
-- **8 (Desktop SSO):** effort 5, weakest overall profile — likely a category-confusion candidate; Studio 3T Desktop is a license-key-based local app, not an account-based SaaS surface the way 3T Lens/Access are. Source: `studio-3t-enterprise-gap-analysis` (1.40).
+- **2 — `PROP-intellishell-debugger` (IntelliShell debugger)** · ⚔️ Gap-Close (vs. NoSQLBooster) · 🆕 Net-New · ✳️ Net-New-Concept · Cut: effort 4, exceeds ceiling — real breakpoint debugging requires dedicated debugger-protocol infrastructure (2.25). Sources: `nosqlbooster-competitive-analysis`, `nosqlbooster-competitive-intelligence-analysis` (both B-tier, describing the same NoSQLBooster feature).
+- **13 — `PROP-synthetic-test-data` (Synthetic test data)** · ❔ Parity-Unverified · 🆕 Net-New · ✳️ Net-New-Concept · Cut: low across the board, single source (`mongodb-ai-automation-opportunities`), no competitor confirmed (2.33).
+- **14 — `PROP-federated-query` (Federated querying)** · ⚔️ Gap-Close (vs. DataGrip) · 🆕 Net-New · ✳️ Net-New-Concept · Cut: effort 5, exceeds ceiling by a wide margin — a federated query engine is a major architecture undertaking. Source: `datagrip-competitive-analysis` (2.00).
+- **7 — `PROP-jit-dynamic-masking` (JIT access + dynamic masking)** · ❔ Parity-Unverified · 🆕 Net-New · ✳️ Net-New-Concept · Cut: effort 5 — this is control-plane functionality already properly homed in 3T Lens/3T Access; porting it to Desktop would mean rebuilding that architecture. Source: `studio-3t-enterprise-gap-analysis` (1.80).
+- **8 — `PROP-desktop-sso` (Desktop app-level SSO)** · ❔ Parity-Unverified · 🆕 Net-New · ✳️ Net-New-Concept · Cut: effort 5, weakest overall profile — likely a category-confusion candidate; Studio 3T Desktop is a license-key-based local app, not an account-based SaaS surface the way 3T Lens/Access are. Source: `studio-3t-enterprise-gap-analysis` (1.40).
+
+All 20 `PROP-` IDs, their classification tags, and pipeline status are also registered centrally in [feature-dictionary.md's Proposed Feature Registry](../../feature-dictionary.md#proposed-feature-registry-research-pipeline) — that table is the single source of truth if this file and the dictionary ever drift.
 
 ## Atomic dictionary gaps — blanket assessment
 

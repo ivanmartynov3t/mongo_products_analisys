@@ -8,6 +8,9 @@ This file is the **authoritative reference** for all feature IDs and sub-feature
 - [Cumulative report](reports/cumulative-report.md)
 - [High-level comparison](reports/comparisons/high-level-product-comparison.md)
 - [Low-level comparison](reports/comparisons/low-level-feature-comparison.md)
+- [Proposed Feature Registry ↓](#proposed-feature-registry-research-pipeline) — classification for candidate/not-yet-implemented features
+- [Next feature recommendation](reports/next-feature-recommendation.md)
+- [Feature-decision research](research/feature-decision-2026/)
 
 ---
 
@@ -430,6 +433,78 @@ Notes: MongoDB Compass F-AI is limited to AI-nl-query (natural language querying
 
 ---
 
+## Proposed Feature Registry (Research Pipeline)
+
+The registries above document **implemented** capabilities (confirmed, roadmap, or unverified) across shipping products. This section is different: it tracks **proposed** capabilities — candidates surfaced by feature-decision research that a product (so far: Studio 3T Desktop) does **not** yet implement, moving through a decision pipeline from raw idea to build/defer/reject. A proposal that is greenlit and implemented graduates into the Sub-feature registry above with its own permanent ID; its `PROP-` entry is retired here with a pointer to the permanent ID, not deleted (so the decision history stays traceable).
+
+This registry exists because a "should we build X?" research effort produces a different kind of fact than "does product Y have X?" — it has a competitive framing (are we catching up or breaking new ground?), an origin (are we inventing this or porting something already proven?), and a status that changes over time as the decision is made and, potentially, implemented. Conflating these with the Sub-feature registry's confirmed/roadmap/unverified status would lose that.
+
+### Classification legend
+
+**Competitive framing** (exactly one tag per proposal — describes whether building it closes a competitor's lead or extends Studio 3T's own, as established by checking this repo's own structured comparison data first, then external research):
+
+| Tag | Meaning |
+|---|---|
+| 🌱 Lead-Widener | No product tracked in this repo's structured comparison (MongoDB Compass, VisuaLeaf, or a directly primary-source-verified named competitor) is confirmed to have this. Building it creates new, currently-uncontested differentiation. |
+| ⚔️ Gap-Close | One or more specific, named competitors are confirmed — via this repo's own Tier A structured data (`reports/comparisons/low-level-feature-comparison.md`, product `feature-matrix.md` files) or a direct primary-source fetch — to already have this. Building it closes a real, named competitive gap. |
+| ❔ Parity-Unverified | Secondary research (competitor blog/review analysis) suggests this may matter competitively, but no specific competitor's possession of it has been confirmed against this repo's own structured comparison data or a primary source. Treat the competitive framing as an open question, not settled fact — do not silently upgrade this to Gap-Close or Lead-Widener without doing that check. |
+
+**Origin** (one tag — describes where the underlying capability/logic already exists, if anywhere; changes the effective implementation risk regardless of the raw effort score):
+
+| Tag | Meaning |
+|---|---|
+| 🏠 Portfolio-Port | The capability is already built and proven in another 3T Software Labs product (3T Lens, 3T MCP, 3TL Bridge, 3T Explore). Substantially lower design/implementation risk — it's a port, not an invention. |
+| 🆕 Net-New | No existing implementation anywhere in the 3T product family. Would be built from scratch for the target product, though it may reuse that product's own existing adjacent infrastructure (e.g., Explain Plan/Profiler data, schema-sampling). |
+
+**Dictionary linkage** (one tag):
+
+| Tag | Meaning |
+|---|---|
+| 🔗 Dictionary-Tracked | Corresponds to a sub-feature ID already defined above, already tracked in the gap-analysis reports as absent/unverified for the target product. |
+| ✳️ Net-New-Concept | No existing sub-feature ID covers this. A `PROP-` ID is minted below; if implemented, a permanent ID must be added to the Sub-feature registry above per the naming rules. |
+
+**Pipeline status** (one tag; the only field expected to change after a proposal is first scored):
+
+| Status | Meaning |
+|---|---|
+| Proposed | Surfaced and scored against the rubric; not yet deep-dived. |
+| Shortlisted | Reached the top of a decision funnel and received targeted follow-up research and adversarial verification. |
+| Recommended | The winning pick of a completed decision. |
+| Deferred | A real, well-evidenced candidate that didn't fit the scope/ceiling of the decision that considered it (e.g., effort too large, or it answers a different strategic question) — explicitly eligible for a future, separate decision, not dropped. |
+| Cut | Did not clear the bar on evidence, reach, severity, or effort for the decision that considered it. |
+| Implemented | Built and shipped — the `PROP-` ID is retired; see the permanent sub-feature ID it graduated into. |
+
+### Registry: 2026-07 Studio 3T Desktop feature-decision research
+
+Source research: [research/feature-decision-2026/](research/feature-decision-2026/) · Decision memo: [reports/next-feature-recommendation.md](reports/next-feature-recommendation.md) · Priority Score formula (`(Evidence Strength + Reach + Severity + Competitive Urgency) / Build Effort`) and full 1-5 rubric definitions: [research plan](research/feature-decision-2026/01-research-plan.md).
+
+| Proposed ID | Name | Feature area | Dictionary link | Competitive framing | Origin | Status | Priority Score |
+|---|---|---|---|---|---|---|---|
+| `PROP-pii-discovery` | Automated PII classification/discovery | F-GOV | ✳️ Net-New-Concept | 🌱 Lead-Widener | 🏠 Portfolio-Port (via `AI-011`, `GOV-004`) | **Recommended** | 6.50 |
+| `PROP-cli-automation` | Headless CLI / CI-CD pipeline automation | F-SCHED / F-TRANSFER / F-GOV | ✳️ Net-New-Concept | ⚔️ Gap-Close (vs. DBeaver Pro/Ultimate) | 🆕 Net-New | Deferred (fast-follow) | 7.50 |
+| `PROP-webhook-notify` | Webhook notifications (Slack/Teams/Jira/PagerDuty) | F-SCHED / F-GOV | 🔗 `GOV-003` | ❔ Parity-Unverified | 🏠 Portfolio-Port (via `GOV-003`, 3T Lens) | Shortlisted | 7.00 |
+| `PROP-idx-perf-advisor` | AI-driven query/index performance advisor | F-IDX | 🔗 `IDX-perf-insights` | ⚔️ Gap-Close (vs. Compass, VisuaLeaf) | 🆕 Net-New | Shortlisted | 5.67 |
+| `PROP-qe-key-vault-ui` | Queryable Encryption/CSFLE key-vault UI | F-CONN | 🔗 `CONN-in-use-enc` | ⚔️ Gap-Close (vs. Compass) | 🆕 Net-New | Shortlisted | 5.00 |
+| `PROP-vector-search-tooling` | Deeper Vector Search tooling | F-IDX | 🔗 `IDX-vector-search` | ⚔️ Gap-Close (vs. Compass) | 🆕 Net-New | Cut (funnel size) | 4.67 |
+| `PROP-git-integration` | Native Git/version-control integration | F-QUERY / F-AGG / F-SCHED | ✳️ Net-New-Concept | ⚔️ Gap-Close (vs. DataGrip/JetBrains platform) | 🆕 Net-New (partial prior art, Studio 3T 2026.4) | Cut | 4.33 |
+| `PROP-schema-erd-cluster` | Visual ERD / JSON-Schema editor / validation UI | F-SCHEMA | 🔗 13 IDs (`SCHEMA-designer-*`, `SCHEMA-validation-*`, `SCHEMA-json-editor`, etc.) | ⚔️ Gap-Close (vs. Compass, VisuaLeaf) | 🆕 Net-New | **Deferred (separate future decision)** | 4.00 |
+| `PROP-ai-gateway-sso` | Enterprise AI gateway/SSO for AI Helper | F-AI | ✳️ Net-New-Concept | 🌱 Lead-Widener (DBeaver shares the same weakness) | 🆕 Net-New | Cut | 4.00 |
+| `PROP-schema-drift` | Schema drift detection / versioned field history | F-SCHEMA / F-GOV | 🔗 `GOV-005` | ❔ Parity-Unverified | 🏠 Portfolio-Port (via `GOV-005`, 3T Lens) | Cut | 3.67 |
+| `PROP-siem-export` | Centralized SIEM/audit-log export | F-GOV | ✳️ Net-New-Concept | ❔ Parity-Unverified | 🆕 Net-New | Cut | 3.33 |
+| `PROP-schema-health-advisor` | AI schema anti-pattern/health advisor | F-SCHEMA / F-AI | ✳️ Net-New-Concept | ❔ Parity-Unverified | 🆕 Net-New | Cut | 3.33 |
+| `PROP-bi-dashboard` | Native BI/dashboard builder | F-QUERY | 🔗 `QUERY-charts-dashboards` | ⚔️ Gap-Close (vs. VisuaLeaf, Navicat) | 🆕 Net-New | Cut | 3.00 |
+| `PROP-secrets-vault` | Secrets vault integration | F-CONN / F-GOV | ✳️ Net-New-Concept | ❔ Parity-Unverified | 🆕 Net-New | Cut | 2.75 |
+| `PROP-ide-companion` | VS Code/JetBrains companion extension | (new product surface) | ✳️ Net-New-Concept | ❔ Parity-Unverified | 🆕 Net-New | Cut | 2.50 |
+| `PROP-intellishell-debugger` | IntelliShell interactive debugger | F-SHELL | ✳️ Net-New-Concept | ⚔️ Gap-Close (vs. NoSQLBooster) | 🆕 Net-New | Cut | 2.25 |
+| `PROP-synthetic-test-data` | Synthetic/constrained test-data generator | F-TRANSFER / F-AI | ✳️ Net-New-Concept | ❔ Parity-Unverified | 🆕 Net-New | Cut | 2.33 |
+| `PROP-federated-query` | Federated cross-database querying | F-SQL / F-CONN | ✳️ Net-New-Concept | ⚔️ Gap-Close (vs. DataGrip) | 🆕 Net-New | Cut | 2.00 |
+| `PROP-jit-dynamic-masking` | JIT access + dynamic query-layer masking | F-GOV | ✳️ Net-New-Concept | ❔ Parity-Unverified | 🆕 Net-New | Cut | 1.80 |
+| `PROP-desktop-sso` | Desktop app-level SSO/IdP federation | F-CONN / F-GOV | ✳️ Net-New-Concept | ❔ Parity-Unverified | 🆕 Net-New | Cut | 1.40 |
+
+Full per-candidate rationale, citations, and metric derivations: [04-scored-longlist.md](research/feature-decision-2026/04-scored-longlist.md). Every `Gap-Close` tag above is backed by a specific competitor citation in that file (not just a generic "competitors may have this" assertion) — where the original research scored a candidate as Lead-Widener without checking this repo's own comparison data first, the tag was corrected once the check was done (see `PROP-idx-perf-advisor`, which was originally mis-tagged Lead-Widener until this repo's own `IDX-perf-insights` row was checked and found to confirm Compass and VisuaLeaf both already have it).
+
+---
+
 ## Naming rules for future analysis
 
 1. **Feature folder names** must match the `Folder name` column exactly.
@@ -437,6 +512,8 @@ Notes: MongoDB Compass F-AI is limited to AI-nl-query (natural language querying
 3. A sub-feature ID not in this dictionary must be proposed and added here before use.
 4. Product-specific sub-features that have no cross-product equivalent should still use a dictionary ID — add it to this file first.
 5. Features not applicable to a product are omitted from that product's folder — do not add a placeholder.
+6. **Proposed (not-yet-implemented) features** use the `PROP-<slug>` prefix and are tracked in the Proposed Feature Registry above, not the Sub-feature registry — this keeps "does X exist" (Sub-feature registry) cleanly separate from "should we build X" (Proposed Feature Registry). Every proposal must carry all four classification tags (competitive framing, origin, dictionary linkage, pipeline status) and cite the specific research file backing each factual claim — no proposal is added on the strength of unattributed judgment alone.
+7. If a proposal is implemented, add its permanent sub-feature ID to the registry above in the normal way, then update its `PROP-` row's status to `Implemented` with a pointer to the new ID — do not delete the `PROP-` row.
 
 ---
 
@@ -444,6 +521,7 @@ Notes: MongoDB Compass F-AI is limited to AI-nl-query (natural language querying
 
 | Date | Change | Author |
 |---|---|---|
+| 2026-07-30 | Added the Proposed Feature Registry section: a classification scheme (competitive framing, origin, dictionary linkage, pipeline status) for not-yet-implemented candidate features, plus a registry of all 20 candidates from the 2026-07 Studio 3T Desktop feature-decision research (`research/feature-decision-2026/`, `reports/next-feature-recommendation.md`). New `PROP-<slug>` ID prefix and naming rule (#6, #7) added. | Claude |
 | 2026-07-29 | Split 3T Explore, 3T MCP, 3TL Bridge, 3T Lens, and 3T Access out of the Studio 3T product folder into their own product folders under `products/3t/` (previously documented as sub-sections of Studio 3T's AI Features and Governance & Security matrices). No dictionary IDs changed; added 5 columns to the Product × feature coverage matrix. | Claude |
 | 2026-07-28 | Added CONN-compat-ferretdb, GOV-platform-explore, QUERY-view-gridfs, QUERY-view-split, QUERY-charts-dashboards based on review of studio3t.com, mongodb.com/products/tools/compass, and visualeaf.com (plus verification fetches of studio3t.com/3t-explore/, visualeaf.com/features/sql-mode/, /mongosync/, /gridfs-viewer/, /split-panel-views/). Corrected AI-012 name from "3T Build" to "3T Explore" (Build is a product track, not a product name). Enabled F-AI (partial) for MongoDB Compass and F-SQL (partial) for VisuaLeaf in the coverage matrix. | Claude |
 | 2026-06-24 | Added missing sub-feature IDs currently used in `products/` and comparison reports; synchronized dictionary coverage with active matrices | Copilot |
