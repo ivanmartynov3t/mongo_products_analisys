@@ -1,0 +1,278 @@
+﻿Competitive Intelligence Report: MongoDB Compass Capability Analysis, Release Trajectory, and Strategic Opportunities for Studio 3T
+Executive Summary & Strategic Positioning
+MongoDB Compass is the official graphical user interface (GUI) developed by MongoDB Inc. to facilitate data exploration, schema visualization, query building, and database administration across MongoDB deployments1. Delivered as a cross-platform desktop application built on Electron, Compass serves as a critical onboarding gateway for developers, data analysts, and software architects navigating standalone instances, replica sets, and MongoDB Atlas cloud clusters1.
+From a strategic perspective, MongoDB Inc. utilizes Compass primarily as an ecosystem enabler rather than a direct monetization driver1. By offering Compass as a free tool, MongoDB Inc. eliminates adoption friction for its primary operational database engine and Atlas cloud services1. Consequently, engineering investments in Compass prioritize rapid schema discovery, visual aggregation pipeline construction, embedded shell execution, and generative AI query assistance1.
+This commercial alignment establishes distinct functional boundaries. While Compass delivers strong capabilities for single-collection query design, BSON schema sampling, and visual explain plans1, it intentionally omits advanced enterprise data management features such as direct inter-database data synchronization, SQL-to-MongoDB query translation, automated task scheduling, and field-level data masking10.
+These functional boundaries present an operational opportunity for third-party developer platforms, most notably Studio 3T10. Studio 3T operates as a commercial Integrated Development Environment (IDE) tailored for complex enterprise engineering workflows, polyglot application teams, and relational-to-NoSQL database migrations10. Maintaining this competitive advantage requires a nuanced understanding of Compass's architectural evolution, feature cadence, community pain points, and strategic trajectory.
+Complete Feature Inventory & Architectural Capabilities
+MongoDB Compass combines visual manipulation tools with an embedded command-line interface (mongosh)6. The application is distributed across two active installation editions—Compass Standard and Compass Isolated—alongside a legacy Readonly mode currently undergoing formal deprecation6.
+Distribution Editions and Technical Capabilities
+Compass Standard is designed for connected developer environments, receiving automatic updates, streaming telemetry, and cloud-based AI feature support6. Conversely, Compass Isolated is tailored for air-gapped, highly regulated enterprise environments, stripping out external network calls, mapping integrations, and generative AI services6.
+
+
+Feature / Capability Module
+	Compass Standard
+	Compass Isolated Edition
+	Operational Mechanism & Impact
+	Document CRUD & Multi-View Engine
+	Supported6
+	Supported6
+	Provides List, JSON, and Table views for browsing, filtering, and inline document editing17.
+	Visual Aggregation Pipeline Builder
+	Supported6
+	Supported6
+	Enables stage-by-stage construction across 200+ pipeline operators with real-time stage previews1.
+	Schema Sampling & Visualization
+	Supported6
+	Supported6
+	Samples collection BSON structures to render frequency histograms, data types, and missing fields9.
+	Explain Plans & Performance Analysis
+	Supported6
+	Supported6
+	Displays graphical query execution trees, stage timings, and index vs. collection scan ratios1.
+	Index Creation & Usage Tracking
+	Supported6
+	Supported6
+	Manages single-field, compound, wildcard, and vector search index definitions and tracking1.
+	Visual Data Modeling (ERD)
+	Supported8
+	Supported8
+	Infers entity relationships, visualizes sub-document embedding, and maps collection schema cardinality8.
+	In-Use / Field-Level Encryption (FLE)
+	Supported17
+	Supported17
+	Automatically handles decryption and masking based on configured client key providers17.
+	Embedded Shell (mongosh)
+	Supported6
+	Supported6
+	Integrated terminal tab running mongosh for direct JavaScript scripting and administrative commands6.
+	Interactive GeoJSON Mapping
+	Supported9
+	Excluded9
+	Renders spatial data points on interactive map tiles; disabled in Isolated mode to prevent external tile fetches9.
+	Natural Language AI Query Assistant
+	Supported6
+	Excluded6
+	Uses cloud-hosted generative AI to translate English prompts into filters and aggregation pipelines1.
+	Auto-Updates & Error Telemetry
+	Supported6
+	Excluded6
+	Background updates and crash analytics reporting; disabled in Isolated mode for air-gapped compliance6.
+	Deep-Dive Analysis of Core Capability Modules
+Schema Discovery and Visual Sampling
+Compass executes schema discovery through dynamic background sampling of collection documents, bypassing the need for exhaustive collection scans that could degrade database performance9. The sampled data generates a visual representation of field distribution, cardinality, type mix, and missing attributes (undefined)9.
+Numerical values and dates are mapped to interactive histograms, string fields display frequency-graded distribution bars, and embedded BSON documents or arrays render expandable tree structures9. This statistical breakdown enables developers to identify schema drift, inconsistent data types across legacy records, and non-conforming documents without writing custom aggregation queries1.
+Stage-by-Stage Aggregation Pipeline Builder
+The visual aggregation builder allows developers to construct complex multi-stage pipelines incrementally1. Users select operators from a comprehensive library exceeding 200 stages, such as $match, $group, $lookup, $unwind, and $project1. As each stage is configured, Compass streams a sample output preview representing the intermediate state of the data transformation1.
+Once verified, the complete pipeline can be exported directly into idiomatic target application code across languages including Node.js, Python, Java, C#, PHP, and Ruby, or copied as shell script syntax7.
+Multi-Mode Document Navigation and Editing
+The document explorer provides three distinct interaction modes to accommodate varying data structures:
+* List View: The default view, displaying documents as hierarchical tree structures with collapsible nodes for nested arrays and sub-documents17.
+* JSON View: An expanded view rendering valid Extended JSON syntax, making BSON data types explicit for debugging17.
+* Table View: A spreadsheet-style tabular layout displaying document attributes in columns, allowing inline cell editing, rapid sorting, and cosmetic column reordering17.
+Query Optimization and Visual Explain Plans
+Compass provides query profiling tools through visual Explain Plans1. When a query or aggregation is analyzed, Compass displays the execution path visually, detailing whether the query engine utilized an index scan (IXSCAN) or fell back to a collection scan (COLLSCAN)1.
+Key metrics—including total execution time in milliseconds, documents examined versus returned, and index key evaluation numbers—are highlighted at each stage of execution1. This visual feedback loop allows developers to diagnose slow-running queries and formulate targeted indexing strategies1.
+Visual Data Modeling (v1.48+)
+Introduced in recent major updates, the native Data Modeling module transforms Compass into an entity-relationship design workspace8. The tool infers schemas across databases, auto-detects foreign key references, visualizes nested document relationships, and supports custom cardinality assignments8. Developers can interact with schema topologies through dedicated navigation drawers, pan-and-zoom minimaps, and interactive collection reselection controls8.
+Release History, GitHub Activity, & Roadmap Signals
+The operational evolution of MongoDB Compass reflects a rapid release cadence managed by MongoDB Inc.'s developer tooling team8. Recent engineering efforts focus on modernizing core desktop runtimes, embedding structural modeling capabilities, improving AI prompt contexts, and addressing developer UX limitations8.
+Chronological Summary of Recent Major Releases
+
+
+Version Tag
+	Release Timeline
+	Major Feature Deliverables & Bug Fixes
+	Strategic Architectural Impact
+	v1.45.2
+	Late 2025
+	Released "Expand all documents in view" functionality; persisted expansion states across collection pagination sessions20.
+	Directly addressed a long-standing UX complaint regarding manual clicking in deeply nested BSON structures20.
+	v1.48.2
+	Early 2026
+	General Availability (GA) launch of visual Data Modeling module; persisted window bounds and zoom levels; promoted AI Assistant to GA8.
+	Expanded Compass from an operational query tool into a structural data architecture platform8.
+	v1.49.1 - v1.49.2
+	Spring 2026
+	Added cardinality controls to Data Modeling, diagram overview drawers, collection reselection, and expanded telemetry for AI Assistant prompts8.
+	Enhanced ERD modeling tooling to better compete with standalone data modeling software8.
+	v1.49.6
+	May 2026
+	Applied maxTimeMS query limits to administrative database tools; patched prototype pollution security vulnerabilities (CVE-2026-9101)8.
+	Strengthened desktop application security and mitigated long-running query hangs8.
+	v1.49.9
+	June 2026
+	Upgraded core infrastructure to Electron v41 and Node.js v24; added minimap navigation to Data Modeling; grouped bulk document toolbar actions8.
+	Upgraded foundational runtime performance, rendering engine efficiency, and overall application stability8.
+	v1.49.10 - v1.49.12
+	June–July 2026
+	Integrated support for $rerank aggregation stage, driver-level AbortSignal query cancellation, improved autocomplete dropdown styles, and fixed CSV escaping8.
+	Aligned client tool capabilities with vector search workflows and operational query safety8.
+	v1.49.13-beta
+	Current Beta
+	Native handling of max integer BSON values, field modification visual highlighting, and persistent document view states18.
+	Improves data safety and visual feedback during inline document editing sessions18.
+	GitHub Issue Tracking and Architectural Signals
+Analysis of public GitHub repository issues (mongodb-js/compass) and release tags reveals distinct technical priorities guiding MongoDB Inc.'s engineering roadmap8.
+Modernization of Desktop Infrastructure
+The upgrading of Electron (to v41) and Node.js (to v24) in release v1.49.9 demonstrates a commitment to maintain core framework security, V8 engine performance, and native OS window integration8. Furthermore, the introduction of AbortSignal integration into underlying data service drivers (COMPASS-8925) shows an ongoing effort to allow users to cleanly cancel stuck or heavy database operations without crashing the desktop GUI8.
+Deprecation of Standalone Readonly Distribution
+MongoDB Inc. has officially announced the planned deprecation of the dedicated MongoDB Compass Readonly Edition6. The strategic shift moves read-only enforcement away from separate application builds toward database-level Role-Based Access Control (RBAC) combined with UI configuration flags (--readOnly or forceConnectionOptions)6. This consolidates the client codebase while ensuring security constraints are enforced at the database layer6.
+Deep Expansion of Vector Search and GenAI Infrastructure
+The addition of native UI support for specialized aggregation stages like $rerank (COMPASS-10798), alongside ongoing prompt refinements for the Compass Assistant, confirms that client tools are being optimized to support AI-driven application stacks built on MongoDB Vector Search1.
+User Sentiment, Community Discussions, & Review Website Synthesis
+A comprehensive analysis of developer discussions across community platforms (r/mongodb), Jira issue trackers, G2 reviews, Capterra feedback, and YouTube video comparisons highlights key perceptions of MongoDB Compass within the developer community4.
+Review Aggregator Sentiment Summary
+
+
+Review Channel / Platform
+	Overall Sentiment
+	Core Appreciated Strengths
+	Primary Cited Complaints & Limitations
+	G2 Reviews
+	4.5 / 5.0 Stars4
+	Free availability, effortless schema discovery visualizer, intuitive filter query bar, visual explain plan simplicity1.
+	High memory overhead on complex collections, slow startup, lack of advanced multi-collection features4.
+	Capterra Ratings
+	4.3 – 4.6 / 5.0 Stars26
+	Easy deployment, seamless integration with Atlas cloud instances, clean document browsing UX24.
+	Unhelpful error messaging, lack of inter-database copying, slow response during heavy aggregations11.
+	Reddit (r/mongodb)
+	Mixed / Pragmatic11
+	Great for standard CRUD, learning aggregations step-by-step, and fast document inspections11.
+	Inability to clone/copy collections directly between DBs, weak JS shell scripting compared to Studio 3T or NoSQLBooster11.
+	YouTube Tech Reviews
+	Positive for Onboarding
+	Accessible entry point for beginners, clean visual UI, excellent visual pipeline debugging demonstrations11.
+	Highlighted as insufficient for enterprise ETL workflows, SQL querying, or complex multi-database tasks10.
+	Detailed Categorization of User Complaints and Friction Points
+Inter-Database Data Movement and Collection Cloning
+The most persistent complaint across community forums is Compass's inability to directly copy or clone collections between different databases or distinct MongoDB clusters11. Developers frequently note that transferring a dataset from a production cluster to a local development environment requires exporting data to JSON or CSV files and executing a separate import process11.
+This file-based export and import process breaks down, encounters memory timeouts, or drops complex BSON field types when handling datasets containing millions of records11. Furthermore, Compass offers no mechanism to copy index definitions directly across collections, forcing developers to rebuild indexes manually11.
+Resource Overhead and UI Freezing
+As an Electron-based desktop application, Compass receives ongoing criticism regarding memory consumption and unresponsiveness during heavy workload sessions4. Users report that executing unindexed queries or scanning multi-gigabyte collections can freeze the GUI interface4. When database operations encounter timeouts or driver errors, the UI can become unresponsive, requiring a hard application restart23.
+Nested BSON Structure Navigation and Pagination Hard Limits
+Despite recent additions such as "Expand all documents" (v1.45.2), developers working with deeply nested BSON documents express ongoing frustration with visual navigation17. Expanding nested arrays and sub-documents across multiple documents often requires repetitive clicking20.
+Additionally, the default page layout locks result views to 25 documents at a time, creating friction for developers attempting to rapidly scroll through larger sample sets17.
+Scripting Environment Limitations
+Power users and database administrators consistently highlight the limitations of Compass's embedded shell (mongosh) compared to dedicated IDE environments22. The embedded shell lacks robust multi-line script management, session persistence across restarts, script bookmarking, and native support for global JavaScript utility libraries like Lodash or Moment.js, which are standard in tools like NoSQLBooster22.
+Missing Functionality & Most Requested Features
+Evaluating community feature requests submitted via the official MongoDB Feedback Portal and developer forums reveals a clear list of capabilities desired by professional users11.
+
+
+Requested Capability / Feature
+	Underlying Developer Pain Point
+	Current Compass Workaround
+	Market Impact & Urgency
+	Direct Inter-DB / Inter-Cluster Sync
+	Cannot move collections or datasets directly between databases or server environments11.
+	Manual export to file (JSON/CSV) followed by manual import; or external CLI tool execution11.
+	High; primary reason developers transition to commercial tools like Studio 3T11.
+	Cross-Collection Index Copying
+	Re-creating complex compound or wildcard index definitions across environments is manual and error-prone11.
+	Manual copying of raw JSON index specification definitions through the CLI or UI11.
+	Medium; slows down staging environment initialization and schema migration11.
+	Native SQL Query Engine
+	Relational developers struggle to write complex MongoDB filter and aggregation pipelines10.
+	Manual syntax lookup in documentation or reliance on basic AI prompt generation1.
+	High; major adoption barrier for teams transitioning from SQL environments10.
+	Automated Task Scheduler
+	Scheduled data imports, nightly backups, and recurring collection synchronizations cannot be automated inside the GUI12.
+	Writing custom OS cron jobs, shell scripts, or utilizing external ETL software12.
+	Medium; critical requirement for enterprise database administrators12.
+	In-Place Field-Level Data Masking
+	Exporting production datasets for local testing exposes sensitive PII and breaches compliance guidelines13.
+	Writing custom backend transformation scripts to sanitize data prior to export13.
+	High; essential compliance requirement for enterprise development pipelines13.
+	Visual Schema Refactoring (Reschema)
+	Renaming, flattening, or restructuring fields across existing collections requires writing custom migration code13.
+	Executing bulk $out or $merge aggregation pipelines, or writing custom driver scripts7.
+	Medium; saves engineering hours during application iterations13.
+	Configurable Default Result Limits
+	The fixed 25-document page size hinders rapid scrolling and document comparison workflows17.
+	Manually adjusting $limit parameters or repeatedly clicking pagination controls17.
+	High; frequently requested usability improvement on feedback portals20.
+	Strategic Evaluation: Compass Strengths, Weaknesses, and Opportunities for Studio 3T
+A strategic analysis highlights the distinct market positioning of MongoDB Compass relative to Studio 3T. MongoDB Inc. provides Compass as a free tool to expand the adoption of its database platform1. Studio 3T targets professional database administrators, data engineers, and software development teams willing to pay for advanced operational productivity and enterprise governance10.
+MongoDB Compass Core Strengths and Weaknesses
+Core Strengths
+* Zero Cost and Official Ecosystem Support: Provided free of charge, updated alongside database releases, and fully supported by MongoDB Inc.1
+* Seamless Atlas Cloud Integration: Direct, friction-free connection flows to MongoDB Atlas clusters, including support for SRV records, OIDC, and cloud monitoring1.
+* Advanced Schema Visualizer: Best-in-class BSON sampling visualizer with automatic data type detection and value distribution histograms4.
+* Native AI and ERD Data Modeling: Embedded natural language query generation and visual entity-relationship diagramming out of the box1.
+Core Weaknesses
+* Inability to Perform Direct Data Sync: No native capability to copy, clone, or synchronize collections and indexes between databases or clusters11.
+* Lack of Relational SQL Support: Cannot parse ANSI SQL queries or execute relational JOIN operations natively10.
+* No Automated Workflow Orchestration: Omits task scheduling, batch automation, and scheduled import/export jobs12.
+* Limited Enterprise Governance: Lacks rule-based data masking, obfuscation, and relational-to-NoSQL migration wizards13.
+* Electron Performance Footprint: High memory usage and unresponsiveness during heavy aggregation scans or unindexed queries on large collections4.
+Actionable Opportunities for Studio 3T
+
+
+
+
+
+
+   COMPASS FUNCTIONAL BOUNDARY          STUDIO 3T ENTERPRISE OPPORTUNITY
+  
+┌──────────────────────────────┐     ┌──────────────────────────────────┐
+│ Single-Collection CRUD       │     │ Cross-Cluster Data Sync          │
+│ Basic Aggregation Builder    │───► │ Direct Collection & Index Clone  │
+│ BSON Schema Histograms       │     │ SQL Query Engine (with JOINs)    │
+│ Free First-Party Tool        │     │ Task Scheduler & Automation      │
+└──────────────────────────────┘     │ Enterprise Data Masking          │
+                                     │ RDBMS to MongoDB Migration       │
+                                     └──────────────────────────────────┘
+
+1. Target Data Movement and Synchronization Pain Points
+Studio 3T can directly address the primary limitation of Compass by highlighting its cross-cluster data transfer, collection cloning, and index replication capabilities11. Marketing campaigns should emphasize how Studio 3T allows developers to move multi-gigabyte collections seamlessly between staging, testing, and production environments without relying on temporary JSON/CSV export files11.
+2. Promote the SQL Query Engine and Polyglot Code Generation
+The absence of SQL support in Compass remains a significant barrier for engineering teams transitioning from relational databases10. Studio 3T should continue positioning its SQL Query engine—which parses ANSI SQL (including INNER and LEFT JOIN operations) into native MongoDB aggregation pipelines—as an essential productivity feature13.
+Furthermore, highlighting polyglot code generation across modern application drivers (C#, Java, Python, Node.js) reinforces Studio 3T's value to full-stack engineering organizations7.
+3. Emphasize Enterprise Compliance, Data Masking, and Task Automation
+Studio 3T can protect its enterprise market share by emphasizing operational features completely absent from Compass10:
+* Field-Level Data Masking: Enabling rule-based anonymization during export or cross-cluster sync ensures enterprise compliance with data privacy standards13.
+* Automated Task Scheduler: Allowing teams to automate recurring imports, exports, and schema comparisons streamlines database operations12.
+* Relational SQL Migration Engine: Bi-directional migration tools supporting MySQL, PostgreSQL, Oracle, and SQL Server provide clear value during legacy modernizations13.
+4. Differentiate AI Capabilities Beyond Generic Query Translation
+While Compass offers basic natural language query generation1, Studio 3T can differentiate its AI Helper by tying it directly to advanced IDE workflows13. Studio 3T’s AI assistant should be positioned to assist in writing complex SQL queries across nested document structures, generating automated pipeline transformation tasks, and diagnosing schema anomalies, delivering value beyond single-collection query translation1.
+5. Address Pricing Sensitivity with Targeted Licensing Tiers
+Community sentiment indicates that Studio 3T’s pricing structure ($200 to $700+/user/year) leads some individual developers and budget-conscious teams to seek free or lower-cost alternatives like Compass, NoSQLBooster, or DataGrip22.
+To counter this, Studio 3T could offer a streamlined developer tier that includes core productivity features—such as the SQL Query engine, direct collection cloning, and polyglot code generation—at an accessible price point, while reserving enterprise governance features (Data Masking, Scheduled Tasks, SQL Migrations) for upper-tier commercial licenses12.
+Conclusions & Strategic Recommendations
+MongoDB Compass fulfills its core purpose as a free, accessible entry point for database exploration, schema visualization, and visual aggregation building within the MongoDB ecosystem1. Its continuous development—highlighted by recent additions like visual data modeling, AI query assistants, and modernized Electron runtimes—ensures it will remain the default tool for standard development workflows1.
+However, Compass’s strategic focus on single-collection exploration creates a clear operational boundary1. It leaves critical enterprise capabilities—such as cross-cluster data synchronization, native SQL query engines, automated workflow scheduling, and field-level data compliance—entirely unaddressed10.
+For Studio 3T, these operational boundaries define a clear roadmap for product development and market expansion10. By continuing to invest in enterprise data pipelines, relational migration tools, task automation, and compliance features, while introducing targeted pricing tiers for individual developers, Studio 3T can effectively protect its commercial positioning as the premier enterprise IDE for MongoDB12.
+Works cited
+1. MongoDB Compass, https://www.mongodb.com/products/tools/compass
+2. What is MongoDB Compass? - Compass - MongoDB Docs, https://www.mongodb.com/docs/compass/
+3. Connect Compass to MongoDB, https://www.mongodb.com/docs/compass/connect/
+4. MongoDB Compass Reviews 2026: Details, Pricing, & Features | G2, https://www.g2.com/products/mongodb-compass/reviews
+5. Welcome to the MongoDB Docs - MongoDB Documentation - MongoDB Docs, https://www.mongodb.com/docs/
+6. Capabilities of Compass Editions - Compass - MongoDB Docs, https://www.mongodb.com/docs/compass/editions/
+7. MongoDB Compass Features, https://www.mongodb.com/products/tools/compass/features
+8. Release Notes - Compass - MongoDB Docs, https://www.mongodb.com/docs/compass/release-notes/
+9. Analyze Your Data Schema - Compass - MongoDB Docs, https://www.mongodb.com/docs/compass/schema/
+10. MongoDB Compass vs Studio 3T | What are the differences? - StackShare, https://stackshare.io/stackups/mongodb-compass-vs-studio-3t
+11. MongoDB users: What's your biggest database management challenge? - Reddit, https://www.reddit.com/r/mongodb/comments/1ehqk5a/mongodb_users_whats_your_biggest_database/
+12. What's New in Studio 3T 2021.2 | Task Scheduler Now Available for All, https://studio3t.com/whats-new/release-2021-2/
+13. Try Studio 3T Desktop IDE for free, https://studio3t.com/download/
+14. Studio 3T Desktop IDE - The fastest path from query to insight, for MongoDB and document databases, https://studio3t.com/studio-3t-desktop-ide/
+15. Release Notes - mongosh - MongoDB Docs, https://www.mongodb.com/docs/mongodb-shell/changelog/
+16. Specify Read Preference and Tags - Compass - MongoDB Docs, https://www.mongodb.com/docs/compass/settings/specify-read-preference-tags/
+17. View Documents in Compass - Compass - MongoDB Docs, https://www.mongodb.com/docs/compass/documents/view/
+18. Releases · mongodb-js/compass - GitHub, https://github.com/mongodb-js/compass/releases
+19. Spreadsheet like UI for quick editing Mongodb - Reddit, https://www.reddit.com/r/mongodb/comments/13oe2qf/spreadsheet_like_ui_for_quick_editing_mongodb/
+20. Want "expand all" button for documents in view. | MongoByte Portal - MongoDB Feedback, https://feedback.mongodb.com/ideas/CUSTOMER-I-6868
+21. mongodb-js/compass: The GUI for MongoDB. - GitHub, https://github.com/mongodb-js/compass
+22. MongoDB Compass looks great and is free, is there any reason to use Robo 3T or Studio 3T anymore? - Reddit, https://www.reddit.com/r/mongodb/comments/m1sr4z/mongodb_compass_looks_great_and_is_free_is_there/
+23. MongoDB Feedback, https://feedback.mongodb.com/
+24. MongoDB Reviews 2026. Verified Reviews, Pros & Cons - Capterra, https://www.capterra.com/p/127374/MongoDB/reviews/
+25. MongoDB Atlas Reviews 2026: Details, Pricing, & Features | G2, https://www.g2.com/products/mongodb-atlas/reviews
+26. Compare PostgreSQL vs MongoDB 2026 | Capterra, https://www.capterra.com/compare/48791-127374/PostgreSQL-vs-MongoDB
+27. Which MongoDB GUI/IDE are you guys using? - Reddit, https://www.reddit.com/r/mongodb/comments/1pd024y/which_mongodb_guiide_are_you_guys_using/
+28. MongoDB compass - Reddit, https://www.reddit.com/r/mongodb/comments/blvea9/mongodb_compass/
+29. NoSQLBooster is wicked : r/mongodb - Reddit, https://www.reddit.com/r/mongodb/comments/m2kvc0/nosqlbooster_is_wicked/
+30. matt | Performance is a Feature!, https://mattwarrendotorg.wordpress.com/author/matthewwarren/
+31. Is there a good software to use mongo db : r/mongodb - Reddit, https://www.reddit.com/r/mongodb/comments/1kmne2d/is_there_a_good_software_to_use_mongo_db/
+32. How to use Studio 3T without giving your personal information or is there any other client for mongodb that doesn't require sign in. - Reddit, https://www.reddit.com/r/mongodb/comments/1kbb5h1/how_to_use_studio_3t_without_giving_your_personal/
