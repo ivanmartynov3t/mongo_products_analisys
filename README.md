@@ -13,6 +13,7 @@ This repository is for **hierarchical, deep feature analysis** of products that 
 - [Low-level comparison](reports/comparisons/low-level-feature-comparison.md)
 - [Gap analysis: NOT on any 3T product](reports/gap-analysis-not-on-3t-products.md)
 - [Gap analysis: NOT on Studio 3T Desktop](reports/gap-analysis-not-on-3t-desktop.md)
+- [Voice-of-customer metrics (pilot)](reports/voice-of-customer-metrics.md)
 - [Copilot instructions](.github/copilot-instructions.md)
 
 ## Core approach
