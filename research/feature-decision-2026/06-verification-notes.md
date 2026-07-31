@@ -5,6 +5,7 @@
 - [← Shortlist deep-dive](05-shortlist-deepdive.md)
 - [Final memo →](../../reports/next-feature-recommendation.md)
 - [Stage 6 addendum ↓](#stage-6-full-review-fact-verification-addendum)
+- [Stage 8 addendum ↓](#stage-8--2026-07-31-dictionary-gap-analysis-sync-addendum)
 
 ## Method executed
 
@@ -86,3 +87,40 @@ Re-checking this repo's **own** structured comparison data (`reports/comparisons
 ### What this addendum did *not* change
 
 Every other citation across the 15 fully-argued candidates was re-opened and confirmed to say what was attributed to it — no further corrections were needed for Candidates 4, 18, 19, 9, 3 (beyond the fixes above), 11, 20, 6, 12, 10, 5, 15. The final recommendation (Candidate 19, PII classification/discovery) was not itself the source of any correction in this pass — its citations held up unchanged.
+
+**Note, made visible by hindsight after Stage 8 below:** Candidate 18 was explicitly named above as needing "no further corrections" in the Stage 6 pass. That statement was itself wrong — Stage 6's citation audit re-checked *sources external to this repo* (community forums, competitor docs) for Candidate 18, but never re-checked the one Tier A claim embedded in its card (`SCHED-notifications`/`SCHED-email` "already exist and are confirmed") against this repo's own `feature-matrix.md`. This is disclosed rather than smoothed over: a citation audit that checks external sources but not internal ones has a blind spot, and this is the concrete instance where it mattered.
+
+## Stage 8 — 2026-07-31 dictionary/gap-analysis sync addendum
+
+Added after an unrelated, independently-run full source-code re-audit of Studio 3T Desktop ([research/studio-3t-desktop-review-2026/](../studio-3t-desktop-review-2026/), 2026-07-31) changed `feature-dictionary.md`, `reports/gap-analysis-not-on-3t-desktop.md`, and `reports/cumulative-report.md` — the Tier A sources this whole decision pipeline scores against. This stage is a targeted sync, not a Stage 4 re-run: it checks whether any candidate's factual premises still hold against the corrected Tier A data. Full inventory of what changed upstream: [01-research-plan.md, Stage 8](01-research-plan.md#stage-8--2026-07-31-sync-with-the-desktop-source-code-re-audit).
+
+### The most significant catch: Candidate 18's core premise was never verified, and it's false
+
+Every version of Candidate 18's card, from its first appearance in Stage 1 through the Stage 6/7 full-review passes, described its target state as adding webhooks "alongside Task Scheduler's existing email/in-app notifications" and its Build Effort as "additive to the existing, already-documented notification pipeline (`SCHED-notifications`, `SCHED-email`)." **This was never checked against `products/3t/studio-3t/features/task-scheduler/feature-matrix.md` at any stage** — it was asserted in Stage 1/2 and then carried forward unquestioned through every subsequent review, including the Stage 6 pass whose entire purpose was catching exactly this kind of unverified claim (see the note above).
+
+The 2026-07-31 source-code re-audit checked directly and found: **no SMTP/email-sending code and no in-app notification mechanism exists anywhere in `t3/tasks`, `t3/tasks/gui`, or `t3/taskmanager`.** `SCHED-notifications` and `SCHED-email` are both confirmed absent. A scheduled task's outcome is only visible to a user actively looking at the Task Scheduler UI when it runs.
+
+**Correction applied:** Build Effort revised 2→3 (build-the-substrate-plus-one-channel, not add-a-channel-to-existing-substrate — though 3T Lens's `GOV-003` still provides a proven design to port, keeping this from reaching 4). Severity's rationale corrected (the true baseline — zero notifications of any kind — is worse than "email/in-app only," though this doesn't cross the rubric's Severity-4 threshold). **Priority Score revised 7.00 → 4.67** — the largest single correction in this entire research effort, larger than Candidate 1's Stage 6 correction (5.00→5.67) or Candidate 4's Stage 4 correction (8.00→7.50).
+
+**Root cause of the miss:** unlike Candidate 1's Stage 6 correction (an external search was run before an internal one), this was not a sequencing error — no internal check was ever attempted, at any stage, for this specific claim. The candidate's Tier A citation (`gap-analysis-not-on-3t-desktop.md`'s `GOV-003` "present-elsewhere" entry) is real and correct; the *unrelated*, uncited claim about Desktop's own existing notification pipeline was simply never sourced at all. This is a distinct failure mode from every other correction in this file — not a citation that said something different than claimed, but a claim with no citation behind it that nobody flagged as needing one, because it read as background context rather than a load-bearing fact.
+
+### Full re-check of the other 4 shortlisted candidates against the Stage 8 upstream changes
+
+- **Candidate 4 (CLI/CI-CD automation):** does not cite any F-SCHED notification/history/retry ID; its premise (Task Scheduler, masking, Data Compare are "already built and shipping") is unaffected by the audit. No correction needed.
+- **Candidate 19 (PII classification):** cites `GOV-004`/`AI-011`/`GOV-011`, none of which the 2026-07-31 audit touched (those are 3T Lens/3T MCP/3TL Bridge capabilities, outside the Desktop-only source-code audit's scope). No correction needed.
+- **Candidate 1 (AI query/index advisor):** cites `IDX-perf-insights`, confirmed still absent on Desktop by the 2026-07-31 audit (unchanged status). No correction needed beyond the existing Stage 6 fix.
+- **Candidate 9 (QE/CSFLE key-vault UI):** cites `CONN-in-use-enc`, confirmed still unverified/absent by the 2026-07-31 audit (unchanged status). No correction needed.
+- **Candidate 11 (Schema ERD cluster, carried to Stage 5 despite being cut):** the audit directly resolved 4 of its 13 dictionary-linked IDs to confirmed-present (validator authoring/deployment). **Correction applied:** dictionary linkage narrowed to 9 IDs; Priority Score arithmetic unchanged (4.00) since Build Effort stays Large even at the narrower scope — see its card in [04-scored-longlist.md](04-scored-longlist.md#candidate-11-visual-erdjson-schema-editorvalidation-rule-authoring-ui-the-f-schema-cluster--prop-schema-erd-cluster--️-scope-narrowed-in-stage-8) for the full correction.
+
+### Final, corrected scores after Stage 8
+
+| Candidate | Stage 4/6 score | Stage 8 corrected score | What changed |
+|---|---|---|---|
+| 4 — Headless CLI/CI-CD automation | 7.50 | 7.50 | No change |
+| 19 — PII classification/discovery | 6.50 | 6.50 | No change |
+| 1 — AI query/index advisor | 5.67 | 5.67 | No change |
+| 9 — QE/CSFLE key-vault UI | 5.00 | 5.00 | No change |
+| 18 — Webhook notifications | 7.00 | **4.67** | Build Effort corrected 2→3 after its "notifications already exist" premise was found unverified and false |
+| 11 — Schema ERD cluster (carried, not shortlisted) | 4.00 | 4.00 | Dictionary linkage narrowed 13→9 IDs; score arithmetic unchanged |
+
+**Net effect on the shortlist:** four of the five originally-shortlisted candidates are unaffected. The fifth, Candidate 18, drops from a tied-for-second 7.00 to 4.67 — below every remaining shortlisted candidate and roughly tied with Candidate 16 (Deeper Vector Search tooling), which was cut at Stage 2. This does not change which candidate is recommended (Candidate 19, unaffected by any Stage 8 finding) but it does mean the shortlist's internal ordering, as presented anywhere downstream (the Stage 5 memo, the dictionary's Proposed Feature Registry), needs to reflect 4.67, not 7.00, for Candidate 18.

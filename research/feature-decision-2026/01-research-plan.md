@@ -15,7 +15,7 @@ Full derivation of these constraints: [00-dialog-and-inputs.md](00-dialog-and-in
 
 ## Candidate universe (what counts as a candidate)
 
-1. **Dictionary-tracked gaps** — any of the 108 sub-feature IDs in `gap-analysis-not-on-3t-desktop.md` not confirmed present on Studio 3T Desktop (13 confirmed-absent-portfolio-wide + 17 present-elsewhere-in-3T-family + 78 unverified).
+1. **Dictionary-tracked gaps** — any of the sub-feature IDs in `gap-analysis-not-on-3t-desktop.md` not confirmed present on Studio 3T Desktop. **Corrected 2026-07-31 (Stage 8):** the 2026-07-31 Studio 3T Desktop source-code re-audit changed this count from 108 (13 confirmed-absent-portfolio-wide + 17 present-elsewhere-in-3T-family + 78 unverified) to **89** (9 confirmed-absent-portfolio-wide + 17 present-elsewhere-in-3T-family + 9 confirmed-absent-from-Desktop-specifically-portfolio-status-unverified + 54 unverified) — see [Stage 8 addendum](#stage-8--2026-07-31-sync-with-the-desktop-source-code-re-audit) below for what moved and why.
 2. **Net-new ideas** — capabilities surfaced by research that have no `feature-dictionary.md` ID yet at all (e.g., an AI-driven index/query optimization advisor, native Git integration). If one of these wins, it gets added to the dictionary first, per the repo's own authoring rule in `.github/copilot-instructions.md`.
 
 Explicitly **out of scope**: enhancements/fixes to capabilities Studio 3T Desktop already has (that's a different kind of roadmap decision, not this one).
@@ -143,16 +143,38 @@ The user reviewed Stage 6's output and imposed four further, binding requirement
 **Output format:** `feature-dictionary.md`'s new Proposed Feature Registry section (the taxonomy's single source of truth); revised `04-scored-longlist.md` with classification tags and calculation walkthroughs on every card; revised `reports/next-feature-recommendation.md` with a classification column, per-metric calculation transparency, and deep evidentiary sections citing newly re-mined `google_research/` facts.
 **Files touched:** `feature-dictionary.md` (new registry), `01-research-plan.md` (this section), `04-scored-longlist.md`, `reports/next-feature-recommendation.md`.
 
+### Stage 8 — 2026-07-31 sync with the Desktop source-code re-audit
+
+Independently of this decision effort, a separate full source-code re-audit of Studio 3T Desktop against `products/3t/studio-3t/` ran on 2026-07-31 (see [research/studio-3t-desktop-review-2026/](../studio-3t-desktop-review-2026/)) and materially changed `feature-dictionary.md`, `reports/gap-analysis-not-on-3t-desktop.md`, and `reports/cumulative-report.md` — the exact Tier A sources this whole decision pipeline scores candidates against. This stage is a targeted sync pass, not a re-run of Stages 1-7: it re-checks every candidate's factual premises against the corrected Tier A data and fixes what no longer holds, disclosing each fix rather than silently editing scores.
+
+**What changed upstream, in one place:**
+
+| Area | Was | Now (2026-07-31) | Candidates it touches |
+|---|---|---|---|
+| F-SCHEMA validator authoring/deployment (`SCHEMA-validation-model/-strictness/-ui`, `SCHEMA-deploy-validator`, `SCHEMA-validation-limits`) | Documented absent — part of the "13 confirmed-absent" F-SCHEMA cluster | **Confirmed present** on Studio 3T Desktop | Candidate 11 (`PROP-schema-erd-cluster`) — its dictionary-linked cluster shrinks from 13 IDs to **9** |
+| F-SCHED notifications (`SCHED-notifications`, `SCHED-email`) | Assumed present in Stages 2-4 ("today's model is email/in-app only") — **this assumption was never checked against source, it was simply asserted** | **Confirmed absent** — no SMTP/email/notification code exists anywhere in the scheduler subsystem | Candidate 18 (`PROP-webhook-notify`) — Build Effort and Priority Score both revised, see [04](04-scored-longlist.md#candidate-18-slackteamsjirapagerduty-webhook-notifications--prop-webhook-notify) |
+| F-SCHED other scheduler internals (9 IDs: status states, exec config, retry, concurrent, batch, history, history-retention, plus the two above) | Unverified | **Confirmed absent from Desktop specifically** (portfolio-wide status still unverified) | Strengthens, not weakens, the evidentiary case for scheduler-adjacent candidates — "confirmed absent" is stronger Evidence Strength than "unverified" per the Stage 2 rubric |
+| F-IDX (10 previously-unverified IDs) | Unverified | 4 confirmed present (`IDX-type-hashed`, `IDX-advanced-opts` partial, `IDX-realtime-perf`, `IDX-stop-ops`), 6 confirmed absent | No headline candidate directly absorbed these beyond Candidates 1/16 (both unaffected — `IDX-perf-insights`/`IDX-vector-search` remain confirmed absent) |
+| F-GOV (11 previously-unverified IDs) | Unverified (governance matrix was an unauthored placeholder) | Matrix fully authored — most resolved to confirmed-present (RBAC tree/inheritance/actions, telemetry, network policy) or confirmed-absent (`GOV-cli-policy`, `GOV-isolated-edition`) | No headline candidate directly absorbed these; affects the atomic-gaps blanket assessment only |
+| F-AGG (4 previously-unverified IDs) | Unverified | 3 confirmed present (`AGG-pagination`, `AGG-timer-cancel`, `AGG-stage-count`), 1 confirmed absent (`AGG-chart-builder`) | Not absorbed into any headline candidate |
+| Total dictionary-tracked gap IDs (`gap-analysis-not-on-3t-desktop.md`) | 108 (13 + 17 + 78) | **89** (9 confirmed-absent-portfolio-wide + 17 present-elsewhere + 9 confirmed-absent-Desktop-specific + 54 unverified) | Candidate-universe framing in this file's own Objective section, above |
+
+Full per-file corrections: [03-candidate-longlist.md](03-candidate-longlist.md), [04-scored-longlist.md](04-scored-longlist.md), [05-shortlist-deepdive.md](05-shortlist-deepdive.md), [06-verification-notes.md](06-verification-notes.md#stage-8--2026-07-31-dictionary-gap-analysis-sync-addendum).
+
+**What this stage explicitly did not do:** re-run Stage 1's canvass to look for new candidates the audit's 17 newly-confirmed sub-feature IDs (e.g. `AI-agentic-mode`, `SHELL-bookmarks`) might suggest — those are now-confirmed *strengths*, not gaps, so they don't feed this "what's missing" pipeline directly, but they are a legitimate input to a *future* long-list canvass. Noted here so that future work isn't lost, not treated as in-scope for this sync.
+
 ## File map
 
 | Stage | File | Status |
 |---|---|---|
 | — | `00-dialog-and-inputs.md` | done |
-| — (this file) | `01-research-plan.md` | done |
-| 0 | `02-data-inventory.md` | done |
-| 1 | `03-candidate-longlist.md` | done, revised in Stage 6 |
-| 2 | `04-scored-longlist.md` | done, revised in Stage 6, deepened in Stage 7 |
-| 3 | `05-shortlist-deepdive.md` | done |
-| 4 | `06-verification-notes.md` | done, extended in Stage 6 |
-| 5 | `../../reports/next-feature-recommendation.md` | done, revised in Stage 6, deepened in Stage 7 |
-| 7 | `../../feature-dictionary.md` (Proposed Feature Registry section) | done |
+| — (this file) | `01-research-plan.md` | done, Stage 8 sync added 2026-07-31 |
+| 0 | `02-data-inventory.md` | done, Stage 8 sync note added 2026-07-31 |
+| 1 | `03-candidate-longlist.md` | done, revised in Stage 6, synced in Stage 8 |
+| 2 | `04-scored-longlist.md` | done, revised in Stage 6, deepened in Stage 7, corrected in Stage 8 |
+| 3 | `05-shortlist-deepdive.md` | done, corrected in Stage 8 |
+| 4 | `06-verification-notes.md` | done, extended in Stage 6, extended in Stage 8 |
+| 5 | `../../reports/next-feature-recommendation.md` | done, revised in Stage 6, deepened in Stage 7 — **not yet synced to Stage 8, see note below** |
+| 7 | `../../feature-dictionary.md` (Proposed Feature Registry section) | done, `PROP-webhook-notify` priority score synced in Stage 8 |
+
+**Known follow-up, out of scope for this pass:** `reports/next-feature-recommendation.md` (the Stage 5 memo) still cites Candidate 18's pre-Stage-8 score/framing in its ranked table and shortlist section. This file update pass was scoped to `research/feature-decision-2026/` specifically; the memo should be re-synced in a follow-up pass before it's treated as current.

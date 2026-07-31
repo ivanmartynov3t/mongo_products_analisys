@@ -1,6 +1,8 @@
 # Gap Analysis — Sub-features NOT on Any 3T Product
 
-This report checks **every sub-feature ID in [feature-dictionary.md](../feature-dictionary.md)** (311 unique IDs across all 11 feature areas) against whether it is confirmed present on any product made by 3T Software Labs — Studio 3T (Desktop IDE), 3T Explore, 3T MCP, 3T Lens, 3T Access, and 3TL Bridge, collectively.
+This report checks **every sub-feature ID in [feature-dictionary.md](../feature-dictionary.md)** (328 unique IDs across all 11 feature areas) against whether it is confirmed present on any product made by 3T Software Labs — Studio 3T (Desktop IDE), 3T Explore, 3T MCP, 3T Lens, 3T Access, and 3TL Bridge, collectively.
+
+**Last reviewed:** 2026-07-31 — corrections from [research/studio-3t-desktop-review-2026/](../research/studio-3t-desktop-review-2026/)
 
 ## Navigation
 
@@ -12,25 +14,21 @@ This report checks **every sub-feature ID in [feature-dictionary.md](../feature-
 
 ## Methodology
 
-- **Master checklist:** every sub-feature ID defined in feature-dictionary.md's Sub-feature registry (311 total, including the "Supplemental aliases" section).
+- **Master checklist:** every sub-feature ID defined in feature-dictionary.md's Sub-feature registry (328 total, including the "Supplemental aliases" section).
 - **Status source:** the "Studio 3T" column of [low-level-feature-comparison.md](comparisons/low-level-feature-comparison.md)'s iconized sub-feature table, which represents the whole 3T product family as one merged column. That report was itself cross-checked directly against every product's own `feature-matrix.md` files as of 2026-07-29 (six corrections made — see its ["2026-07-29 deep-file verification pass"](comparisons/low-level-feature-comparison.md#2026-07-29-deep-file-verification-pass) note).
 - **Why not check product `feature-matrix.md` files directly, ID-by-ID?** Tried that first and rejected it: product matrices frequently consolidate several dictionary IDs into one descriptive row (e.g. Studio 3T's `QUERY-filter-bar` row covers `QUERY-projection`, `QUERY-sort`, and `QUERY-skip-limit` in its prose without giving them separate rows), and some capabilities are cross-referenced under a *different* ID depending on which feature area views them (e.g. `GOV-readonly-mode` and `CONN-readonly-lock` are the same capability). A literal "does this exact ID have its own row" check produced false positives for "not implemented" — e.g. it would have flagged basic projection/sort support as missing from Studio 3T, which is false. The comparison report's status column already reconciles this.
 - **Confirmed absent** = comparison report shows ❌ for every row matching that ID.
 - **Unverified** = comparison report shows ❓ (no positive status anywhere for that ID), or the ID doesn't appear in the comparison report at all and isn't a near-duplicate of an ID that does.
 - **Dictionary aliases** = IDs that don't appear in the comparison report but are near-duplicates of an ID that does, and that duplicate is confirmed implemented — these are dictionary redundancy from earlier research passes, not real gaps, and are excluded from every count.
 
-## Confirmed absent — no 3T product supports this (13)
+## Confirmed absent — no 3T product supports this (9)
 
-All 13 are in **F-SCHEMA (Schema)**. No other feature area has a single confirmed 3T-wide gap.
+All 9 are in **F-SCHEMA (Schema)**. No other feature area has a single confirmed 3T-wide gap. (A source-code re-audit of Studio 3T Desktop, 2026-07-31, confirmed that collection-validator authoring/deployment — `SCHEMA-validation-model`, `SCHEMA-validation-strictness`, `SCHEMA-validation-ui`, `SCHEMA-deploy-validator`, `SCHEMA-validation-limits` — is in fact implemented and moved these out of this list; see [12-consolidated-corrections.md](../research/studio-3t-desktop-review-2026/12-consolidated-corrections.md#2-f-schema--biggest-correction-gap-analysis-13-confirmed-absent-must-become-9).)
 
 | Sub-feature ID | Name |
 | --- | --- |
 | SCHEMA-geo-analysis | Geo schema analysis |
-| SCHEMA-validation-model | Validation rule model |
-| SCHEMA-validation-strictness | Validation strictness |
-| SCHEMA-validation-ui | Validation UI workflows |
 | SCHEMA-json-editor | JSON schema editor |
-| SCHEMA-deploy-validator | Deploy validator |
 | SCHEMA-bson-types | BSON type coverage |
 | SCHEMA-field-constraints | Field constraints |
 | SCHEMA-designer-canvas | Visual canvas |
@@ -39,9 +37,9 @@ All 13 are in **F-SCHEMA (Schema)**. No other feature area has a single confirme
 | SCHEMA-designer-color | Color coding |
 | SCHEMA-designer-portability | Diagram portability |
 
-**Takeaway:** the entire 3T product family's one confirmed capability gap versus competitors is schema **validation authoring/deployment** and the **visual ERD / JSON-schema-editor** cluster — both owned exclusively by MongoDB Compass and/or VisuaLeaf in the comparison reports.
+**Takeaway:** the entire 3T product family's one confirmed capability gap versus competitors is the **JSON-Schema-tree-editor and visual-ERD/canvas cluster** — both owned exclusively by MongoDB Compass and/or VisuaLeaf in the comparison reports. Schema validation authoring/deployment is not part of this gap: Studio 3T Desktop has a real, mature collection-validator feature (JSON editor, Validation Level off/strict/moderate, Action error/warn, MongoDB ≥3.6 scope limits).
 
-## Unverified — not confirmed present or absent (78)
+## Unverified — not confirmed present or absent (77)
 
 Open research questions, not confirmed gaps. Grouped by feature area.
 
@@ -79,10 +77,9 @@ Open research questions, not confirmed gaps. Grouped by feature area.
 | AGG-chart-builder | Chart builder |
 | AGG-stage-count | Stage catalog |
 
-### F-SCHEMA — Schema (2, distinct from the confirmed-absent list above)
+### F-SCHEMA — Schema (1, distinct from the confirmed-absent list above)
 | Sub-feature ID | Name |
 | --- | --- |
-| SCHEMA-validation-limits | Validation limits |
 | SCHEMA-designer-layouts | Named layouts |
 
 ### F-IDX — Indexing & Performance (10)
@@ -195,4 +192,4 @@ A verification pass on the first draft of this table caught 3 IDs that had been 
 
 ## Coverage accounting
 
-311 dictionary IDs = 203 implemented (excluded from this report) + 13 confirmed absent + 78 unverified + 17 dictionary-alias redundancies.
+328 dictionary IDs = 225 implemented (excluded from this report) + 9 confirmed absent + 77 unverified + 17 dictionary-alias redundancies.

@@ -11,6 +11,8 @@ This report summarizes each product's positioning, feature breadth, and key gaps
 - [MongoDB Compass product report](../../products/third-party/mongodb-compass/product-report.md)
 - [VisuaLeaf product report](../../products/third-party/visual-eaf/product-report.md)
 
+**Last reviewed:** 2026-07-31 — corrections from [research/studio-3t-desktop-review-2026/](../../research/studio-3t-desktop-review-2026/)
+
 ## Compared products
 
 | Product | Vendor | Type | Edition model |
@@ -79,7 +81,7 @@ This report summarizes each product's positioning, feature breadth, and key gaps
 | F-AI | AI-nl-pipeline | NL to aggregation pipeline | 💼 | ❓ | 💼 |
 | F-AI | AI-explanation | Plain-English explanation always included | ❓ | ❓ | ✅ |
 | F-SQL | SQL-expressions | SQL SELECT/WHERE/GROUP BY/HAVING | 💼 | ❌ | 🧪 (MongoDB-only, no migration) |
-| F-SQL | SQL-join-mapping | SQL JOIN → $lookup mapping | ✅ | ❌ | ❌ |
+| F-SQL | SQL-join-mapping | SQL JOIN → $lookup mapping | 🧪 (plain SQL text only; no visual editor; single equality conditions only) | ❌ | ❌ |
 | F-SQL | SQL-code-gen | SQL query → driver language code gen | ✅ | ❌ | 🧪 (translation view only) |
 | F-GOV | GOV-readonly-mode | Protect / destructive-write prevention mode | 🧪 | ✅ | ❓ |
 | F-GOV | GOV-network-policy | Network access policy | ❓ | ✅ | ❓ |
@@ -204,7 +206,7 @@ These are icon-only analogs of the detailed comparison tables below. Product col
 | Visual Explain | ✅ | ✅ | ✅ |
 | Profiler | ✅ | ❓ | ✅ |
 | Profiler export | ❌ | ❌ | ✅ |
-| Real-time performance monitoring | ❌ | ✅ | ❓ |
+| Real-time performance monitoring | ✅ | ✅ | ❓ |
 | Kill running operations | ❌ | ✅ | ✅ |
 | Unique: Compass | — | ✅ | — |
 | Unique: VisuaLeaf | — | — | ✅ |
@@ -286,7 +288,7 @@ These are icon-only analogs of the detailed comparison tables below. Product col
 | AI controls with human approval gate | ❌ | ✅ | ❌ |
 | RBAC user/role management | 🔌 | ❌ | 💼 |
 | Visual role inheritance tree | ❌ | ❌ | 💼 |
-| Audit log | 🔌 | ❌ | 💼 |
+| Audit log | 🧪 | ❌ | 💼 |
 | Collection compare (3-panel diff) | 💼 | ❌ | 💼 |
 | Collection sync with direction toggle | 💼 | ❌ | 💼 |
 | CDC pipeline (Kafka/Pub/Sub/HTTP) | 🔌 | ❌ | ❌ |
@@ -326,7 +328,7 @@ These are icon-only analogs of the detailed comparison tables below. Product col
 | Query Manager (multi-type) | ✅ | ✅ | 💼 |
 | Collection compare + sync | 💼 | ❌ | 💼 |
 | RBAC dashboard | 🔌 | ❌ | 💼 |
-| Audit log | 🔌 | ❌ | 💼 |
+| Audit log | 🧪 | ❌ | 💼 |
 | Schema validation UI | ❌ | ✅ | 💼 |
 | Visual ERD designer | ❌ | ❌ | 💼 |
 | Atlas Search / Vector Search indexes | ❌ | ✅ | ❌ |
@@ -373,7 +375,7 @@ Detailed additions are captured in the low-level report under **Reconciliation t
 | Dimension | Studio 3T | MongoDB Compass | VisuaLeaf |
 | --- | --- | --- | --- |
 | Filter bar / autocomplete | 5-field bar; full autocomplete incl. BSON wrappers; shorthand ObjectId | ✓ with examples/shortcuts | ACE editor + Ctrl+Space field-name autocomplete from schema |
-| Visual Query Builder | All editions — AND/OR/NOR; BSON type auto-detected; Binary/Reference/Regex editors; bidirectional | — | Basic+ — type-aware inputs (date pickers, sliders, booleans), AND/OR nested groups, bidirectional |
+| Visual Query Builder | All editions — AND/OR/NOR; BSON type auto-detected; Binary/Reference/Regex editors; one-way handoff to query bar/Aggregation Editor (no live bidirectional sync) | — | Basic+ — type-aware inputs (date pickers, sliders, booleans), AND/OR nested groups, bidirectional |
 | Date tags / shortcuts | ~20 tags (#today/#yesterday/#lastNdays etc.) — all editions | — | — |
 | AI query builder | Pro/Base+ — NL → query/pipeline; Azure AI / OpenAI GPT-4o / Anthropic | — | Professional — NL → find() + pipeline; 11 OpenAI models; plain-English explanation always on |
 | Query history | Auto-save on run; shared folder save Pro/Base+ | Depth-capped recent list + save | Basic+ — per-collection with timestamp + exec time |
@@ -391,7 +393,7 @@ Detailed additions are captured in the low-level report under **Reconciliation t
 | Unique: VisuaLeaf | — | — | Performance timer; cancel button; Run Find One / Run Count variants; 7 "open in" integrations; undo/redo; batch update from table view; EJSON copy |
 | Unique: Studio 3T | Date tags (~20); Query Manager with 4 query types; "open in Aggregation Editor" converts filter → $match+$project | — | — |
 
-**Assessment:** Compass is the only product with collation in the filter bar. VisuaLeaf has the most user-friendly query execution UX (timer, cancel, run-variants, undo/redo). Studio 3T's date tags and Query Manager are unique value adds for power users. VQB is absent in Compass; VisuaLeaf's is plan-gated; Studio 3T's is available on all editions.
+**Assessment:** Compass is the only product with collation in the filter bar. VisuaLeaf has the most user-friendly query execution UX (timer, cancel, run-variants, undo/redo). Studio 3T's date tags and Query Manager are unique value adds for power users. VQB is absent in Compass; VisuaLeaf's is plan-gated; Studio 3T's is available on all editions. Note: Studio 3T's VQB hands off to the query bar/Aggregation Editor via a one-way "Open in..." action, not a live bidirectional sync.
 
 ---
 
@@ -404,7 +406,7 @@ Detailed additions are captured in the low-level report under **Reconciliation t
 | Per-stage editing mode | Code editor only | Stage Wizard + per-stage mode switching | Form Mode (VQB/$group accumulator builder) OR Monaco editor per stage; preference saved |
 | Stage toggle (enable/disable) | ✓ confirmed | ✓ confirmed | Unknown/unverified |
 | Stage preview | Stage I/O panels per stage | Sampled preview per stage | Input/Output split-view; 20-doc sample; Auto-Preview toggle |
-| Code generation | 9 languages; "Open in IntelliShell" button | Major driver languages | Not documented |
+| Code generation | 9 generators via single dropdown (7 target languages: MongoDB Shell, JavaScript/Node.js, Java, C#, Python, PHP, Ruby; Java offers 2.x/3.x/4.x driver-API variants — no separate sub-tabs); "Open in IntelliShell" button | Major driver languages | Not documented |
 | Create MongoDB view | ✓ (requires MongoDB 3.4+) | ✓ | Not documented |
 | Export pipeline results | Export Wizard from Pipeline output or Stage I/O | JSON/CSV + Extended JSON | JSON, CSV, BSON, SQL INSERT statements |
 | Chart builder from output | — | — | ✓ opens Chart Builder |
@@ -414,7 +416,7 @@ Detailed additions are captured in the low-level report under **Reconciliation t
 | Execution timer + cancel | Not documented | Not documented | ✓ real-time timer + cancel |
 | Unique: Compass | — | Stage Wizard mode (GUI form for stage params) | — |
 | Unique: VisuaLeaf | — | — | 37+ stages (widest coverage); Form Mode with VQB for $match + accumulator builder for $group; chart builder from output; execution timer + cancel |
-| Unique: Studio 3T | 9-language code gen; date tags in $match; switch collection mid-session; clipboard copy of full pipeline JSON | — | — |
+| Unique: Studio 3T | Aggregation code gen (9 generators, 7 target languages via single dropdown); date tags in $match; switch collection mid-session; clipboard copy of full pipeline JSON | — | — |
 
 **Assessment:** VisuaLeaf has the widest stage coverage and the most ergonomic per-stage editing (Form Mode). Studio 3T has the most powerful code-gen and integration options. Compass's Stage Wizard provides good accessibility for less-experienced users. Stage toggle availability is confirmed for Compass and Studio 3T but unverified in VisuaLeaf.
 
@@ -451,18 +453,18 @@ Detailed additions are captured in the low-level report under **Reconciliation t
 | Advanced index options | Not documented as grouped options | Not documented | Partial Filter Expression (JSON editor), Wildcard Projection, Storage Engine config, Commit Quorum, Clustered index |
 | Collation index options | Locale + strength only | Not documented | 60+ ICU locales; Strength 1-5; Case First/Level/Numeric/Alternate/Backwards |
 | Quick-action templates | — | — | 4 templates (Wildcard Text/$**/\_id/createdAt) |
-| Copy/paste index across connections | ✓ even across different connections | — | — |
+| Copy/paste index across connections | ✓ Professional tier and above — even across different connections | — | — |
 | Hide/unhide index | ✓ (MongoDB 4.4+) | ✓ | Unknown/unverified |
 | Visual Explain | ✓ plan + execution stats; hover tooltips; JSON fragment view; available in 5 contexts | ✓ plan + execution stats | Exec plan, index usage, docs examined vs returned, index suggestions |
 | Profiler | system.profile reader; levels 0/1/2; exact query vs shape grouping; 5 drilldown actions | Not documented in matrix | Slow query threshold; levels 0/1/2; sample rate; P50/P95/P99 percentiles; COLLSCAN flagging; 4 recommendation types; CSV/JSON export |
 | Profiler export | — | — | ✓ CSV or JSON |
-| Real-time performance monitoring | — | ✓ mongostat/mongotop/currentOp; pause/play | Not documented |
+| Real-time performance monitoring | ✓ mongostat/currentOp equivalent (Server Status Charts + Task Monitor tabs) | ✓ mongostat/mongotop/currentOp; pause/play | Not documented |
 | Kill running operations | — | ✓ (requires killop privilege) | ✓ kill button per operation |
-| Unique: Compass | — | Atlas Search + Vector Search index creation; real-time perf monitoring (mongostat/mongotop/currentOp) | — |
+| Unique: Compass | — | Atlas Search + Vector Search index creation | — |
 | Unique: VisuaLeaf | — | — | P50/P95/P99 profiler percentiles; 4 index recommendation types; profiler export; hashed index; 60+ ICU locale collation; Commit Quorum; clustered index; 4 quick-action templates |
-| Unique: Studio 3T | Index copy-paste across connections; geoHaystack (unwarned deprecation); Explain available in 5 contexts incl. SQL Query + IntelliShell | — | — |
+| Unique: Studio 3T | Index copy-paste across connections (Professional tier+); real-time monitoring (mongostat/currentOp equivalent); geoHaystack (unwarned deprecation); Explain available in 5 contexts incl. SQL Query + IntelliShell | — | — |
 
-**Assessment:** Compass exclusively supports Atlas Search and Vector Search. VisuaLeaf has the most complete index type coverage and the most sophisticated profiler (P50/P95/P99, 4 recommendation types, export). Studio 3T's Explain is available in the widest set of contexts. Note: geoHaystack displayed by Studio 3T without deprecation warning is a confirmed bug.
+**Assessment:** Compass exclusively supports Atlas Search and Vector Search. VisuaLeaf has the most complete index type coverage and the most sophisticated profiler (P50/P95/P99, 4 recommendation types, export). Studio 3T's Explain is available in the widest set of contexts, and it also has a mongostat/currentOp-equivalent real-time monitoring capability (Server Status Charts + Task Monitor tabs) — previously underdocumented and not exclusive to Compass. Note: geoHaystack displayed by Studio 3T without deprecation warning is a confirmed bug.
 
 ---
 
@@ -480,7 +482,7 @@ Detailed additions are captured in the low-level report under **Reconciliation t
 | Server-side $pipeline pre-export transform | — | ✓ |
 | Field mapping and rename | ✓ (CSV/SQL path) | ✓ |
 | Incremental export with resume points | ✓ up to 5 historical resume points; does NOT track updates to existing docs | — |
-| Data masking | ✓ Pro/Base+: 8 masking types; inline during Import/Export; standalone tool | — |
+| Data masking | ✓ Pro/Base+: 19 masking operations (+1 no-op state) across 6 BSON-type categories; inline during Import/Export; standalone tool | — |
 | Task save for scheduler | ✓ Pro/Base+ | ✓ (Basic: 2; Professional: unlimited) |
 | Export source granularity | 6 sources: entire collection / view / find() result / aggregation result / current cursor / selected documents | Not documented |
 
@@ -547,12 +549,12 @@ Detailed additions are captured in the low-level report under **Reconciliation t
 | --- | --- | --- |
 | SQL query syntax over MongoDB | ✓ full SELECT/WHERE/JOIN/GROUP BY/ORDER BY/HAVING | ✓ SELECT/WHERE/ORDER BY/LIMIT + COUNT/SUM/AVG; JOIN/GROUP BY/subqueries via SQL Helper examples |
 | SQL → MongoDB translation / code-gen | ✓ 9-language driver code gen | ✓ MongoDB translation view (pipeline equivalent); driver-language export not documented |
-| SQL JOIN → $lookup visual mapping | ✓ dedicated JOIN mapping UI | Not documented (JOIN syntax supported in SQL text only) |
-| SQL migration wizard (relational → Mongo) | ✓ MySQL/PostgreSQL/Oracle/SQL Server via JDBC | Not supported |
-| SQL export to relational targets | ✓ MySQL/MSSQL/Oracle/PostgreSQL/IBM DB2/Sybase | Not supported (separate SQL INSERT statement export exists under Data Transfer) |
+| SQL JOIN → $lookup mapping | No visual/drag-drop mapping editor — joins authored as plain SQL text; only single equality-comparison JOIN conditions supported (compound ANDed joins throw `NotImplementedException`) | Not documented (JOIN syntax supported in SQL text only) |
+| SQL migration wizard (relational → Mongo) | ✓ 6 dialects via JDBC: MySQL/PostgreSQL/Oracle/SQL Server/Sybase/IBM DB2 (Sybase and DB2 are Enterprise-gated, migration-source only) | Not supported |
+| SQL export to relational targets | ✓ MySQL/MSSQL/Oracle/PostgreSQL (4 targets — Sybase and IBM DB2 are migration-source only; neither has a direct SQL-export-wizard target) | Not supported (separate SQL INSERT statement export exists under Data Transfer) |
 | In-place MongoDB schema migration (reschema) | ✓ schedulable via Task Scheduler | Not supported |
 
-**Assessment:** Studio 3T remains the only product with a full SQL↔MongoDB migration toolchain (JOIN→$lookup mapping, migration wizard, relational export, reschema). VisuaLeaf's SQL Mode, confirmed 2026-07-28, is a narrower capability: SQL syntax for querying MongoDB collections only, with a translation view to the equivalent pipeline — useful for SQL-background users, but not a migration or export tool. VisuaLeaf's own documentation directs users to the Aggregation Pipeline for advanced transformations.
+**Assessment:** Studio 3T remains the only product with a full SQL↔MongoDB migration toolchain (SQL-to-$lookup JOIN translation, migration wizard, relational export, reschema). Note: JOINs are authored as plain SQL text with only single equality-comparison conditions supported — there is no visual/drag-drop JOIN mapping editor. VisuaLeaf's SQL Mode, confirmed 2026-07-28, is a narrower capability: SQL syntax for querying MongoDB collections only, with a translation view to the equivalent pipeline — useful for SQL-background users, but not a migration or export tool. VisuaLeaf's own documentation directs users to the Aggregation Pipeline for advanced transformations.
 
 ---
 
@@ -568,7 +570,7 @@ Detailed additions are captured in the low-level report under **Reconciliation t
 | AI controls with human approval gate | — | ✓ | — |
 | RBAC user/role management | ✓ via 3T Access platform | — | ✓ Professional (users/roles/inheritance/tree/actions) |
 | Visual role inheritance tree | — | — | ✓ Professional |
-| Audit log | ✓ via 3T Lens platform | — | ✓ Professional |
+| Audit log | Local tamper-evident (chained-MD5) log, but narrow: Connection Manager actions only (create/edit/delete/duplicate/import connections) — not queries or document changes; off by default; enabled only via Windows Group Policy/registry. A separate HTTP audit-event sender to 3T Access exists in code but has no call sites (unwired scaffolding, not shipped). | — | ✓ Professional |
 | Collection compare (3-panel diff) | ✓ Pro/Base+ | — | ✓ Professional |
 | Collection sync with direction toggle | ✓ Pro/Base+ | — | ✓ Professional |
 | CDC pipeline (Kafka/Pub/Sub/HTTP) | ✓ 3TL Bridge | — | — |
@@ -577,7 +579,7 @@ Detailed additions are captured in the low-level report under **Reconciliation t
 | Credential protection | Built-in key store OR master password | OS Keytar API | AES-256 local; never transmitted; AI keys AES-masked |
 | 3T Explore governed workspace | ✓ Workspace Switcher + 3T Access Manager integration (browser IDE; edition/plan unverified) | — | — |
 
-**Assessment:** Compass has the most comprehensive built-in policy enforcement (network policy, startup/CLI policy, AI controls, protect mode, isolated edition). VisuaLeaf has strong RBAC for teams (visual role tree, audit log) without requiring a separate platform. Studio 3T's governance scales via 3T Lens + 3T Access + 3TL Bridge for enterprise CDC, event streaming, and Kubernetes deployments.
+**Assessment:** Compass has the most comprehensive built-in policy enforcement (network policy, startup/CLI policy, AI controls, protect mode, isolated edition). VisuaLeaf has strong RBAC for teams (visual role tree, audit log) without requiring a separate platform. Studio 3T's governance scales via 3T Lens + 3T Access + 3TL Bridge for enterprise CDC, event streaming, and Kubernetes deployments. Studio 3T Desktop's own built-in audit log is much narrower than that framing implies: it covers only Connection Manager actions, ships off by default, and is enabled only via Windows Group Policy — it is not a query/document audit trail.
 
 ---
 
@@ -606,7 +608,7 @@ Detailed additions are captured in the low-level report under **Reconciliation t
 
 ### MongoDB Compass
 - **In-use encryption (QE/CSFLE):** Only product with Queryable Encryption and CSFLE key vault + KMS configuration in the GUI.
-- **Real-time performance monitoring:** Only product with live mongostat/mongotop/currentOp drill-down with pause/play visualization.
+- **Real-time performance monitoring:** Only product with live mongostat/mongotop/currentOp drill-down with pause/play visualization out of the box. (Studio 3T has a confirmed mongostat/currentOp-equivalent via its Server Status Charts + Task Monitor tabs, without pause/play.)
 - **Atlas Search + Vector Search index creation:** Only product supporting Atlas Search and Vector Search index management, including status tracking.
 - **Geo field schema analysis:** Only product with map-backed schema analysis that generates geo queries interactively.
 - **Enterprise policy enforcement:** Uniquely offers startup policy (EJSON/YAML), CLI policy, network policy, telemetry config, and AI controls with human approval gate.
@@ -629,12 +631,12 @@ Detailed additions are captured in the low-level report under **Reconciliation t
 - **Polyglot database support:** Only product in this comparison that also natively connects to non-MongoDB engines (PostgreSQL, MySQL, SQL Server, Oracle, SQLite, MariaDB, CockroachDB, ClickHouse, DuckDB, TiDB) in the same client — out of scope for this repository's MongoDB-focused analysis, but a material product-classification difference from Compass and Studio 3T.
 
 ### Studio 3T
-- **SQL tools (F-SQL):** Only product in this comparison with a full SQL↔MongoDB migration toolchain — JOIN→$lookup translation, SQL migration wizard, and SQL export to relational databases. (VisuaLeaf added query-only "SQL Mode" against MongoDB in 2026-07-28 research, but has no migration/export tooling — see the F-SQL section above.)
+- **SQL tools (F-SQL):** Only product in this comparison with a full SQL↔MongoDB migration toolchain — SQL-to-$lookup JOIN translation (plain SQL text, single equality-comparison conditions only — no visual/drag-drop JOIN mapping editor), SQL migration wizard (6 dialects), and SQL export to relational databases (4 targets). (VisuaLeaf added query-only "SQL Mode" against MongoDB in 2026-07-28 research, but has no migration/export tooling — see the F-SQL section above.)
 - **Date tags (~20 shortcuts):** Only product with date-shorthand syntax (#today/#yesterday/#lastNdays etc.) expanding to MongoDB range queries at runtime — available on all editions.
 - **MCP ecosystem (3T Lens, MCP server, MCP client, stt-cli):** Only product exposing MongoDB operations to external AI agents via MCP — enabling VS Code Copilot, Cursor, and Claude Desktop to operate against MongoDB.
-- **Data masking (standalone + inline):** Only product with field-level data masking, offering 8 operation types applicable during Import/Export runs without modifying the original.
+- **Data masking (standalone + inline):** Only product with field-level data masking, offering 19 masking operations (across 6 BSON-type categories) applicable during Import/Export runs without modifying the original.
 - **Incremental export with 5 resume points:** Unique capability for time-based incremental data extraction with persistent resume state.
-- **Index copy-paste across connections:** Only product allowing an index definition to be copied from one collection and pasted to another, even across different server connections.
+- **Index copy-paste across connections:** Only product allowing an index definition to be copied from one collection and pasted to another, even across different server connections (Professional tier and above).
 - **SSH Profiles with password propagation:** Named, reusable SSH tunnel profiles where password updates propagate to all dependent connections.
 - **3T platform suite (3T Explore + 3T Lens + 3T Access + 3TL Bridge):** Only product with a separate enterprise platform spanning a browser IDE (3T Explore, governed via 3T Access), CDC pipelines (MongoDB/Kafka/Pub/Sub/HTTP), Kubernetes deployment, and OIDC multi-provider. (This report previously used the name "3T Build" for the browser IDE product; corrected to "3T Explore" — "Build" is the product track, not the product.)
 - **FerretDB compatibility:** Only product in this comparison with stated compatibility for FerretDB, the open-source MongoDB-wire-protocol-compatible database, alongside DocumentDB and Cosmos DB.
@@ -658,7 +660,7 @@ Detailed additions are captured in the low-level report under **Reconciliation t
 | Query Manager (multi-type) | All editions (Collection query type free) | No (My Queries only) | Basic+ for saved queries |
 | Collection compare + sync | Pro/Base+ required | N/A | Professional required |
 | RBAC dashboard | Via 3T Access platform | N/A | Professional required |
-| Audit log | Via 3T Lens platform | N/A | Professional required |
+| Audit log | Built-in local feature (edition tier not specified in source) — Connection Manager actions only; off by default; Windows GPO/registry activation only | N/A | Professional required |
 | Schema validation UI | N/A (not supported) | Free | Basic+ |
 | Visual ERD designer | N/A | N/A | Basic+ required |
 | Atlas Search / Vector Search indexes | N/A | Free (requires Atlas M10+ or MongoDB 7.0+ local) | N/A |
@@ -681,7 +683,7 @@ Detailed additions are captured in the low-level report under **Reconciliation t
 | No incremental export | Compass, VisuaLeaf |
 | No data masking | Compass, VisuaLeaf |
 | No in-use encryption (QE/CSFLE) | VisuaLeaf, Studio 3T |
-| No real-time performance monitoring | VisuaLeaf, Studio 3T |
+| No real-time performance monitoring | VisuaLeaf (unverified) |
 | No Atlas Search / Vector Search | VisuaLeaf, Studio 3T |
 | No MCP / AI agent integration | Compass, VisuaLeaf |
 | Enterprise auth gated to Ultimate edition | Studio 3T (Compass/VisuaLeaf free/roadmap) |

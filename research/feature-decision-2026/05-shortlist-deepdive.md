@@ -27,14 +27,14 @@ Per candidate: (a) fresh search on current competitor implementation depth, (b) 
 
 **⚠️ Objective-fit note:** this candidate's story has shifted from "possible differentiator" to **explicitly closing a documented DBeaver Enterprise capability gap**. Given the user's stated primary objective is "widen the lead," not "close a gap," this is a real tension worth surfacing plainly in the final memo — even though it is now the single highest-scoring candidate in the entire long-list. The counter-argument: closing this specific gap also *directly and definitively* resolves a real, cited, vendor-confirmed customer complaint (VoC record #2), which is a concrete, low-effort win regardless of how it's framed strategically.
 
-## Candidate 18: Slack/Teams/Jira/PagerDuty webhook notifications — reaffirmed
+## Candidate 18: Slack/Teams/Jira/PagerDuty webhook notifications — reaffirmed at Stage 3, corrected at Stage 8
 
 **(a) Competitor depth:** no specific evidence found (search returned generic webhook/Slack integration content unrelated to any named MongoDB GUI competitor).
 **(b) Studio 3T roadmap signal:** none found.
 **(c) Community corroboration:** search for `community.studio3t.com` + Slack/webhook/notification returned no on-domain results — no additional Tier C evidence beyond the original Tier B research recommendation and the Tier A in-house precedent (3T Lens's `GOV-003`).
-**(d) Feasibility:** confirmed low-risk — this is additive to the existing, already-documented Task Scheduler notification pipeline (`SCHED-notifications`, `SCHED-email`).
+**(d) Feasibility:** ~~confirmed low-risk — this is additive to the existing, already-documented Task Scheduler notification pipeline (`SCHED-notifications`, `SCHED-email`)~~ — **⚠️ this claim was never actually checked against source, and it's wrong.** The 2026-07-31 Studio 3T Desktop source-code re-audit ([research/studio-3t-desktop-review-2026/](../studio-3t-desktop-review-2026/)) confirmed `SCHED-notifications` and `SCHED-email` are both **absent**, not "existing, already-documented" — no SMTP/email or in-app notification mechanism exists anywhere in the scheduler subsystem. This Stage 3 pass should have verified the premise directly against the feature-matrix rather than repeating Stage 2's unverified assertion; it didn't, and the gap propagated forward unchecked through Stages 4-7 until a routine sync against the (independently-run) source-code audit caught it. See the full correction on Candidate 18's card in [04-scored-longlist.md](04-scored-longlist.md#candidate-18-slackteamsjirapagerduty-webhook-notifications--prop-webhook-notify).
 
-**Score revision: none.** No new evidence surfaced in either direction. **Priority Score remains 7.00.**
+**Score revision (Stage 8, superseding this section's original "none"):** Build Effort revises from 2 to 3 — this is now understood as "build the notification substrate, webhooks included" rather than "add a channel to an existing pipeline," though 3T Lens's `GOV-003` still meaningfully de-risks it as a port of a proven design rather than a from-scratch invention. **Revised Priority Score: (4+4+3+3)/3 = 14/3 = 4.67** (down from 7.00).
 
 ## Candidate 19: Automated PII classification/discovery — **scores revised**
 
@@ -72,12 +72,12 @@ Per candidate: (a) fresh search on current competitor implementation depth, (b) 
 
 ## Updated shortlist ranking after Stage 3
 
-| Candidate | Stage 2 score | Stage 3 score | Change |
-|---|---|---|---|
-| 4 — Headless CLI/CI-CD automation | 7.00 | **8.00** | ↑ (evidence + urgency revised) |
-| 18 — Webhook notifications | 7.00 | 7.00 | — |
-| 19 — PII classification/discovery | 6.50 | **7.00** | ↑ (evidence revised) |
-| 1 — AI query/index advisor | 5.00 | 5.00 | — |
-| 9 — QE/CSFLE key-vault UI | 5.00 | 5.00 | — |
+| Candidate | Stage 2 score | Stage 3 score | Stage 8 corrected score | Change |
+|---|---|---|---|---|
+| 4 — Headless CLI/CI-CD automation | 7.00 | **8.00** | 7.50 (Stage 4) | ↑ (evidence + urgency revised) |
+| 18 — Webhook notifications | 7.00 | 7.00 | **4.67** | ↓↓ (Stage 8: Build Effort corrected 2→3 after the "notifications already exist" premise was found false) |
+| 19 — PII classification/discovery | 6.50 | **7.00** | 6.50 (Stage 4) | ↑ (evidence revised) |
+| 1 — AI query/index advisor | 5.00 | 5.00 | 5.67 (Stage 6) | — at Stage 3; corrected later |
+| 9 — QE/CSFLE key-vault UI | 5.00 | 5.00 | 5.00 | — |
 
-Candidate 4 remains the top-scored candidate after deeper research, but its case has shifted materially: it is now clearly evidenced as **closing a specific, named DBeaver Enterprise capability**, not a lead-widening move. This is the central tension Stage 4 verification and the Stage 5 memo must address explicitly rather than let the score alone decide.
+Candidate 4 remains the top-scored candidate after deeper research, but its case has shifted materially: it is now clearly evidenced as **closing a specific, named DBeaver Enterprise capability**, not a lead-widening move. This is the central tension Stage 4 verification and the Stage 5 memo must address explicitly rather than let the score alone decide. **Stage 8 addendum:** Candidate 18's corrected score (4.67) drops it out of contention for a genuine top-5 spot — see the full explanation on its Stage 2 card in [04-scored-longlist.md](04-scored-longlist.md) and the addendum in [06-verification-notes.md](06-verification-notes.md#stage-8--2026-07-31-dictionary-gap-analysis-sync-addendum).

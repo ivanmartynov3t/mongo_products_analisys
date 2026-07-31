@@ -2,6 +2,8 @@
 
 This report provides the top-level index for the MongoDB tools analysis project, tracking feature coverage, key findings, and navigation to all comparison artifacts.
 
+**Last reviewed:** 2026-07-31 — corrections from [research/studio-3t-desktop-review-2026/](../research/studio-3t-desktop-review-2026/)
+
 ## Navigation
 
 - [High-level product comparison](comparisons/high-level-product-comparison.md)
@@ -29,8 +31,8 @@ This report provides the top-level index for the MongoDB tools analysis project,
 | --- | --- |
 | Products analyzed | 3 (MongoDB Compass, VisuaLeaf, Studio 3T) |
 | Feature areas | 11 (F-CONN through F-SCHED) |
-| Feature matrices | 28 (not all products cover all areas; added Compass/AI and VisuaLeaf/SQL Tools 2026-07-28) |
-| Sub-features in low-level comparison | 257+ rows |
+| Feature matrices | 28 as last counted here — **stale**: the repository now has 35 `feature-matrix.md` files (3T Explore, 3T MCP, 3T Lens, 3T Access, and 3TL Bridge were split out of the Studio 3T product folder into their own products on 2026-07-29; not yet re-tallied in this row) |
+| Sub-feature IDs in dictionary | 328 total in `feature-dictionary.md` as of 2026-07-31 (grew from 311 after the Studio 3T Desktop source-code re-audit added 17 new IDs — see [research/studio-3t-desktop-review-2026/12-consolidated-corrections.md](../research/studio-3t-desktop-review-2026/12-consolidated-corrections.md) §1). Note: the "257+ rows" figure previously shown here for `low-level-feature-comparison.md` is a separate, not-yet-reconciled count — it has not been independently re-verified against the new 328 dictionary total in this pass. |
 
 ## Feature coverage matrix
 
@@ -56,7 +58,7 @@ This report provides the top-level index for the MongoDB tools analysis project,
 
 **VisuaLeaf** (by SozoCode) is a subscription-based GUI targeting teams and individuals who prioritize schema design, visual query building, and modern UX. Its Community plan is the most restrictive (3 connections maximum, 0 scheduled tasks, no AI). The Basic+ tier unlocks VQB, schema validation, saved queries, and the ERD designer. The Professional tier adds AI, RBAC, audit log, collection compare/sync, and unlimited scheduled tasks. VisuaLeaf's exclusive capabilities include: a full visual ERD designer with graph-theory relationship detection, a standalone JSON Schema tree editor with all BSON types, a 6-step connection test wizard, a performance timer with color thresholds, an execution cancel button, pre-import JS transforms, server-side $pipeline pre-export transforms, P50/P95/P99 profiler percentiles with 4 recommendation types, 11 selectable OpenAI models with always-on plain-English explanations, a GridFS file viewer, split-panel workspace layouts, and MongoSync (guided cross-server MongoDB copy). VisuaLeaf also added SQL Mode (2026-07-28) — SQL syntax querying against MongoDB collections only, not a relational migration tool. VisuaLeaf is a polyglot database GUI (also natively connecting to PostgreSQL, MySQL, SQL Server, Oracle, and others); this analysis covers its MongoDB-facing capabilities only.
 
-**Studio 3T** (by 3T Software Labs) is the most feature-complete product in this analysis, covering all 11 feature areas. Its Base/Pro editions add SQL tools, data masking, incremental export, team-connection sharing, SQL migration, and task scheduling. The Ultimate edition unlocks enterprise auth (Kerberos/LDAP/AWS IAM/OIDC). Studio 3T is the only product with a full SQL migration/export toolchain (SQL querying, JOIN→$lookup translation, migration wizard, relational export — VisuaLeaf has query-only SQL Mode as of 2026-07-28), date tags (~20 shortcuts for time-range queries), an MCP server + MCP client ecosystem enabling AI agents in VS Code/Cursor/Claude Desktop to operate against MongoDB, data masking with 8 operation types, incremental export with 5 resume points, index copy-paste across connections, a Query Assist shell mode with per-query pinnable result tabs, and the 3T enterprise platform organized into three tracks: Build (Desktop IDE, 3T Explore browser IDE, 3T MCP), Pipeline (3TL Bridge CDC), and Governed Access (3T Lens, 3T Access). Studio 3T also states compatibility with FerretDB alongside DocumentDB and Cosmos DB.
+**Studio 3T** (by 3T Software Labs) is the most feature-complete product in this analysis, covering all 11 feature areas. Its Base/Pro editions add SQL tools, data masking, incremental export, team-connection sharing, SQL migration, and task scheduling. The Ultimate edition unlocks enterprise auth (Kerberos/LDAP/AWS IAM/OIDC). Studio 3T is the only product with a full SQL migration/export toolchain (SQL querying, JOIN→$lookup translation, migration wizard, relational export — VisuaLeaf has query-only SQL Mode as of 2026-07-28), date tags (~20 shortcuts for time-range queries), an MCP server + MCP client ecosystem enabling AI agents in VS Code/Cursor/Claude Desktop to operate against MongoDB, data masking with 19 operation types, incremental export with 5 resume points, index copy-paste across connections, a Query Assist shell mode with per-query pinnable result tabs, and the 3T enterprise platform organized into three tracks: Build (Desktop IDE, 3T Explore browser IDE, 3T MCP), Pipeline (3TL Bridge CDC), and Governed Access (3T Lens, 3T Access). Studio 3T also states compatibility with FerretDB alongside DocumentDB and Cosmos DB.
 
 ---
 
@@ -93,13 +95,13 @@ This report provides the top-level index for the MongoDB tools analysis project,
 
 #### Studio 3T is the only product that provides:
 - A full SQL migration/export toolchain: SQL querying (SELECT/WHERE/JOIN/GROUP BY/ORDER BY/HAVING) with JOIN→$lookup translation, a migration wizard, and relational export (VisuaLeaf added query-only SQL Mode against MongoDB in 2026-07-28 research — no migration/export)
-- SQL migration wizard (MySQL/PostgreSQL/Oracle/SQL Server → MongoDB)
+- SQL migration wizard supporting 6 dialects (MySQL/PostgreSQL/Oracle/SQL Server/Sybase/IBM DB2 → MongoDB), up from the previously documented 4 — Sybase and IBM DB2 are both Enterprise-gated and asymmetric (Sybase has no direct SQL-export-wizard target; DB2 is migration-only)
 - SQL export to relational targets (MySQL/MSSQL/Oracle/PostgreSQL/IBM DB2/Sybase)
 - Date tags (~20: #today/#yesterday/#lastNdays/#lastcalweek/#thismonth etc.) — all editions, all query contexts
 - MCP server (HTTP at 127.0.0.1:27117, 10 tools) enabling external AI agents (VS Code Copilot, Cursor, Claude Desktop) to operate on MongoDB
 - 59 MCP tools via 3T Lens platform
 - stt-cli standalone binary with PII scanner
-- Data masking with 8 field-level operation types (standalone tool + inline during Import/Export)
+- Data masking with 19 field-level operation types across 6 BSON-type categories (standalone tool + inline during Import/Export) — corrected 2026-07-31 from a previously documented count of 8
 - Incremental export with up to 5 persistent resume points
 - Index definition copy-paste across collections and connections
 - SSH Profiles (named/reusable; password updates propagate to all connections)
@@ -161,3 +163,5 @@ This report provides the top-level index for the MongoDB tools analysis project,
 *Last updated 2026-07-28: reviewed studio3t.com, mongodb.com/products/tools/compass, and visualeaf.com homepages (plus targeted verification fetches). See the "2026-07-28 update scope" note in the [low-level comparison](comparisons/low-level-feature-comparison.md#2026-07-28-update-scope) for exactly what was and was not re-verified in this pass.*
 
 *Updated 2026-07-29: every row across all three comparison-layer reports was cross-checked directly against each product's own `feature-matrix.md` files. Six data-entry errors were found and fixed (Studio 3T's enterprise auth was wrongly marked unsupported; VisuaLeaf's live syntax validation, run-to-cursor, per-query result tabs, AI provider support, and data masking were wrongly marked unverified/absent) plus one missing row added (SQL-query-manager). See the "2026-07-29 deep-file verification pass" note in the [low-level comparison](comparisons/low-level-feature-comparison.md#2026-07-29-deep-file-verification-pass) for the full list. 3T Explore, 3T MCP, 3T Lens, 3T Access, and 3TL Bridge were also split out of the Studio 3T product folder into their own product folders under `products/3t/` on 2026-07-29 — see [products/3t/README.md](../products/3t/README.md).*
+
+*Updated 2026-07-31: propagated corrections from a full Studio 3T Desktop source-code re-audit (`research/studio-3t-desktop-review-2026/`, consolidated in [12-consolidated-corrections.md](../research/studio-3t-desktop-review-2026/12-consolidated-corrections.md)). Key changes reflected above: data masking corrected from 8 to 19 operation types; SQL migration dialect count corrected from 4 to 6 (adds Sybase, IBM DB2 — both Enterprise-gated and asymmetric); the feature-dictionary sub-feature-ID total grew from 311 to 328 (17 new IDs, all Studio-3T-Desktop-confirmed and unverified elsewhere pending independent confirmation). Not yet reconciled in this pass: the "257+ rows" low-level-comparison count against the new 328-ID dictionary total; the stale "28 feature matrices" figure against the real count of 35; row-level edits to the comparison reports for the F-SCHEMA gap narrowing (13→9 confirmed-absent IDs), the F-SCHED completeness downgrade, the F-IDX completeness upgrade, the VQB "one-way handoff" (not bidirectional sync) correction, and the F-GOV audit-logging scope narrowing — see the consolidated-corrections file, §§2-11, for the full detail those reports still need applied.*

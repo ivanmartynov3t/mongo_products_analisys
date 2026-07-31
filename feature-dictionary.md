@@ -67,6 +67,9 @@ Sub-feature IDs follow the pattern `<FEATURE>-<suffix>` where `<suffix>` is a sh
 | CONN-compat-cosmos | Azure Cosmos DB | Compatibility with Azure Cosmos DB (MongoDB API) |
 | CONN-compat-redis | Redis | Compatibility with Redis |
 | CONN-compat-ferretdb | FerretDB | Compatibility with FerretDB (open-source MongoDB-wire-protocol-compatible database) |
+| CONN-session-restore | Session Restore | Automatically reopen all connections and tabs open at last shutdown on next launch (Professional/Ultimate) |
+| CONN-git-repo-sharing | Git-backed connection sharing | Local folder of connection files optionally backed by a Git working tree, with in-app push/pull/fetch/reset actions |
+| CONN-access-manager-integration | Access Manager tree integration | 3T Access Manager-governed connections surface as a distinct tree node with restricted edit/export/duplicate/color/drag-drop and a forced read-only lock |
 
 ### F-QUERY — Querying
 
@@ -106,6 +109,7 @@ Sub-feature IDs follow the pattern `<FEATURE>-<suffix>` where `<suffix>` is a sh
 | QUERY-view-gridfs | GridFS viewer | Browse, preview, upload/download, and edit metadata for GridFS-stored files |
 | QUERY-view-split | Split panel views | Multi-document/multi-panel side-by-side comparison with synchronized scrolling and flexible layouts |
 | QUERY-charts-dashboards | Charts & dashboards | Build charts from collection/query/pipeline data and combine into saved dashboards |
+| QUERY-value-search | Cross-collection value search | Search a chosen set of collections for a literal value and/or field name, with case-sensitive and regex toggles (Professional+) |
 
 ### F-AGG — Aggregation
 
@@ -239,6 +243,8 @@ Sub-feature IDs follow the pattern `<FEATURE>-<suffix>` where `<suffix>` is a sh
 | TRANSFER-transform-filter | Import filter | Filter out documents by condition before import |
 | TRANSFER-transform-js | Custom JS transform | User-defined JavaScript functions applied per document during transfer |
 | TRANSFER-transform-pipeline | Pipeline pre-export | Apply aggregation pipeline stages as server-side pre-export transform |
+| TRANSFER-gridfs-crud | GridFS file CRUD | Full GridFS file management: upload, download, delete, rename, metadata edit — distinct from QUERY-view-gridfs, which is viewing/browsing only |
+| TRANSFER-collection-history | Collection History | Per-collection, document-level change capture (field/array update/remove/rename, whole-document changes) with selective per-document restore and conflict resolution; license-gated, single-collection scope |
 
 ### F-SHELL — Shell
 
@@ -261,6 +267,11 @@ Sub-feature IDs follow the pattern `<FEATURE>-<suffix>` where `<suffix>` is a sh
 | SHELL-background | Background execution | Script continues executing when switching to other tabs |
 | SHELL-integrations | Tool integrations | Open shell results in other tools; open from other tools into shell |
 | SHELL-modes | Execution modes | Shell mode (raw output) vs Query Assist mode (editable result tabs) |
+| SHELL-destructive-guard | Destructive command detection & warning | Pre-execution regex scan of script text for destructive operations (drop database/collection/index/user/role/view, delete/remove, $unset updates, findAndModify remove, bulk-write delete, etc.), with a confirmation dialog and "do not ask again" option |
+| SHELL-result-tab-limit | Result tab count limit | User-togglable preference (default on) capping the number of concurrently open Query Assist result tabs |
+| SHELL-bookmarks | Script bookmarks | Distinct, user-curated bookmarked-script list, separate from the auto-recorded script history |
+| SHELL-oidc-auth | OIDC authentication for shell connections | OIDC login (including device flow) specifically for shell/IntelliShell connections |
+| SHELL-storedjs-rename | Stored JS rename | Rename operation for stored JS functions, alongside CRUD/exists-check, with ANTLR-based syntax validation before save |
 
 ### F-AI — AI Features
 
@@ -290,6 +301,12 @@ Sub-feature IDs follow the pattern `<FEATURE>-<suffix>` where `<suffix>` is a sh
 | AI-010 | stt-cli binary | Standalone 3T MCP binary capability surface |
 | AI-011 | stt-cli feature set | stt-cli read-only browsing/query/schema/PII capabilities |
 | AI-012 | 3T Explore AI agent | AI Helper agent support in the 3T Explore browser IDE context (this dictionary previously used the name "3T Build" for this product; corrected to "3T Explore" per studio3t.com, 2026-07-28) |
+| AI-agentic-mode | AI Helper Plus — agentic tool-calling mode | LangChain4j-backed agentic chat mode distinct from plain NL-to-query generation; reviews full conversation history, bounded memory, tool-calling with parallel execution and mid-run cancellation; feature-flagged off by default |
+| AI-offline-mcp | Bundled offline MongoDB MCP server | Studio 3T bundles and runs MongoDB Inc.'s official mongodb-mcp-server npm package (offline Node runtime) as a stdio MCP client subprocess consumed by AI Helper Plus, always forced read-only |
+| AI-tab-context | Global Tab Context Registry | Internal-only tool giving the AI agent live awareness of open IntelliShell/Aggregation/Collection View tabs and their database/collection targets, synced on rename/close |
+| AI-chart-render | AI Helper response chart rendering | Renders pie/bar/horizontal-bar/stacked-bar charts from AI responses via an embedded JavaFX canvas in the chat view, driven by a chart-fenced JSON prompt spec |
+| AI-multi-conversation | AI Helper — multiple named conversations | Multiple named, rename/delete/switchable conversations with LLM-generated auto-titling; supersedes a single-history-stream model |
+| AI-guardrail-layer | AI Helper mismatch/guard-rail apply layer | Type-compatibility routing, source-collection-mismatch confirmation, unsaved-changes protection, and syntactic query-parse validation gating "apply to editor" |
 | AI-model-chooser | Model chooser | User-selectable AI model per configuration |
 | AI-sample-data-toggle | Sample data toggle | User-facing toggle for sending sample data to improve AI accuracy |
 | AI-context-turns | Conversation turns | Multi-turn context retention for iterative refinement |
@@ -429,7 +446,7 @@ This table shows which features are applicable per product. Features not in a pr
 
 Notes: MongoDB Compass F-AI is limited to AI-nl-query (natural language querying, confirmed on the official product page); other F-AI sub-features are unconfirmed for Compass. VisuaLeaf F-SQL ("SQL Mode") is limited to SQL-expressions and SQL-code-gen against MongoDB collections only — it is not a SQL migration/export toolchain like Studio 3T's F-SQL.
 
-3T Explore, 3T MCP, 3T Lens, 3T Access, and 3TL Bridge (2026-07-29) are separate products under `products/3t/`, split out of what this dictionary previously tracked as Studio 3T sub-sections. 3T Explore's F-AI coverage is limited to AI-012 (its AI Helper); its F-GOV coverage is limited to GOV-platform-explore (Workspace Switcher + Access Control) — both partial relative to the full F-AI/F-GOV sub-feature sets. 3T MCP's F-AI coverage is limited to AI-010/AI-011 (the standalone binary and its capabilities). Studio 3T's own F-GOV coverage is partial: its matrix documents the Desktop IDE-native sub-features referenced by the comparison reports (`GOV-readonly-mode`, `GOV-rbac-users`, `GOV-rbac-roles`, `GOV-audit-log`, `GOV-collection-compare`, `GOV-collection-sync`, `GOV-data-masking`, `GOV-cred-protection`) only by reference from the comparison reports — a dedicated capability matrix for them has not yet been authored (pre-existing gap, unrelated to the 2026-07-29 split). 3T Lens, 3T Access, and 3TL Bridge each have full coverage of their respective platform-tier F-GOV sub-features (see their own feature matrices).
+3T Explore, 3T MCP, 3T Lens, 3T Access, and 3TL Bridge (2026-07-29) are separate products under `products/3t/`, split out of what this dictionary previously tracked as Studio 3T sub-sections. 3T Explore's F-AI coverage is limited to AI-012 (its AI Helper); its F-GOV coverage is limited to GOV-platform-explore (Workspace Switcher + Access Control) — both partial relative to the full F-AI/F-GOV sub-feature sets. 3T MCP's F-AI coverage is limited to AI-010/AI-011 (the standalone binary and its capabilities). Studio 3T's own F-GOV coverage is partial: as of the 2026-07-31 source-code review, its `feature-matrix.md` now has a full Desktop IDE-native capability table (20 sub-feature IDs), but several claims were narrowed or corrected against source (audit logging scope, credential storage mechanism, startup policy mechanism — see `research/studio-3t-desktop-review-2026/10-governance-findings.md`); it remains "partial" because the fuller RBAC/audit/compliance depth lives in 3T Lens/3T Access/3TL Bridge, not because the matrix is unauthored. 3T Lens, 3T Access, and 3TL Bridge each have full coverage of their respective platform-tier F-GOV sub-features (see their own feature matrices).
 
 ---
 
@@ -482,12 +499,12 @@ Source research: [research/feature-decision-2026/](research/feature-decision-202
 |---|---|---|---|---|---|---|---|
 | `PROP-pii-discovery` | Automated PII classification/discovery | F-GOV | ✳️ Net-New-Concept | 🌱 Lead-Widener | 🏠 Portfolio-Port (via `AI-011`, `GOV-004`) | **Recommended** | 6.50 |
 | `PROP-cli-automation` | Headless CLI / CI-CD pipeline automation | F-SCHED / F-TRANSFER / F-GOV | ✳️ Net-New-Concept | ⚔️ Gap-Close (vs. DBeaver Pro/Ultimate) | 🆕 Net-New | Deferred (fast-follow) | 7.50 |
-| `PROP-webhook-notify` | Webhook notifications (Slack/Teams/Jira/PagerDuty) | F-SCHED / F-GOV | 🔗 `GOV-003` | ❔ Parity-Unverified | 🏠 Portfolio-Port (via `GOV-003`, 3T Lens) | Shortlisted | 7.00 |
+| `PROP-webhook-notify` | Webhook notifications (Slack/Teams/Jira/PagerDuty) | F-SCHED / F-GOV | 🔗 `GOV-003` | ❔ Parity-Unverified | 🏠 Portfolio-Port (via `GOV-003`, 3T Lens) | Shortlisted | ~~7.00~~ → **4.67** (corrected 2026-07-31: `SCHED-notifications`/`SCHED-email` were assumed already implemented on Desktop and never checked — the source-code audit found both confirmed absent, raising Build Effort 2→3; see [research/feature-decision-2026/04-scored-longlist.md](research/feature-decision-2026/04-scored-longlist.md#candidate-18-slackteamsjirapagerduty-webhook-notifications--prop-webhook-notify--️-corrected-in-stage-8-score-revised-down-materially)) |
 | `PROP-idx-perf-advisor` | AI-driven query/index performance advisor | F-IDX | 🔗 `IDX-perf-insights` | ⚔️ Gap-Close (vs. Compass, VisuaLeaf) | 🆕 Net-New | Shortlisted | 5.67 |
 | `PROP-qe-key-vault-ui` | Queryable Encryption/CSFLE key-vault UI | F-CONN | 🔗 `CONN-in-use-enc` | ⚔️ Gap-Close (vs. Compass) | 🆕 Net-New | Shortlisted | 5.00 |
 | `PROP-vector-search-tooling` | Deeper Vector Search tooling | F-IDX | 🔗 `IDX-vector-search` | ⚔️ Gap-Close (vs. Compass) | 🆕 Net-New | Cut (funnel size) | 4.67 |
 | `PROP-git-integration` | Native Git/version-control integration | F-QUERY / F-AGG / F-SCHED | ✳️ Net-New-Concept | ⚔️ Gap-Close (vs. DataGrip/JetBrains platform) | 🆕 Net-New (partial prior art, Studio 3T 2026.4) | Cut | 4.33 |
-| `PROP-schema-erd-cluster` | Visual ERD / JSON-Schema editor / validation UI | F-SCHEMA | 🔗 13 IDs (`SCHEMA-designer-*`, `SCHEMA-validation-*`, `SCHEMA-json-editor`, etc.) | ⚔️ Gap-Close (vs. Compass, VisuaLeaf) | 🆕 Net-New | **Deferred (separate future decision)** | 4.00 |
+| `PROP-schema-erd-cluster` | Visual ERD / JSON-Schema editor / geo analysis | F-SCHEMA | 🔗 9 IDs (`SCHEMA-designer-*`, `SCHEMA-json-editor`, `SCHEMA-bson-types`, `SCHEMA-field-constraints`, `SCHEMA-geo-analysis`) — corrected 2026-07-31: the 2026-07-31 source-code review confirmed Studio 3T Desktop already has full validator authoring/deployment (`SCHEMA-validation-*`, `SCHEMA-deploy-validator`), so those 4 IDs no longer belong to this cluster | ⚔️ Gap-Close (vs. Compass, VisuaLeaf) | 🆕 Net-New | **Deferred (separate future decision)** | 4.00 |
 | `PROP-ai-gateway-sso` | Enterprise AI gateway/SSO for AI Helper | F-AI | ✳️ Net-New-Concept | 🌱 Lead-Widener (DBeaver shares the same weakness) | 🆕 Net-New | Cut | 4.00 |
 | `PROP-schema-drift` | Schema drift detection / versioned field history | F-SCHEMA / F-GOV | 🔗 `GOV-005` | ❔ Parity-Unverified | 🏠 Portfolio-Port (via `GOV-005`, 3T Lens) | Cut | 3.67 |
 | `PROP-siem-export` | Centralized SIEM/audit-log export | F-GOV | ✳️ Net-New-Concept | ❔ Parity-Unverified | 🆕 Net-New | Cut | 3.33 |
@@ -521,6 +538,8 @@ Full per-candidate rationale, citations, and metric derivations: [04-scored-long
 
 | Date | Change | Author |
 |---|---|---|
+| 2026-07-31 (2) | Synced `research/feature-decision-2026/` (Stage 8) against the same-day Studio 3T Desktop source-code re-audit. Corrected `PROP-webhook-notify`'s Priority Score from 7.00 to 4.67 — its card had assumed `SCHED-notifications`/`SCHED-email` were already implemented on Desktop without ever checking, and the audit found both confirmed absent (raising Build Effort). Updated the candidate-universe ID counts throughout the decision pipeline (108→89 tracked gap IDs). Full detail: [research/feature-decision-2026/01-research-plan.md, Stage 8](research/feature-decision-2026/01-research-plan.md#stage-8--2026-07-31-sync-with-the-desktop-source-code-re-audit). | Claude |
+| 2026-07-31 | Full source-code re-audit of Studio 3T Desktop across all 11 feature areas (`research/studio-3t-desktop-review-2026/`). Added 17 new sub-feature IDs surfaced by the audit: `CONN-session-restore`, `CONN-git-repo-sharing`, `CONN-access-manager-integration` (F-CONN); `QUERY-value-search` (F-QUERY); `TRANSFER-gridfs-crud`, `TRANSFER-collection-history` (F-TRANSFER); `SHELL-destructive-guard`, `SHELL-result-tab-limit`, `SHELL-bookmarks`, `SHELL-oidc-auth`, `SHELL-storedjs-rename` (F-SHELL); `AI-agentic-mode`, `AI-offline-mcp`, `AI-tab-context`, `AI-chart-render`, `AI-multi-conversation`, `AI-guardrail-layer` (F-AI). Corrected `PROP-schema-erd-cluster`'s dictionary linkage from 13 to 9 IDs (validator authoring/deployment confirmed implemented, not absent). Updated the F-GOV coverage note (Studio 3T's governance matrix is now fully authored, not a pre-existing gap). Full findings, corrections, and citations: [research/studio-3t-desktop-review-2026/](research/studio-3t-desktop-review-2026/) and per-feature `feature-matrix.md`/`feature-report.md` "Last reviewed" sections under `products/3t/studio-3t/features/`. | Claude |
 | 2026-07-30 | Added the Proposed Feature Registry section: a classification scheme (competitive framing, origin, dictionary linkage, pipeline status) for not-yet-implemented candidate features, plus a registry of all 20 candidates from the 2026-07 Studio 3T Desktop feature-decision research (`research/feature-decision-2026/`, `reports/next-feature-recommendation.md`). New `PROP-<slug>` ID prefix and naming rule (#6, #7) added. | Claude |
 | 2026-07-29 | Split 3T Explore, 3T MCP, 3TL Bridge, 3T Lens, and 3T Access out of the Studio 3T product folder into their own product folders under `products/3t/` (previously documented as sub-sections of Studio 3T's AI Features and Governance & Security matrices). No dictionary IDs changed; added 5 columns to the Product × feature coverage matrix. | Claude |
 | 2026-07-28 | Added CONN-compat-ferretdb, GOV-platform-explore, QUERY-view-gridfs, QUERY-view-split, QUERY-charts-dashboards based on review of studio3t.com, mongodb.com/products/tools/compass, and visualeaf.com (plus verification fetches of studio3t.com/3t-explore/, visualeaf.com/features/sql-mode/, /mongosync/, /gridfs-viewer/, /split-panel-views/). Corrected AI-012 name from "3T Build" to "3T Explore" (Build is a product track, not a product name). Enabled F-AI (partial) for MongoDB Compass and F-SQL (partial) for VisuaLeaf in the coverage matrix. | Claude |

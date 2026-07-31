@@ -97,8 +97,8 @@ All products follow the same per-product hierarchy: `product-report.md` + `featu
 ### 3T Software Labs — [products/3t/](products/3t/README.md)
 
 - **Studio 3T** — Build track, Desktop IDE — [product-report.md](products/3t/studio-3t/product-report.md)
-  - Only product covering all 11 feature areas; sole full SQL↔MongoDB migration/export toolchain, data masking (8 op types), and cross-connection index copy-paste (VisuaLeaf also has its own task scheduler — not exclusive to Studio 3T)
-  - Editions: Free / Base / Pro / Ultimate — enterprise auth (Kerberos/LDAP/AWS IAM/OIDC) on Ultimate
+  - Only product covering all 11 feature areas; sole full SQL↔MongoDB migration/export toolchain (6 dialects), data masking (19 op types across 6 BSON-type categories — corrected 2026-07-31 from an earlier "8 op types" figure; see `FieldOperation.java`), and cross-connection index copy-paste (Professional+ tier; VisuaLeaf also has its own task scheduler — not exclusive to Studio 3T)
+  - Editions: Free / Community Edition / Professional / Ultimate (confirmed 2026-07-31 via source; "Pro/Base" was an internal alias, not a separate SKU) — enterprise auth (Kerberos/LDAP/AWS IAM/OIDC) on Ultimate
   - Anchors the wider 3T platform (the five products below)
 - **3T Explore** — Build track, browser IDE — [product-report.md](products/3t/3t-explore/product-report.md)
   - Browser-based Explore + Visual Query Builder + IntelliShell + Aggregation Editor + AI Helper
