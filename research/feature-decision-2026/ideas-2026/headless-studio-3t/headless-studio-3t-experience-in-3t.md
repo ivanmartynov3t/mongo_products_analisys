@@ -273,4 +273,285 @@ The [3t-Bridge](https://3tsoftwarelabs.atlassian.net/wiki/spaces/P/pages/1205633
 
 ---
 
-Want me to create a formal write-up of this as a Confluence page or a PM ticket capturing the historical context and lessons learned?
+# Headless Studio 3T — Deep Research Report
+
+## 1. Customer Pain Points (Documented Demand, 2016–2023)
+
+### 1.1 The Original Voices (Pre-Server 3T era, 2016–2018)
+
+Customer demand for automation pre-dates any product response by **two full years**:
+
+| Ticket | Date | Customer / Source | Exact Request |
+|--------|------|-------------------|---------------|
+| [KONG-966](https://3tsoftwarelabs.atlassian.net/browse/KONG-966) | Apr 2016 | Dave Nicolas, Banker's Healthcare Group | *"Would it be possible to add a set of services that would allow for creation of back end recurring jobs, automated backups and restore"* |
+| [KONG-910](https://3tsoftwarelabs.atlassian.net/browse/KONG-910) | Mar 2016 | 6+ named customers (Canal Insurance, Acumen Solutions, Pretty Simple Games, etc.) | Aggregated: schedule sync, schedule backups, schedule CSV exports, **automate export/import from a separate script** — *"I want to generate the call from a separate script, if possible"* |
+| [KONG-1648](https://3tsoftwarelabs.atlassian.net/browse/KONG-1648) | May 2017 | Angela Murray, Watermelon Research + 2 others | *"We are looking at alternative options and how we can automate exports/imports as it is currently a daily process for us (twice daily)"* — **urgency signal: considering alternatives** |
+| [KONG-2339](https://3tsoftwarelabs.atlassian.net/browse/KONG-2339) | Jul 2018 | Internal (consolidating requests) | The formal CLI proposal: `studio3t.exe --export --exportSettings <file>` |
+
+**Key insight:** By 2017, customers were already signaling they'd leave if automation wasn't addressed ("looking at alternative options"). The pain was:
+- **Twice-daily manual export/import cycles** (Watermelon Research)
+- **Production → dev sync** that had to be triggered manually
+- **Backup scheduling** without any way to script it
+- Desire to **invoke from external scripts** (not just GUI schedules)
+
+### 1.2 Enterprise-Grade Requests (2019–2022)
+
+| Ticket | Date | Customer | Pain Point |
+|--------|------|----------|------------|
+| [KONG-3285](https://3tsoftwarelabs.atlassian.net/browse/KONG-3285) | Jun 2019 | **Anthem Insurance** (from-sales label) | *"Would like to save/schedule the synchronisation portion of Data Compare & Sync. Currently only possible to schedule the comparison."* |
+| [KONG-3752](https://3tsoftwarelabs.atlassian.net/browse/KONG-3752) | Nov 2019 | HubSpot customer | Same: automate DCS sync (not just compare). Dev noted: *"This ticket will probably only be relevant if we rework DCS. As it stands, it's non-trivial."* |
+| [KONG-4926](https://3tsoftwarelabs.atlassian.net/browse/KONG-4926) | Sep 2020 | 3 HubSpot tickets + 2 UserVoice | Tasks every 5 minutes (not just daily/weekly) — wanting near-real-time ETL behavior from a GUI tool |
+| [KONG-6703](https://3tsoftwarelabs.atlassian.net/browse/KONG-6703) | Dec 2021 | Customer running 10 identical tasks per rollout | *"Is it possible to configure tasks to take the target database as a parameter?"* — wanting CLI-style parameterization |
+| [KONG-5875](https://3tsoftwarelabs.atlassian.net/browse/KONG-5875) | May 2021 | UserVoice + HubSpot | Email notifications on task completion — customer **requested a pre-release** |
+
+### 1.3 The Fundamental Desktop Limitation
+
+The deepest pain point was articulated perfectly by the team themselves in [KONG-5875](https://3tsoftwarelabs.atlassian.net/browse/KONG-5875) (July 2022):
+
+> **"We think that this is not a feature that would be expected from a Desktop tool. So we will rather not do it anymore. Of course it still would make a lot of sense for a Server 3T solution."**
+
+This reveals the core tension: **customers needed server-grade capabilities (unattended execution, notifications, parameterization, CI/CD triggering) from a desktop application that was architecturally incapable of providing them.**
+
+---
+
+## 2. Architectural Decisions — Why CLI Was Rejected in Favor of Server 3T
+
+### 2.1 The July 2018 Decision
+
+When KONG-2339 proposed adding `--export`/`--import`/`--query` flags to the desktop binary, the response (3 days later) was:
+
+> **"Server 3T is how we'll tackle these."**
+
+**Why this decision was made (reconstructed from code evidence):**
+
+Studio 3T is built on **Eclipse SWT** — a heavyweight desktop GUI toolkit. The entire application architecture is:
+- Monolithic Java application (`Studio3TApp.main()` → `AppRunner` → SWT event loop)
+- All task execution runs on the **SWT UI thread** (`org.eclipse.swt.widgets.Display.readAndDispatch()`)
+- Connection management, credential storage, task serialization — all coupled to the GUI context
+- Even the Task Scheduler runs inside `TaskScheduleManager` which dispatches via `RunnableLock.run()` on the SWT thread
+
+**Making this run headlessly would mean:**
+1. Stripping out SWT dependencies from the task execution path
+2. Extracting connection info, credentials, and task definitions into a standalone serialization format
+3. Handling encryption of sensitive data independently of the desktop keystore
+4. Managing the lifecycle without a GUI event loop
+
+The team concluded this was **too invasive** for the desktop codebase and chose instead to build a separate server process that could reuse the business logic modules (`data-man-mongodb-ent`) without the GUI layer.
+
+### 2.2 The Architecture of Server 3T
+
+From [KONG-2393](https://3tsoftwarelabs.atlassian.net/browse/KONG-2393) (the original prototype, July 2018):
+
+> *"The key thing we want to achieve is to have Server 3T receive a description of an export job, and be able to execute it."*
+> *"The connection info is included in the export task description sent to the server. This also means we'll have to encrypt the job descriptions."*
+> *"Don't be afraid of working with the data directly for the descriptions of the export jobs. I'm loath to bind them to a fixed class definition."*
+
+**Stack evolution:**
+- **Phase 1 (2020):** Vert.x reactive server + custom protocol + proprietary licensing/quota system
+- **Phase 2 attempt (Feb 2021):** Repackaged as Spring Boot ([KONG-5391](https://3tsoftwarelabs.atlassian.net/browse/KONG-5391)) — replacing Vert.x with Spring MVC ([KONG-5394](https://3tsoftwarelabs.atlassian.net/browse/KONG-5394))
+
+This rewrite happened just **6 weeks before discontinuation** — suggesting the team already knew the Vert.x architecture wasn't viable and was desperately trying to salvage the product with a different framework.
+
+---
+
+## 3. Why Server 3T Failed — Root Causes
+
+### 3.1 Technical Reliability Problems
+
+**Intermittent execution failures during live customer demos ([KONG-5518](https://3tsoftwarelabs.atlassian.net/browse/KONG-5518), Mar 2021):**
+> *"During the most recent rounds of Server 3T UX sessions we had two cases where our customers would randomly receive errors when trying to execute Exports on Server 3T."*
+> *"Then, all of a sudden, after some random amount of time, the same operations will start working normally."*
+
+This happened on 3T's **own hosted instance** (`server3t.ext.cloud.3t.io`) — they couldn't even make it reliable for demos.
+
+**Stuck task workers ([KONG-4528](https://3tsoftwarelabs.atlassian.net/browse/KONG-4528)):**
+Workers would enter permanently stuck states, blocking all subsequent tasks. Restarting the server after stuck workers caused **license errors** ([KONG-4529](https://3tsoftwarelabs.atlassian.net/browse/KONG-4529)).
+
+**Cross-platform serialization issues ([KONG-5398](https://3tsoftwarelabs.atlassian.net/browse/KONG-5398)):**
+Exporting from Windows Studio 3T to Linux Server 3T produced **empty zip files** — the task format wasn't properly abstracted from the OS.
+
+**Entropy starvation on headless Linux ([KONG-4935](https://3tsoftwarelabs.atlassian.net/browse/KONG-4935)):**
+SSH tunnel connections timed out on headless servers because Java's `SecureRandom` blocked on `/dev/random` without a display server providing entropy.
+
+### 3.2 Scope Problem — Couldn't Keep Up
+
+After **16 months** of development (Dec 2019 – Mar 2021), Server 3T supported only:
+- ✅ SQL Migrations (Phase 1)
+- ✅ Exports (added in Phase 2, the final 6 weeks)
+- ❌ Imports — never shipped
+- ❌ Data Compare & Sync — never shipped
+- ❌ Data Masking — never shipped
+- ❌ IntelliShell Scripts — never shipped
+- ❌ Collection tasks — never shipped
+
+The task types customers **most** wanted automated (DCS sync, Data Masking) were never even attempted.
+
+### 3.3 Version Coupling — Release Cadence Mismatch
+
+Server 3T couldn't keep pace with Studio 3T's desktop releases:
+- [KONG-5151](https://3tsoftwarelabs.atlassian.net/browse/KONG-5151) (Nov 2020): *"We don't plan to release Server 3T 2020.10"* — version check warning had to be disabled
+- Server 3T shipped as a **companion binary** requiring manual installation, separate JRE, and tight version alignment with the desktop client
+- Every Studio 3T release risked breaking Server 3T's task format compatibility
+
+### 3.4 Commercial Model Challenges
+
+- Required **separate licensing with quota-based billing** ([KONG-4427](https://3tsoftwarelabs.atlassian.net/browse/KONG-4427), [KONG-4433](https://3tsoftwarelabs.atlassian.net/browse/KONG-4433))
+- Proof of Concept licenses limited to 1000 documents
+- Beta access gated by license flags ([KONG-4498](https://3tsoftwarelabs.atlassian.net/browse/KONG-4498))
+- No evidence of any paying customer ever recorded in Jira
+
+### 3.5 Team/Knowledge Concentration
+
+- Every single contributor to Server 3T is now listed as **"Former user"** in Jira
+- The Vert.x→Spring rewrite, the task format design, the quota system — all knowledge left the company
+- No documentation or retrospective was written (confirmed: no Confluence page exists)
+
+---
+
+## 4. Effort Invested
+
+### 4.1 Ticket Count (Hard Evidence)
+
+| Label/Category | Ticket Count | Period |
+|---------------|-------------|--------|
+| `product-server-3t` | **78 tickets** | Dec 2019 – Nov 2021 |
+| `product-server-3t-backend` | **14 additional tickets** | Sep 2020 – Mar 2021 |
+| Related tickets (removal, EULA, LM) | ~8 tickets | Mar–Apr 2021 |
+| **Total tracked effort** | **~100 tickets** | **16 months** |
+
+### 4.2 Timeline Reconstruction
+
+| Period | Duration | Work Done |
+|--------|----------|-----------|
+| Jul 2018 – Dec 2019 | 17 months | Prototype exploration (KONG-2393, ultimately abandoned) |
+| Dec 2019 – Sep 2020 | 9 months | Phase 1: Full build — daemon, licensing, quota, UI integration, manual, SQL migration support |
+| Sep 2020 – Mar 2021 | 6 months | Phase 2: Spring rewrite, export support, UX sessions with customers |
+| Mar 2021 | 2 weeks | Complete removal from product (KONG-5610), license portal, website, EULA |
+| Nov 2021 | — | Code cleanup proposed (KONG-6562) but never executed; dead code remains |
+
+### 4.3 Estimated Effort
+
+With ~78 deployed tickets across 15 months, and assuming roughly even distribution:
+- **~5 tickets/month** of dedicated work
+- Involves minimum **2-3 developers** (backend server dev + desktop integration dev + QA)
+- Plus licensing server changes, documentation, UX sessions
+- **Conservative estimate: 15–20 person-months of engineering** invested and discarded
+
+---
+
+## 5. The Decision to Kill (March 2021)
+
+The decision was framed identically across 3 tickets:
+
+> *"Since as a business we have decided to no longer continue to develop or sell Server 3T"* — KONG-5610, LM-133
+
+No retrospective document exists. No post-mortem was written. The language ("as a business we have decided") suggests a **top-down strategic call**, not a gradual deprecation.
+
+**Contextual factors at the time of the kill:**
+1. UX session failures (Mar 3, 2021 — KONG-5518) happened **3 weeks** before the kill (Mar 24)
+2. The Spring Boot rewrite had just been completed (Feb 8, 2021) — suggesting the team had already tried their "last resort" fix
+3. Phase 2 was never completed — only exports made it; imports were still being discussed
+4. No paying customers are evidenced in any ticket
+
+---
+
+## 6. What Happened After (2021–2026)
+
+### 6.1 The "Server 3T Still Makes Sense" Echo (Jul 2022)
+
+In KONG-5875, when declining email notifications for tasks, the team wrote:
+> *"We think that this is not a feature that would be expected from a Desktop tool. Of course it still would make a lot of sense for a **Server 3T solution**."*
+
+14 months after killing Server 3T, they were **still referencing it as the correct solution** for server-grade features — acknowledging the gap remained unfilled.
+
+### 6.2 The studio.3t.io Approach (Apr 2026)
+
+Five years later, [KONG-10903](https://3tsoftwarelabs.atlassian.net/browse/KONG-10903) took a deliberately minimal approach:
+- "Proof of concept integration" — explicitly labeled as PoC
+- Only 2 deliverables: save remote tasks + open browser to task list
+- Web-triggered, not CLI-triggered
+- No scheduling, no CI/CD integration, no notifications
+
+### 6.3 3TL Bridge (Jul 2026) — A New Product, Not a Fix
+
+Bridge solves the underlying problem differently:
+- Built in **Rust** (not Java) — no SWT/Eclipse baggage
+- **Headless-native** from day one (Kubernetes, Helm)
+- Purpose-built for data pipelines, not wrapping existing desktop task types
+- Covers PII masking (overlaps with Data Masking) and CDC (overlaps with DCS)
+- **Does NOT cover:** SQL Migration, Import/Export Wizard, IntelliShell scripts
+
+---
+
+## 7. Lessons (Reconstructed from Evidence)
+
+### Lesson 1: "Extracting Headless from Desktop is Fundamentally Harder Than Building Headless-First"
+
+Server 3T tried to reuse `data-man-mongodb-ent` (the core library) in a server context. But:
+- Task serialization was OS-dependent (Windows→Linux = empty zips)
+- Credential handling was desktop-keystore-dependent
+- Connection testing blocked on OS entropy
+- The SWT event loop assumptions were baked into scheduling
+
+**3TL Bridge learned this:** built from scratch in Rust, with no shared codebase.
+
+### Lesson 2: "A Companion Product Creates Two Maintenance Burdens, Not One"
+
+Server 3T required:
+- Separate release cadence (couldn't keep up)
+- Separate JRE bundle
+- Separate licensing/quota system
+- Separate installation & configuration
+- Version-locked compatibility with the desktop client
+
+**This effectively doubled the surface area** for a small team, while only covering 2 of 7 task types.
+
+### Lesson 3: "Demo-Failing Reliability Kills Products Instantly"
+
+The UX session failures (KONG-5518) — on 3T's own hosted instance — were the proximate trigger. When your product fails **during customer demos**, no amount of technical promise saves it.
+
+### Lesson 4: "No Paying Customer = No Mandate to Fix"
+
+Server 3T never acquired evidenced paying customers. Without revenue:
+- Bugs were tolerable to close as "Won't Do"
+- Phase 2 scope could be endlessly deferred
+- The kill decision had no revenue impact to weigh against
+
+### Lesson 5: "Scope Creep via Feature Parity is Lethal"
+
+The original ask (KONG-2339) was simple: `studio3t.exe --export ...`. The chosen solution was a full server product with its own licensing, quota, multi-user scheduling, and eventually a Spring Boot rewrite. The ambition far exceeded the ask.
+
+### Lesson 6: "Document Nothing = Repeat Everything"
+
+- No retrospective was written
+- No architecture decision record exists
+- No post-mortem in Confluence
+- All contributors left the company
+- The dead code remains in the repo (KONG-6562 never executed)
+- The same tension resurfaced 5 years later with studio.3t.io
+
+### Lesson 7: "Customers Don't Want a Server — They Want a Command"
+
+Reviewing all customer requests:
+- *"Generate the call from a separate script"* (KONG-910)
+- *"Take the target database as a parameter"* (KONG-6703)
+- *"Automate exports/imports — it's currently a daily process"* (KONG-1648)
+- *"Schedule the synchronisation portion"* (KONG-3285)
+
+None of these requested a separate server product. They requested **CLI invocation of existing capabilities**. The product response over-engineered the solution relative to the ask.
+
+---
+
+## 8. Current State Summary (Aug 2026)
+
+| Capability | Status | Product |
+|------------|--------|---------|
+| CLI binary for Studio 3T tasks | ❌ Never existed | — |
+| Headless server daemon | ❌ Killed Mar 2021 (Server 3T) | Dead code in repo |
+| Web-based remote tasks | ✅ PoC shipped Apr 2026 | studio.3t.io |
+| CI/CD pipeline integration | ❌ Does not exist | — |
+| Headless data pipeline execution | ✅ Experimental | 3TL Bridge (different product) |
+| Parameterized task invocation | ❌ Never built | — |
+| Email/webhook notifications on tasks | ❌ Explicitly declined | — |
+
+**The 2016 customer ask remains substantially unaddressed 10 years later.**
