@@ -40,6 +40,70 @@ Ten build ideas for Studio 3T Desktop, ranked by Priority Score. Every idea is c
 
 **Risk to flag:** The two competitor CLI precedents (DBeaver, NoSQLBooster) set the bar for scope and syntax expectations — shipping a CLI that only covers 2 of the 7 task types would look like a partial answer to a fully-solved competitor problem, not a genuine catch-up.
 
+### 1.1 The pain point: what customers have asked for, from every source we have
+
+Demand has been documented, continuously, from three separate evidence streams for a decade — competitive research, review mining, and 3T's own Jira backlog:
+
+**From competitive/market research:**
+- [`studio-3t-review-mining`, L56](../google_research/studio-3t-review-mining/Studio%203T%20Review%20Mining.txt#L56) (direct-customer-record source): *"Users express a strong need for a headless server daemon or cloud agent capable of executing background data migrations, masked exports, and scheduled synchronization jobs independently of the local laptop state."*
+- [`mongodb-compass-competitive-analysis`, L180-181](../google_research/mongodb-compass-competitive-analysis/MongoDB%20Compass%20Competitive%20Analysis.txt#L180): *"Scheduled data imports, nightly backups, and recurring collection synchronizations cannot be automated inside the GUI"* — the fallback is *"writing custom OS cron jobs, shell scripts, or utilizing external ETL software."*
+- [`studio-3t-missing-integrations`, L129](../google_research/studio-3t-missing-integrations/Studio%203T%20Missing%20Integrations.txt#L129): a team wanting to sanitize production data with Studio 3T's own masking rules before spinning up a test environment *"cannot trigger that process programmatically from a GitHub Actions workflow"* and ends up maintaining *"custom Node.js or Python migration scripts"* instead.
+
+**From 3T's own Jira backlog — the same ask, recurring for a decade:**
+- **2016** — [KONG-966](https://3tsoftwarelabs.atlassian.net/browse/KONG-966) (Banker's Healthcare Group): recurring jobs, automated backups/restores. [KONG-910](https://3tsoftwarelabs.atlassian.net/browse/KONG-910) (6+ named customers, incl. Canal Insurance, Acumen Solutions): scheduled sync/backup/CSV export, and explicitly *"generate the call from a separate script."*
+- **2017** — [KONG-1648](https://3tsoftwarelabs.atlassian.net/browse/KONG-1648) (Watermelon Research + 2 others): manual export/import twice daily, with an explicit churn signal — *"We are looking at alternative options."*
+- **2019** — [KONG-3285](https://3tsoftwarelabs.atlassian.net/browse/KONG-3285) (Anthem Insurance) and [KONG-3752](https://3tsoftwarelabs.atlassian.net/browse/KONG-3752): automate the *synchronization* step of Data Compare & Sync, not just the comparison — both closed **Won't Do**.
+- **2020** — [KONG-4926](https://3tsoftwarelabs.atlassian.net/browse/KONG-4926): sub-daily (5-minute) task frequency, i.e. near-real-time ETL behavior — the in-app scheduler has a 1-minute floor.
+- **2021** — [KONG-6703](https://3tsoftwarelabs.atlassian.net/browse/KONG-6703): a customer running 10 near-identical rollout tasks wanted to parameterize the target database per run instead of maintaining 10 near-duplicate task definitions — CLI-style invocation with arguments.
+
+**The common thread:** nobody in any of these sources asked for a new server, a new license tier, or a new install. Every request is the same shape — trigger an *existing* task type (export/import, DCS sync, masking) from a script, cron job, or pipeline, sometimes with runtime parameters. That's the bar the proposal in §1.3 is built to clear.
+
+### 1.2 Previous attempt: Studio 3T already tried this once, and it failed
+
+This is not a green-field idea — Studio 3T tried to solve headless execution once, spent an estimated 15–20 person-months on it over 16 months (~100 tickets), and killed the result.
+
+- **2018 — the original ask, and the fork in the road.** [KONG-2339](https://3tsoftwarelabs.atlassian.net/browse/KONG-2339) proposed exactly this idea — literal CLI flags on the desktop binary (`studio3t.exe --export --exportSettings <file>`). Three days later the team decided against extending the desktop binary and instead redirected the ask into a brand-new companion product: *"Server 3T is how we'll tackle these."*
+- **2019–2020 — Server 3T Phase 1.** A separate Java daemon (Vert.x, later rewritten to Spring Boot), installed independently on headless Linux servers, with its own JRE bundle, licensing, and quota system. After 9 months of dedicated build-out, it supported exactly **one** task type: SQL Migration.
+- **2020–2021 — Phase 2 and collapse.** Export support was added in the final 6 weeks before the project was killed. Import, Data Compare & Sync, Data Masking, and IntelliShell Scripts — the task types customers most wanted automated — were never built.
+  - **Obstacles encountered:** reliability failures surfaced during live customer UX sessions in March 2021 — exports would randomly fail, then recover "after some random amount of time," on 3T's own hosted instance — and task workers would get permanently stuck. Cross-platform task serialization was broken (Windows→Linux export produced empty zip files), and headless Linux instances suffered `SecureRandom` entropy starvation on SSH-tunneled connections.
+  - **Why development stopped:** *"Since as a business we have decided to no longer continue to develop or sell Server 3T"* ([KONG-5610](https://3tsoftwarelabs.atlassian.net/browse/KONG-5610), [LM-133](https://3tsoftwarelabs.atlassian.net/browse/LM-133)), decided March 24, 2021. Removal was thorough — toolbar buttons, license portal tab, and marketing pages were all pulled within two weeks. No paying customer was ever evidenced in Jira, and every contributor has since left the company; no retrospective was written.
+- **Root architectural cause:** the task-execution engine was built as part of a monolithic SWT desktop application — task classes call `AppWindow.getShell()`/`AppWindow.getInstance().getTabFolderComposite()` directly, and the scheduler dispatches via `Display.syncExec()`. Extracting that into a standalone server meant re-deriving credential handling, job serialization, and encryption from scratch outside the desktop keystore — the team underestimated this "extraction surgery" in 2018 and paid for it over the following three years.
+- **2021–2026 — a 5-year gap**, with the team itself still privately acknowledging the gap in July 2022 (KONG-5875, declining to build task-completion emails for the desktop app): *"We think this is not a feature that would be expected from a Desktop tool... it still would make a lot of sense for a Server 3T solution."*
+- **2026 — two partial, non-CLI answers emerged instead**: `studio.3t.io` (a minimal, explicitly-labeled PoC — save a task to a web platform, open a browser to run it; no CLI, no scheduling) and 3TL Bridge (a separate, headless-native Rust product for data pipelines/ETL — not a wrapper around Studio 3T's existing task library).
+
+**The lesson this idea must not repeat:** customers never asked for a server product (§1.1). They asked for a command. Building Server 3T instead of shipping CLI flags on the existing binary is the single decision most responsible for the five years of dead time that followed.
+
+### 1.3 New proposal: expose the existing GUI app as the server — don't rebuild Server 3T
+
+The fix is to reuse a pattern that's already shipping today: **3T MCP already runs an embedded Jetty server inside the desktop app** (`McpServerBootstrap.java`) that lets an external client (an AI agent) call into the running app over HTTP. CLI automation should be the same pattern with a different client. Internal technical research identified four architecturally distinct variants for doing this:
+
+| Variant | Mechanism | Startup latency | Refactor effort | Docker/CI compatibility |
+|---|---|---|---|---|
+| **A. Standalone headless engine** (`studio3t --headless`) | New JVM entry path that bypasses SWT entirely, loads a task file, runs it, exits | ~2–3 s | High (2–3 weeks) — requires decoupling `DCSTask`/`PasswordManagerGUI` from SWT `Shell`/`Display` | 100% native, no X11 needed |
+| **B. Hidden window startup** (`studio3t --hidden`) | Launches the real SWT `Display`/`Shell` but with `setVisible(false)` — reuses all existing GUI-coupled code paths unchanged | ~2–3 s | Low (1–2 days) | Needs `xvfb-run` on Linux; macOS needs `-Dapple.awt.UIElement=true` to suppress the Dock icon |
+| **C. External HTTP CLI utility** (`s3t` → existing embedded Jetty/MCP server) | A small standalone CLI binary sends authenticated HTTP requests to the Jetty server already embedded in the running desktop app (the same server that backs 3T MCP today) | <50 ms | Medium (3–5 days) — mainly a new `TaskRestServlet` alongside the existing MCP tool registry | Requires a running desktop GUI session — not a true CI/CD story on its own |
+| **D. Hybrid auto-launching CLI** (`s3t` HTTP + `--hidden` fallback) | CLI first pings the local Jetty server; if a desktop instance is already running, it calls it directly (variant C); if not, it silently spawns a `--hidden` instance (variant B), waits for it to come up, then calls it | <50 ms if running, ~2 s cold-start | Medium-High (5–7 days) — combines B and C | Full coverage: fast path when the app is open, still works headless when it isn't |
+
+**Recommended variant: D**, implemented as four concrete steps:
+
+1. **Add a `TaskRestServlet` next to the existing MCP tool registry** (`Studio3TToolService.java`), exposing the task types customers actually asked to automate — export/import, DCS sync (both the compare *and* the sync step), masking, SQL migration, IntelliShell scripts. This is the full list Server 3T never finished; it shipped only 2 of 7.
+2. **Ship a thin external CLI binary (`s3t`)** that pings that local HTTP server and posts task-run requests to it. Because the job runs inside the already-open, already-authenticated desktop process, there's no need to re-derive credential extraction, job encryption, or a separate keystore — the exact problem that made Server 3T's design so invasive in 2018.
+3. **Cover the "app isn't open" / true CI-runner case with a `--hidden` launch mode**, not a new daemon: the CLI auto-spawns the same desktop binary with its SWT `Display`/`Shell` created but never shown (`setVisible(false)`), waits for the local server to come up, then calls it exactly as in step 2. Same binary, same release train, same install — not a second product with its own version/licensing lifecycle.
+4. **Add a parameter-templating layer** (`Task.withParameters(Map<String,String>)`, `${paramName}` substitution over the existing static `ExportJob.toMap()` definitions) so one saved task can be re-run against different target databases/collections per invocation.
+
+Two other blocking sub-obstacles, independent of which variant is chosen:
+- **Scheduler floor:** `TaskScheduleManager` truncates to `ChronoUnit.MINUTES`, so it can't drive sub-minute execution — irrelevant for CLI/CI-CD use since an external scheduler (cron, GitHub Actions, Kubernetes CronJob) triggers the CLI directly and bypasses the in-app scheduler entirely.
+- **Parameterization** is covered by step 4 above.
+
+**Why this avoids Server 3T's specific failure modes** (mapped directly onto §1.2's documented causes):
+- **No second product, no second release cadence.** Server 3T failed partly because it was a companion binary that had to track the desktop app's release cadence independently (it fell behind — [KONG-5151](https://3tsoftwarelabs.atlassian.net/browse/KONG-5151) had to skip a version entirely) and needed its own licensing/quota system. An HTTP endpoint on the Jetty server already inside the desktop build ships and versions atomically with the app — there is no second thing to keep in sync.
+- **Reuses live, already-unlocked state.** The running desktop instance already has connections authenticated and keystores unlocked in the current session — a CLI call into it doesn't need to solve the credential-extraction problem that sank Server 3T's design in 2018 (`KONG-2393`'s "we'll have to encrypt the job descriptions" problem disappears because the job never leaves the process it's already trusted inside).
+- **Full task-type coverage is achievable, not partial.** A `TaskRestServlet` can cover all 7 task types from day one since it's calling the same in-process engine the GUI already uses — versus Server 3T's 16 months to reach 2 of 7.
+- **The cold-start case is 1–2 days of work, not weeks.** For CI runners with no desktop session open, `--hidden` mode (variant B/D) reuses all existing GUI-coupled code paths unchanged, versus the 2–3 weeks of SWT-decoupling that a from-scratch headless engine (variant A) would need.
+- **Directly answers the two "Won't Do" tickets.** KONG-3285/KONG-3752 (automate DCS *sync*, not just compare) and KONG-6703 (parameterize target DB per run) both become straightforward once the task engine is reachable via HTTP with the parameter-templating layer from step 4.
+
+Net effect: not "build Server 3T again," but "expose the task engine that already runs inside the GUI app through the HTTP surface that already exists for MCP, plus a thin `--hidden` launch mode for the cold-start case." Both are additive, low-risk changes to the existing desktop codebase rather than a new product with its own lifecycle.
+
 ---
 
 ## 2. Automated PII classification/discovery
