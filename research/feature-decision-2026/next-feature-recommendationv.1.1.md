@@ -146,7 +146,19 @@ Net effect: not "build Server 3T again," but "expose the task engine that alread
 
 **Why it's feasible:** No in-house precedent to port (this one is genuinely net-new), but the underlying data (explain plans, profiler stats) already exists inside Studio 3T — the work is in the recommendation logic, not new instrumentation.
 
-**Risk to flag:** Two named competitors (Compass, VisuaLeaf) already ship a version of this — Studio 3T would be catching up, not leading, and needs to ship a materially better recommendation quality (not just "an index advisor exists") to actually differentiate.
+**Risk to flag:** Two named competitors (Compass, VisuaLeaf) already ship a version of this — Studio 3T would be catching up, not leading, and needs to ship a materially better recommendation quality (not just "an index advisor exists") to actually differentiate. **Open, unresolved as of this writing:** the specific UI injection points across Studio 3T's popular query/pipeline workflows (query editor, Aggregation Builder, Explain Plan panel, Profiler tab) have not yet been verified against the current app, nor has the recommendation quality bar for Rule-based mode when a customer has no AI backend configured — both need a dedicated UX/design pass before this idea is scoped for build.
+
+### 3.1 Proposed advisor UX & architecture requirements
+
+The following requirements come from direct stakeholder/product input, not from the 21-file competitive research corpus cited elsewhere in this document — kept in their own sub-section so the doc's evidence trail stays unambiguous about what's sourced versus what's a design decision.
+
+- **Two operating modes, with automatic fallback.** The advisor should run in either **AI mode** (LLM-backed reasoning over Explain Plan/Profiler data for richer, conversational recommendations) or **Rule-based mode** (deterministic heuristics over the same source data — e.g. COLLSCAN detection, field-order/selectivity checks, existing-index redundancy checks). Customers without an AI backend configured (no API key, no enterprise AI gateway — see idea #9) automatically fall back to Rule-based mode rather than losing the feature entirely.
+- **One-click apply.** Each inline warning (bad / weak / inefficient / missing index) should resolve in a single flow: **warning → suggested index → apply**, with no separate trip to the Index Manager required. Because this action mutates a live cluster's indexes (and index builds can be long-running, with their own removal cost later), "one click" should still surface a lightweight confirmation showing the exact index spec and an estimated build-time/impact before executing — not a silent mutation of production data.
+- **Inline, low-overhead, dismissible surfacing in the normal query/pipeline workflow.** The advisor should appear where customers already work — not as a separate tool they have to seek out — and:
+  - Flag bad/weak/inefficient/missing indexes as they're encountered, not only on demand.
+  - Justify each flag with quantified numbers, not just prose — illustrative examples: documents scanned vs. documents returned, estimated execution-time reduction, and the write-overhead/storage cost of adding the suggested index. (These are illustrative, not a locked metric spec — final metric selection is an engineering design decision.)
+  - Be dismissible per-warning for customers who don't want to see it.
+  - Stay within a low resource-usage budget on the MongoDB side: this is a design requirement, satisfied by building on the same already-implemented `IDX-explain-full`/`IDX-profiler-analysis` data (see "What it builds on" above) rather than introducing new heavy sampling or continuous monitoring load.
 
 ---
 
