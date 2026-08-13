@@ -19,6 +19,7 @@
 | **1.8 Array element scanning** | ✅ Index-aware paths | ✅ | ✅ | ✅ | 🔵 | ✅ (masking: array-aware) |
 | **1.9 Polymorphic field handling** | ✅ Per-variant denominators | ✅ | ✅ | ✅ | ❌ | ❌ |
 | **1.10 Pre-scan field exclusion (skipFields)** | ✅ | ✅ | ✅ | ✅ | ❌ | ❌ |
+| **1.11 categoriesToScan filter (pre-scan)** | ✅ | ✅ | ✅ | ✅ | ❌ | ❌ |
 
 ---
 
@@ -74,6 +75,8 @@
 | **3.21 ES DNI/NIE** | ✅ | ✅ | ✅ | ✅ | ❌ | ❌ |
 | **3.22 Custom regex (user-defined)** | ❌ | ❌ | ❌ | ❌ | ✅ Rhai-based | ❌ |
 
+**Bridge note:** Spike proved phone + credit card detection via Rhai scripts; native Rust primitives designed (TTTL-156) but not yet built.
+
 ---
 
 ## 4. NLP / NER DETECTION (AI-Powered)
@@ -115,6 +118,8 @@
 | **5.7 4-bucket classification** | ✅ Critical/PII/Pot.Sensitive/Likely Safe | ✅ | ✅ | ✅ | ❌ | ❌ |
 | **5.8 Occurrence counts + denominators** | ✅ | ✅ | ✅ | ✅ | ✅ (design) | ❌ |
 | **5.9 Per-field signal (name_signal + value_signal)** | ✅ | ✅ | ✅ | ✅ | 🔵 | ❌ |
+| **5.10 Polymorphic field handling (union types)** | ✅ | ✅ | ✅ | ✅ | ❌ | ❌ |
+| **5.11 Drift detection (new variant in union)** | ✅ | ✅ | ✅ | ✅ | 🔵 | ❌ |
 
 ---
 
@@ -169,6 +174,7 @@
 | **8.4 User review/override before masking** | 🚫 | ❌ | ✅ (UI edit) | 🟡 | ❌ (pipeline auto) | ✅ (manual only) |
 | **8.5 Scan → schema discovery feed** | ✅ Schema mode | ✅ | ✅ | ✅ | 🔵 | ❌ |
 | **8.6 One-click mask after discovery** | 🚫 | ❌ | ✅ | 🟡 | 🔵 | ❌ |
+| **8.7 POST /scans/:id/bridge endpoint** | 🚫 | ✅ | ✅ | ✅ | N/A | ❌ |
 
 ---
 
@@ -196,11 +202,13 @@
 | **10.3 Scan history persistence** | ❌ (stateless lib) | ✅ list_pii_scans | ✅ MongoDB pii_scans | ✅ History tab | 🔵 | ❌ |
 | **10.4 Real-time progress reporting** | ❌ | ✅ task-manager | ✅ GET /scan/:id/progress | ✅ | ❌ | ❌ |
 | **10.5 Export findings (file/API)** | ✅ (return value) | ✅ (tool output) | ✅ (REST API) | ✅ | 🔵 (catalogue) | ❌ |
-| **10.6 OpenLineage emission** | ❌ | ❌ | ❌ | ❌ | 🔵 Column-level | ❌ |
-| **10.7 Data catalogue integration** | ❌ | ❌ | ❌ | ❌ | 🔵 OpenMetadata | ❌ |
-| **10.8 Recall benchmarking suite** | ✅ Canonical baselines | ❌ | ✅ recall-snapshot.sh | ❌ | ❌ | ❌ |
-| **10.9 engineVersion in report** | ✅ | ✅ | ✅ | ✅ | ❌ | ❌ |
-| **10.10 taxonomyVersion in report** | ✅ | ✅ | ✅ | ✅ | ❌ | ❌ |
+| **10.6 Recall benchmarking suite** | ✅ Canonical baselines | ❌ | ✅ recall-snapshot.sh | ❌ | ❌ | ❌ |
+| **10.7 engineVersion in report** | ✅ | ✅ | ✅ | ✅ | ❌ | ❌ |
+| **10.8 taxonomyVersion in report** | ✅ | ✅ | ✅ | ✅ | ❌ | ❌ |
+| **10.9 policyVersion in report** | ✅ | ✅ | ✅ | ✅ | ❌ | ❌ |
+| **10.10 Per-record match attribution** | ✅ | ✅ | ✅ | ✅ | ❌ | ❌ |
+| **10.11 Source metadata (sourceType enum)** | ✅ | ✅ | ✅ | ✅ | 🔵 | ❌ |
+| **10.12 Recall regression gate (CI)** | ✅ | N/A | ✅ | N/A | ❌ | ❌ |
 
 ---
 
@@ -217,6 +225,7 @@
 | **11.7 RBAC-controlled access** | 🚫 | ❌ (local) | ✅ | ✅ | ❌ | ❌ |
 | **11.8 Background/async execution** | 🚫 | ✅ task-manager | ✅ | ✅ | 🔵 | ❌ |
 | **11.9 Scheduled/recurring scans** | 🚫 | ✅ Cron via task-manager | ❌ | ❌ | 🔵 | ❌ |
+| **11.10 Masking config pre-population** | N/A | ❌ | ✅ | ✅ | ✅ | ❌ |
 
 ---
 
@@ -229,9 +238,112 @@
 | **12.3 Server-managed deployment** | ❌ | ❌ | ✅ | ✅ | ✅ | ❌ |
 | **12.4 Docker/container deployment** | ❌ | ❌ | ✅ | ✅ | ✅ | ❌ |
 | **12.5 Shared library (Nexus registry)** | ✅ manatee/3t-cargo | ✅ (consumer) | ✅ (consumer) | ✅ (via Detector) | ❌ (own impl) | ❌ |
+| **12.6 Internal token-gated routes** | N/A | ✅ | ✅ | ✅ | ❌ | N/A |
 
 ---
 
 ## 13. INTEGRATION & HANDOFF
 
-| Sub-Feature | pii-scanner (Rust lib) | 3T MCP | PII Detector (Web) | 3T Lens | 3TL
+| Sub-Feature | pii-scanner (Rust lib) | 3T MCP | PII Detector (Web) | 3T Lens | 3TL Bridge | Studio 3T Desktop |
+|---|---|---|---|---|---|---|
+| **13.1 Send scan results to Bridge** | 🚫 | ❌ | ✅ /bridge endpoint | ✅ | N/A (is Bridge) | ❌ |
+| **13.2 Bridge Rhai script generation from scan** | 🚫 | ❌ | ✅ | ✅ | N/A | ❌ |
+| **13.3 Pre-populate Desktop masking from scan** | 🚫 | ❌ | ❌ | ❌ | ❌ | ❌ (PROP-pii-discovery) |
+| **13.4 Webhook/event emission on scan complete** | ❌ | 🔵 | 🔵 | 🔵 | 🔵 | ❌ |
+
+---
+
+## 14. LINEAGE & CATALOGUE
+
+| Sub-Feature | pii-scanner (Rust lib) | 3T MCP | PII Detector (Web) | 3T Lens | 3TL Bridge | Studio 3T Desktop |
+|---|---|---|---|---|---|---|
+| **14.1 OpenLineage emission** | ❌ | ❌ | ❌ | ❌ | 🔵 Column-level | ❌ |
+| **14.2 Column-level lineage (IDENTITY/MASKED)** | ❌ | ❌ | ❌ | ❌ | 🔵 | ❌ |
+| **14.3 Publish PII classification to catalogue** | ❌ | ❌ | ❌ | ❌ | 🔵 OpenMetadata | ❌ |
+| **14.4 Source-side drift alerting** | ❌ | ❌ | ❌ | ❌ | 🔵 | ❌ |
+| **14.5 Masking provenance tracking** | ❌ | ❌ | ❌ | ❌ | 🔵 | ❌ |
+
+---
+
+## 15. QUALITY ASSURANCE / TESTING
+
+| Sub-Feature | pii-scanner (Rust lib) | 3T MCP | PII Detector (Web) | 3T Lens | 3TL Bridge | Studio 3T Desktop |
+|---|---|---|---|---|---|---|
+| **15.1 Canonical recall baselines** | ✅ | N/A | ✅ | N/A | ❌ | ❌ |
+| **15.2 recall-snapshot.sh (baseline capture)** | ✅ | N/A | ✅ | N/A | ❌ | ❌ |
+| **15.3 recall-diff.sh (regression gate)** | ✅ | N/A | ✅ | N/A | ❌ | ❌ |
+| **15.4 Synthetic test data (2000 docs)** | ✅ | N/A | ✅ | N/A | ✅ | ❌ |
+| **15.5 Golden-set per category** | ✅ | N/A | ✅ | N/A | ❌ | ❌ |
+| **15.6 Heuristic audit process (versioned)** | ✅ | N/A | ✅ | N/A | ❌ | ❌ |
+
+---
+
+## SUMMARY SCORECARD
+
+| Product | Detection | Scoring | Regulation | UI | Masking Handoff | Enforcement | Masking Exec | Lineage | **Total Sub-Features** |
+|---|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
+| **pii-scanner** | 37/37 | 10/10 | 7/7 | N/A | N/A | N/A | N/A | 0/5 | **54/59** |
+| **3T MCP** | 37/37 | 10/10 | 7/7 | 2/9 | 1/8 | N/A | 1/10 | 0/5 | **58/86** |
+| **PII Detector** | 37/37 | 10/10 | 7/7 | 7/9 | 5/8 | N/A | 0/10 | 0/5 | **66/86** |
+| **3T Lens** | 37/37 | 10/10 | 7/7 | 7/9 | 5/8 | 3/8 | 0/10 | 0/5 | **69/94** |
+| **3TL Bridge** | 2/37 | 1/10 | 0/7 | 1/9 | 4/8 | N/A | 4/10 | 0/5 | **12/86** |
+| **Desktop** | 0/37 | 0/10 | 0/7 | 0/9 | 0/8 | N/A | 7/10 | 0/5 | **7/86** |
+
+---
+
+## KEY JIRA REFERENCES
+
+| Ticket | Product | Title | Status |
+|---|---|---|---|
+| KONG-4629 | Desktop | Data Masking Epic | Done |
+| KONG-4630 | Desktop | Data Masking 1.0 | Done |
+| KONG-5146 | Desktop | Masking → Enterprise Only | Done |
+| KONG-5722 | Desktop | Data Masking 2.0 | Done |
+| KONG-7209 | Desktop | Data Masking 2.9 | Done |
+| KONG-10539 | Desktop | MCP Server (read-only) | Done |
+| KONG-11124 | Desktop | AI Data Minimization | Done |
+| TTTL-153 | Bridge | PII Classification → Catalogue | Backlog |
+| TTTL-155 | Bridge | HTTP Sink Fix (TTTL-153 blocker) | Backlog |
+| TTTL-156 | Bridge | Native Rust PII Primitives | Backlog |
+| DW-18 | Desktop/Web | Data De-identification (Marketing) | Done |
+| LM-726 | Lens | PII in untrackedEntity fix | Done |
+| PROP-pii-discovery | Desktop | Automated PII Discovery (proposed) | Not Started |
+
+---
+
+## CRITICAL INSIGHT: THE DESKTOP GAP
+
+```
+TODAY:                                    PROPOSED (PROP-pii-discovery):
+
+┌──────────┐                             ┌──────────┐
+│  User    │ ──knows field names──►      │  User    │ ──opens PII Scan wizard──►
+└──────────┘                             └──────────┘
+     │                                        │
+     ▼                                        ▼
+┌──────────────────┐                   ┌─────────────────────┐
+│  Desktop manual  │                   │  pii-scanner (local) │
+│  masking config  │                   │  scans sample docs   │
+└──────────────────┘                   └─────────────────────┘
+     │                                        │
+     ▼                                        ▼
+┌──────────────────┐                   ┌─────────────────────┐
+│  Mask execution  │                   │  Scored field list   │
+│  (export/import/ │                   │  shown in Desktop UI │
+│   in-place)      │                   └─────────────────────┘
+└──────────────────┘                          │
+                                              ▼
+                                   ┌─────────────────────┐
+                                   │  Pre-populated mask  │
+                                   │  config (editable)   │
+                                   └─────────────────────┘
+                                              │
+                                              ▼
+                                   ┌─────────────────────┐
+                                   │  Mask execution      │
+                                   │  (export/import/     │
+                                   │   in-place)          │
+                                   └─────────────────────┘
+```
+
+**The gap:** Desktop has best-in-class masking execution but zero automated PII *discovery*. The user must know which fields are PII before configuring any masking rules. The proposed integration (PROP-pii-discovery) embeds the `pii-scanner` Rust library directly into Desktop to close this gap — data never leaves the machine (air-gap safe), no server dependency is added, and the discovered fields are pre-populated into the existing masking config UI.
