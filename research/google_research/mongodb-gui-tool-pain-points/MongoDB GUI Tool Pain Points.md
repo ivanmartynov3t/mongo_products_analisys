@@ -111,7 +111,7 @@ The analysis of user pain points across the MongoDB GUI ecosystem reveals a crit
 
 The widespread frustration regarding the aggressive monetization of essential administrative features (as seen with Studio 3T) indicates a significant market vacuum. To mitigate these systemic limitations, engineering teams are increasingly abandoning bloated, memory-heavy GUIs in favor of executing operations directly against the cluster loopback interface via the raw mongosh terminal, eliminating the SSH, TLS, and SOCKS proxy timeout constraints that plague local desktop clients. As the ecosystem matures, the trajectory of professional administrative toolchains points definitively toward lightweight, native binaries (built on frameworks like Rust/Tauri) that eschew Java and Electron entirely, prioritizing memory efficiency, keyboard-centric workflows, and high-fidelity BSON interpretation.
 
-## Works Cited
+## Works cited
 
 1. We have released MQLens v0.6.0 — a free, native MongoDB GUI : r/tauri - Reddit, https://www.reddit.com/r/tauri/comments/1u3ofmh/we_have_released_mqlens_v060_a_free_native/
 2. MBP M4 Pro seems like the best value for money. But is the 400$ worth the upgrade to the higher end ? : r/macbookpro - Reddit, https://www.reddit.com/r/macbookpro/comments/1ggntnf/mbp_m4_pro_seems_like_the_best_value_for_money/
