@@ -1,6 +1,6 @@
 # Gap Analysis — Sub-features NOT on Studio 3T Desktop
 
-This report checks **every sub-feature ID in [feature-dictionary.md](../feature-dictionary.md)** (328 unique IDs across all 11 feature areas) against whether it is confirmed present on the **Studio 3T Desktop IDE specifically** — as distinct from the broader 3T Software Labs product family (3T Explore, 3T MCP, 3T Lens, 3T Access, 3TL Bridge), which since 2026-07-29 are documented in their own product folders under `products/3t/` (see [products/3t/README.md](../products/3t/README.md)).
+This report checks **every sub-feature ID in [feature-dictionary.md](../feature-dictionary.md)** (334 unique IDs across all 11 feature areas) against whether it is confirmed present on the **Studio 3T Desktop IDE specifically** — as distinct from the broader 3T Software Labs product family (3T Explore, 3T MCP, 3T Lens, 3T Access, 3TL Bridge), which since 2026-07-29 are documented in their own product folders under `products/3t/` (see [products/3t/README.md](../products/3t/README.md)).
 
 ## Navigation
 
@@ -15,7 +15,7 @@ This report checks **every sub-feature ID in [feature-dictionary.md](../feature-
 
 ## Methodology
 
-Same master checklist and status source as the [companion report](gap-analysis-not-on-3t-products.md#methodology) — the full 328-ID dictionary, checked against `low-level-feature-comparison.md`'s "Studio 3T" column (which represents the whole 3T product family as one merged column), with product `feature-matrix.md` files used to catch consolidation/aliasing false positives rather than as a literal row-by-row check.
+Same master checklist and status source as the [companion report](gap-analysis-not-on-3t-products.md#methodology) — the full 334-ID dictionary, checked against `low-level-feature-comparison.md`'s "Studio 3T" column (which represents the whole 3T product family as one merged column), with product `feature-matrix.md` files used to catch consolidation/aliasing false positives rather than as a literal row-by-row check.
 
 Sections, in order of severity:
 

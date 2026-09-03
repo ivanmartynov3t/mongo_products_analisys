@@ -1,6 +1,6 @@
 # Gap Analysis — Sub-features NOT on Any 3T Product
 
-This report checks **every sub-feature ID in [feature-dictionary.md](../feature-dictionary.md)** (328 unique IDs across all 11 feature areas) against whether it is confirmed present on any product made by 3T Software Labs — Studio 3T (Desktop IDE), 3T Explore, 3T MCP, 3T Lens, 3T Access, and 3TL Bridge, collectively.
+This report checks **every sub-feature ID in [feature-dictionary.md](../feature-dictionary.md)** (334 unique IDs across all 11 feature areas) against whether it is confirmed present on any product made by 3T Software Labs — Studio 3T (Desktop IDE), 3T Explore, 3T MCP, 3T Lens, 3T Access, and 3TL Bridge, collectively.
 
 **Last reviewed:** 2026-07-31 — corrections from [research/studio-3t-desktop-review-2026/](../research/studio-3t-desktop-review-2026/)
 
@@ -14,7 +14,7 @@ This report checks **every sub-feature ID in [feature-dictionary.md](../feature-
 
 ## Methodology
 
-- **Master checklist:** every sub-feature ID defined in feature-dictionary.md's Sub-feature registry (328 total, including the "Supplemental aliases" section).
+- **Master checklist:** every sub-feature ID defined in feature-dictionary.md's Sub-feature registry (334 total, including the "Supplemental aliases" section).
 - **Status source:** the "Studio 3T" column of [low-level-feature-comparison.md](comparisons/low-level-feature-comparison.md)'s iconized sub-feature table, which represents the whole 3T product family as one merged column. That report was itself cross-checked directly against every product's own `feature-matrix.md` files as of 2026-07-29 (six corrections made — see its ["2026-07-29 deep-file verification pass"](comparisons/low-level-feature-comparison.md#2026-07-29-deep-file-verification-pass) note).
 - **Why not check product `feature-matrix.md` files directly, ID-by-ID?** Tried that first and rejected it: product matrices frequently consolidate several dictionary IDs into one descriptive row (e.g. Studio 3T's `QUERY-filter-bar` row covers `QUERY-projection`, `QUERY-sort`, and `QUERY-skip-limit` in its prose without giving them separate rows), and some capabilities are cross-referenced under a *different* ID depending on which feature area views them (e.g. `GOV-readonly-mode` and `CONN-readonly-lock` are the same capability). A literal "does this exact ID have its own row" check produced false positives for "not implemented" — e.g. it would have flagged basic projection/sort support as missing from Studio 3T, which is false. The comparison report's status column already reconciles this.
 - **Confirmed absent** = comparison report shows ❌ for every row matching that ID.
