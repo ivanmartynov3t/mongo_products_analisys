@@ -23,7 +23,7 @@ The Feature Inventory section separately confirms the scheduler's batch-operatio
 
 Backup tasks receive their own dedicated treatment: "Backup tasks can be encrypted, compressed, and assigned automated retention policies using the scheduler." This is the evidentiary basis for `SCHED-history-retention`, though the source only confirms retention-policy behavior for backup tasks specifically, not for the scheduler's other task types.
 
-Both diffing engines cross-referenced from [F-GOV](../../governance/feature-report.md) — Structure Synchronization and Data Synchronization — describe producing preview or alteration scripts before any changes are applied, which is the evidentiary basis for `SCHED-compare-results`; Data Synchronization's "executing direct synchronization to reconcile data drift" is the basis for `SCHED-compare-sync`.
+Both diffing engines cross-referenced from [F-GOV](../governance/feature-report.md) — Structure Synchronization and Data Synchronization — describe producing preview or alteration scripts before any changes are applied, which is the evidentiary basis for `SCHED-compare-results`; Data Synchronization's "executing direct synchronization to reconcile data drift" is the basis for `SCHED-compare-sync`.
 
 What the source does not describe, in either direction, is any of the finer scheduling mechanics common to other products in this repository: cron-expression syntax, timezone/DST handling, execution-configuration knobs (batch size, retry count, concurrent task limit), a task-status state machine, or a standalone headless CLI automation utility. These are treated as silent gaps rather than confirmed absences.
 
@@ -43,8 +43,8 @@ What the source does not describe, in either direction, is any of the finer sche
 
 ## Interactions and dependencies
 
-- Structure Synchronization (`SCHED-compare-setup`) and Data Synchronization (`SCHED-compare-sync`) have their primary governance-facing detail in [F-GOV](../../governance/feature-report.md); this report covers only their scheduling/automation angle.
-- Backup task scheduling connects to the mongodump/mongorestore GUI wrappers described in [F-TRANSFER](../../data-transfer/feature-report.md).
+- Structure Synchronization (`SCHED-compare-setup`) and Data Synchronization (`SCHED-compare-sync`) have their primary governance-facing detail in [F-GOV](../governance/feature-report.md); this report covers only their scheduling/automation angle.
+- Backup task scheduling connects to the mongodump/mongorestore GUI wrappers described in [F-TRANSFER](../data-transfer/feature-report.md).
 
 ## Conclusions
 

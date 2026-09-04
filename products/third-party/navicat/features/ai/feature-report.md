@@ -47,7 +47,7 @@ The only statement in the source bearing on AI data-privacy handling is not a fa
 
 ## Interactions and dependencies
 
-- "Ask AI" and "Fix Query with AI" both operate against the same active-schema-context mechanism described for the Data Editor and query workspace (see [F-QUERY](../../querying/feature-report.md)).
+- "Ask AI" and "Fix Query with AI" both operate against the same active-schema-context mechanism described for the Data Editor and query workspace (see [F-QUERY](../querying/feature-report.md)).
 - Multi-model response comparison and the prompt-template library are both workspace productivity features layered on top of the same underlying AI Assistant capability gated by edition (see Constraints above).
 
 ## Conclusions
