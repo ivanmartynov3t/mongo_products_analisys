@@ -174,7 +174,7 @@ Full per-file corrections: [03-candidate-longlist.md](03-candidate-longlist.md),
 | 2 | `04-scored-longlist.md` | done, revised in Stage 6, deepened in Stage 7, corrected in Stage 8 |
 | 3 | `05-shortlist-deepdive.md` | done, corrected in Stage 8 |
 | 4 | `06-verification-notes.md` | done, extended in Stage 6, extended in Stage 8 |
-| 5 | `../../reports/next-feature-recommendation.md` | done, revised in Stage 6, deepened in Stage 7 — **not yet synced to Stage 8, see note below** |
+| 5 | `../../reports/next-feature-recommendation.md` | done, revised in Stage 6, deepened in Stage 7, Stage-8-synced (`next-feature-recommendationv.1.1.md`) and **published to `reports/` on 2026-09-04** |
 | 7 | `../../feature-dictionary.md` (Proposed Feature Registry section) | done, `PROP-webhook-notify` priority score synced in Stage 8 |
 
-**Known follow-up, out of scope for this pass:** `reports/next-feature-recommendation.md` (the Stage 5 memo) still cites Candidate 18's pre-Stage-8 score/framing in its ranked table and shortlist section. This file update pass was scoped to `research/feature-decision-2026/` specifically; the memo should be re-synced in a follow-up pass before it's treated as current.
+**Follow-up resolved 2026-09-04:** `reports/next-feature-recommendation.md` had been drafted (Stage-8-synced, correct `PROP-webhook-notify` score of 4.67) as `next-feature-recommendationv.1.1.md` under this directory but was never copied to its intended `reports/` location — the link above pointed at a file that didn't exist. It has now been published there; see [update-plans/02-repo-hygiene-and-stale-content.md](../../update-plans/02-repo-hygiene-and-stale-content.md).

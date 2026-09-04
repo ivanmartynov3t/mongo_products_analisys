@@ -12,3 +12,5 @@ Place external product analyses here.
 Path convention:
 
 `products/third-party/<product-name>/`
+
+`<product-name>` is a folder slug, not necessarily the product's exact brand spelling — e.g. `visual-eaf/` is the folder for the product branded "VisuaLeaf." Do not rename a product folder to match its brand name; every relative link across `reports/`, `feature-dictionary.md`, and the product's own files is keyed to the existing slug.

@@ -20,7 +20,6 @@ This repository is for **hierarchical, deep feature analysis** of products that 
 .
 ├── README.md                        ← you are here
 ├── feature-dictionary.md            ← canonical Feature ID + sub-feature ID registry
-├── write_high_level.py              ← STALE generator script — do not run (see note below)
 ├── .github/
 │   ├── copilot-instructions.md      ← authoring rules for any AI agent working in this repo
 │   └── prompts/                     ← one *.prompt.md per artifact type (product report, feature
@@ -127,8 +126,7 @@ All products follow the same per-product hierarchy: `product-report.md` + `featu
 ## Reports
 
 - **[cumulative-report.md](reports/cumulative-report.md)** — top-level index
-  - States 3 products / 11 feature areas / 28 feature matrices / 257+ sub-feature rows — reflects the comparison layer's 3-column view (the whole 3T family merged into one "Studio 3T" column)
-  - ⚠️ The feature-matrix count is stale: it predates the 2026-07-29 3T product split; the repo now has **35** `feature-matrix.md` files across all 8 product folders, not 28
+  - 3 products / 11 feature areas / **35** feature matrices across all 8 product folders (recounted 2026-09-04; the older "28" figure predated the 2026-07-29 3T product split)
   - Executive summary, feature coverage matrix, and "key competitive gaps" per product (for the original 3: Compass, VisuaLeaf, Studio 3T)
 - **[comparisons/high-level-product-comparison.md](reports/comparisons/high-level-product-comparison.md)**
   - One row per Feature ID: positioning, edition/pricing constraints, unique differentiators
@@ -136,11 +134,12 @@ All products follow the same per-product hierarchy: `product-report.md` + `featu
   - One row per sub-feature ID with source citations
   - Icon legend: ✅ confirmed · 🧪 partial/limited · 🗺️ roadmap · ❓ unverified · ❌ not supported · 💼 paid-tier · 🏢 enterprise-tier
 - **[gap-analysis-not-on-3t-products.md](reports/gap-analysis-not-on-3t-products.md)**
-  - Checks all 311 dictionary sub-feature IDs against the **whole 3T portfolio combined**
-  - 13 confirmed absent (all in F-SCHEMA: validation authoring, JSON schema editor, visual-ERD cluster) · 78 unverified
+  - Checks all 328 dictionary sub-feature IDs against the **whole 3T portfolio combined**
+  - 9 confirmed absent (all in F-SCHEMA: the JSON-Schema-tree-editor and visual-ERD/canvas cluster — schema validation authoring/deployment was moved out of this gap by the 2026-07-31 audit, see below) · 77 unverified
 - **[gap-analysis-not-on-3t-desktop.md](reports/gap-analysis-not-on-3t-desktop.md)**
-  - Same 311-ID check, scoped to **Studio 3T Desktop specifically**
-  - 13 confirmed absent portfolio-wide + 17 present elsewhere in the 3T family (3T Explore/MCP/Lens/Access/Bridge) but not on Desktop + 78 unverified
+  - Same 328-ID check, scoped to **Studio 3T Desktop specifically**
+  - 9 confirmed absent portfolio-wide + 17 present elsewhere in the 3T family (3T Explore/MCP/Lens/Access/Bridge) but not on Desktop + 9 confirmed absent from Desktop specifically with portfolio-wide status still unverified + 54 unverified
+  - ⚠️ This report's own text still cross-references "the companion report's 78" unverified count in two places, which is stale against the companion report's current 77 — flagged, not yet reconciled (see `update-plans/01-apply-audit-corrections.md`'s execution log)
 - **[voice-of-customer-metrics.md](reports/voice-of-customer-metrics.md)** — pilot, not a completed program
   - 7 records from one compliant source (`community.studio3t.com`); G2/Capterra/TrustRadius/Reddit excluded (ToS), Stack Overflow excluded (no signal found)
   - Per-record pain severity (1–5), workaround, enterprise signal — no aggregate FPI scoring (sample too small for the framework's own threshold)
@@ -173,8 +172,6 @@ Blank scaffolds for each artifact type, mirrored by prompts in `.github/prompts/
 ## AI agent instructions
 
 [.github/copilot-instructions.md](.github/copilot-instructions.md) has the authoring rules (structure, ID discipline, confirmed/roadmap/unverified labeling) any agent must follow when extending this repo. [.github/prompts/](.github/prompts) has one `*.prompt.md` per artifact type — product report, feature matrix, feature report, high-level comparison, low-level comparison, cumulative report.
-
-> **`write_high_level.py`** (repo root) is a stale one-off generator whose embedded content has diverged from the hand-maintained `high-level-product-comparison.md`. Do not run it to "sync" — it would silently overwrite hand-authored content. Edit the `.md` files directly.
 
 ## Required workflow
 
