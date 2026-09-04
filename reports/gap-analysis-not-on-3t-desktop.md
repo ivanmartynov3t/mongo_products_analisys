@@ -1,6 +1,6 @@
 # Gap Analysis — Sub-features NOT on Studio 3T Desktop
 
-This report checks **every sub-feature ID in [feature-dictionary.md](../feature-dictionary.md)** (328 unique IDs across all 11 feature areas) against whether it is confirmed present on the **Studio 3T Desktop IDE specifically** — as distinct from the broader 3T Software Labs product family (3T Explore, 3T MCP, 3T Lens, 3T Access, 3TL Bridge), which since 2026-07-29 are documented in their own product folders under `products/3t/` (see [products/3t/README.md](../products/3t/README.md)).
+This report checks **every sub-feature ID in [feature-dictionary.md](../feature-dictionary.md)** (334 unique IDs across all 11 feature areas) against whether it is confirmed present on the **Studio 3T Desktop IDE specifically** — as distinct from the broader 3T Software Labs product family (3T Explore, 3T MCP, 3T Lens, 3T Access, 3TL Bridge), which since 2026-07-29 are documented in their own product folders under `products/3t/` (see [products/3t/README.md](../products/3t/README.md)).
 
 ## Navigation
 
@@ -15,7 +15,7 @@ This report checks **every sub-feature ID in [feature-dictionary.md](../feature-
 
 ## Methodology
 
-Same master checklist and status source as the [companion report](gap-analysis-not-on-3t-products.md#methodology) — the full 328-ID dictionary, checked against `low-level-feature-comparison.md`'s "Studio 3T" column (which represents the whole 3T product family as one merged column), with product `feature-matrix.md` files used to catch consolidation/aliasing false positives rather than as a literal row-by-row check.
+Same master checklist and status source as the [companion report](gap-analysis-not-on-3t-products.md#methodology) — the full 334-ID dictionary, checked against `low-level-feature-comparison.md`'s "Studio 3T" column (which represents the whole 3T product family as one merged column), with product `feature-matrix.md` files used to catch consolidation/aliasing false positives rather than as a literal row-by-row check.
 
 Sections, in order of severity:
 
@@ -104,6 +104,6 @@ If Studio 3T Desktop's own governance UI is ever independently deep-analyzed (as
 
 ## Coverage accounting
 
-328 dictionary IDs = 239 implemented somewhere in the 3T portfolio, of which **222 are Desktop-native** and **17 are portfolio-only (section 2)** + 9 confirmed absent portfolio-wide (section 1) + 9 confirmed absent from Studio 3T Desktop specifically, portfolio-wide unverified (section 3) + 54 unverified (section 4) + 17 dictionary-alias redundancies (section 5).
+334 dictionary IDs = 245 implemented somewhere in the 3T portfolio, of which **228 are Desktop-native** and **17 are portfolio-only (section 2)** + 9 confirmed absent portfolio-wide (section 1) + 9 confirmed absent from Studio 3T Desktop specifically, portfolio-wide unverified (section 3) + 54 unverified (section 4) + 17 dictionary-alias redundancies (section 5).
 
-(Reconciliation from the previous 311/203/186/13/78 figures: +17 new dictionary IDs, all Studio-3T-Desktop-confirmed, added to Desktop-native present; +4 F-SCHEMA IDs and +1 `SCHEMA-validation-limits` moved from absent/unverified to Desktop-native present; +14 F-IDX IDs moved from unverified to Desktop-native present; 9 F-SCHED IDs split out of unverified into the new section-3 bucket. See [12-consolidated-corrections.md](../research/studio-3t-desktop-review-2026/12-consolidated-corrections.md) for full detail.)
+(Reconciliation from the previous 311/203/186/13/78 figures: +23 new dictionary IDs, all Studio-3T-Desktop-confirmed, added to Desktop-native present; +4 F-SCHEMA IDs and +1 `SCHEMA-validation-limits` moved from absent/unverified to Desktop-native present; +14 F-IDX IDs moved from unverified to Desktop-native present; 9 F-SCHED IDs split out of unverified into the new section-3 bucket. See [12-consolidated-corrections.md](../research/studio-3t-desktop-review-2026/12-consolidated-corrections.md) for full detail.)

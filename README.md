@@ -127,8 +127,7 @@ All products follow the same per-product hierarchy: `product-report.md` + `featu
 ## Reports
 
 - **[cumulative-report.md](reports/cumulative-report.md)** — top-level index
-  - States 3 products / 11 feature areas / 28 feature matrices / 257+ sub-feature rows — reflects the comparison layer's 3-column view (the whole 3T family merged into one "Studio 3T" column)
-  - ⚠️ The feature-matrix count is stale: it predates the 2026-07-29 3T product split; the repo now has **35** `feature-matrix.md` files across all 8 product folders, not 28
+  - States 3 products / 11 feature areas / 35 feature matrices across 8 product folders / 334 sub-feature IDs — reflects the comparison layer's 3-column view (the whole 3T family merged into one "Studio 3T" column)
   - Executive summary, feature coverage matrix, and "key competitive gaps" per product (for the original 3: Compass, VisuaLeaf, Studio 3T)
 - **[comparisons/high-level-product-comparison.md](reports/comparisons/high-level-product-comparison.md)**
   - One row per Feature ID: positioning, edition/pricing constraints, unique differentiators
@@ -136,11 +135,11 @@ All products follow the same per-product hierarchy: `product-report.md` + `featu
   - One row per sub-feature ID with source citations
   - Icon legend: ✅ confirmed · 🧪 partial/limited · 🗺️ roadmap · ❓ unverified · ❌ not supported · 💼 paid-tier · 🏢 enterprise-tier
 - **[gap-analysis-not-on-3t-products.md](reports/gap-analysis-not-on-3t-products.md)**
-  - Checks all 311 dictionary sub-feature IDs against the **whole 3T portfolio combined**
-  - 13 confirmed absent (all in F-SCHEMA: validation authoring, JSON schema editor, visual-ERD cluster) · 78 unverified
+  - Checks all 334 dictionary sub-feature IDs against the **whole 3T portfolio combined**
+  - 9 confirmed absent (all in F-SCHEMA: validation authoring, JSON schema editor, visual-ERD cluster) · 78 unverified
 - **[gap-analysis-not-on-3t-desktop.md](reports/gap-analysis-not-on-3t-desktop.md)**
-  - Same 311-ID check, scoped to **Studio 3T Desktop specifically**
-  - 13 confirmed absent portfolio-wide + 17 present elsewhere in the 3T family (3T Explore/MCP/Lens/Access/Bridge) but not on Desktop + 78 unverified
+  - Same 334-ID check, scoped to **Studio 3T Desktop specifically**
+  - 9 confirmed absent portfolio-wide + 17 present elsewhere in the 3T family (3T Explore/MCP/Lens/Access/Bridge) but not on Desktop + 78 unverified
 - **[voice-of-customer-metrics.md](reports/voice-of-customer-metrics.md)** — pilot, not a completed program
   - 7 records from one compliant source (`community.studio3t.com`); G2/Capterra/TrustRadius/Reddit excluded (ToS), Stack Overflow excluded (no signal found)
   - Per-record pain severity (1–5), workaround, enterprise signal — no aggregate FPI scoring (sample too small for the framework's own threshold)
