@@ -23,40 +23,40 @@ Each product follows the same hierarchy:
 
 ### Studio 3T
 - **Type:** Internal (3t)
-- **Description:** A MongoDB IDE focused on advanced querying, aggregation, schema exploration, import/export, SQL tools, and automation workflows. Anchors a broader 3T platform organized into three tracks: Build, Pipeline, and Governed Access — see the five products below for the other members of that platform.
+- **Description:** Desktop IDE for MongoDB covering all 11 feature areas: 6-dialect SQL migration & querying toolchain (MySQL, MSSQL, Oracle, PostgreSQL, Sybase, IBM DB2), data masking with 19 field-level operation types across 6 BSON categories, Visual Query Builder with one-way handoff to Aggregation Editor, IntelliShell with Query Assist, 13 task scheduler execution types, cross-connection index copy/paste, built-in Local MCP Server (HTTP port 27117), and opt-in AI Helper. Anchors the broader 3T platform across Build, Pipeline, and Governed Access tracks.
 - **Website:** https://studio3t.com/
 
 ### 3T Explore
 - **Type:** Internal (3t)
-- **Description:** The browser-based IDE product in the "Build" track (alongside the Studio 3T Desktop IDE and 3T MCP). Bundles Explore (view/query/edit collection data in browser), Visual Query Builder, IntelliShell, Aggregation Editor, an AI Helper, a Workspace Switcher, and Access Control integration with 3T Access Manager.
+- **Description:** The browser-based IDE product in the "Build" track (alongside the Studio 3T Desktop IDE and 3T MCP). Bundles Explore (view/query/edit collection data in browser), Visual Query Builder, IntelliShell, Aggregation Editor, AI Helper, Workspace Switcher, and Access Control integration with 3T Access Manager.
 - **Website:** https://studio3t.com/3t-explore/
 
 ### 3T MCP
 - **Type:** Internal (3t)
-- **Description:** A standalone CLI binary (`stt-cli`) exposing read-only MongoDB access to AI coding agents via the Model Context Protocol over stdio transport — distinct from the Desktop IDE's built-in Local MCP Server (HTTP transport). Part of the "Build" track.
+- **Description:** Standalone CLI binary (`stt-cli`) in the "Build" track exposing read-only MongoDB access and built-in PII scanning to external AI coding agents via the Model Context Protocol (MCP) over stdio transport.
 - **Website:** https://studio3t.com/3t-mcp/
 
 ### 3T Lens
 - **Type:** Internal (3t)
-- **Description:** A browser-based governed data workspace: centralized MongoDB connection management, compliance policy templates, PII classification, versioned field history, and MCP tool access governed by 3T Access role policies. Part of the "Governed Access" track.
+- **Description:** Browser-based governed data workspace in the "Governed Access" track providing centralized MongoDB connection management, compliance policy templates, PII classification, versioned field history, and 59 MCP tools governed by 3T Access role policies.
 - **Website:** https://studio3t.com/3t-lens/
 
 ### 3T Access
 - **Type:** Internal (3t)
-- **Description:** The identity and governance plane shared across all 3T products — centralized user/role/permission management and a full audit trail for both human and AI agent access. Part of the "Governed Access" track.
+- **Description:** Identity and governance plane in the "Governed Access" track shared across all 3T products, providing centralized identity/role/permission management and a full audit trail for both human users and AI agent access.
 - **Website:** unknown/unverified — described within the 3T Lens product page; no independently confirmed dedicated page.
 
 ### 3TL Bridge
 - **Type:** Internal (3t)
-- **Description:** A real-time Change Data Capture (CDC) pipeline engine (MongoDB/Kafka/Google Pub/Sub/HTTP), with an in-flight Transform Studio, pipeline-layer PII masking, and Kubernetes/Docker Compose deployment. The sole product in the "Pipeline" track.
+- **Description:** Real-time Change Data Capture (CDC) pipeline engine in the "Pipeline" track (MongoDB ↔ Kafka / Google Pub-Sub / HTTP), featuring an in-flight Transform Studio, pipeline-layer PII masking, and Kubernetes/Docker Compose deployment options.
 - **Website:** https://studio3t.com/3tl-bridge/
 
 ### MongoDB Compass
 - **Type:** Third-party
-- **Description:** The official GUI for MongoDB, used for basic querying, schema insights, index analysis, and aggregation workflows.
+- **Description:** Official free/open-source GUI for MongoDB by MongoDB Inc. Exclusively provides Queryable Encryption (QE) and CSFLE in-use encryption configuration, real-time live server monitoring (mongostat/mongotop/currentOp), Atlas Search & Vector Search index management, geo schema analysis, enterprise policy enforcement, and human-gated AI natural language query generation.
 - **Website:** https://www.mongodb.com/products/tools/compass
 
 ### VisuaLeaf
 - **Type:** Third-party
-- **Description:** A polyglot database GUI aimed at visual data work, query building, and day-to-day database operations. Natively supports MongoDB, Azure Cosmos DB, and Amazon DocumentDB, as well as PostgreSQL, MySQL, MariaDB, Microsoft SQL Server, SQLite, Oracle, CockroachDB, ClickHouse, DuckDB, and TiDB — this repository analyzes its MongoDB-facing capabilities only.
+- **Description:** Subscription polyglot GUI by SozoCode featuring a visual ERD designer with graph-theory relationship detection, standalone JSON Schema tree editor, 6-step connection test wizard, GridFS file viewer, split-panel workspace layouts, and MongoSync guided cross-server copy. Connects to MongoDB, DocumentDB, Cosmos DB, and relational engines (PostgreSQL/MySQL/SQL Server/Oracle/etc.).
 - **Website:** https://visualeaf.com/
