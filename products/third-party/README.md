@@ -8,6 +8,7 @@
 - [DataGrip product report](datagrip/product-report.md)
 - [Navicat product report](navicat/product-report.md)
 - [NoSQLBooster product report](nosqlbooster/product-report.md)
+- [TablePlus product report](tableplus/product-report.md)
 - [High-level comparison](../../reports/comparisons/high-level-product-comparison.md)
 - [Low-level comparison](../../reports/comparisons/low-level-feature-comparison.md)
 
