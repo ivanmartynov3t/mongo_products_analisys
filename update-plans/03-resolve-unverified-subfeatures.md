@@ -51,4 +51,4 @@ Do not attempt to reach 0 unverified IDs in one pass — the "still unverified, 
 
 ## Execution log
 
-(One line per session: date, how many IDs resolved into which end state, which source pages were used.)
+- 2026-09-04 — Primary-source verification pass: verified 8 sub-feature IDs (`CONN-in-use-enc`, `CONN-role-docs`, `IDX-perf-insights`, `IDX-vector-search`, `IDX-atlas-search`, `IDX-type-hashed`, `QUERY-collation`, `QUERY-max-time`) against MongoDB Compass documentation (`https://www.mongodb.com/docs/compass/current/`). Resolved `IDX-type-hashed` as confirmed present in MongoDB Compass's feature-matrix and low-level comparison tables.

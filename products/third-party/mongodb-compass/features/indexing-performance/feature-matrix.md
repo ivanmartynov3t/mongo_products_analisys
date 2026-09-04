@@ -23,6 +23,7 @@
 | IDX-inventory | Index inventory and usage visibility | Supported | Lists index metadata, properties, and usage counters in index tab. | Usage metrics reflect connected node, not full cluster-wide truth. | Unknown | S1 | Docs recommend `$indexStats` for full-node coverage. |
 | IDX-type-single | Single-field index creation | Supported | Create ascending or descending single-field indexes. | Index strategy impacts write performance; must be tuned. | Unknown | S1 | |
 | IDX-type-compound | Compound index creation | Supported | Create multi-field compound indexes with key ordering. | Index strategy impacts write performance; must be tuned. | Unknown | S1 | Includes compound key authoring. |
+| IDX-type-hashed | Hashed index creation | Supported | Create hashed indexes for equality lookups and sharded key hashing. | Supported in index list and creation dialog. | Unknown | S1 | |
 | IDX-type-ttl | TTL index creation | Supported | Create TTL (auto-expiry) indexes on Date fields with configurable expiry time. | Requires a Date-type field. | Unknown | S1 | |
 | IDX-props-unique-sparse | Unique and sparse properties | Supported | Apply unique constraint and sparse (skip missing field) properties to indexes. | Unique constraint enforcement on existing data requires pre-validation. | Unknown | S1 | |
 | IDX-props-partial | Partial index | Supported | Create index with a filter expression to index only matching documents. | Partial filter expression must be valid query syntax. | Unknown | S1 | |
