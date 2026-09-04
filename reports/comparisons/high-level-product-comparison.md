@@ -12,8 +12,9 @@ This report summarizes each product's positioning, feature breadth, and key gaps
 - [VisuaLeaf product report](../../products/third-party/visual-eaf/product-report.md)
 - [DBeaver product report](../../products/third-party/dbeaver/product-report.md)
 - [DataGrip product report](../../products/third-party/datagrip/product-report.md)
+- [Navicat product report](../../products/third-party/navicat/product-report.md)
 
-**Last reviewed:** 2026-09-04 — added DataGrip (Plan 4, `update-plans/04-extend-competitor-coverage.md`)
+**Last reviewed:** 2026-09-04 — added Navicat (Plan 4, `update-plans/04-extend-competitor-coverage.md`)
 
 ## Compared products
 
@@ -24,26 +25,29 @@ This report summarizes each product's positioning, feature breadth, and key gaps
 | Studio 3T | 3T Software Labs | Desktop GUI | Free / Base / Pro / Ultimate |
 | DBeaver | DBeaver Corporation | Desktop GUI (Eclipse RCP) + web (CloudBeaver) | Community (free/OSS) / Lite / Enterprise / Ultimate / Team (subscription) |
 | DataGrip | JetBrains | Desktop GUI (IntelliJ platform) | Free non-commercial / Individual / Business (subscription); AI Free / AI Pro Add-on |
+| Navicat | PremiumSoft CyberTech Ltd. | Desktop GUI (native C++), multi-database (Premium) or MongoDB-only (Navicat for MongoDB) | Perpetual license / annual subscription / monthly subscription; Non-Commercial discount tiers |
 
 ## Product-level comparison (feature areas present)
 
-| Feature area | Studio 3T | MongoDB Compass | VisuaLeaf | DBeaver | DataGrip |
-| --- | --- | --- | --- | --- | --- |
-| F-CONN — Connectivity | ✓ | ✓ | ✓ | ✓ | ✓ (thin — general connectivity architecture, not MongoDB-specific) |
-| F-QUERY — Querying | ✓ | ✓ | ✓ | — (see F-SQL) | — (see F-SQL) |
-| F-AGG — Aggregation | ✓ | ✓ | ✓ | ✓ (partial — text-based JSON console, no visual builder) | — (confirmed absent — no visual or text pipeline builder at all; hand-coded JSON in a text console) |
-| F-SCHEMA — Schema | ✓ | ✓ | ✓ | ✓ (partial — generic column listing + confirmed BSON fidelity bugs) | — (confirmed absent — basic tabular/tree rendering only, no analytics) |
-| F-IDX — Indexing & Performance | ✓ | ✓ | ✓ | — | — |
-| F-TRANSFER — Data Transfer | ✓ | — | ✓ | ✓ (unverified depth) | — |
-| F-SHELL — Shell | ✓ | — | ✓ | — | — |
-| F-AI — AI features | ✓ | 🧪 (partial — NL query only) | ✓ | ✓ | ✓ (agentic MCP tooling — deepest MCP tool inventory reviewed) |
-| F-SQL — SQL tools | ✓ | — | 🧪 (partial — SQL Mode query-only, no migration) | ✓ (primary MongoDB query surface — SQL-first architecture) | ✓ (primary and only MongoDB query surface — SQL-to-JS translation) |
-| F-GOV — Governance | ✓ | ✓ | ✓ | ✓ | — (only governance-adjacent mechanism is an AI consent gate, tracked under F-AI instead) |
-| F-SCHED — Task scheduler | ✓ | — | ✓ | ✓ (partial — Enterprise/Ultimate only) | — (2026.2 "CLI data-source management" is connection config, not task scheduling — see product report) |
+| Feature area | Studio 3T | MongoDB Compass | VisuaLeaf | DBeaver | DataGrip | Navicat |
+| --- | --- | --- | --- | --- | --- | --- |
+| F-CONN — Connectivity | ✓ | ✓ | ✓ | ✓ | ✓ (thin — general connectivity architecture, not MongoDB-specific) | ✓ |
+| F-QUERY — Querying | ✓ | ✓ | ✓ | — (see F-SQL) | — (see F-SQL) | ✓ |
+| F-AGG — Aggregation | ✓ | ✓ | ✓ | ✓ (partial — text-based JSON console, no visual builder) | — (confirmed absent — no visual or text pipeline builder at all; hand-coded JSON in a text console) | ✓ |
+| F-SCHEMA — Schema | ✓ | ✓ | ✓ | ✓ (partial — generic column listing + confirmed BSON fidelity bugs) | — (confirmed absent — basic tabular/tree rendering only, no analytics) | ✓ |
+| F-IDX — Indexing & Performance | ✓ | ✓ | ✓ | — | — | ✓ (thin — no itemized index-type breakdown) |
+| F-TRANSFER — Data Transfer | ✓ | — | ✓ | ✓ (unverified depth) | — | ✓ |
+| F-SHELL — Shell | ✓ | — | ✓ | — | — | — (confirmed absent — no shell/scripting environment) |
+| F-AI — AI features | ✓ | 🧪 (partial — NL query only) | ✓ | ✓ | ✓ (agentic MCP tooling — deepest MCP tool inventory reviewed) | ✓ (native MongoDB MQL NL-to-query, not just SQL) |
+| F-SQL — SQL tools | ✓ | — | 🧪 (partial — SQL Mode query-only, no migration) | ✓ (primary MongoDB query surface — SQL-first architecture) | ✓ (primary and only MongoDB query surface — SQL-to-JS translation) | — (confirmed absent — no SQL-to-MongoDB translation mode of any kind) |
+| F-GOV — Governance | ✓ | ✓ | ✓ | ✓ | — (only governance-adjacent mechanism is an AI consent gate, tracked under F-AI instead) | ✓ (confirmed-absent field-level data masking within an otherwise-rich RBAC + sync-engine surface) |
+| F-SCHED — Task scheduler | ✓ | — | ✓ | ✓ (partial — Enterprise/Ultimate only) | — (2026.2 "CLI data-source management" is connection config, not task scheduling — see product report) | ✓ (composite multi-step Automation module; no confirmed edition gating) |
 
 DBeaver has no F-QUERY folder: MongoDB is queried through a generic, engine-agnostic SQL Console (confirmed via MongoDB's own "SQL Interface" documentation), not a native filter-bar/tree-view surface — see [DBeaver's product report](../../products/third-party/dbeaver/product-report.md) for the full reasoning. DBeaver has no F-IDX or F-SHELL folder: the source material does not discuss MongoDB index management or a shell/scripting environment for DBeaver.
 
 DataGrip has no F-QUERY folder for the same reason: its own source is even more categorical than DBeaver's, stating MongoDB access "relies on translating queries into standard SQL rather than offering a native document workspace," confirmed by JetBrains' own "SQL for MongoDB" documentation — tracked under F-SQL. DataGrip has no F-AGG or F-SCHEMA folder at all (confirmed absent by direct statement in the source, not merely unverified): no visual/text pipeline builder and no schema-analysis surface beyond basic grids. DataGrip has no F-IDX, F-TRANSFER, or F-SHELL folder: none is discussed for MongoDB in the source. DataGrip has no F-GOV folder: its only governance-adjacent mechanism — a 4-category AI-action consent gate (Schema/Data Access, Schema/Data Modification) — is an AI execution safeguard, tracked under F-AI's `AI-safety-guards` instead (the same judgment applied to DBeaver's AI guardrails). DataGrip has no F-SCHED folder: its 2026.2 "CLI data-source management" is command-line connection configuration, not task/script scheduling, and does not fit any existing sub-feature ID — see [DataGrip's product report](../../products/third-party/datagrip/product-report.md).
+
+Navicat is the only third-party competitor reviewed to date with a genuine MongoDB-native document workspace (three-mode Grid/Tree/JSON Data Editor) *and* a real visual aggregation pipeline builder *and* sampling-based schema analytics all at once — categorically deeper MongoDB-specific coverage than DBeaver's or DataGrip's SQL-first abstraction layers. Navicat has no F-SQL folder: the source states directly that it "lacks a native SQL-to-Mongo translation mode for querying" — its SQL authoring surface targets its relational engines (MySQL, PostgreSQL, SQL Server, Oracle) only, never MongoDB, a confirmed absence rather than an unmentioned capability. Navicat has no F-SHELL folder: the source explicitly contrasts Navicat's lack of "full terminal-like shell capabilities" against competitors, and no MongoDB shell/mongosh-equivalent scripting environment is described anywhere else in the source — see [Navicat's product report](../../products/third-party/navicat/product-report.md) for the full reasoning on both omissions.
 
 ## Icon legend (normalized status)
 
@@ -62,41 +66,41 @@ DataGrip has no F-QUERY folder for the same reason: its own source is even more 
 
 ## Icon-only quick scan (key sub-features)
 
-| Feature ID | Sub-feature ID | Sub-feature name | Studio 3T | MongoDB Compass | VisuaLeaf | DBeaver | DataGrip |
-| --- | --- | --- | --- | --- | --- | --- | --- |
-| F-CONN | CONN-topology | Topology types | ✅ | ✅ | ✅ | ❓ | ❓ (driver/connection type confirmed; topology detail unverified) |
-| F-CONN | CONN-multi-active | Multiple concurrent connections | ❓ | ✅ | ❓ | ❓ | ❓ |
-| F-CONN | CONN-read-pref | Read preference | ✅ | ❓ | ✅ | ❓ | ❓ |
-| F-QUERY | QUERY-filter-bar | Filter bar / query editor | ✅ | ✅ | ✅ | ❌ (SQL Console instead — see F-SQL) | ❌ (SQL-to-JS translation instead — see F-SQL) |
-| F-QUERY | QUERY-projection | Projection editor | ✅ | ✅ | ✅ | ❌ | ❌ |
-| F-QUERY | QUERY-sort | Sort editor | ✅ | ✅ | ✅ | ❌ | ❌ |
-| F-AGG | AGG-stage-count | Number of supported pipeline stages | ❓ | ❓ | ✅ | ❓ | ❌ (no pipeline builder of any kind) |
-| F-AGG | AGG-editor-layout | Pipeline editor layout | ✅ | ✅ | ✅ | 🧪 (text-based JSON array console only) | ❌ (confirmed absent — hand-coded JSON in a generic text console) |
-| F-AGG | AGG-stage-mgmt | Stage management operations | ✅ | ✅ | ✅ | ❌ | ❌ |
-| F-SCHEMA | SCHEMA-sampling | Schema sampling configuration | ✅ | ✅ | ✅ | ❌ | ❌ (confirmed absent) |
-| F-SCHEMA | SCHEMA-field-prob | Field probability statistics | ✅ | ✅ | ❌ | ❌ | ❌ |
-| F-SCHEMA | SCHEMA-type-prob | Per-field BSON type probabilities | ✅ | ✅ | ❌ | ❌ | ❌ |
-| F-IDX | IDX-inventory | Index list / inventory | ✅ | ✅ | ✅ | ❓ | ❓ |
-| F-IDX | IDX-type-single | Single-field index | ✅ | ✅ | ✅ | ❓ | ❓ |
-| F-IDX | IDX-type-compound | Compound index | ✅ | ✅ | ✅ | ❓ | ❓ |
-| F-TRANSFER | TRANSFER-import-csv | CSV import | ✅ | ❌ | ✅ | ❓ | ❓ |
-| F-TRANSFER | TRANSFER-import-json | JSON import | ✅ | ❌ | ✅ | ❓ | ❓ |
-| F-TRANSFER | TRANSFER-import-bson | BSON / mongodump import | ✅ | ❌ | ✅ | ❓ | ❓ |
-| F-SHELL | SHELL-engine | Shell engine and code editor | ✅ | ❌ | ✅ | ❓ | ❌ (no MongoDB shell surface; SQL console only) |
-| F-SHELL | SHELL-autocomplete | Shell autocomplete | ✅ | ❌ | ✅ | ❓ | ❌ |
-| F-SHELL | SHELL-validation | Live syntax validation | ✅ | ❌ | ✅ | ❓ | ❓ |
-| F-AI | AI-nl-query | NL to find() query | 💼 | 🧪 | 💼 | 🧪 (generates SQL, not a native find() filter) | 🧪 (agentic chat generates/executes SQL, not a native find() filter) |
-| F-AI | AI-nl-pipeline | NL to aggregation pipeline | 💼 | ❓ | 💼 | ❌ | ❌ (no aggregation surface exists at all) |
-| F-AI | AI-explanation | Plain-English explanation always included | ❓ | ❓ | ✅ | ❓ | ❓ |
-| F-SQL | SQL-expressions | SQL SELECT/WHERE/GROUP BY/HAVING | 💼 | ❌ | 🧪 (MongoDB-only, no migration) | ✅ (via MongoDB's own SQL Interface; primary MongoDB query surface) | ✅ (via JetBrains' own "SQL for MongoDB" docs; primary and only MongoDB query surface) |
-| F-SQL | SQL-join-mapping | SQL JOIN → $lookup mapping | 🧪 (plain SQL text only; no visual editor; single equality conditions only) | ❌ | ❌ | ❓ | ❌ (confirmed absent — single equality condition only, no visual editor, no subqueries/USING) |
-| F-SQL | SQL-code-gen | SQL query → driver language code gen | ✅ | ❌ | 🧪 (translation view only) | ❌ | 🧪 (translates to MongoDB shell JS only, not application driver languages) |
-| F-GOV | GOV-readonly-mode | Protect / destructive-write prevention mode | 🧪 | ✅ | ❓ | ✅ (per-connection, client-side) | ❓ (not discussed) |
-| F-GOV | GOV-network-policy | Network access policy | ❓ | ✅ | ❓ | ❓ | ❓ |
-| F-GOV | GOV-telemetry | Telemetry opt-out/configuration | ❓ | ✅ | ❓ | ❓ | ❓ |
-| F-SCHED | SCHED-task-types | Task types supported | ✅ | ❌ | 💼 | 🏢 (Enterprise/Ultimate only) | ❌ (no task automation; CLI data-source management is connection config, not scheduling) |
-| F-SCHED | SCHED-types-time | Preset schedule types | ✅ | ❌ | ✅ | ❓ | ❌ |
-| F-SCHED | SCHED-cron | Cron expression support | ✅ | ❌ | ✅ | ❓ | ❌ |
+| Feature ID | Sub-feature ID | Sub-feature name | Studio 3T | MongoDB Compass | VisuaLeaf | DBeaver | DataGrip | Navicat |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| F-CONN | CONN-topology | Topology types | ✅ | ✅ | ✅ | ❓ | ❓ (driver/connection type confirmed; topology detail unverified) | ❓ (MongoDB connectivity confirmed; topology-type granularity unverified) |
+| F-CONN | CONN-multi-active | Multiple concurrent connections | ❓ | ✅ | ❓ | ❓ | ❓ | ❓ |
+| F-CONN | CONN-read-pref | Read preference | ✅ | ❓ | ✅ | ❓ | ❓ | ❓ |
+| F-QUERY | QUERY-filter-bar | Filter bar / query editor | ✅ | ✅ | ✅ | ❌ (SQL Console instead — see F-SQL) | ❌ (SQL-to-JS translation instead — see F-SQL) | ✅ (Grid View field filter/hide-column + BSON-type highlighting) |
+| F-QUERY | QUERY-projection | Projection editor | ✅ | ✅ | ✅ | ❌ | ❌ | ❓ (not itemized) |
+| F-QUERY | QUERY-sort | Sort editor | ✅ | ✅ | ✅ | ❌ | ❌ | ❓ (not itemized) |
+| F-AGG | AGG-stage-count | Number of supported pipeline stages | ❓ | ❓ | ✅ | ❓ | ❌ (no pipeline builder of any kind) | ❓ (stage catalog breadth not itemized) |
+| F-AGG | AGG-editor-layout | Pipeline editor layout | ✅ | ✅ | ✅ | 🧪 (text-based JSON array console only) | ❌ (confirmed absent — hand-coded JSON in a generic text console) | ✅ (visual, drag-and-drop, stage-by-stage) |
+| F-AGG | AGG-stage-mgmt | Stage management operations | ✅ | ✅ | ✅ | ❌ | ❌ | ❓ (existence implied by the drag-and-drop mechanism; depth unverified) |
+| F-SCHEMA | SCHEMA-sampling | Schema sampling configuration | ✅ | ✅ | ✅ | ❌ | ❌ (confirmed absent) | ✅ (existence confirmed; configurability unverified) |
+| F-SCHEMA | SCHEMA-field-prob | Field probability statistics | ✅ | ✅ | ❌ | ❌ | ❌ | ✅ |
+| F-SCHEMA | SCHEMA-type-prob | Per-field BSON type probabilities | ✅ | ✅ | ❌ | ❌ | ❌ | ✅ |
+| F-IDX | IDX-inventory | Index list / inventory | ✅ | ✅ | ✅ | ❓ | ❓ | ✅ (existence confirmed; type/size/usage detail unverified) |
+| F-IDX | IDX-type-single | Single-field index | ✅ | ✅ | ✅ | ❓ | ❓ | ❓ (implied, not itemized) |
+| F-IDX | IDX-type-compound | Compound index | ✅ | ✅ | ✅ | ❓ | ❓ | ❓ (implied, not itemized) |
+| F-TRANSFER | TRANSFER-import-csv | CSV import | ✅ | ❌ | ✅ | ❓ | ❓ | ✅ |
+| F-TRANSFER | TRANSFER-import-json | JSON import | ✅ | ❌ | ✅ | ❓ | ❓ | ✅ |
+| F-TRANSFER | TRANSFER-import-bson | BSON / mongodump import | ✅ | ❌ | ✅ | ❓ | ❓ | ✅ (mongorestore GUI wrapper) |
+| F-SHELL | SHELL-engine | Shell engine and code editor | ✅ | ❌ | ✅ | ❓ | ❌ (no MongoDB shell surface; SQL console only) | ❌ (confirmed absent — no full terminal-like shell capabilities) |
+| F-SHELL | SHELL-autocomplete | Shell autocomplete | ✅ | ❌ | ✅ | ❓ | ❌ | ❌ (no shell surface exists) |
+| F-SHELL | SHELL-validation | Live syntax validation | ✅ | ❌ | ✅ | ❓ | ❓ | ❌ (no shell surface exists) |
+| F-AI | AI-nl-query | NL to find() query | 💼 | 🧪 | 💼 | 🧪 (generates SQL, not a native find() filter) | 🧪 (agentic chat generates/executes SQL, not a native find() filter) | 💼 ("Ask AI" — generates native MongoDB MQL, not just SQL; plan-gating unverified for the Standard MongoDB tier) |
+| F-AI | AI-nl-pipeline | NL to aggregation pipeline | 💼 | ❓ | 💼 | ❌ | ❌ (no aggregation surface exists at all) | ❓ ("Ask AI" output type not confirmed to include full pipelines vs. filters only) |
+| F-AI | AI-explanation | Plain-English explanation always included | ❓ | ❓ | ✅ | ❓ | ❓ | 🧪 (query execution explanation + error explanation both confirmed as distinct actions; "always on" not confirmed) |
+| F-SQL | SQL-expressions | SQL SELECT/WHERE/GROUP BY/HAVING | 💼 | ❌ | 🧪 (MongoDB-only, no migration) | ✅ (via MongoDB's own SQL Interface; primary MongoDB query surface) | ✅ (via JetBrains' own "SQL for MongoDB" docs; primary and only MongoDB query surface) | ❌ (confirmed absent for MongoDB — SQL authoring targets Navicat's relational engines only) |
+| F-SQL | SQL-join-mapping | SQL JOIN → $lookup mapping | 🧪 (plain SQL text only; no visual editor; single equality conditions only) | ❌ | ❌ | ❓ | ❌ (confirmed absent — single equality condition only, no visual editor, no subqueries/USING) | ❌ (confirmed absent — no SQL-to-MongoDB surface of any kind) |
+| F-SQL | SQL-code-gen | SQL query → driver language code gen | ✅ | ❌ | 🧪 (translation view only) | ❌ | 🧪 (translates to MongoDB shell JS only, not application driver languages) | ❌ (confirmed absent for MongoDB) |
+| F-GOV | GOV-readonly-mode | Protect / destructive-write prevention mode | 🧪 | ✅ | ❓ | ✅ (per-connection, client-side) | ❓ (not discussed) | ❓ (not discussed; Connection Coloring is a visual warning, not a write-block) |
+| F-GOV | GOV-network-policy | Network access policy | ❓ | ✅ | ❓ | ❓ | ❓ | ❓ |
+| F-GOV | GOV-telemetry | Telemetry opt-out/configuration | ❓ | ✅ | ❓ | ❓ | ❓ | ❓ |
+| F-SCHED | SCHED-task-types | Task types supported | ✅ | ❌ | 💼 | 🏢 (Enterprise/Ultimate only) | ❌ (no task automation; CLI data-source management is connection config, not scheduling) | ✅ (composite sequential-chaining automation; no confirmed edition gating) |
+| F-SCHED | SCHED-types-time | Preset schedule types | ✅ | ❌ | ✅ | ❓ | ❌ | ❓ (schedules confirmed to exist; preset types not itemized) |
+| F-SCHED | SCHED-cron | Cron expression support | ✅ | ❌ | ✅ | ❓ | ❌ | ❓ (not discussed) |
 
 ## Detailed iconized tables
 
@@ -104,162 +108,169 @@ These are icon-only analogs of the detailed comparison tables below. Product col
 
 ### Product-level comparison (feature areas present) — iconized
 
-| Feature area | Studio 3T | MongoDB Compass | VisuaLeaf | DBeaver | DataGrip |
-| --- | --- | --- | --- | --- | --- |
-| F-CONN — Connectivity | ✅ | ✅ | ✅ | ✅ | 🧪 (thin, not MongoDB-specific) |
-| F-QUERY — Querying | ✅ | ✅ | ✅ | ❌ | ❌ |
-| F-AGG — Aggregation | ✅ | ✅ | ✅ | 🧪 | ❌ |
-| F-SCHEMA — Schema | ✅ | ✅ | ✅ | 🧪 | ❌ |
-| F-IDX — Indexing & Performance | ✅ | ✅ | ✅ | ❌ | ❌ |
-| F-TRANSFER — Data Transfer | ✅ | ❌ | ✅ | 🧪 | ❌ |
-| F-SHELL — Shell | ✅ | ❌ | ✅ | ❌ | ❌ |
-| F-AI — AI features | ✅ | 🧪 | ✅ | ✅ | ✅ |
-| F-SQL — SQL tools | ✅ | ❌ | 🧪 | ✅ | ✅ |
-| F-GOV — Governance | ✅ | ✅ | ✅ | ✅ | ❌ |
-| F-SCHED — Task scheduler | ✅ | ❌ | ✅ | 🧪 | ❌ |
+| Feature area | Studio 3T | MongoDB Compass | VisuaLeaf | DBeaver | DataGrip | Navicat |
+| --- | --- | --- | --- | --- | --- | --- |
+| F-CONN — Connectivity | ✅ | ✅ | ✅ | ✅ | 🧪 (thin, not MongoDB-specific) | ✅ |
+| F-QUERY — Querying | ✅ | ✅ | ✅ | ❌ | ❌ | ✅ |
+| F-AGG — Aggregation | ✅ | ✅ | ✅ | 🧪 | ❌ | ✅ |
+| F-SCHEMA — Schema | ✅ | ✅ | ✅ | 🧪 | ❌ | ✅ |
+| F-IDX — Indexing & Performance | ✅ | ✅ | ✅ | ❌ | ❌ | 🧪 (thin — existence confirmed, type/config detail largely unverified) |
+| F-TRANSFER — Data Transfer | ✅ | ❌ | ✅ | 🧪 | ❌ | ✅ |
+| F-SHELL — Shell | ✅ | ❌ | ✅ | ❌ | ❌ | ❌ (confirmed absent) |
+| F-AI — AI features | ✅ | 🧪 | ✅ | ✅ | ✅ | ✅ |
+| F-SQL — SQL tools | ✅ | ❌ | 🧪 | ✅ | ✅ | ❌ (confirmed absent) |
+| F-GOV — Governance | ✅ | ✅ | ✅ | ✅ | ❌ | ✅ |
+| F-SCHED — Task scheduler | ✅ | ❌ | ✅ | 🧪 | ❌ | ✅ |
 
 ### F-CONN — Connectivity — iconized
 
-| Dimension | Studio 3T | MongoDB Compass | VisuaLeaf | DBeaver | DataGrip |
-| --- | --- | --- | --- | --- | --- |
-| Topology coverage | ✅ | ✅ | ✅ | ❓ | ❓ (connection type/driver confirmed; topology detail unverified) |
-| Enterprise auth | 🏢 | ✅ | 🗺️ | 🏢 | ❓ (not discussed for MongoDB) |
-| TLS | ✅ | ✅ | ✅ | ❓ (existence confirmed, depth unverified) | ❓ |
-| SSH tunnel | ✅ | ✅ | ✅ | ❓ | ❓ |
-| Proxy | ✅ | ✅ | ❓ | ❓ | ❓ |
-| Connection pool params | ✅ | ❓ | ✅ | ❓ | ❓ |
-| Connection organization | ✅ | ✅ | ✅ | ❓ | ❓ |
-| In-use encryption (QE/CSFLE) | ❌ | ✅ | ❌ | ❓ | ❓ |
-| Connection test validation | ❓ | ❓ | ✅ | ❓ | ❓ |
-| Team sharing | 💼 | ❌ | ❌ | 🏢 (Team Edition/CloudBeaver) | ❓ (JetBrains Account syncs templates per-user, not team-permissioned sharing) |
-| Credential storage | ✅ | ✅ | ✅ | ✅ (local keystore; external vault — see F-GOV) | ❓ (templates strip credentials before sync; storage mechanism not detailed) |
-| MongoDB-alternative compatibility (FerretDB/DocumentDB/Cosmos) | ✅ | ❓ | 🗺️ | ❓ | ❓ |
-| Read-only connection lock | 🧪 | ✅ | ❓ | ✅ (vendor-documented) | ❓ |
-| Unique: Compass | — | ✅ | — | — | — |
-| Unique: VisuaLeaf | — | — | 🗺️ | — | — |
-| Unique: Studio 3T | ✅ | — | — | — | — |
-| Unique: DBeaver | — | — | — | 100+ supported database engines via one JDBC-driver architecture | — |
-| Unique: DataGrip | — | — | — | — | Git-committable, human-readable XML connection/query-file storage (`.idea/db-forest-config.xml`) |
+| Dimension | Studio 3T | MongoDB Compass | VisuaLeaf | DBeaver | DataGrip | Navicat |
+| --- | --- | --- | --- | --- | --- | --- |
+| Topology coverage | ✅ | ✅ | ✅ | ❓ | ❓ (connection type/driver confirmed; topology detail unverified) | ❓ (MongoDB connectivity confirmed incl. Atlas; topology-type detail unverified) |
+| Enterprise auth | 🏢 | ✅ | 🗺️ | 🏢 | ❓ (not discussed for MongoDB) | ❓ (not discussed for MongoDB) |
+| TLS | ✅ | ✅ | ✅ | ❓ (existence confirmed, depth unverified) | ❓ | ✅ (existence confirmed; config depth unverified) |
+| SSH tunnel | ✅ | ✅ | ✅ | ❓ | ❓ | ✅ (existence confirmed; password-vs-key-mode depth unverified) |
+| Proxy | ✅ | ✅ | ❓ | ❓ | ❓ | ❓ |
+| Connection pool params | ✅ | ❓ | ✅ | ❓ | ❓ | ❓ |
+| Connection organization | ✅ | ✅ | ✅ | ❓ | ❓ | ✅ (virtual grouping/folders) |
+| In-use encryption (QE/CSFLE) | ❌ | ✅ | ❌ | ❓ | ❓ | ❓ (not discussed) |
+| Connection test validation | ❓ | ❓ | ✅ | ❓ | ❓ | ❓ |
+| Team sharing | 💼 | ❌ | ❌ | 🏢 (Team Edition/CloudBeaver) | ❓ (JetBrains Account syncs templates per-user, not team-permissioned sharing) | 💼 (Navicat Cloud Pro add-on) / 🏢 (Navicat On-Prem Server) — per-role granularity unverified |
+| Credential storage | ✅ | ✅ | ✅ | ✅ (local keystore; external vault — see F-GOV) | ❓ (templates strip credentials before sync; storage mechanism not detailed) | ❓ (no local storage mechanism described) |
+| MongoDB-alternative compatibility (FerretDB/DocumentDB/Cosmos) | ✅ | ❓ | 🗺️ | ❓ | ❓ | ❓ (generic "Microsoft Azure"/"Google Cloud" named; "Cosmos DB" not used by name) |
+| Read-only connection lock | 🧪 | ✅ | ❓ | ✅ (vendor-documented) | ❓ | ❓ (Connection Coloring is a visual warning, not a write-block) |
+| Unique: Compass | — | ✅ | — | — | — | — |
+| Unique: VisuaLeaf | — | — | 🗺️ | — | — | — |
+| Unique: Studio 3T | ✅ | — | — | — | — | — |
+| Unique: DBeaver | — | — | — | 100+ supported database engines via one JDBC-driver architecture | — | — |
+| Unique: DataGrip | — | — | — | — | Git-committable, human-readable XML connection/query-file storage (`.idea/db-forest-config.xml`) | — |
+| Unique: Navicat | — | — | — | — | — | Connection Coloring (background tags, e.g. red for production) as an explicit accidental-modification-prevention control; two distinct team-collaboration backends (Navicat Cloud SaaS + self-hosted On-Prem Server) |
 
 ### F-QUERY — Querying — iconized
 
 *DBeaver: N/A — no native MongoDB filter-bar/tree-view surface; MongoDB is queried via a generic SQL Console, tracked under F-SQL instead (see [DBeaver's product report](../../products/third-party/dbeaver/product-report.md)).*
 *DataGrip: N/A — no native MongoDB filter-bar/tree-view surface; MongoDB is queried via SQL-to-JS translation, tracked under F-SQL instead (see [DataGrip's product report](../../products/third-party/datagrip/product-report.md)).*
 
-| Dimension | Studio 3T | MongoDB Compass | VisuaLeaf |
-| --- | --- | --- | --- |
-| Filter bar / autocomplete | ✅ | ✅ | ✅ |
-| Visual Query Builder | ✅ | ❌ | 💼 |
-| Date tags / shortcuts | ✅ | ❌ | ❌ |
-| AI query builder | 💼 | ❌ | 💼 |
-| Query history | 💼 | ✅ | 💼 |
-| Saved queries / manager | ✅ | ✅ | 💼 |
-| Multi-document update | ✅ | ❓ | ✅ |
-| Performance timer | ❓ | ❓ | ✅ |
-| Cancel in-flight query | ❓ | ❓ | ✅ |
-| Explain view | ✅ | ✅ | ✅ |
-| Export to driver language | ✅ | ✅ | ❓ |
-| Undo/redo | ❓ | ❓ | ✅ |
-| GridFS viewer | ❓ | ❓ | ✅ |
-| Split panel views | ❓ | ❓ | ✅ |
-| Charts & dashboards | ❓ | ❓ | ✅ |
-| Unique: Compass | — | ✅ | — |
-| Unique: VisuaLeaf | — | — | 🔌 |
-| Unique: Studio 3T | ✅ | — | — |
+| Dimension | Studio 3T | MongoDB Compass | VisuaLeaf | Navicat |
+| --- | --- | --- | --- | --- |
+| Filter bar / autocomplete | ✅ | ✅ | ✅ | ✅ (Grid View field filter/hide-column, BSON-type highlighting) |
+| Visual Query Builder | ✅ | ❌ | 💼 | ❓ (general "Visual Query Building" bullet exists but may be scoped to Navicat's relational SQL editors only — not disambiguated in source) |
+| Date tags / shortcuts | ✅ | ❌ | ❌ | ❓ (not discussed) |
+| AI query builder | 💼 | ❌ | 💼 | 💼 ("Ask AI" — native MQL output) |
+| Query history | 💼 | ✅ | 💼 | ❓ (not discussed) |
+| Saved queries / manager | ✅ | ✅ | 💼 | ❓ (not discussed) |
+| Multi-document update | ✅ | ❓ | ✅ | ❓ (not discussed) |
+| Performance timer | ❓ | ❓ | ✅ | ❓ |
+| Cancel in-flight query | ❓ | ❓ | ✅ | ❓ |
+| Explain view | ✅ | ✅ | ✅ | ✅ (Visual Explain — IXSCAN/COLLSCAN, execution timing, doc counts) |
+| Export to driver language | ✅ | ✅ | ❓ | ❌ (not discussed for MongoDB queries) |
+| Undo/redo | ❓ | ❓ | ✅ | ❓ |
+| GridFS viewer | ❓ | ❓ | ✅ | ✅ (browse/stream; upload/download CRUD tracked under F-TRANSFER) |
+| Split panel views | ❓ | ❓ | ✅ | ❓ (not discussed) |
+| Charts & dashboards | ❓ | ❓ | ✅ | ✅ (built-in BI workspace, 10+ chart types, real-time interconnected dashboards) |
+| Unique: Compass | — | ✅ | — | — |
+| Unique: VisuaLeaf | — | — | 🔌 | — |
+| Unique: Studio 3T | ✅ | — | — | — |
+| Unique: Navicat | — | — | — | Three-mode native Data Editor (Grid/Tree/JSON View) with per-view BSON-type highlighting; built-in BI dashboard workspace embedded directly in the database client |
 
 ### F-AGG — Aggregation — iconized
 
 *DataGrip: N/A — confirmed absent. The source states directly that DataGrip "lacks a visual stage-by-stage pipeline builder," with multi-stage aggregations hand-coded as JSON in a text console; no matrix folder was created (see [DataGrip's product report](../../products/third-party/datagrip/product-report.md)).*
 
-| Dimension | Studio 3T | MongoDB Compass | VisuaLeaf | DBeaver |
-| --- | --- | --- | --- | --- |
-| Stage count / coverage | ✅ | ✅ | ✅ | ❓ |
-| Editor layout | ✅ | ✅ | ✅ | 🧪 (text-based JSON array console only) |
-| Per-stage editing mode | ✅ | ✅ | ✅ | ❌ |
-| Stage toggle (enable/disable) | ✅ | ✅ | ❓ | ❌ |
-| Stage preview | ✅ | ✅ | ✅ | ❌ |
-| Code generation | ✅ | ✅ | ❓ | ❓ |
-| Create MongoDB view | ✅ | ✅ | ❓ | ❓ |
-| Export pipeline results | ✅ | ✅ | ✅ | ❓ |
-| Chart builder from output | ❌ | ❌ | ✅ | ❌ |
-| Pipeline options | ✅ | ✅ | ✅ | ❓ |
-| Switch collection mid-session | ✅ | ❓ | ❓ | ❓ |
-| Date tags in $match | ✅ | ❌ | ❌ | ❌ |
-| Execution timer + cancel | ❓ | ❓ | ✅ | ❓ |
-| Unique: Compass | — | ✅ | — | — |
-| Unique: VisuaLeaf | — | — | ✅ | — |
-| Unique: Studio 3T | ✅ | — | — | — |
-| Unique: DBeaver | — | — | — | (none — this is a confirmed competitive weakness, not a strength; see [DBeaver's aggregation feature report](../../products/third-party/dbeaver/features/aggregation/feature-report.md)) |
+| Dimension | Studio 3T | MongoDB Compass | VisuaLeaf | DBeaver | Navicat |
+| --- | --- | --- | --- | --- | --- |
+| Stage count / coverage | ✅ | ✅ | ✅ | ❓ | ❓ (named operators $match/$group/$project/$lookup/$unwind confirmed; total catalog not itemized) |
+| Editor layout | ✅ | ✅ | ✅ | 🧪 (text-based JSON array console only) | ✅ (visual, drag-and-drop, stage-by-stage) |
+| Per-stage editing mode | ✅ | ✅ | ✅ | ❌ | ✅ (visual/form-based; raw-JSON alternative unconfirmed) |
+| Stage toggle (enable/disable) | ✅ | ✅ | ❓ | ❌ | ❓ (not discussed) |
+| Stage preview | ✅ | ✅ | ✅ | ❌ | 🧪 (output-only preview confirmed; no combined input+output "IO inspection," per the source's own head-to-head comparison against Studio 3T) |
+| Code generation | ✅ | ✅ | ❓ | ❓ | ❌ (confirmed absent — no multi-language driver code gen, by direct and repeated statement) |
+| Create MongoDB view | ✅ | ✅ | ❓ | ❓ | ❓ (not discussed for MongoDB) |
+| Export pipeline results | ✅ | ✅ | ✅ | ❓ | ❓ (not itemized specifically for pipeline output) |
+| Chart builder from output | ❌ | ❌ | ✅ | ❌ | ✅ (BI workspace can visualize aggregation-fed data sources) |
+| Pipeline options | ✅ | ✅ | ✅ | ❓ | ❓ (allowDiskUse/collation/maxTimeMS not discussed) |
+| Switch collection mid-session | ✅ | ❓ | ❓ | ❓ | ❓ |
+| Date tags in $match | ✅ | ❌ | ❌ | ❌ | ❌ (not discussed) |
+| Execution timer + cancel | ❓ | ❓ | ✅ | ❓ | ❓ |
+| Unique: Compass | — | ✅ | — | — | — |
+| Unique: VisuaLeaf | — | — | ✅ | — | — |
+| Unique: Studio 3T | ✅ | — | — | — | — |
+| Unique: DBeaver | — | — | — | (none — this is a confirmed competitive weakness, not a strength; see [DBeaver's aggregation feature report](../../products/third-party/dbeaver/features/aggregation/feature-report.md)) | — |
+| Unique: Navicat | — | — | — | — | Dedicated MapReduce author/test/debug editor working against sampled document sets before full-cluster execution |
 
 ### F-SCHEMA — Schema — iconized
 
 *DataGrip: N/A — confirmed absent. The source states directly that DataGrip "lacks comprehensive schema structural analysis, field type probability distribution charts, or document structure drift detection," rendering documents only in basic tabular grids or tree views; no matrix folder was created (see [DataGrip's product report](../../products/third-party/datagrip/product-report.md)).*
 
-| Dimension | Studio 3T | MongoDB Compass | VisuaLeaf | DBeaver |
-| --- | --- | --- | --- | --- |
-| Field statistics analytics (probability/type/histogram) | ✅ | ✅ | ✅ | ❌ (generic column-metadata listing only, confirmed by direct contrast in source) |
-| Geo field analysis | ❌ | ✅ | ❌ | ❓ |
-| JSON schema editor | ❌ | ❌ | ✅ | ❓ |
-| Schema validation deploy | ❌ | ✅ | ✅ | ❓ |
-| Validation strictness (warn/error, strict/moderate) | ❌ | ✅ | ❓ | ❓ |
-| Visual ERD designer | ❌ | ❌ | 💼 | ❓ |
-| View creation from schema tool | ✅ | ❓ | ❓ | ❓ |
-| Schema doc export | ✅ | ✅ | ✅ | ❓ |
-| Explore docs by field presence | ✅ | ❓ | ❓ | ❓ |
-| Rename field across all docs | ✅ | ❓ | ❓ | ❓ |
-| BSON type fidelity (dates, ObjectId) | ❓ | ❓ | ❓ | ⚠️ (confirmed bugs: millisecond-precision truncation, ObjectId misinterpretation — 3 GitHub issues) |
-| Schema/structure compare | 💼 (collection sync) | ❌ | 💼 | 🧪 (relational-DDL-oriented; reportedly weak on nested BSON) |
-| Unique: Compass | — | ✅ | — | — |
-| Unique: VisuaLeaf | — | — | ✅ | — |
-| Unique: Studio 3T | ✅ | — | — | — |
-| Unique: DBeaver | — | — | — | (none — schema tooling is a confirmed relative weakness) |
+| Dimension | Studio 3T | MongoDB Compass | VisuaLeaf | DBeaver | Navicat |
+| --- | --- | --- | --- | --- | --- |
+| Field statistics analytics (probability/type/histogram) | ✅ | ✅ | ✅ | ❌ (generic column-metadata listing only, confirmed by direct contrast in source) | 🧪 (field-population frequency + type-mix + anomaly/outlier detection confirmed; value histogram not discussed) |
+| Geo field analysis | ❌ | ✅ | ❌ | ❓ | ❓ (not discussed) |
+| JSON schema editor | ❌ | ❌ | ✅ | ❓ | ❓ (not discussed) |
+| Schema validation deploy | ❌ | ✅ | ✅ | ❓ | ❓ ($jsonSchema authoring/deployment not discussed) |
+| Validation strictness (warn/error, strict/moderate) | ❌ | ✅ | ❓ | ❓ | ❓ |
+| Visual ERD designer | ❌ | ❌ | 💼 | ❓ | ✅ (Navicat Data Modeler — rich for relational engines; read-only-analysis-only for MongoDB, confirmed) |
+| View creation from schema tool | ✅ | ❓ | ❓ | ❓ | ❓ |
+| Schema doc export | ✅ | ✅ | ✅ | ❓ | ❓ (not discussed) |
+| Explore docs by field presence | ✅ | ❓ | ❓ | ❓ | ❓ |
+| Rename field across all docs | ✅ | ❓ | ❓ | ❓ | ❓ (not discussed) |
+| BSON type fidelity (dates, ObjectId) | ❓ | ❓ | ❓ | ⚠️ (confirmed bugs: millisecond-precision truncation, ObjectId misinterpretation — 3 GitHub issues) | ❓ (not discussed) |
+| Schema/structure compare | 💼 (collection sync) | ❌ | 💼 | 🧪 (relational-DDL-oriented; reportedly weak on nested BSON) | ✅ (dedicated Structure Synchronization engine — DDL/schema diffing across collections/indexes/views/validation constraints, producing alteration scripts) |
+| Unique: Compass | — | ✅ | — | — | — |
+| Unique: VisuaLeaf | — | — | ✅ | — | — |
+| Unique: Studio 3T | ✅ | — | — | — | — |
+| Unique: DBeaver | — | — | — | (none — schema tooling is a confirmed relative weakness) | — |
+| Unique: Navicat | — | — | — | — | Three-part schema analytics (frequency + type-mix + anomaly/outlier detection) combined with a dedicated Structure Synchronization DDL-diff engine |
 
 ### F-IDX — Indexing & Performance — iconized
 
 *DBeaver: N/A — the source material does not discuss MongoDB index management, explain plans, or a query profiler for DBeaver specifically.*
 *DataGrip: N/A — the source's Explain Plan/diagnostic engine section names only relational engines (PostgreSQL, Redshift, MySQL, MariaDB, Oracle, SQL Server, Snowflake) as supported targets; no MongoDB index-management capability is discussed.*
+*Navicat: included below but intentionally thin — the source confirms a graphical index designer and Visual Explain, but does not itemize index types, profiler configuration depth, or performance-monitoring detail the way it does for Navicat's aggregation and schema features.*
 
-| Dimension | Studio 3T | MongoDB Compass | VisuaLeaf |
-| --- | --- | --- | --- |
-| Index types supported | 🧪 | ❓ | 🧪 |
-| Atlas Search / Vector Search | ❌ | ✅ | ❌ |
-| Advanced index options | ❓ | ❓ | 🧪 |
-| Collation index options | ✅ | ❓ | ✅ |
-| Quick-action templates | ❌ | ❌ | ✅ |
-| Copy/paste index across connections | ✅ | ❌ | ❌ |
-| Hide/unhide index | ✅ | ✅ | ❓ |
-| Visual Explain | ✅ | ✅ | ✅ |
-| Profiler | ✅ | ❓ | ✅ |
-| Profiler export | ❌ | ❌ | ✅ |
-| Real-time performance monitoring | ✅ | ✅ | ❓ |
-| Kill running operations | ❌ | ✅ | ✅ |
-| Unique: Compass | — | ✅ | — |
-| Unique: VisuaLeaf | — | — | ✅ |
-| Unique: Studio 3T | ✅ | — | — |
+| Dimension | Studio 3T | MongoDB Compass | VisuaLeaf | Navicat |
+| --- | --- | --- | --- | --- |
+| Index types supported | 🧪 | ❓ | 🧪 | ❓ (graphical index designer confirmed; type breakdown not itemized) |
+| Atlas Search / Vector Search | ❌ | ✅ | ❌ | ❓ (not discussed) |
+| Advanced index options | ❓ | ❓ | 🧪 | ❓ |
+| Collation index options | ✅ | ❓ | ✅ | ❓ |
+| Quick-action templates | ❌ | ❌ | ✅ | ❓ |
+| Copy/paste index across connections | ✅ | ❌ | ❌ | ❓ |
+| Hide/unhide index | ✅ | ✅ | ❓ | ❓ |
+| Visual Explain | ✅ | ✅ | ✅ | ✅ (IXSCAN/COLLSCAN distinction, execution timing, returned doc counts — described twice, consistently) |
+| Profiler | ✅ | ❓ | ✅ | 🧪 (MongoDB Profiler interfaces confirmed to exist; configuration depth entirely unverified) |
+| Profiler export | ❌ | ❌ | ✅ | ❓ |
+| Real-time performance monitoring | ✅ | ✅ | ❓ | 🧪 (Server Monitor confirmed — general connections/CPU/memory/locks; MongoDB-op-specific scope unverified) |
+| Kill running operations | ❌ | ✅ | ✅ | ❓ (not discussed) |
+| Unique: Compass | — | ✅ | — | — |
+| Unique: VisuaLeaf | — | — | ✅ | — |
+| Unique: Studio 3T | ✅ | — | — | — |
+| Unique: Navicat | — | — | — | Visual Explain described consistently across two separate source sections with matching IXSCAN/COLLSCAN specificity |
 
 ### F-TRANSFER — Data Transfer — iconized
 
 *MongoDB Compass: N/A — not supported.*
 *DataGrip: N/A — no MongoDB import/export, migration, or masking capability is discussed in the source.*
 
-| Dimension | Studio 3T | VisuaLeaf | DBeaver |
-| --- | --- | --- | --- |
-| Import formats | 💼 | ✅ | ❓ (CSV/table wizards asserted, no primary citation) |
-| Export formats | 💼 | ✅ | ❓ (CSV/table wizards asserted, no primary citation) |
-| Import write modes | ✅ | ✅ | ❓ |
-| Document filter before import | ❌ | ✅ | ❓ |
-| User-defined JS transform per document | ❌ | ✅ | ❓ |
-| Server-side $pipeline pre-export transform | ❌ | ✅ | ❓ |
-| Field mapping and rename | ✅ | ✅ | ❓ |
-| Incremental export with resume points | ✅ | ❌ | ❓ |
-| Data masking | 💼 | ❌ | ❓ |
-| Task save for scheduler | 💼 | 💼 | ❓ |
-| Export source granularity | ✅ | ❓ | ❓ |
+| Dimension | Studio 3T | VisuaLeaf | DBeaver | Navicat |
+| --- | --- | --- | --- | --- |
+| Import formats | 💼 | ✅ | ❓ (CSV/table wizards asserted, no primary citation) | ✅ (TXT/CSV/XML/JSON/Access/Excel/ODBC via Import Wizard) |
+| Export formats | 💼 | ✅ | ❓ (CSV/table wizards asserted, no primary citation) | ✅ (CSV/Excel/Access/TXT/XML/JSON via Export Wizard) |
+| Import write modes | ✅ | ✅ | ❓ | ✅ (append/update/replace/skip) |
+| Document filter before import | ❌ | ✅ | ❓ | ❓ (not discussed) |
+| User-defined JS transform per document | ❌ | ✅ | ❓ | ❓ (not discussed) |
+| Server-side $pipeline pre-export transform | ❌ | ✅ | ❓ | ❓ (not discussed) |
+| Field mapping and rename | ✅ | ✅ | ❓ | ✅ |
+| Incremental export with resume points | ✅ | ❌ | ❓ | ❓ (not discussed) |
+| Data masking | 💼 | ❌ | ❓ | ❌ (confirmed absent, by direct and repeated statement) |
+| Task save for scheduler | 💼 | 💼 | ❓ | 🧪 (Data Synchronization confirmed schedulable by name; other task types unconfirmed) |
+| Export source granularity | ✅ | ❓ | ❓ | ❓ (collection/view/table/query-result named; not exhaustively itemized) |
 
 ### F-SHELL — Shell — iconized
 
 *DBeaver: N/A — no MongoDB shell/scripting environment discussed in the source; its "SQL Console" is SQL-oriented and tracked under F-SQL.*
 *DataGrip: N/A — no MongoDB shell/scripting environment discussed in the source; its only MongoDB query surface is the SQL-to-JS translation console, tracked under F-SQL.*
+*Navicat: N/A — confirmed absent. The source explicitly contrasts Navicat's lack of "full terminal-like shell capabilities" against competitors; no MongoDB shell/mongosh-equivalent scripting environment is described anywhere in the source.*
 
 | Dimension | Studio 3T | VisuaLeaf |
 | --- | --- | --- |
@@ -280,27 +291,31 @@ These are icon-only analogs of the detailed comparison tables below. Product col
 
 ### F-AI — AI Features — iconized
 
-| Dimension | Studio 3T | MongoDB Compass | VisuaLeaf | DBeaver | DataGrip |
-| --- | --- | --- | --- | --- | --- |
-| NL → find() query | 💼 | 🧪 | 💼 | 🧪 (generates SQL, not a native find() filter) | 🧪 (agentic chat generates/executes SQL, not a native find() filter) |
-| NL → aggregation pipeline | 💼 | ❓ | 💼 | ❌ | ❌ (no aggregation surface exists at all) |
-| Plain-English explanation always on | ❓ | ❓ | ✅ | ❓ | ❓ |
-| AI providers | ✅ | ❓ | 🧪 | ✅ (OpenAI/GPT-5 default, Azure OpenAI, Google Gemini, GitHub Copilot/Codex — widest documented list) | ✅ (Anthropic Claude Agent [Claude 4.5 Sonnet], OpenAI Codex; BYOK supported) |
-| Model selection | ✅ | ❓ | ✅ | ❓ | ✅ (choice of Claude Agent or Codex) |
-| "Send sample data" privacy toggle | ❓ | ❓ | ✅ | ❓ | ❓ |
-| Conversation turns for refinement | ❓ | ❓ | ✅ | ❓ | ❓ |
-| Multiple named AI configs | ❓ | ❓ | ✅ | ❓ | ❓ |
-| API key storage | ❓ | ❓ | ✅ | ❓ | ❓ (BYOK tokens mentioned; storage mechanism not detailed) |
-| File-attachment AI context (CSV/JSON/Parquet/XLSX) | ❓ | ❓ | ❓ | ✅ (unique mechanism — temp in-memory tables from attached files) | ❓ |
-| Voice/speech-to-text AI input | ❓ | ❓ | ❓ | ❓ (claimed "v25.2," but no matching primary source in Works Cited) | ❓ (not discussed) |
-| Execution safety guards + token analytics | ❓ | ❓ | ❓ | ❓ | ✅ (4-category consent gate: Schema Access/Data Access/Schema Modification/Data Modification; token-analytics half of the ID unverified) |
-| Local MCP server | ✅ | ❌ | ❌ | ❓ (claimed "v26.1.2," but no matching primary source in Works Cited) | ✅ (14-tool database-specific MCP server, confirmed via JetBrains' own 2026.1 release notes) |
-| MCP client integrations | ✅ | ❌ | ❌ | ❓ | ❓ (source describes only DataGrip's own embedded agent using its own MCP server — no confirmed external-client access) |
-| Total MCP tools | 🔌 | ❌ | ❌ | ❓ | ✅ (14, individually named — most granular tool inventory reviewed) |
-| stt-cli + PII scanner | ✅ | ❌ | ❌ | ❌ | ❌ |
-| 3T Explore AI Helper | ✅ | ❌ | ❌ | ❌ | ❌ |
+| Dimension | Studio 3T | MongoDB Compass | VisuaLeaf | DBeaver | DataGrip | Navicat |
+| --- | --- | --- | --- | --- | --- | --- |
+| NL → find() query | 💼 | 🧪 | 💼 | 🧪 (generates SQL, not a native find() filter) | 🧪 (agentic chat generates/executes SQL, not a native find() filter) | 💼 ("Ask AI" — generates native MongoDB MQL, not just SQL) |
+| NL → aggregation pipeline | 💼 | ❓ | 💼 | ❌ | ❌ (no aggregation surface exists at all) | ❓ (not confirmed as a distinct output type from filter generation) |
+| Plain-English explanation always on | ❓ | ❓ | ✅ | ❓ | ❓ | 🧪 (execution/error explanation confirmed as distinct actions; "always on" not confirmed) |
+| AI providers | ✅ | ❓ | 🧪 | ✅ (OpenAI/GPT-5 default, Azure OpenAI, Google Gemini, GitHub Copilot/Codex — widest documented list) | ✅ (Anthropic Claude Agent [Claude 4.5 Sonnet], OpenAI Codex; BYOK supported) | ❓ (no specific provider/model named anywhere in source, unlike DBeaver/DataGrip) |
+| Model selection | ✅ | ❓ | ✅ | ❓ | ✅ (choice of Claude Agent or Codex) | ✅ (multi-model response comparison confirmed; specific model roster unverified) |
+| "Send sample data" privacy toggle | ❓ | ❓ | ✅ | ❓ | ❓ | ❓ (only schema-metadata context confirmed; no sample-document context described) |
+| Conversation turns for refinement | ❓ | ❓ | ✅ | ❓ | ❓ | ❓ (not discussed) |
+| Multiple named AI configs | ❓ | ❓ | ✅ | ❓ | ❓ | ❓ (not discussed) |
+| API key storage | ❓ | ❓ | ✅ | ❓ | ❓ (BYOK tokens mentioned; storage mechanism not detailed) | ❓ (not discussed) |
+| File-attachment AI context (CSV/JSON/Parquet/XLSX) | ❓ | ❓ | ❓ | ✅ (unique mechanism — temp in-memory tables from attached files) | ❓ | ❌ (not discussed for Navicat) |
+| Voice/speech-to-text AI input | ❓ | ❓ | ❓ | ❓ (claimed "v25.2," but no matching primary source in Works Cited) | ❓ (not discussed) | ❓ (not discussed) |
+| Execution safety guards + token analytics | ❓ | ❓ | ❓ | ❓ | ✅ (4-category consent gate: Schema Access/Data Access/Schema Modification/Data Modification; token-analytics half of the ID unverified) | ❓ (not discussed) |
+| Local MCP server | ✅ | ❌ | ❌ | ❓ (claimed "v26.1.2," but no matching primary source in Works Cited) | ✅ (14-tool database-specific MCP server, confirmed via JetBrains' own 2026.1 release notes) | ❌ (not discussed) |
+| MCP client integrations | ✅ | ❌ | ❌ | ❓ | ❓ (source describes only DataGrip's own embedded agent using its own MCP server — no confirmed external-client access) | ❌ (not discussed) |
+| Total MCP tools | 🔌 | ❌ | ❌ | ❓ | ✅ (14, individually named — most granular tool inventory reviewed) | ❌ (not discussed) |
+| stt-cli + PII scanner | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ |
+| 3T Explore AI Helper | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ |
+| AI-assisted error correction ("Fix Query with AI") | ❓ (not documented as a distinct AI action) | ❌ | ❓ | ❓ | ❓ | ✅ (dedicated action: error explanation + corrected code + tuning recommendations) |
+| Custom pinnable AI prompt template library | ❓ | ❌ | ❓ | ❓ | ❓ | ✅ (savable, toolbar-pinnable — unique among products reviewed to date) |
 
 ### F-SQL — SQL Tools — iconized
+
+*Navicat: N/A — confirmed absent. The source states directly: "Navicat lacks a native SQL-to-Mongo translation mode for querying." Navicat's SQL authoring surface targets its relational engines (MySQL, PostgreSQL, SQL Server, Oracle) only, never MongoDB.*
 
 | Dimension | Studio 3T | MongoDB Compass | VisuaLeaf | DBeaver | DataGrip |
 | --- | --- | --- | --- | --- | --- |
@@ -315,44 +330,45 @@ These are icon-only analogs of the detailed comparison tables below. Product col
 
 *DataGrip: N/A — the only governance-adjacent mechanism the source describes (a 4-category AI-action consent gate) is an AI execution safeguard, tracked under F-AI's `AI-safety-guards` instead; no RBAC, audit-log, data-masking, or platform-governance capability is discussed.*
 
-| Dimension | Studio 3T | MongoDB Compass | VisuaLeaf | DBeaver |
-| --- | --- | --- | --- | --- |
-| Protect / write-prevention mode | 🧪 | ✅ | ❌ | ✅ (per-connection, client-side, vendor-documented) |
-| Network policy | ❌ | ✅ | ❌ | ❓ |
-| Telemetry configuration | ❌ | ✅ | ❌ | ❓ |
-| Startup / CLI policy (EJSON/YAML) | ❌ | ✅ | ❌ | ❓ |
-| Isolated / air-gapped edition | ❓ | ✅ | ✅ | ❓ |
-| AI controls with human approval gate | ❌ | ✅ | ❌ | ❓ |
-| External secrets manager integration (Vault/CyberArk/AWS Secrets Manager) | ❓ | ❓ | ❓ | ❓ (asserted, no primary citation in source's own Works Cited) |
-| RBAC user/role management | 🔌 | ❌ | 💼 | ❓ (Team Edition/CloudBeaver RBAC mentioned only in passing) |
-| Visual role inheritance tree | ❌ | ❌ | 💼 | ❓ |
-| Audit log | 🧪 | ❌ | 💼 | ❓ |
-| Collection compare (3-panel diff) | 💼 | ❌ | 💼 | 🧪 (relational-DDL-oriented schema compare, not a 3-panel collection-data diff; reportedly weak on nested BSON) |
-| Collection sync with direction toggle | 💼 | ❌ | 💼 | ❓ |
-| CDC pipeline (Kafka/Pub/Sub/HTTP) | 🔌 | ❌ | ❌ | ❌ |
-| Kubernetes Helm chart | ✅ | ❌ | ❌ | ❌ |
-| OIDC multi-provider for platform auth | ✅ | ❌ | ❌ | ❓ |
-| Credential protection | ✅ | ✅ | ✅ | ✅ (local keystore baseline) |
-| 3T Explore governed workspace (workspace switcher + access control) | ✅ | ❌ | ❌ | ❌ |
+| Dimension | Studio 3T | MongoDB Compass | VisuaLeaf | DBeaver | Navicat |
+| --- | --- | --- | --- | --- | --- |
+| Protect / write-prevention mode | 🧪 | ✅ | ❌ | ✅ (per-connection, client-side, vendor-documented) | ❓ (not discussed; Connection Coloring is a visual warning, not a write-block) |
+| Network policy | ❌ | ✅ | ❌ | ❓ | ❓ |
+| Telemetry configuration | ❌ | ✅ | ❌ | ❓ | ❓ |
+| Startup / CLI policy (EJSON/YAML) | ❌ | ✅ | ❌ | ❓ | ❓ |
+| Isolated / air-gapped edition | ❓ | ✅ | ✅ | ❓ | ❓ |
+| AI controls with human approval gate | ❌ | ✅ | ❌ | ❓ | ❓ |
+| External secrets manager integration (Vault/CyberArk/AWS Secrets Manager) | ❓ | ❓ | ❓ | ❓ (asserted, no primary citation in source's own Works Cited) | ❓ (not discussed at all) |
+| RBAC user/role management | 🔌 | ❌ | 💼 | ❓ (Team Edition/CloudBeaver RBAC mentioned only in passing) | ✅ (graphical User and Role Designers — user CRUD, RBAC permissions, granular object-level privileges) |
+| Visual role inheritance tree | ❌ | ❌ | 💼 | ❓ | ❓ (not itemized) |
+| Audit log | 🧪 | ❌ | 💼 | ❓ | ❓ (not discussed) |
+| Collection compare (3-panel diff) | 💼 | ❌ | 💼 | 🧪 (relational-DDL-oriented schema compare, not a 3-panel collection-data diff; reportedly weak on nested BSON) | ✅ (dedicated Structure Synchronization engine — DDL/schema diffing with alteration-script generation) |
+| Collection sync with direction toggle | 💼 | ❌ | 💼 | ❓ | ✅ (dedicated Data Synchronization engine — insertions/modifications/deletions with preview or direct execution) |
+| CDC pipeline (Kafka/Pub/Sub/HTTP) | 🔌 | ❌ | ❌ | ❌ | ❌ |
+| Kubernetes Helm chart | ✅ | ❌ | ❌ | ❌ | ❌ |
+| OIDC multi-provider for platform auth | ✅ | ❌ | ❌ | ❓ | ❓ |
+| Credential protection | ✅ | ✅ | ✅ | ✅ (local keystore baseline) | ❓ (not discussed) |
+| 3T Explore governed workspace (workspace switcher + access control) | ✅ | ❌ | ❌ | ❌ | ❌ |
+| Field-level data masking | 💼 | ❌ | ❌ | ❓ | ❌ (confirmed absent, by direct and repeated statement) |
 
 ### F-SCHED — Task Scheduler — iconized
 
 *MongoDB Compass: N/A — not supported.*
 *DataGrip: N/A — its 2026.2 "CLI data-source management" feature is command-line connection-configuration management, not task/script scheduling, and does not fit any existing F-SCHED sub-feature ID (see [DataGrip's product report](../../products/third-party/datagrip/product-report.md)).*
 
-| Dimension | Studio 3T | VisuaLeaf | DBeaver |
-| --- | --- | --- | --- |
-| Task types | ✅ | 💼 | 🏢 (Enterprise/Ultimate only) |
-| Schedule options | ✅ | ✅ | ❓ |
-| Timezone-aware with DST | ❓ | ✅ | ❓ |
-| Execution config | ❓ | ✅ | ❓ |
-| Task status states | ✅ | ✅ | ❓ |
-| Task actions | ✅ | ✅ | ❓ |
-| Email notifications | ✅ | 🔌 | ❓ |
-| Multiple script units per task | ✅ | ❓ | ❓ |
-| Compare/sync task with diff view | ✅ | ❌ | ❓ |
-| Headless CLI automation | ❓ | ❓ | 🏢 (`dbvr`, unverified against a primary source) |
-| Plan limits | 💼 | 💼 | 🏢 |
+| Dimension | Studio 3T | VisuaLeaf | DBeaver | Navicat |
+| --- | --- | --- | --- | --- |
+| Task types | ✅ | 💼 | 🏢 (Enterprise/Ultimate only) | ✅ (composite sequential-chaining; no confirmed edition gating) |
+| Schedule options | ✅ | ✅ | ❓ | 🧪 (system schedules confirmed; preset types not itemized) |
+| Timezone-aware with DST | ❓ | ✅ | ❓ | ❓ (not discussed) |
+| Execution config | ❓ | ✅ | ❓ | ❓ (not discussed) |
+| Task status states | ✅ | ✅ | ❓ | ❓ (not discussed) |
+| Task actions | ✅ | ✅ | ❓ | ❓ (not itemized beyond composite chaining) |
+| Email notifications | ✅ | 🔌 | ❓ | 🧪 (report-emailing confirmed as a workflow step, not a success/failure/warning status alert) |
+| Multiple script units per task | ✅ | ❓ | ❓ | ❓ (not discussed) |
+| Compare/sync task with diff view | ✅ | ❌ | ❓ | ✅ (Structure Sync + Data Sync both produce preview/alteration scripts before executing) |
+| Headless CLI automation | ❓ | ❓ | 🏢 (`dbvr`, unverified against a primary source) | ❌ (not discussed) |
+| Plan limits | 💼 | 💼 | 🏢 | ❓ (not discussed) |
 
 ### Edition / pricing constraints — iconized
 
@@ -400,6 +416,22 @@ Per-tier gating above the MongoDB-connectivity row is Confirmed via the source's
 | MCP server (14 tools) | ❓ | ❓ | ❓ | ❓ | ✅ (implied by AI Agentic Flow, exact AI Free vs. AI Pro split unverified) |
 
 Confirmed via two independent JetBrains primary sources (DataGrip buy page, JetBrains Toolbox store page) that a Free non-commercial tier, a $109→$65/yr Individual tier, and a $259→$155/yr Business tier all exist, alongside a separately-priced AI Free/AI Pro Add-on split ($100/yr individual, $200/yr organization) — but the source does not itemize which specific AI Agentic Flow capabilities (agent choice, MCP tool access, consent-gate granularity) differ between AI Free and AI Pro, so those cells above are Unverified rather than assumed equal or gated.
+
+### Navicat edition / pricing constraints — iconized
+
+| Feature | Navicat for MongoDB (Standard, $299 perpetual) | Navicat for MongoDB (Enterprise, $449 perpetual / $229.99 yr / $22.99 mo) | Navicat Premium (all tiers, $1,599 perpetual / $799.99 yr / $79.99 mo) |
+| --- | --- | --- | --- |
+| MongoDB connectivity at all | ✅ | ✅ | ✅ |
+| Multi-engine (relational + Redis + Snowflake) connectivity | ❌ (MongoDB only) | ❌ (MongoDB only) | ✅ |
+| Structure Synchronization | ❌ (explicitly excluded per pricing table) | ✅ | ✅ |
+| Data Modeler | ❌ (explicitly excluded per pricing table) | ✅ | ✅ |
+| Visual Aggregation Pipeline builder | ❓ (not itemized for Standard) | ✅ (named capability) | ✅ |
+| BI workspace | ❓ (not itemized for Standard) | ✅ (named capability) | ✅ (implied — Premium includes full feature set) |
+| GridFS | ❓ (not itemized for Standard) | ✅ (named capability) | ✅ (implied) |
+| AI Assistant ("Ask AI" / "Fix Query with AI") | ❓ (not itemized for Standard; inferred excluded, not stated) | ✅ (named capability) | ✅ (named capability, Premium 17 Perpetual row) |
+| Cross-DBMS Data Transfer (relational → MongoDB) | ❌ (Premium-only per source) | ❌ (Premium-only per source) | ✅ |
+
+Confirmed via Navicat's own pricing pages (Navicat for MongoDB Price Plan, Navicat Premium Price Plan — S1 Works Cited #16, #9) that Structure Sync/Data Modeling are explicitly named as excluded from the Navicat for MongoDB Standard tier, and that AI Assistant is explicitly named as included on the Enterprise/Premium rows; the Standard row's own capability list does not itemize AI Assistant either way, so its exclusion is inferred rather than directly stated. Cross-DBMS Data Transfer sourcing from relational engines is confirmed Premium-only by the source's own narrative text, independent of the pricing table.
 
 ## Deep-review coverage reconciliation
 
@@ -728,29 +760,38 @@ Detailed additions are captured in the low-level report under **Reconciliation t
 - **Git-committable, human-readable connection configuration:** Data Source Templates stored as plain XML project files (`.idea/db-forest-config.xml`) rather than an opaque binary store.
 - Note: like DBeaver, DataGrip's MongoDB depth is a confirmed net *weakness* relative to Compass, VisuaLeaf, and Studio 3T — its own source states directly that it has no native document workspace, no visual (or even text-based) aggregation pipeline builder at all, no INSERT/UPDATE/DELETE via SQL, no application-language code generation, and only basic (non-analytical) schema rendering. Its differentiators above are about AI/MCP architecture depth and IDE-ecosystem economics, not MongoDB-specific query/aggregation/schema tooling.
 
+### Navicat
+- **Richest MongoDB-native feature set among non-3T competitors reviewed to date:** A genuine three-mode (Grid/Tree/JSON) document editor, a real visual drag-and-drop aggregation pipeline builder with per-stage output preview, a dedicated MapReduce author/test/debug editor, and sampling-based schema analytics with anomaly/outlier detection — all confirmed simultaneously, categorically deeper MongoDB-specific coverage than DBeaver's or DataGrip's SQL-first abstraction layers.
+- **Built-in BI dashboard workspace:** 10+ chart types (Bar/Line/Area/Pie/Donut/Scatter/Heatmap/Treemap/KPI/Pivot) with real-time interconnected dashboards embedded directly in the database client — a capability neither Studio 3T, Compass, DBeaver, nor DataGrip currently offers natively, per this repository's own comparison data.
+- **Three distinct, purpose-built synchronization engines:** Data Transfer (bulk migration), Data Synchronization (document-level content diffing/reconciliation), and Structure Synchronization (DDL/schema diffing with alteration-script generation) — a mature DBA-operations toolchain distinct from any single "collection compare" feature seen elsewhere in this comparison.
+- **Native MongoDB MQL output from AI ("Ask AI"):** Unlike DBeaver's and DataGrip's SQL-only AI-generated output, Navicat's source explicitly names "MongoDB MQL query" as a possible AI Assistant output — a materially stronger claim for MongoDB users specifically.
+- **Flexible commercial terms:** Perpetual license, annual subscription, or monthly subscription as low as $22.99/month for Navicat for MongoDB — a materially lower-friction entry point than Studio 3T's annual-only $499–$699/year model, or DBeaver's/DataGrip's higher per-seat pricing.
+- **Native C++ runtime:** Contrasted by the source against Electron/JVM-based competitors for memory footprint and startup speed — a cross-cutting architectural characteristic distinguishing Navicat from Studio 3T (JVM) and DBeaver (Eclipse RCP/JVM).
+- Note: Navicat's confirmed-absent capabilities are specific and named directly by the source, not merely unmentioned: no SQL-to-MongoDB query transpilation of any kind (F-SQL), no full terminal-like shell (F-SHELL), no field-level data masking/obfuscation (F-TRANSFER/F-GOV), and no multi-language driver code generation from its aggregation pipeline builder — each a genuine, source-confirmed competitive gap versus Studio 3T, not an unverified silence.
+
 ---
 
 ## Edition / pricing constraints
 
-| Feature | Studio 3T | MongoDB Compass | VisuaLeaf | DBeaver | DataGrip |
-| --- | --- | --- | --- | --- | --- |
-| Visual Query Builder | All editions (free) | N/A | Basic+ required | Generic relational VQB only; MongoDB applicability unverified | N/A (no query builder of any kind — SQL text only) |
-| AI query builder | Pro/Base+ required | N/A | Professional required | Included (tier unverified); generates SQL, not a native MongoDB filter | AI Free (baseline) / AI Pro Add-on (full); agentic chat generates/executes SQL, not a native MongoDB filter |
-| Enterprise auth (Kerberos/LDAP/AWS/OIDC) | Ultimate edition only | Free (all confirmed) | LDAP/AWS IAM free (others roadmap) | Community: none; Enterprise/Ultimate: SAML/Kerberos/Azure AD (MongoDB-specific scope unverified) | Not discussed for MongoDB in source |
-| Shell / IntelliShell | All editions (free) | N/A | Available (plan details unclear) | N/A (no MongoDB shell/scripting environment evidenced) | N/A (no MongoDB shell/scripting environment evidenced) |
-| Data Transfer | Pro/Base+ for task save; formats available all editions | N/A | Community: no automation (0 tasks); Basic: 2 tasks | CSV/table wizards asserted; tier requirement unverified | N/A (not discussed for MongoDB) |
-| Team connection sharing | Pro/Base+ required | N/A | N/A | Team Edition / CloudBeaver (detail unverified) | Not team-permissioned; JetBrains Account syncs templates per individual user |
-| Data masking | Pro/Base+ required | N/A | Basic/Professional — query-result masking; no dedicated import/export masking tool documented | Not discussed in source | Not discussed in source |
-| SQL tools | Pro/Base+ required (full migration toolchain) | N/A | Plan tier unverified (SQL Mode — query-only, no migration) | Included in Lite+ — primary MongoDB query surface (SQL-first architecture), not a separate add-on | Included in all commercial + free non-commercial tiers (unverified whether restricted) — primary and only MongoDB query surface |
-| Task scheduler | Pro/Base+ required | N/A | Community: 0 tasks; Basic: 2; Professional: unlimited | Enterprise/Ultimate only | N/A — no task automation; 2026.2's CLI feature is connection-config management, not scheduling |
-| Query Manager (multi-type) | All editions (Collection query type free) | No (My Queries only) | Basic+ for saved queries | Not discussed in source | Not discussed in source |
-| Collection compare + sync | Pro/Base+ required | N/A | Professional required | Schema/structure compare included (tier unverified); DDL-oriented, not a collection-data 3-panel diff | Not discussed in source |
-| RBAC dashboard | Via 3T Access platform | N/A | Professional required | Team Edition / CloudBeaver only (detail unverified) | Not discussed in source |
-| Audit log | Built-in local feature (edition tier not specified in source) — Connection Manager actions only; off by default; Windows GPO/registry activation only | N/A | Professional required | Not discussed in source | Not discussed in source |
-| Schema validation UI | N/A (not supported) | Free | Basic+ | Not discussed in source | N/A (confirmed absent — no schema analysis surface) |
-| Visual ERD designer | N/A | N/A | Basic+ required | Not discussed in source | N/A |
-| Atlas Search / Vector Search indexes | N/A | Free (requires Atlas M10+ or MongoDB 7.0+ local) | N/A | N/A (F-IDX not evidenced for DBeaver) | N/A (F-IDX not evidenced for DataGrip) |
-| MongoDB connectivity at all | Free Community tier (limited) | Free (full) | Free Community tier (limited) | Not available in free Community Edition — requires Lite or above | Free non-commercial tier included (bundled MongoDB driver, all commercial tiers too) |
+| Feature | Studio 3T | MongoDB Compass | VisuaLeaf | DBeaver | DataGrip | Navicat |
+| --- | --- | --- | --- | --- | --- | --- |
+| Visual Query Builder | All editions (free) | N/A | Basic+ required | Generic relational VQB only; MongoDB applicability unverified | N/A (no query builder of any kind — SQL text only) | Grid View field filter/hide-column confirmed; broader "Visual Query Building" bullet may be relational-SQL-scoped only (unverified for MongoDB) |
+| AI query builder | Pro/Base+ required | N/A | Professional required | Included (tier unverified); generates SQL, not a native MongoDB filter | AI Free (baseline) / AI Pro Add-on (full); agentic chat generates/executes SQL, not a native MongoDB filter | AI Assistant named on Premium/MongoDB-Enterprise pricing pages (primary-sourced); Standard-tier exclusion inferred, not stated; generates native MongoDB MQL |
+| Enterprise auth (Kerberos/LDAP/AWS/OIDC) | Ultimate edition only | Free (all confirmed) | LDAP/AWS IAM free (others roadmap) | Community: none; Enterprise/Ultimate: SAML/Kerberos/Azure AD (MongoDB-specific scope unverified) | Not discussed for MongoDB in source | Not discussed for MongoDB in source |
+| Shell / IntelliShell | All editions (free) | N/A | Available (plan details unclear) | N/A (no MongoDB shell/scripting environment evidenced) | N/A (no MongoDB shell/scripting environment evidenced) | N/A (confirmed absent — no full terminal-like shell capabilities, by direct statement) |
+| Data Transfer | Pro/Base+ for task save; formats available all editions | N/A | Community: no automation (0 tasks); Basic: 2 tasks | CSV/table wizards asserted; tier requirement unverified | N/A (not discussed for MongoDB) | Import/Export Wizards available broadly; cross-DBMS Data Transfer (relational→MongoDB) requires Navicat Premium, not the standalone Navicat for MongoDB SKU |
+| Team connection sharing | Pro/Base+ required | N/A | N/A | Team Edition / CloudBeaver (detail unverified) | Not team-permissioned; JetBrains Account syncs templates per individual user | Navicat Cloud Pro add-on ($9.99/mo or $99/yr per user) or separately-licensed Navicat On-Prem Server; per-role permission granularity unverified |
+| Data masking | Pro/Base+ required | N/A | Basic/Professional — query-result masking; no dedicated import/export masking tool documented | Not discussed in source | Not discussed in source | N/A (confirmed absent — no field-level data masking/obfuscation of any kind, by direct and repeated statement) |
+| SQL tools | Pro/Base+ required (full migration toolchain) | N/A | Plan tier unverified (SQL Mode — query-only, no migration) | Included in Lite+ — primary MongoDB query surface (SQL-first architecture), not a separate add-on | Included in all commercial + free non-commercial tiers (unverified whether restricted) — primary and only MongoDB query surface | N/A (confirmed absent for MongoDB — SQL authoring targets Navicat's relational engines only) |
+| Task scheduler | Pro/Base+ required | N/A | Community: 0 tasks; Basic: 2; Professional: unlimited | Enterprise/Ultimate only | N/A — no task automation; 2026.2's CLI feature is connection-config management, not scheduling | Integrated Automation module; no confirmed edition/tier gating in source |
+| Query Manager (multi-type) | All editions (Collection query type free) | No (My Queries only) | Basic+ for saved queries | Not discussed in source | Not discussed in source | Not discussed in source (query history/saved-query manager not itemized for MongoDB) |
+| Collection compare + sync | Pro/Base+ required | N/A | Professional required | Schema/structure compare included (tier unverified); DDL-oriented, not a collection-data 3-panel diff | Not discussed in source | Structure Synchronization + Data Synchronization both confirmed broadly available; tier requirement not itemized |
+| RBAC dashboard | Via 3T Access platform | N/A | Professional required | Team Edition / CloudBeaver only (detail unverified) | Not discussed in source | Graphical User and Role Designers confirmed broadly available; tier requirement not itemized |
+| Audit log | Built-in local feature (edition tier not specified in source) — Connection Manager actions only; off by default; Windows GPO/registry activation only | N/A | Professional required | Not discussed in source | Not discussed in source | Not discussed in source |
+| Schema validation UI | N/A (not supported) | Free | Basic+ | Not discussed in source | N/A (confirmed absent — no schema analysis surface) | Not discussed ($jsonSchema authoring/deployment not evidenced; Schema Analyzer is read/analyze-only) |
+| Visual ERD designer | N/A | N/A | Basic+ required | Not discussed in source | N/A | Navicat Data Modeler included on Enterprise/Premium tiers (per pricing table); MongoDB scope confirmed read-only-analysis-only |
+| Atlas Search / Vector Search indexes | N/A | Free (requires Atlas M10+ or MongoDB 7.0+ local) | N/A | N/A (F-IDX not evidenced for DBeaver) | N/A (F-IDX not evidenced for DataGrip) | N/A (not discussed) |
+| MongoDB connectivity at all | Free Community tier (limited) | Free (full) | Free Community tier (limited) | Not available in free Community Edition — requires Lite or above | Free non-commercial tier included (bundled MongoDB driver, all commercial tiers too) | No free tier — lowest entry point is $22.99/month (Navicat for MongoDB) or a Non-Commercial discount license for accredited educational/non-profit organizations |
 
 ---
 
@@ -798,3 +839,11 @@ Detailed additions are captured in the low-level report under **Reconciliation t
 | `dg_cross` federated query engine's MongoDB-inclusive scope unverified (worked example covers only relational engines) | DataGrip |
 | External MCP client access to the local MCP server unverified (source describes internal-agent use only) | DataGrip |
 | RBAC, audit logging, and platform governance not discussed for MongoDB in source | DataGrip |
+| No SQL-to-MongoDB query transpilation of any kind | Navicat (confirmed absent, by direct and repeated statement) |
+| No full terminal-like shell / MongoDB scripting environment | Navicat (confirmed absent, by direct statement) |
+| No field-level data masking/obfuscation | Navicat (confirmed absent, by direct and repeated statement) |
+| No multi-language driver code generation from the aggregation pipeline builder | Navicat (confirmed absent, by direct and repeated statement) |
+| MongoDB document schema modeling limited to read-only analysis (no forward-engineering to a live collection) | Navicat |
+| No AI provider/model roster, API key storage mechanism, or pre-execution AI safety guardrail documented | Navicat |
+| Fragmented SKU pricing — standalone MongoDB edition has no relational capability without upgrading to the pricier Premium tier | Navicat |
+| Granular index-type coverage, MongoDB Profiler configuration depth, and RBAC privilege-tree/inheritance detail not itemized | Navicat |
