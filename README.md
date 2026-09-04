@@ -150,10 +150,13 @@ All products follow the same per-product hierarchy: `product-report.md` + `featu
 
 ### Methodology documents (root of `research/`)
 
-- **[gather-metrics-instructions.md](research/gather-metrics-instructions.md)** — Part 1: public-scraping framework (forum posts, Reddit, G2/Capterra, competitor changelogs) → semantic processing → structured metric store
-- **[report-building-framework.md](research/report-building-framework.md)** — Part 2: metric rollup → 0–100 score normalization → Public/Composite FPI (Feature Prioritization Index) formula → effort estimation → executive roadmap
-- **[research-methodology-general.md](research/research-methodology-general.md)** — general triangulated methodology: JTBD/ODI interviews, MaxDiff/conjoint surveys, CRM ARR weighting, NLP support-ticket mining, in-app telemetry, SUS/NASA-TLX usability scoring
-- Origin of all three is **unconfirmed** (found in-repo, not authored in-session), and they are **not compliant/executable as written** — e.g. scraping G2/Capterra/Reddit violates those sites' Terms of Service, and CRM/Zendesk/telemetry access doesn't exist in this environment. [voice-of-customer-metrics.md](reports/voice-of-customer-metrics.md) documents exactly which parts were actually (compliantly) adopted and which were deliberately dropped rather than simulated.
+Origin of all three is **unconfirmed** (found in-repo, not authored in-session). Each now carries its own explicit, dated disposition header (set 2026-09-04) rather than one blanket "non-compliant" flag:
+
+- **[gather-metrics-instructions.md](research/gather-metrics-instructions.md)** — **rewritten as compliant.** Public-collection framework (Studio 3T's own forum + public competitor changelogs) → semantic processing → structured metric store. The original version also targeted Reddit and G2/Capterra/TrustRadius, which restrict automated scraping in their Terms of Service — those sources were removed, not just flagged.
+- **[report-building-framework.md](research/report-building-framework.md)** — **archival, pending sample size.** Metric rollup → 0–100 score normalization → Public/Composite FPI (Feature Prioritization Index) formula → effort estimation → executive roadmap. Nothing here is non-compliant; it's simply inapplicable until the compliant pipeline above produces enough volume to clear the framework's own `N_f ≥ 5`-per-feature quality gate.
+- **[research-methodology-general.md](research/research-methodology-general.md)** — **archival, resource-gated.** General triangulated methodology: JTBD/ODI interviews, MaxDiff/conjoint surveys, CRM ARR weighting, NLP support-ticket mining, in-app telemetry, SUS/NASA-TLX usability scoring — all of it requires organizational access (CRM, support-ticket systems, telemetry instrumentation, research-ops) this repository's environment doesn't have and can't reach compliantly on its own.
+
+[voice-of-customer-metrics.md](reports/voice-of-customer-metrics.md) documents exactly which parts were actually (compliantly) executed — the forum-and-changelog pipeline above, at pilot scale — and which were deliberately dropped rather than simulated.
 
 ### [google_research/](research/google_research/overview.md) — 21 raw research files, one per topic directory
 

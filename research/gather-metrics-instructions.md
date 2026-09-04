@@ -1,4 +1,6 @@
-Here is the human-readable guide for **Part 1: Metrics Gathering**, designed to show exactly where and how **Claude** (acting as an autonomous AI agent) collects, analyzes, and quantifies product feedback from the public internet without requiring internal logins or credentials.
+> **Status: rewritten 2026-09-04 (disposition: rewrite as compliant).** The original version of this document instructed scraping G2, Capterra, TrustRadius, and Reddit — all of which restrict automated collection in their Terms of Service — alongside legitimately compliant sources (Studio 3T's own public forum, public competitor changelogs). This rewrite removes the non-compliant sources and keeps the rest of the framework (extraction method, metric translation, output schema, deduplication) unchanged, since none of that is source-specific. [`reports/voice-of-customer-metrics.md`](../reports/voice-of-customer-metrics.md) already executed exactly this compliant subset as a 7-record pilot — treat that report as the worked example of this framework, not just a "what was dropped" note. See `update-plans/06-retire-or-rewrite-methodology-docs.md` for the disposition rule applied here.
+
+Here is the human-readable guide for **Part 1: Metrics Gathering**, designed to show exactly where and how **Claude** (acting as an autonomous AI agent) collects, analyzes, and quantifies product feedback from the public internet without requiring internal logins or credentials — using only sources that permit automated, unauthenticated collection.
 
 ---
 
@@ -11,18 +13,18 @@ To build a defensible product roadmap without internal database access, Claude o
 │                      CLAUDE AI AGENT HARVESTING FLOW                    │
 └─────────────────────────────────────────────────────────────────────────┘
                                      │
-   ┌─────────────────────────────────┼─────────────────────────────────┐
-   ▼                                 ▼                                 ▼
-┌─────────────────────────┐   ┌─────────────────────────┐   ┌─────────────────────────┐
-│  PUBLIC DISCOURSE       │   │  USER REVIEW SITES      │   │  COMPETITOR CHANGELOGS  │
-│  - Studio 3T Forum      │   │  - G2                   │   │  - MongoDB Compass      │
-│  - Reddit (r/mongodb)   │   │  - Capterra             │   │  - DBeaver (GitHub)     │
-│  - Stack Overflow       │   │  - TrustRadius          │   │  - Navicat              │
-└────────────┬────────────┘   └────────────┬────────────┘   └────────────┬────────────┘
-             │                             │                             │
-             └─────────────────────────────┼─────────────────────────────┘
-                                           │
-                                           ▼
+                  ┌──────────────────┴──────────────────┐
+                  ▼                                      ▼
+┌─────────────────────────┐                    ┌─────────────────────────┐
+│  PUBLIC DISCOURSE       │                    │  COMPETITOR CHANGELOGS  │
+│  - Studio 3T Forum      │                    │  - MongoDB Compass      │
+│  (Stack Overflow: check,│                    │  - DBeaver (GitHub)     │
+│   low yield confirmed)  │                    │  - Navicat              │
+└────────────┬────────────┘                    └────────────┬────────────┘
+             │                                              │
+             └──────────────────────┬───────────────────────┘
+                                     │
+                                     ▼
 ┌─────────────────────────────────────────────────────────────────────────┐
 │                     CLAUDE SEMANTIC PROCESSING ENGINE                   │
 │   • HTML Extraction & Text Cleaning                                     │
@@ -38,28 +40,22 @@ To build a defensible product roadmap without internal database access, Claude o
 
 ```
 
+**Removed from the original version, and why:** Reddit (automated collection restricted by Reddit's Terms of Service outside its official API), and G2/Capterra/TrustRadius (all three explicitly prohibit automated scraping of review content in their Terms of Service). Do not add these back without first confirming a ToS-compliant access path (e.g., an official, authenticated API with a data-use license that permits this purpose) — "it's publicly visible in a browser" is not the same as "permitted to be scraped."
+
 ---
 
 ## 1. Public Internet Data Sources
 
-Claude targets five public internet categories to gather user sentiment and feature demand:
+Claude targets two compliant public internet categories to gather user sentiment and feature demand (Stack Overflow may optionally be checked as a third, but see the note below):
 
-### A. Studio 3T Community Forum (`forum.studio3t.com`)
+### A. Studio 3T Community Forum (`community.studio3t.com` — migrated from `forum.studio3t.com`)
 
-* **Why It Matters**: The highest-density source of direct user feedback, feature requests, and bug reports from active Studio 3T users.
+* **Why It Matters**: The highest-density source of direct user feedback, feature requests, and bug reports from active Studio 3T users, published by 3T Software Labs itself.
 * **What Claude Looks For**: Community discussions around missing tools, visual editor bugs, performance bottlenecks, and database connection issues.
 
-### B. Developer Social Channels (`Reddit` & `Stack Overflow`)
+### B. (Optional) Stack Overflow
 
-* **Target Channels**: `r/mongodb`, `r/Database`, `r/DevOps`, and Stack Overflow threads tagged `[studio3t]`.
-* **Why It Matters**: Unfiltered, candid developer opinions. Users often discuss why they switched to or from alternative tools like MongoDB Compass or DBeaver.
-* **What Claude Looks For**: Mentions of application crashes, query execution speeds, comparison threads, and manual workarounds.
-
-### C. Software Review Aggregators (`G2`, `Capterra`, `TrustRadius`)
-
-* **Target URLs**: Public product review pages for Studio 3T, MongoDB Compass, and DBeaver.
-* **Why It Matters**: Standardized user feedback containing explicit "What do you like?" and "What do you dislike?" sections.
-* **What Claude Looks For**: Recurring complaints about pricing tiers, missing enterprise governance features, or clunky user interfaces.
+* **Status**: Checked during the 2026-07-29 pilot ([`reports/voice-of-customer-metrics.md`](../reports/voice-of-customer-metrics.md)) via Stack Overflow's own search — no ToS issue with searching public Q&A this way. Confirmed low/no signal for Studio-3T-specific content at that time; re-check periodically rather than treating it as a dead source permanently, but don't force inclusion if a check comes up empty.
 
 ### D. Competitor Release Logs & Documentation
 
@@ -83,13 +79,13 @@ Claude uses targeted web queries and text-parsing methods to discover and ingest
 Claude executes precise web search strings via public search endpoints (such as DuckDuckGo HTML or Bing Search) to find relevant discussions without logging in:
 
 * **Finding User Friction & Workarounds**:
-`site:forum.studio3t.com ("slow" OR "crash" OR "error" OR "workaround" OR "freeze")`
+`site:community.studio3t.com ("slow" OR "crash" OR "error" OR "workaround" OR "freeze")`
 * **Finding Missing Feature Requests**:
-`site:forum.studio3t.com ("feature request" OR "would be great" OR "missing")`
-* **Uncovering Switcher & Comparison Signals**:
-`site:[reddit.com/r/mongodb](https://reddit.com/r/mongodb) ("Studio 3T" AND ("Compass" OR "DBeaver" OR "alternative"))`
-* **Identifying Disliked Capabilities**:
-`site:[g2.com/products/studio-3t](https://g2.com/products/studio-3t) ("what do you dislike" OR "missing feature")`
+`site:community.studio3t.com ("feature request" OR "would be great" OR "missing")`
+* **Uncovering Switcher & Comparison Signals (compliant form)**:
+`site:community.studio3t.com ("Compass" OR "DBeaver" OR "alternative")` — scoped to Studio 3T's own forum, not a third-party site whose ToS restricts automated search/collection.
+
+Removed: the original version of this section also included example `site:` queries against `reddit.com` and `g2.com`. Do not run automated queries scoped to those domains — see the removal note above.
 
 ### HTML Processing & Text Cleansing
 
