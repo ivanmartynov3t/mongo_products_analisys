@@ -1,5 +1,7 @@
 # Studio 3T Desktop — 10 Next-Feature Ideas (v1.1)
 
+> **Published as [`reports/next-feature-recommendation.md`](../../reports/next-feature-recommendation.md) (2026-09-04).** That file is now the canonical version to link to. This file remains in place as the versioned draft/revision history for this decision — do not delete it.
+
 Ten build ideas for Studio 3T Desktop, ranked by Priority Score. Every idea is confirmed absent from Studio 3T Desktop today, tied to specific sub-feature IDs in [`feature-dictionary.md`](../../feature-dictionary.md#proposed-feature-registry-research-pipeline), and backed by evidence pulled directly from this repo's 21-file competitive/market research library (`research/google_research/`) plus this repo's own internal product-comparison data. Every quote below has been re-checked against its source file directly (not carried forward secondhand) and links to the exact file and line. Full source-by-source research trail, scoring methodology, and revision history: [`01-research-plan.md`](01-research-plan.md), [`04-scored-longlist.md`](04-scored-longlist.md), [`07-v1.1-research-plan.md`](07-v1.1-research-plan.md).
 
 ## Ranked at a glance

@@ -31,7 +31,7 @@ This report provides the top-level index for the MongoDB tools analysis project,
 | --- | --- |
 | Products analyzed | 3 (MongoDB Compass, VisuaLeaf, Studio 3T) |
 | Feature areas | 11 (F-CONN through F-SCHED) |
-| Feature matrices | 28 as last counted here — **stale**: the repository now has 35 `feature-matrix.md` files (3T Explore, 3T MCP, 3T Lens, 3T Access, and 3TL Bridge were split out of the Studio 3T product folder into their own products on 2026-07-29; not yet re-tallied in this row) |
+| Feature matrices | 35 across all 8 product folders (recounted 2026-09-04; 3T Explore, 3T MCP, 3T Lens, 3T Access, and 3TL Bridge were split out of the Studio 3T product folder into their own products on 2026-07-29) |
 | Sub-feature IDs in dictionary | 328 total in `feature-dictionary.md` as of 2026-07-31 (grew from 311 after the Studio 3T Desktop source-code re-audit added 17 new IDs — see [research/studio-3t-desktop-review-2026/12-consolidated-corrections.md](../research/studio-3t-desktop-review-2026/12-consolidated-corrections.md) §1). Note: the "257+ rows" figure previously shown here for `low-level-feature-comparison.md` is a separate, not-yet-reconciled count — it has not been independently re-verified against the new 328 dictionary total in this pass. |
 
 ## Feature coverage matrix
