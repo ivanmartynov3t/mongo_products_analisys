@@ -13,8 +13,9 @@ This report compares normalized sub-feature capabilities across all analyzed pro
 - [DBeaver product report](../../products/third-party/dbeaver/product-report.md)
 - [DataGrip product report](../../products/third-party/datagrip/product-report.md)
 - [Navicat product report](../../products/third-party/navicat/product-report.md)
+- [NoSQLBooster product report](../../products/third-party/nosqlbooster/product-report.md)
 
-**Last reviewed:** 2026-09-04 — added Navicat (Plan 4, `update-plans/04-extend-competitor-coverage.md`)
+**Last reviewed:** 2026-09-04 — added NoSQLBooster (Plan 4, `update-plans/04-extend-competitor-coverage.md`)
 
 ## Current baseline coverage
 
@@ -24,6 +25,7 @@ This report compares normalized sub-feature capabilities across all analyzed pro
 - DBeaver: F-CONN, F-AGG (partial), F-SCHEMA (partial), F-TRANSFER, F-AI, F-SQL, F-GOV, F-SCHED (partial) — added 2026-09-04. No F-QUERY (MongoDB access is SQL-first, tracked under F-SQL instead), F-IDX, or F-SHELL (not discussed in the source for DBeaver specifically). **Scope note:** the two large per-sub-feature tables below ("Sub-feature comparison table — iconized" and "Sub-feature comparison table") were built for Studio 3T/Compass/VisuaLeaf via a dedicated deep-review pass and are not extended to DBeaver's full ID set here — see the "Icon-only quick scan" table just below for a DBeaver summary at the same key-sub-feature grain used for the other products, and DBeaver's own `feature-matrix.md` files under `products/third-party/dbeaver/features/` for full per-ID detail with sources.
 - DataGrip: F-CONN (thin — general connectivity architecture, not MongoDB-specific), F-AI, F-SQL — added 2026-09-04. No F-QUERY (MongoDB access is SQL-to-JS translation, tracked under F-SQL instead), F-AGG or F-SCHEMA (confirmed absent — no pipeline builder or schema-analysis surface of any kind), F-IDX, F-TRANSFER, or F-SHELL (not discussed in the source), and no F-GOV (its only governance-adjacent mechanism, a 4-category AI consent gate, is tracked under F-AI's `AI-safety-guards` instead). No F-SCHED: its 2026.2 "CLI data-source management" is connection-config management, not task scheduling, and does not fit any existing sub-feature ID (see [DataGrip's product report](../../products/third-party/datagrip/product-report.md)). **Scope note:** as with DBeaver, the two large per-sub-feature tables below are not extended to DataGrip's full ID set — see the "Icon-only quick scan" table below for a DataGrip summary and `products/third-party/datagrip/features/*/feature-matrix.md` for full per-ID detail with sources.
 - Navicat: F-CONN, F-QUERY, F-AGG, F-SCHEMA, F-IDX (thin), F-TRANSFER, F-AI, F-GOV, F-SCHED — added 2026-09-04 (this task was completed across two agent runs due to an interrupted first attempt; DBeaver and DataGrip were completed first, on the same date, by separate runs). No F-SQL or F-SHELL (both confirmed absent by direct statement in the source — no SQL-to-MongoDB translation mode and no full terminal-like shell capabilities; see [Navicat's product report](../../products/third-party/navicat/product-report.md)). Navicat is the only third-party competitor reviewed to date with a genuine MongoDB-native document workspace, a real visual aggregation pipeline builder, and sampling-based schema analytics all confirmed simultaneously. **Scope note:** as with DBeaver and DataGrip, the two large per-sub-feature tables below are not extended to Navicat's full ID set — see the "Icon-only quick scan" table below for a Navicat summary and `products/third-party/navicat/features/*/feature-matrix.md` for full per-ID detail with sources.
+- NoSQLBooster: F-CONN, F-QUERY, F-AGG (partial), F-SCHEMA (partial), F-IDX (partial), F-TRANSFER, F-SHELL, F-AI (partial), F-SQL, F-SCHED (partial) — added 2026-09-04, built from **two** source research files (`nosqlbooster-competitive-analysis/` and `nosqlbooster-competitive-intelligence-analysis/`), reconciled against two directly-fetched primary sources (nosqlbooster.com/features, nosqlbooster.com/compareEditions). No F-GOV (both source files confirm absent centralized team/RBAC governance by direct statement; CSFLE/QE tracked under F-CONN's `CONN-in-use-enc` instead — see [NoSQLBooster's product report](../../products/third-party/nosqlbooster/product-report.md)). NoSQLBooster is the only third-party competitor reviewed to date with an interactive, breakpoint-based JavaScript debugger built into its shell (`SHELL-debugger`) and deep pre-loaded utility-library/NPM integration (`SHELL-npm-utils`) — its richest, most consistently evidenced feature area. Two direct conflicts between its two source files (Visual Query Builder existence; code-generation language count, 8 vs. 10+) were resolved via directly-fetched primary sources rather than picked arbitrarily — see the product report's "Two-file reconciliation" section. **Scope note:** as with DBeaver, DataGrip, and Navicat, the two large per-sub-feature tables below are not extended to NoSQLBooster's full ID set — see the "Icon-only quick scan" table below for a NoSQLBooster summary and `products/third-party/nosqlbooster/features/*/feature-matrix.md` for full per-ID detail with sources.
 
 ## Icon legend (normalized status)
 
@@ -42,47 +44,47 @@ This report compares normalized sub-feature capabilities across all analyzed pro
 
 ## Icon-only quick scan (key sub-features)
 
-| Feature ID | Sub-feature ID | Sub-feature name | Studio 3T | MongoDB Compass | VisuaLeaf | DBeaver | DataGrip | Navicat |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| F-CONN | CONN-topology | Topology types | ✅ | ✅ | ✅ | ❓ | ❓ (driver/connection type confirmed; topology detail unverified) | ❓ (MongoDB connectivity confirmed; topology detail unverified) |
-| F-CONN | CONN-multi-active | Multiple concurrent connections | ❓ | ✅ | ❓ | ❓ | ❓ | ❓ |
-| F-CONN | CONN-read-pref | Read preference | ✅ | ❓ | ✅ | ❓ | ❓ | ❓ |
-| F-QUERY | QUERY-filter-bar | Filter bar / query editor | ✅ | ✅ | ✅ | ❌ (SQL Console instead — see F-SQL) | ❌ (SQL-to-JS translation instead — see F-SQL) | ✅ (Grid View field filter/hide-column) |
-| F-QUERY | QUERY-projection | Projection editor | ✅ | ✅ | ✅ | ❌ | ❌ | ❓ |
-| F-QUERY | QUERY-sort | Sort editor | ✅ | ✅ | ✅ | ❌ | ❌ | ❓ |
-| F-AGG | AGG-stage-count | Number of supported pipeline stages | ❓ | ❓ | ✅ | ❓ | ❌ (no pipeline builder at all) | ❓ |
-| F-AGG | AGG-editor-layout | Pipeline editor layout | ✅ | ✅ | ✅ | 🧪 (text-based JSON array console only) | ❌ (confirmed absent) | ✅ (visual, drag-and-drop, stage-by-stage) |
-| F-AGG | AGG-stage-mgmt | Stage management operations | ✅ | ✅ | ✅ | ❌ | ❌ | ❓ |
-| F-SCHEMA | SCHEMA-sampling | Schema sampling configuration | ✅ | ✅ | ✅ | ❌ | ❌ (confirmed absent) | ✅ |
-| F-SCHEMA | SCHEMA-field-prob | Field probability statistics | ✅ | ✅ | ❌ | ❌ | ❌ | ✅ |
-| F-SCHEMA | SCHEMA-type-prob | Per-field BSON type probabilities | ✅ | ✅ | ❌ | ❌ | ❌ | ✅ |
-| F-IDX | IDX-inventory | Index list / inventory | ✅ | ✅ | ✅ | ❓ | ❓ | ✅ (existence confirmed; detail unverified) |
-| F-IDX | IDX-type-single | Single-field index | ✅ | ✅ | ✅ | ❓ | ❓ | ❓ |
-| F-IDX | IDX-type-compound | Compound index | ✅ | ✅ | ✅ | ❓ | ❓ | ❓ |
-| F-TRANSFER | TRANSFER-import-csv | CSV import | ✅ | ❌ | ✅ | ❓ | ❓ | ✅ |
-| F-TRANSFER | TRANSFER-import-json | JSON import | ✅ | ❌ | ✅ | ❓ | ❓ | ✅ |
-| F-TRANSFER | TRANSFER-import-bson | BSON / mongodump import | ✅ | ❌ | ✅ | ❓ | ❓ | ✅ |
-| F-SHELL | SHELL-engine | Shell engine and code editor | ✅ | ❌ | ✅ | ❓ | ❌ (no MongoDB shell surface; SQL console only) | ❌ (confirmed absent) |
-| F-SHELL | SHELL-autocomplete | Shell autocomplete | ✅ | ❌ | ✅ | ❓ | ❌ | ❌ |
-| F-SHELL | SHELL-validation | Live syntax validation | ✅ | ❌ | ✅ | ❓ | ❓ | ❌ |
-| F-AI | AI-nl-query | NL to find() query | 💼 | 🧪 | 💼 | 🧪 (generates SQL, not a native find() filter) | 🧪 (agentic chat generates/executes SQL, not a native find() filter) | 💼 (native MongoDB MQL output, not SQL-only) |
-| F-AI | AI-nl-pipeline | NL to aggregation pipeline | 💼 | ❓ | 💼 | ❌ | ❌ (no aggregation surface exists at all) | ❓ |
-| F-AI | AI-explanation | Plain-English explanation always included | ❓ | ❓ | ✅ | ❓ | ❓ | 🧪 (confirmed as distinct actions; "always on" unconfirmed) |
-| F-SQL | SQL-expressions | SQL SELECT/WHERE/GROUP BY/HAVING | 💼 | ❌ | 🧪 | ✅ (independently confirmed via MongoDB's own SQL Interface docs) | ✅ (independently confirmed via JetBrains' own "SQL for MongoDB" docs) | ❌ (confirmed absent for MongoDB) |
-| F-SQL | SQL-join-mapping | SQL JOIN → $lookup mapping | 🧪 | ❌ | ❌ | ❓ | ❌ (confirmed absent — single equality condition only, no visual editor) | ❌ (confirmed absent — no SQL surface for MongoDB at all) |
-| F-SQL | SQL-code-gen | SQL query → driver language code gen | ✅ | ❌ | 🧪 | ❌ | 🧪 (MongoDB shell JS only, not application driver languages) | ❌ (confirmed absent for MongoDB) |
-| F-GOV | GOV-readonly-mode | Protect / destructive-write prevention mode | 🧪 | ✅ | ❓ | ✅ (per-connection, client-side) | ❓ (not discussed) | ❓ (not discussed) |
-| F-GOV | GOV-network-policy | Network access policy | ❓ | ✅ | ❓ | ❓ | ❓ | ❓ |
-| F-GOV | GOV-telemetry | Telemetry opt-out/configuration | ❓ | ✅ | ❓ | ❓ | ❓ | ❓ |
-| F-SCHED | SCHED-task-types | Task types supported | ✅ | ❌ | 💼 | 🏢 (Enterprise/Ultimate only) | ❌ (no task automation) | ✅ (composite sequential-chaining; no confirmed edition gating) |
-| F-SCHED | SCHED-types-time | Preset schedule types | ✅ | ❌ | ✅ | ❓ | ❌ | ❓ |
-| F-SCHED | SCHED-cron | Cron expression support | 🧪 | ❌ | ✅ | ❓ | ❌ | ❓ |
+| Feature ID | Sub-feature ID | Sub-feature name | Studio 3T | MongoDB Compass | VisuaLeaf | DBeaver | DataGrip | Navicat | NoSQLBooster |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| F-CONN | CONN-topology | Topology types | ✅ | ✅ | ✅ | ❓ | ❓ (driver/connection type confirmed; topology detail unverified) | ❓ (MongoDB connectivity confirmed; topology detail unverified) | ✅ (standalone/RS/sharded/Atlas confirmed) |
+| F-CONN | CONN-multi-active | Multiple concurrent connections | ❓ | ✅ | ❓ | ❓ | ❓ | ❓ | ❓ |
+| F-CONN | CONN-read-pref | Read preference | ✅ | ❓ | ✅ | ❓ | ❓ | ❓ | ❓ |
+| F-QUERY | QUERY-filter-bar | Filter bar / query editor | ✅ | ✅ | ✅ | ❌ (SQL Console instead — see F-SQL) | ❌ (SQL-to-JS translation instead — see F-SQL) | ✅ (Grid View field filter/hide-column) | ✅ (`find()` + fluent chaining API + Visual Query Builder) |
+| F-QUERY | QUERY-projection | Projection editor | ✅ | ✅ | ✅ | ❌ | ❌ | ❓ | ❓ |
+| F-QUERY | QUERY-sort | Sort editor | ✅ | ✅ | ✅ | ❌ | ❌ | ❓ | ❓ |
+| F-AGG | AGG-stage-count | Number of supported pipeline stages | ❓ | ❓ | ✅ | ❓ | ❌ (no pipeline builder at all) | ❓ | ❓ |
+| F-AGG | AGG-editor-layout | Pipeline editor layout | ✅ | ✅ | ✅ | 🧪 (text-based JSON array console only) | ❌ (confirmed absent) | ✅ (visual, drag-and-drop, stage-by-stage) | ❌ (confirmed absent — code/fluent-chaining only) |
+| F-AGG | AGG-stage-mgmt | Stage management operations | ✅ | ✅ | ✅ | ❌ | ❌ | ❓ | ❌ |
+| F-SCHEMA | SCHEMA-sampling | Schema sampling configuration | ✅ | ✅ | ✅ | ❌ | ❌ (confirmed absent) | ✅ | ✅ |
+| F-SCHEMA | SCHEMA-field-prob | Field probability statistics | ✅ | ✅ | ❌ | ❌ | ❌ | ✅ | ✅ |
+| F-SCHEMA | SCHEMA-type-prob | Per-field BSON type probabilities | ✅ | ✅ | ❌ | ❌ | ❌ | ✅ | ✅ (primary source only) |
+| F-IDX | IDX-inventory | Index list / inventory | ✅ | ✅ | ✅ | ❓ | ❓ | ✅ (existence confirmed; detail unverified) | ✅ (existence confirmed via primary source) |
+| F-IDX | IDX-type-single | Single-field index | ✅ | ✅ | ✅ | ❓ | ❓ | ❓ | ❓ |
+| F-IDX | IDX-type-compound | Compound index | ✅ | ✅ | ✅ | ❓ | ❓ | ❓ | ❓ |
+| F-TRANSFER | TRANSFER-import-csv | CSV import | ✅ | ❌ | ✅ | ❓ | ❓ | ✅ | ✅ |
+| F-TRANSFER | TRANSFER-import-json | JSON import | ✅ | ❌ | ✅ | ❓ | ❓ | ✅ | ✅ |
+| F-TRANSFER | TRANSFER-import-bson | BSON / mongodump import | ✅ | ❌ | ✅ | ❓ | ❓ | ✅ | ✅ |
+| F-SHELL | SHELL-engine | Shell engine and code editor | ✅ | ❌ | ✅ | ❓ | ❌ (no MongoDB shell surface; SQL console only) | ❌ (confirmed absent) | ✅ (embedded mongosh v2.8) |
+| F-SHELL | SHELL-autocomplete | Shell autocomplete | ✅ | ❌ | ✅ | ❓ | ❌ | ❌ | ✅ |
+| F-SHELL | SHELL-validation | Live syntax validation | ✅ | ❌ | ✅ | ❓ | ❓ | ❌ | ✅ |
+| F-AI | AI-nl-query | NL to find() query | 💼 | 🧪 | 💼 | 🧪 (generates SQL, not a native find() filter) | 🧪 (agentic chat generates/executes SQL, not a native find() filter) | 💼 (native MongoDB MQL output, not SQL-only) | 💼 (zero-config; gated behind active Software Assurance) |
+| F-AI | AI-nl-pipeline | NL to aggregation pipeline | 💼 | ❓ | 💼 | ❌ | ❌ (no aggregation surface exists at all) | ❓ | ❓ |
+| F-AI | AI-explanation | Plain-English explanation always included | ❓ | ❓ | ✅ | ❓ | ❓ | 🧪 (confirmed as distinct actions; "always on" unconfirmed) | 🧪 (confirmed as a distinct on-demand action; "always on" unconfirmed) |
+| F-SQL | SQL-expressions | SQL SELECT/WHERE/GROUP BY/HAVING | 💼 | ❌ | 🧪 | ✅ (independently confirmed via MongoDB's own SQL Interface docs) | ✅ (independently confirmed via JetBrains' own "SQL for MongoDB" docs) | ❌ (confirmed absent for MongoDB) | ✅ (confirmed via both research files and primary source) |
+| F-SQL | SQL-join-mapping | SQL JOIN → $lookup mapping | 🧪 | ❌ | ❌ | ❓ | ❌ (confirmed absent — single equality condition only, no visual editor) | ❌ (confirmed absent — no SQL surface for MongoDB at all) | 🧪 (plain SQL text; equi-JOINs + subqueries confirmed; no visual editor) |
+| F-SQL | SQL-code-gen | SQL query → driver language code gen | ✅ | ❌ | 🧪 | ❌ | 🧪 (MongoDB shell JS only, not application driver languages) | ❌ (confirmed absent for MongoDB) | ✅ (SQL→MQL transpilation; separate 8-target Query Code Generator also accepts SQL) |
+| F-GOV | GOV-readonly-mode | Protect / destructive-write prevention mode | 🧪 | ✅ | ❓ | ✅ (per-connection, client-side) | ❓ (not discussed) | ❓ (not discussed) | ❓ (not discussed; no F-GOV folder) |
+| F-GOV | GOV-network-policy | Network access policy | ❓ | ✅ | ❓ | ❓ | ❓ | ❓ | ❓ (no F-GOV folder) |
+| F-GOV | GOV-telemetry | Telemetry opt-out/configuration | ❓ | ✅ | ❓ | ❓ | ❓ | ❓ | ❓ (no F-GOV folder) |
+| F-SCHED | SCHED-task-types | Task types supported | ✅ | ❌ | 💼 | 🏢 (Enterprise/Ultimate only) | ❌ (no task automation) | ✅ (composite sequential-chaining; no confirmed edition gating) | 💼 (excluded below Commercial tier) |
+| F-SCHED | SCHED-types-time | Preset schedule types | ✅ | ❌ | ✅ | ❓ | ❌ | ❓ | ✅ |
+| F-SCHED | SCHED-cron | Cron expression support | 🧪 | ❌ | ✅ | ❓ | ❌ | ❓ | ❓ (OS-level cron is the execution mechanism; no user-facing cron field) |
 
 ## Detailed iconized tables
 
 These are icon-only analogs of the detailed comparison tables below. Product columns are iconized; non-product columns are preserved.
 
-*Scope note (2026-09-04): the two large tables below (this iconized one and the prose "Sub-feature comparison table") cover Studio 3T, MongoDB Compass, and VisuaLeaf only, per the deep-review pass that built them. DBeaver, DataGrip, and Navicat are not added as columns here — see the "Icon-only quick scan" table above for DBeaver/DataGrip/Navicat summaries at the same key-sub-feature grain, and `products/third-party/dbeaver/features/*/feature-matrix.md` / `products/third-party/datagrip/features/*/feature-matrix.md` / `products/third-party/navicat/features/*/feature-matrix.md` for their full per-ID detail with sources.*
+*Scope note (2026-09-04): the two large tables below (this iconized one and the prose "Sub-feature comparison table") cover Studio 3T, MongoDB Compass, and VisuaLeaf only, per the deep-review pass that built them. DBeaver, DataGrip, Navicat, and NoSQLBooster are not added as columns here — see the "Icon-only quick scan" table above for their summaries at the same key-sub-feature grain, and `products/third-party/dbeaver/features/*/feature-matrix.md` / `products/third-party/datagrip/features/*/feature-matrix.md` / `products/third-party/navicat/features/*/feature-matrix.md` / `products/third-party/nosqlbooster/features/*/feature-matrix.md` for their full per-ID detail with sources.*
 
 ### Sub-feature comparison table — iconized
 
