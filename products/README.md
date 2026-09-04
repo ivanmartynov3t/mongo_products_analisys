@@ -60,3 +60,8 @@ Each product follows the same hierarchy:
 - **Type:** Third-party
 - **Description:** A polyglot database GUI aimed at visual data work, query building, and day-to-day database operations. Natively supports MongoDB, Azure Cosmos DB, and Amazon DocumentDB, as well as PostgreSQL, MySQL, MariaDB, Microsoft SQL Server, SQLite, Oracle, CockroachDB, ClickHouse, DuckDB, and TiDB — this repository analyzes its MongoDB-facing capabilities only.
 - **Website:** https://visualeaf.com/
+
+### DBeaver
+- **Type:** Third-party
+- **Description:** A universal, Eclipse RCP-based multi-database GUI covering 100+ relational, cloud-warehouse, NoSQL, and graph engines through a shared JDBC driver architecture. MongoDB support is a paid-tier (Lite/Enterprise/Ultimate) add-on accessed via a generic SQL Console rather than a native document workspace — this repository analyzes its MongoDB-facing capabilities only.
+- **Website:** https://dbeaver.com/ (commercial editions) / https://dbeaver.io/ (Community Edition)

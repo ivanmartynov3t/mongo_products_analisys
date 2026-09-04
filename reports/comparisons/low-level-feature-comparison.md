@@ -10,14 +10,16 @@ This report compares normalized sub-feature capabilities across all analyzed pro
 - [Studio 3T product report](../../products/3t/studio-3t/product-report.md)
 - [MongoDB Compass product report](../../products/third-party/mongodb-compass/product-report.md)
 - [VisuaLeaf product report](../../products/third-party/visual-eaf/product-report.md)
+- [DBeaver product report](../../products/third-party/dbeaver/product-report.md)
 
-**Last reviewed:** 2026-07-31 — corrections from [research/studio-3t-desktop-review-2026/](../../research/studio-3t-desktop-review-2026/)
+**Last reviewed:** 2026-09-04 — added DBeaver (Plan 4, `update-plans/04-extend-competitor-coverage.md`)
 
 ## Current baseline coverage
 
 - MongoDB Compass: F-CONN, F-QUERY, F-AGG, F-SCHEMA, F-IDX, F-GOV, F-AI (partial — added 2026-07-28)
 - VisuaLeaf: F-CONN, F-QUERY, F-AGG, F-SCHEMA, F-IDX, F-TRANSFER, F-SHELL, F-AI, F-GOV, F-SCHED, F-SQL (partial — added 2026-07-28)
 - Studio 3T: all 11 features
+- DBeaver: F-CONN, F-AGG (partial), F-SCHEMA (partial), F-TRANSFER, F-AI, F-SQL, F-GOV, F-SCHED (partial) — added 2026-09-04. No F-QUERY (MongoDB access is SQL-first, tracked under F-SQL instead), F-IDX, or F-SHELL (not discussed in the source for DBeaver specifically). **Scope note:** the two large per-sub-feature tables below ("Sub-feature comparison table — iconized" and "Sub-feature comparison table") were built for Studio 3T/Compass/VisuaLeaf via a dedicated deep-review pass and are not extended to DBeaver's full ID set here — see the "Icon-only quick scan" table just below for a DBeaver summary at the same key-sub-feature grain used for the other products, and DBeaver's own `feature-matrix.md` files under `products/third-party/dbeaver/features/` for full per-ID detail with sources.
 
 ## Icon legend (normalized status)
 
@@ -36,45 +38,47 @@ This report compares normalized sub-feature capabilities across all analyzed pro
 
 ## Icon-only quick scan (key sub-features)
 
-| Feature ID | Sub-feature ID | Sub-feature name | Studio 3T | MongoDB Compass | VisuaLeaf |
-| --- | --- | --- | --- | --- | --- |
-| F-CONN | CONN-topology | Topology types | ✅ | ✅ | ✅ |
-| F-CONN | CONN-multi-active | Multiple concurrent connections | ❓ | ✅ | ❓ |
-| F-CONN | CONN-read-pref | Read preference | ✅ | ❓ | ✅ |
-| F-QUERY | QUERY-filter-bar | Filter bar / query editor | ✅ | ✅ | ✅ |
-| F-QUERY | QUERY-projection | Projection editor | ✅ | ✅ | ✅ |
-| F-QUERY | QUERY-sort | Sort editor | ✅ | ✅ | ✅ |
-| F-AGG | AGG-stage-count | Number of supported pipeline stages | ❓ | ❓ | ✅ |
-| F-AGG | AGG-editor-layout | Pipeline editor layout | ✅ | ✅ | ✅ |
-| F-AGG | AGG-stage-mgmt | Stage management operations | ✅ | ✅ | ✅ |
-| F-SCHEMA | SCHEMA-sampling | Schema sampling configuration | ✅ | ✅ | ✅ |
-| F-SCHEMA | SCHEMA-field-prob | Field probability statistics | ✅ | ✅ | ❌ |
-| F-SCHEMA | SCHEMA-type-prob | Per-field BSON type probabilities | ✅ | ✅ | ❌ |
-| F-IDX | IDX-inventory | Index list / inventory | ✅ | ✅ | ✅ |
-| F-IDX | IDX-type-single | Single-field index | ✅ | ✅ | ✅ |
-| F-IDX | IDX-type-compound | Compound index | ✅ | ✅ | ✅ |
-| F-TRANSFER | TRANSFER-import-csv | CSV import | ✅ | ❌ | ✅ |
-| F-TRANSFER | TRANSFER-import-json | JSON import | ✅ | ❌ | ✅ |
-| F-TRANSFER | TRANSFER-import-bson | BSON / mongodump import | ✅ | ❌ | ✅ |
-| F-SHELL | SHELL-engine | Shell engine and code editor | ✅ | ❌ | ✅ |
-| F-SHELL | SHELL-autocomplete | Shell autocomplete | ✅ | ❌ | ✅ |
-| F-SHELL | SHELL-validation | Live syntax validation | ✅ | ❌ | ✅ |
-| F-AI | AI-nl-query | NL to find() query | 💼 | 🧪 | 💼 |
-| F-AI | AI-nl-pipeline | NL to aggregation pipeline | 💼 | ❓ | 💼 |
-| F-AI | AI-explanation | Plain-English explanation always included | ❓ | ❓ | ✅ |
-| F-SQL | SQL-expressions | SQL SELECT/WHERE/GROUP BY/HAVING | 💼 | ❌ | 🧪 |
-| F-SQL | SQL-join-mapping | SQL JOIN → $lookup mapping | 🧪 | ❌ | ❌ |
-| F-SQL | SQL-code-gen | SQL query → driver language code gen | ✅ | ❌ | 🧪 |
-| F-GOV | GOV-readonly-mode | Protect / destructive-write prevention mode | 🧪 | ✅ | ❓ |
-| F-GOV | GOV-network-policy | Network access policy | ❓ | ✅ | ❓ |
-| F-GOV | GOV-telemetry | Telemetry opt-out/configuration | ❓ | ✅ | ❓ |
-| F-SCHED | SCHED-task-types | Task types supported | ✅ | ❌ | 💼 |
-| F-SCHED | SCHED-types-time | Preset schedule types | ✅ | ❌ | ✅ |
-| F-SCHED | SCHED-cron | Cron expression support | 🧪 | ❌ | ✅ |
+| Feature ID | Sub-feature ID | Sub-feature name | Studio 3T | MongoDB Compass | VisuaLeaf | DBeaver |
+| --- | --- | --- | --- | --- | --- | --- |
+| F-CONN | CONN-topology | Topology types | ✅ | ✅ | ✅ | ❓ |
+| F-CONN | CONN-multi-active | Multiple concurrent connections | ❓ | ✅ | ❓ | ❓ |
+| F-CONN | CONN-read-pref | Read preference | ✅ | ❓ | ✅ | ❓ |
+| F-QUERY | QUERY-filter-bar | Filter bar / query editor | ✅ | ✅ | ✅ | ❌ (SQL Console instead — see F-SQL) |
+| F-QUERY | QUERY-projection | Projection editor | ✅ | ✅ | ✅ | ❌ |
+| F-QUERY | QUERY-sort | Sort editor | ✅ | ✅ | ✅ | ❌ |
+| F-AGG | AGG-stage-count | Number of supported pipeline stages | ❓ | ❓ | ✅ | ❓ |
+| F-AGG | AGG-editor-layout | Pipeline editor layout | ✅ | ✅ | ✅ | 🧪 (text-based JSON array console only) |
+| F-AGG | AGG-stage-mgmt | Stage management operations | ✅ | ✅ | ✅ | ❌ |
+| F-SCHEMA | SCHEMA-sampling | Schema sampling configuration | ✅ | ✅ | ✅ | ❌ |
+| F-SCHEMA | SCHEMA-field-prob | Field probability statistics | ✅ | ✅ | ❌ | ❌ |
+| F-SCHEMA | SCHEMA-type-prob | Per-field BSON type probabilities | ✅ | ✅ | ❌ | ❌ |
+| F-IDX | IDX-inventory | Index list / inventory | ✅ | ✅ | ✅ | ❓ |
+| F-IDX | IDX-type-single | Single-field index | ✅ | ✅ | ✅ | ❓ |
+| F-IDX | IDX-type-compound | Compound index | ✅ | ✅ | ✅ | ❓ |
+| F-TRANSFER | TRANSFER-import-csv | CSV import | ✅ | ❌ | ✅ | ❓ |
+| F-TRANSFER | TRANSFER-import-json | JSON import | ✅ | ❌ | ✅ | ❓ |
+| F-TRANSFER | TRANSFER-import-bson | BSON / mongodump import | ✅ | ❌ | ✅ | ❓ |
+| F-SHELL | SHELL-engine | Shell engine and code editor | ✅ | ❌ | ✅ | ❓ |
+| F-SHELL | SHELL-autocomplete | Shell autocomplete | ✅ | ❌ | ✅ | ❓ |
+| F-SHELL | SHELL-validation | Live syntax validation | ✅ | ❌ | ✅ | ❓ |
+| F-AI | AI-nl-query | NL to find() query | 💼 | 🧪 | 💼 | 🧪 (generates SQL, not a native find() filter) |
+| F-AI | AI-nl-pipeline | NL to aggregation pipeline | 💼 | ❓ | 💼 | ❌ |
+| F-AI | AI-explanation | Plain-English explanation always included | ❓ | ❓ | ✅ | ❓ |
+| F-SQL | SQL-expressions | SQL SELECT/WHERE/GROUP BY/HAVING | 💼 | ❌ | 🧪 | ✅ (independently confirmed via MongoDB's own SQL Interface docs) |
+| F-SQL | SQL-join-mapping | SQL JOIN → $lookup mapping | 🧪 | ❌ | ❌ | ❓ |
+| F-SQL | SQL-code-gen | SQL query → driver language code gen | ✅ | ❌ | 🧪 | ❌ |
+| F-GOV | GOV-readonly-mode | Protect / destructive-write prevention mode | 🧪 | ✅ | ❓ | ✅ (per-connection, client-side) |
+| F-GOV | GOV-network-policy | Network access policy | ❓ | ✅ | ❓ | ❓ |
+| F-GOV | GOV-telemetry | Telemetry opt-out/configuration | ❓ | ✅ | ❓ | ❓ |
+| F-SCHED | SCHED-task-types | Task types supported | ✅ | ❌ | 💼 | 🏢 (Enterprise/Ultimate only) |
+| F-SCHED | SCHED-types-time | Preset schedule types | ✅ | ❌ | ✅ | ❓ |
+| F-SCHED | SCHED-cron | Cron expression support | 🧪 | ❌ | ✅ | ❓ |
 
 ## Detailed iconized tables
 
 These are icon-only analogs of the detailed comparison tables below. Product columns are iconized; non-product columns are preserved.
+
+*Scope note (2026-09-04): the two large tables below (this iconized one and the prose "Sub-feature comparison table") cover Studio 3T, MongoDB Compass, and VisuaLeaf only, per the deep-review pass that built them. DBeaver is not added as a column here — see the "Icon-only quick scan" table above for a DBeaver summary at the same key-sub-feature grain, and `products/third-party/dbeaver/features/*/feature-matrix.md` for DBeaver's full per-ID detail with sources.*
 
 ### Sub-feature comparison table — iconized
 

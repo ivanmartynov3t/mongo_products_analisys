@@ -10,8 +10,9 @@ This report summarizes each product's positioning, feature breadth, and key gaps
 - [Studio 3T product report](../../products/3t/studio-3t/product-report.md)
 - [MongoDB Compass product report](../../products/third-party/mongodb-compass/product-report.md)
 - [VisuaLeaf product report](../../products/third-party/visual-eaf/product-report.md)
+- [DBeaver product report](../../products/third-party/dbeaver/product-report.md)
 
-**Last reviewed:** 2026-07-31 — corrections from [research/studio-3t-desktop-review-2026/](../../research/studio-3t-desktop-review-2026/)
+**Last reviewed:** 2026-09-04 — added DBeaver (Plan 4, `update-plans/04-extend-competitor-coverage.md`)
 
 ## Compared products
 
@@ -20,22 +21,25 @@ This report summarizes each product's positioning, feature breadth, and key gaps
 | MongoDB Compass | MongoDB Inc. | Desktop GUI | Free / open-source |
 | VisuaLeaf | SozoCode | Desktop GUI + web | Community / Basic / Professional (subscription) |
 | Studio 3T | 3T Software Labs | Desktop GUI | Free / Base / Pro / Ultimate |
+| DBeaver | DBeaver Corporation | Desktop GUI (Eclipse RCP) + web (CloudBeaver) | Community (free/OSS) / Lite / Enterprise / Ultimate / Team (subscription) |
 
 ## Product-level comparison (feature areas present)
 
-| Feature area | Studio 3T | MongoDB Compass | VisuaLeaf |
-| --- | --- | --- | --- |
-| F-CONN — Connectivity | ✓ | ✓ | ✓ |
-| F-QUERY — Querying | ✓ | ✓ | ✓ |
-| F-AGG — Aggregation | ✓ | ✓ | ✓ |
-| F-SCHEMA — Schema | ✓ | ✓ | ✓ |
-| F-IDX — Indexing & Performance | ✓ | ✓ | ✓ |
-| F-TRANSFER — Data Transfer | ✓ | — | ✓ |
-| F-SHELL — Shell | ✓ | — | ✓ |
-| F-AI — AI features | ✓ | 🧪 (partial — NL query only) | ✓ |
-| F-SQL — SQL tools | ✓ | — | 🧪 (partial — SQL Mode query-only, no migration) |
-| F-GOV — Governance | ✓ | ✓ | ✓ |
-| F-SCHED — Task scheduler | ✓ | — | ✓ |
+| Feature area | Studio 3T | MongoDB Compass | VisuaLeaf | DBeaver |
+| --- | --- | --- | --- | --- |
+| F-CONN — Connectivity | ✓ | ✓ | ✓ | ✓ |
+| F-QUERY — Querying | ✓ | ✓ | ✓ | — (see F-SQL) |
+| F-AGG — Aggregation | ✓ | ✓ | ✓ | ✓ (partial — text-based JSON console, no visual builder) |
+| F-SCHEMA — Schema | ✓ | ✓ | ✓ | ✓ (partial — generic column listing + confirmed BSON fidelity bugs) |
+| F-IDX — Indexing & Performance | ✓ | ✓ | ✓ | — |
+| F-TRANSFER — Data Transfer | ✓ | — | ✓ | ✓ (unverified depth) |
+| F-SHELL — Shell | ✓ | — | ✓ | — |
+| F-AI — AI features | ✓ | 🧪 (partial — NL query only) | ✓ | ✓ |
+| F-SQL — SQL tools | ✓ | — | 🧪 (partial — SQL Mode query-only, no migration) | ✓ (primary MongoDB query surface — SQL-first architecture) |
+| F-GOV — Governance | ✓ | ✓ | ✓ | ✓ |
+| F-SCHED — Task scheduler | ✓ | — | ✓ | ✓ (partial — Enterprise/Ultimate only) |
+
+DBeaver has no F-QUERY folder: MongoDB is queried through a generic, engine-agnostic SQL Console (confirmed via MongoDB's own "SQL Interface" documentation), not a native filter-bar/tree-view surface — see [DBeaver's product report](../../products/third-party/dbeaver/product-report.md) for the full reasoning. DBeaver has no F-IDX or F-SHELL folder: the source material does not discuss MongoDB index management or a shell/scripting environment for DBeaver.
 
 ## Icon legend (normalized status)
 
@@ -54,41 +58,41 @@ This report summarizes each product's positioning, feature breadth, and key gaps
 
 ## Icon-only quick scan (key sub-features)
 
-| Feature ID | Sub-feature ID | Sub-feature name | Studio 3T | MongoDB Compass | VisuaLeaf |
-| --- | --- | --- | --- | --- | --- |
-| F-CONN | CONN-topology | Topology types | ✅ | ✅ | ✅ |
-| F-CONN | CONN-multi-active | Multiple concurrent connections | ❓ | ✅ | ❓ |
-| F-CONN | CONN-read-pref | Read preference | ✅ | ❓ | ✅ |
-| F-QUERY | QUERY-filter-bar | Filter bar / query editor | ✅ | ✅ | ✅ |
-| F-QUERY | QUERY-projection | Projection editor | ✅ | ✅ | ✅ |
-| F-QUERY | QUERY-sort | Sort editor | ✅ | ✅ | ✅ |
-| F-AGG | AGG-stage-count | Number of supported pipeline stages | ❓ | ❓ | ✅ |
-| F-AGG | AGG-editor-layout | Pipeline editor layout | ✅ | ✅ | ✅ |
-| F-AGG | AGG-stage-mgmt | Stage management operations | ✅ | ✅ | ✅ |
-| F-SCHEMA | SCHEMA-sampling | Schema sampling configuration | ✅ | ✅ | ✅ |
-| F-SCHEMA | SCHEMA-field-prob | Field probability statistics | ✅ | ✅ | ❌ |
-| F-SCHEMA | SCHEMA-type-prob | Per-field BSON type probabilities | ✅ | ✅ | ❌ |
-| F-IDX | IDX-inventory | Index list / inventory | ✅ | ✅ | ✅ |
-| F-IDX | IDX-type-single | Single-field index | ✅ | ✅ | ✅ |
-| F-IDX | IDX-type-compound | Compound index | ✅ | ✅ | ✅ |
-| F-TRANSFER | TRANSFER-import-csv | CSV import | ✅ | ❌ | ✅ |
-| F-TRANSFER | TRANSFER-import-json | JSON import | ✅ | ❌ | ✅ |
-| F-TRANSFER | TRANSFER-import-bson | BSON / mongodump import | ✅ | ❌ | ✅ |
-| F-SHELL | SHELL-engine | Shell engine and code editor | ✅ | ❌ | ✅ |
-| F-SHELL | SHELL-autocomplete | Shell autocomplete | ✅ | ❌ | ✅ |
-| F-SHELL | SHELL-validation | Live syntax validation | ✅ | ❌ | ✅ |
-| F-AI | AI-nl-query | NL to find() query | 💼 | 🧪 | 💼 |
-| F-AI | AI-nl-pipeline | NL to aggregation pipeline | 💼 | ❓ | 💼 |
-| F-AI | AI-explanation | Plain-English explanation always included | ❓ | ❓ | ✅ |
-| F-SQL | SQL-expressions | SQL SELECT/WHERE/GROUP BY/HAVING | 💼 | ❌ | 🧪 (MongoDB-only, no migration) |
-| F-SQL | SQL-join-mapping | SQL JOIN → $lookup mapping | 🧪 (plain SQL text only; no visual editor; single equality conditions only) | ❌ | ❌ |
-| F-SQL | SQL-code-gen | SQL query → driver language code gen | ✅ | ❌ | 🧪 (translation view only) |
-| F-GOV | GOV-readonly-mode | Protect / destructive-write prevention mode | 🧪 | ✅ | ❓ |
-| F-GOV | GOV-network-policy | Network access policy | ❓ | ✅ | ❓ |
-| F-GOV | GOV-telemetry | Telemetry opt-out/configuration | ❓ | ✅ | ❓ |
-| F-SCHED | SCHED-task-types | Task types supported | ✅ | ❌ | 💼 |
-| F-SCHED | SCHED-types-time | Preset schedule types | ✅ | ❌ | ✅ |
-| F-SCHED | SCHED-cron | Cron expression support | ✅ | ❌ | ✅ |
+| Feature ID | Sub-feature ID | Sub-feature name | Studio 3T | MongoDB Compass | VisuaLeaf | DBeaver |
+| --- | --- | --- | --- | --- | --- | --- |
+| F-CONN | CONN-topology | Topology types | ✅ | ✅ | ✅ | ❓ |
+| F-CONN | CONN-multi-active | Multiple concurrent connections | ❓ | ✅ | ❓ | ❓ |
+| F-CONN | CONN-read-pref | Read preference | ✅ | ❓ | ✅ | ❓ |
+| F-QUERY | QUERY-filter-bar | Filter bar / query editor | ✅ | ✅ | ✅ | ❌ (SQL Console instead — see F-SQL) |
+| F-QUERY | QUERY-projection | Projection editor | ✅ | ✅ | ✅ | ❌ |
+| F-QUERY | QUERY-sort | Sort editor | ✅ | ✅ | ✅ | ❌ |
+| F-AGG | AGG-stage-count | Number of supported pipeline stages | ❓ | ❓ | ✅ | ❓ |
+| F-AGG | AGG-editor-layout | Pipeline editor layout | ✅ | ✅ | ✅ | 🧪 (text-based JSON array console only) |
+| F-AGG | AGG-stage-mgmt | Stage management operations | ✅ | ✅ | ✅ | ❌ |
+| F-SCHEMA | SCHEMA-sampling | Schema sampling configuration | ✅ | ✅ | ✅ | ❌ |
+| F-SCHEMA | SCHEMA-field-prob | Field probability statistics | ✅ | ✅ | ❌ | ❌ |
+| F-SCHEMA | SCHEMA-type-prob | Per-field BSON type probabilities | ✅ | ✅ | ❌ | ❌ |
+| F-IDX | IDX-inventory | Index list / inventory | ✅ | ✅ | ✅ | ❓ |
+| F-IDX | IDX-type-single | Single-field index | ✅ | ✅ | ✅ | ❓ |
+| F-IDX | IDX-type-compound | Compound index | ✅ | ✅ | ✅ | ❓ |
+| F-TRANSFER | TRANSFER-import-csv | CSV import | ✅ | ❌ | ✅ | ❓ |
+| F-TRANSFER | TRANSFER-import-json | JSON import | ✅ | ❌ | ✅ | ❓ |
+| F-TRANSFER | TRANSFER-import-bson | BSON / mongodump import | ✅ | ❌ | ✅ | ❓ |
+| F-SHELL | SHELL-engine | Shell engine and code editor | ✅ | ❌ | ✅ | ❓ |
+| F-SHELL | SHELL-autocomplete | Shell autocomplete | ✅ | ❌ | ✅ | ❓ |
+| F-SHELL | SHELL-validation | Live syntax validation | ✅ | ❌ | ✅ | ❓ |
+| F-AI | AI-nl-query | NL to find() query | 💼 | 🧪 | 💼 | 🧪 (generates SQL, not a native find() filter) |
+| F-AI | AI-nl-pipeline | NL to aggregation pipeline | 💼 | ❓ | 💼 | ❌ |
+| F-AI | AI-explanation | Plain-English explanation always included | ❓ | ❓ | ✅ | ❓ |
+| F-SQL | SQL-expressions | SQL SELECT/WHERE/GROUP BY/HAVING | 💼 | ❌ | 🧪 (MongoDB-only, no migration) | ✅ (via MongoDB's own SQL Interface; primary MongoDB query surface) |
+| F-SQL | SQL-join-mapping | SQL JOIN → $lookup mapping | 🧪 (plain SQL text only; no visual editor; single equality conditions only) | ❌ | ❌ | ❓ |
+| F-SQL | SQL-code-gen | SQL query → driver language code gen | ✅ | ❌ | 🧪 (translation view only) | ❌ |
+| F-GOV | GOV-readonly-mode | Protect / destructive-write prevention mode | 🧪 | ✅ | ❓ | ✅ (per-connection, client-side) |
+| F-GOV | GOV-network-policy | Network access policy | ❓ | ✅ | ❓ | ❓ |
+| F-GOV | GOV-telemetry | Telemetry opt-out/configuration | ❓ | ✅ | ❓ | ❓ |
+| F-SCHED | SCHED-task-types | Task types supported | ✅ | ❌ | 💼 | 🏢 (Enterprise/Ultimate only) |
+| F-SCHED | SCHED-types-time | Preset schedule types | ✅ | ❌ | ✅ | ❓ |
+| F-SCHED | SCHED-cron | Cron expression support | ✅ | ❌ | ✅ | ❓ |
 
 ## Detailed iconized tables
 
@@ -96,41 +100,45 @@ These are icon-only analogs of the detailed comparison tables below. Product col
 
 ### Product-level comparison (feature areas present) — iconized
 
-| Feature area | Studio 3T | MongoDB Compass | VisuaLeaf |
-| --- | --- | --- | --- |
-| F-CONN — Connectivity | ✅ | ✅ | ✅ |
-| F-QUERY — Querying | ✅ | ✅ | ✅ |
-| F-AGG — Aggregation | ✅ | ✅ | ✅ |
-| F-SCHEMA — Schema | ✅ | ✅ | ✅ |
-| F-IDX — Indexing & Performance | ✅ | ✅ | ✅ |
-| F-TRANSFER — Data Transfer | ✅ | ❌ | ✅ |
-| F-SHELL — Shell | ✅ | ❌ | ✅ |
-| F-AI — AI features | ✅ | 🧪 | ✅ |
-| F-SQL — SQL tools | ✅ | ❌ | 🧪 |
-| F-GOV — Governance | ✅ | ✅ | ✅ |
-| F-SCHED — Task scheduler | ✅ | ❌ | ✅ |
+| Feature area | Studio 3T | MongoDB Compass | VisuaLeaf | DBeaver |
+| --- | --- | --- | --- | --- |
+| F-CONN — Connectivity | ✅ | ✅ | ✅ | ✅ |
+| F-QUERY — Querying | ✅ | ✅ | ✅ | ❌ |
+| F-AGG — Aggregation | ✅ | ✅ | ✅ | 🧪 |
+| F-SCHEMA — Schema | ✅ | ✅ | ✅ | 🧪 |
+| F-IDX — Indexing & Performance | ✅ | ✅ | ✅ | ❌ |
+| F-TRANSFER — Data Transfer | ✅ | ❌ | ✅ | 🧪 |
+| F-SHELL — Shell | ✅ | ❌ | ✅ | ❌ |
+| F-AI — AI features | ✅ | 🧪 | ✅ | ✅ |
+| F-SQL — SQL tools | ✅ | ❌ | 🧪 | ✅ |
+| F-GOV — Governance | ✅ | ✅ | ✅ | ✅ |
+| F-SCHED — Task scheduler | ✅ | ❌ | ✅ | 🧪 |
 
 ### F-CONN — Connectivity — iconized
 
-| Dimension | Studio 3T | MongoDB Compass | VisuaLeaf |
-| --- | --- | --- | --- |
-| Topology coverage | ✅ | ✅ | ✅ |
-| Enterprise auth | 🏢 | ✅ | 🗺️ |
-| TLS | ✅ | ✅ | ✅ |
-| SSH tunnel | ✅ | ✅ | ✅ |
-| Proxy | ✅ | ✅ | ❓ |
-| Connection pool params | ✅ | ❓ | ✅ |
-| Connection organization | ✅ | ✅ | ✅ |
-| In-use encryption (QE/CSFLE) | ❌ | ✅ | ❌ |
-| Connection test validation | ❓ | ❓ | ✅ |
-| Team sharing | 💼 | ❌ | ❌ |
-| Credential storage | ✅ | ✅ | ✅ |
-| MongoDB-alternative compatibility (FerretDB/DocumentDB/Cosmos) | ✅ | ❓ | 🗺️ |
-| Unique: Compass | — | ✅ | — |
-| Unique: VisuaLeaf | — | — | 🗺️ |
-| Unique: Studio 3T | ✅ | — | — |
+| Dimension | Studio 3T | MongoDB Compass | VisuaLeaf | DBeaver |
+| --- | --- | --- | --- | --- |
+| Topology coverage | ✅ | ✅ | ✅ | ❓ |
+| Enterprise auth | 🏢 | ✅ | 🗺️ | 🏢 |
+| TLS | ✅ | ✅ | ✅ | ❓ (existence confirmed, depth unverified) |
+| SSH tunnel | ✅ | ✅ | ✅ | ❓ |
+| Proxy | ✅ | ✅ | ❓ | ❓ |
+| Connection pool params | ✅ | ❓ | ✅ | ❓ |
+| Connection organization | ✅ | ✅ | ✅ | ❓ |
+| In-use encryption (QE/CSFLE) | ❌ | ✅ | ❌ | ❓ |
+| Connection test validation | ❓ | ❓ | ✅ | ❓ |
+| Team sharing | 💼 | ❌ | ❌ | 🏢 (Team Edition/CloudBeaver) |
+| Credential storage | ✅ | ✅ | ✅ | ✅ (local keystore; external vault — see F-GOV) |
+| MongoDB-alternative compatibility (FerretDB/DocumentDB/Cosmos) | ✅ | ❓ | 🗺️ | ❓ |
+| Read-only connection lock | 🧪 | ✅ | ❓ | ✅ (vendor-documented) |
+| Unique: Compass | — | ✅ | — | — |
+| Unique: VisuaLeaf | — | — | 🗺️ | — |
+| Unique: Studio 3T | ✅ | — | — | — |
+| Unique: DBeaver | — | — | — | 100+ supported database engines via one JDBC-driver architecture |
 
 ### F-QUERY — Querying — iconized
+
+*DBeaver: N/A — no native MongoDB filter-bar/tree-view surface; MongoDB is queried via a generic SQL Console, tracked under F-SQL instead (see [DBeaver's product report](../../products/third-party/dbeaver/product-report.md)).*
 
 | Dimension | Studio 3T | MongoDB Compass | VisuaLeaf |
 | --- | --- | --- | --- |
@@ -155,44 +163,50 @@ These are icon-only analogs of the detailed comparison tables below. Product col
 
 ### F-AGG — Aggregation — iconized
 
-| Dimension | Studio 3T | MongoDB Compass | VisuaLeaf |
-| --- | --- | --- | --- |
-| Stage count / coverage | ✅ | ✅ | ✅ |
-| Editor layout | ✅ | ✅ | ✅ |
-| Per-stage editing mode | ✅ | ✅ | ✅ |
-| Stage toggle (enable/disable) | ✅ | ✅ | ❓ |
-| Stage preview | ✅ | ✅ | ✅ |
-| Code generation | ✅ | ✅ | ❓ |
-| Create MongoDB view | ✅ | ✅ | ❓ |
-| Export pipeline results | ✅ | ✅ | ✅ |
-| Chart builder from output | ❌ | ❌ | ✅ |
-| Pipeline options | ✅ | ✅ | ✅ |
-| Switch collection mid-session | ✅ | ❓ | ❓ |
-| Date tags in $match | ✅ | ❌ | ❌ |
-| Execution timer + cancel | ❓ | ❓ | ✅ |
-| Unique: Compass | — | ✅ | — |
-| Unique: VisuaLeaf | — | — | ✅ |
-| Unique: Studio 3T | ✅ | — | — |
+| Dimension | Studio 3T | MongoDB Compass | VisuaLeaf | DBeaver |
+| --- | --- | --- | --- | --- |
+| Stage count / coverage | ✅ | ✅ | ✅ | ❓ |
+| Editor layout | ✅ | ✅ | ✅ | 🧪 (text-based JSON array console only) |
+| Per-stage editing mode | ✅ | ✅ | ✅ | ❌ |
+| Stage toggle (enable/disable) | ✅ | ✅ | ❓ | ❌ |
+| Stage preview | ✅ | ✅ | ✅ | ❌ |
+| Code generation | ✅ | ✅ | ❓ | ❓ |
+| Create MongoDB view | ✅ | ✅ | ❓ | ❓ |
+| Export pipeline results | ✅ | ✅ | ✅ | ❓ |
+| Chart builder from output | ❌ | ❌ | ✅ | ❌ |
+| Pipeline options | ✅ | ✅ | ✅ | ❓ |
+| Switch collection mid-session | ✅ | ❓ | ❓ | ❓ |
+| Date tags in $match | ✅ | ❌ | ❌ | ❌ |
+| Execution timer + cancel | ❓ | ❓ | ✅ | ❓ |
+| Unique: Compass | — | ✅ | — | — |
+| Unique: VisuaLeaf | — | — | ✅ | — |
+| Unique: Studio 3T | ✅ | — | — | — |
+| Unique: DBeaver | — | — | — | (none — this is a confirmed competitive weakness, not a strength; see [DBeaver's aggregation feature report](../../products/third-party/dbeaver/features/aggregation/feature-report.md)) |
 
 ### F-SCHEMA — Schema — iconized
 
-| Dimension | Studio 3T | MongoDB Compass | VisuaLeaf |
-| --- | --- | --- | --- |
-| Field statistics analytics (probability/type/histogram) | ✅ | ✅ | ✅ |
-| Geo field analysis | ❌ | ✅ | ❌ |
-| JSON schema editor | ❌ | ❌ | ✅ |
-| Schema validation deploy | ❌ | ✅ | ✅ |
-| Validation strictness (warn/error, strict/moderate) | ❌ | ✅ | ❓ |
-| Visual ERD designer | ❌ | ❌ | 💼 |
-| View creation from schema tool | ✅ | ❓ | ❓ |
-| Schema doc export | ✅ | ✅ | ✅ |
-| Explore docs by field presence | ✅ | ❓ | ❓ |
-| Rename field across all docs | ✅ | ❓ | ❓ |
-| Unique: Compass | — | ✅ | — |
-| Unique: VisuaLeaf | — | — | ✅ |
-| Unique: Studio 3T | ✅ | — | — |
+| Dimension | Studio 3T | MongoDB Compass | VisuaLeaf | DBeaver |
+| --- | --- | --- | --- | --- |
+| Field statistics analytics (probability/type/histogram) | ✅ | ✅ | ✅ | ❌ (generic column-metadata listing only, confirmed by direct contrast in source) |
+| Geo field analysis | ❌ | ✅ | ❌ | ❓ |
+| JSON schema editor | ❌ | ❌ | ✅ | ❓ |
+| Schema validation deploy | ❌ | ✅ | ✅ | ❓ |
+| Validation strictness (warn/error, strict/moderate) | ❌ | ✅ | ❓ | ❓ |
+| Visual ERD designer | ❌ | ❌ | 💼 | ❓ |
+| View creation from schema tool | ✅ | ❓ | ❓ | ❓ |
+| Schema doc export | ✅ | ✅ | ✅ | ❓ |
+| Explore docs by field presence | ✅ | ❓ | ❓ | ❓ |
+| Rename field across all docs | ✅ | ❓ | ❓ | ❓ |
+| BSON type fidelity (dates, ObjectId) | ❓ | ❓ | ❓ | ⚠️ (confirmed bugs: millisecond-precision truncation, ObjectId misinterpretation — 3 GitHub issues) |
+| Schema/structure compare | 💼 (collection sync) | ❌ | 💼 | 🧪 (relational-DDL-oriented; reportedly weak on nested BSON) |
+| Unique: Compass | — | ✅ | — | — |
+| Unique: VisuaLeaf | — | — | ✅ | — |
+| Unique: Studio 3T | ✅ | — | — | — |
+| Unique: DBeaver | — | — | — | (none — schema tooling is a confirmed relative weakness) |
 
 ### F-IDX — Indexing & Performance — iconized
+
+*DBeaver: N/A — the source material does not discuss MongoDB index management, explain plans, or a query profiler for DBeaver specifically.*
 
 | Dimension | Studio 3T | MongoDB Compass | VisuaLeaf |
 | --- | --- | --- | --- |
@@ -214,21 +228,25 @@ These are icon-only analogs of the detailed comparison tables below. Product col
 
 ### F-TRANSFER — Data Transfer — iconized
 
-| Dimension | Studio 3T | VisuaLeaf |
-| --- | --- | --- |
-| Import formats | 💼 | ✅ |
-| Export formats | 💼 | ✅ |
-| Import write modes | ✅ | ✅ |
-| Document filter before import | ❌ | ✅ |
-| User-defined JS transform per document | ❌ | ✅ |
-| Server-side $pipeline pre-export transform | ❌ | ✅ |
-| Field mapping and rename | ✅ | ✅ |
-| Incremental export with resume points | ✅ | ❌ |
-| Data masking | 💼 | ❌ |
-| Task save for scheduler | 💼 | 💼 |
-| Export source granularity | ✅ | ❓ |
+*MongoDB Compass: N/A — not supported.*
+
+| Dimension | Studio 3T | VisuaLeaf | DBeaver |
+| --- | --- | --- | --- |
+| Import formats | 💼 | ✅ | ❓ (CSV/table wizards asserted, no primary citation) |
+| Export formats | 💼 | ✅ | ❓ (CSV/table wizards asserted, no primary citation) |
+| Import write modes | ✅ | ✅ | ❓ |
+| Document filter before import | ❌ | ✅ | ❓ |
+| User-defined JS transform per document | ❌ | ✅ | ❓ |
+| Server-side $pipeline pre-export transform | ❌ | ✅ | ❓ |
+| Field mapping and rename | ✅ | ✅ | ❓ |
+| Incremental export with resume points | ✅ | ❌ | ❓ |
+| Data masking | 💼 | ❌ | ❓ |
+| Task save for scheduler | 💼 | 💼 | ❓ |
+| Export source granularity | ✅ | ❓ | ❓ |
 
 ### F-SHELL — Shell — iconized
+
+*DBeaver: N/A — no MongoDB shell/scripting environment discussed in the source; its "SQL Console" is SQL-oriented and tracked under F-SQL.*
 
 | Dimension | Studio 3T | VisuaLeaf |
 | --- | --- | --- |
@@ -249,68 +267,75 @@ These are icon-only analogs of the detailed comparison tables below. Product col
 
 ### F-AI — AI Features — iconized
 
-| Dimension | Studio 3T | MongoDB Compass | VisuaLeaf |
-| --- | --- | --- | --- |
-| NL → find() query | 💼 | 🧪 | 💼 |
-| NL → aggregation pipeline | 💼 | ❓ | 💼 |
-| Plain-English explanation always on | ❓ | ❓ | ✅ |
-| AI providers | ✅ | ❓ | 🧪 |
-| Model selection | ✅ | ❓ | ✅ |
-| "Send sample data" privacy toggle | ❓ | ❓ | ✅ |
-| Conversation turns for refinement | ❓ | ❓ | ✅ |
-| Multiple named AI configs | ❓ | ❓ | ✅ |
-| API key storage | ❓ | ❓ | ✅ |
-| Local MCP server | ✅ | ❌ | ❌ |
-| MCP client integrations | ✅ | ❌ | ❌ |
-| Total MCP tools | 🔌 | ❌ | ❌ |
-| stt-cli + PII scanner | ✅ | ❌ | ❌ |
-| 3T Explore AI Helper | ✅ | ❌ | ❌ |
+| Dimension | Studio 3T | MongoDB Compass | VisuaLeaf | DBeaver |
+| --- | --- | --- | --- | --- |
+| NL → find() query | 💼 | 🧪 | 💼 | 🧪 (generates SQL, not a native find() filter) |
+| NL → aggregation pipeline | 💼 | ❓ | 💼 | ❌ |
+| Plain-English explanation always on | ❓ | ❓ | ✅ | ❓ |
+| AI providers | ✅ | ❓ | 🧪 | ✅ (OpenAI/GPT-5 default, Azure OpenAI, Google Gemini, GitHub Copilot/Codex — widest documented list) |
+| Model selection | ✅ | ❓ | ✅ | ❓ |
+| "Send sample data" privacy toggle | ❓ | ❓ | ✅ | ❓ |
+| Conversation turns for refinement | ❓ | ❓ | ✅ | ❓ |
+| Multiple named AI configs | ❓ | ❓ | ✅ | ❓ |
+| API key storage | ❓ | ❓ | ✅ | ❓ |
+| File-attachment AI context (CSV/JSON/Parquet/XLSX) | ❓ | ❓ | ❓ | ✅ (unique mechanism — temp in-memory tables from attached files) |
+| Voice/speech-to-text AI input | ❓ | ❓ | ❓ | ❓ (claimed "v25.2," but no matching primary source in Works Cited) |
+| Execution safety guards + token analytics | ❓ | ❓ | ❓ | ❓ |
+| Local MCP server | ✅ | ❌ | ❌ | ❓ (claimed "v26.1.2," but no matching primary source in Works Cited) |
+| MCP client integrations | ✅ | ❌ | ❌ | ❓ |
+| Total MCP tools | 🔌 | ❌ | ❌ | ❓ |
+| stt-cli + PII scanner | ✅ | ❌ | ❌ | ❌ |
+| 3T Explore AI Helper | ✅ | ❌ | ❌ | ❌ |
 
 ### F-SQL — SQL Tools — iconized
 
-| Dimension | Studio 3T | MongoDB Compass | VisuaLeaf |
-| --- | --- | --- | --- |
-| SQL query syntax over MongoDB | ✅ | ❌ | 🧪 |
-| SQL → MongoDB translation/code-gen | ✅ | ❌ | 🧪 |
-| SQL JOIN → $lookup visual mapping | ✅ | ❌ | ❓ |
-| SQL migration wizard (relational → Mongo) | 💼 | ❌ | ❌ |
-| SQL export to relational targets | 💼 | ❌ | ❌ |
+| Dimension | Studio 3T | MongoDB Compass | VisuaLeaf | DBeaver |
+| --- | --- | --- | --- | --- |
+| SQL query syntax over MongoDB | ✅ | ❌ | 🧪 | ✅ (independently confirmed via MongoDB's own SQL Interface docs — primary MongoDB query surface) |
+| SQL → MongoDB translation/code-gen | ✅ | ❌ | 🧪 | ❓ |
+| SQL JOIN → $lookup visual mapping | ✅ | ❌ | ❓ | ❓ |
+| SQL migration wizard (relational → Mongo) | 💼 | ❌ | ❌ | ❌ |
+| SQL export to relational targets | 💼 | ❌ | ❌ | ❌ |
 
 ### F-GOV — Governance — iconized
 
-| Dimension | Studio 3T | MongoDB Compass | VisuaLeaf |
-| --- | --- | --- | --- |
-| Protect / write-prevention mode | 🧪 | ✅ | ❌ |
-| Network policy | ❌ | ✅ | ❌ |
-| Telemetry configuration | ❌ | ✅ | ❌ |
-| Startup / CLI policy (EJSON/YAML) | ❌ | ✅ | ❌ |
-| Isolated / air-gapped edition | ❓ | ✅ | ✅ |
-| AI controls with human approval gate | ❌ | ✅ | ❌ |
-| RBAC user/role management | 🔌 | ❌ | 💼 |
-| Visual role inheritance tree | ❌ | ❌ | 💼 |
-| Audit log | 🧪 | ❌ | 💼 |
-| Collection compare (3-panel diff) | 💼 | ❌ | 💼 |
-| Collection sync with direction toggle | 💼 | ❌ | 💼 |
-| CDC pipeline (Kafka/Pub/Sub/HTTP) | 🔌 | ❌ | ❌ |
-| Kubernetes Helm chart | ✅ | ❌ | ❌ |
-| OIDC multi-provider for platform auth | ✅ | ❌ | ❌ |
-| Credential protection | ✅ | ✅ | ✅ |
-| 3T Explore governed workspace (workspace switcher + access control) | ✅ | ❌ | ❌ |
+| Dimension | Studio 3T | MongoDB Compass | VisuaLeaf | DBeaver |
+| --- | --- | --- | --- | --- |
+| Protect / write-prevention mode | 🧪 | ✅ | ❌ | ✅ (per-connection, client-side, vendor-documented) |
+| Network policy | ❌ | ✅ | ❌ | ❓ |
+| Telemetry configuration | ❌ | ✅ | ❌ | ❓ |
+| Startup / CLI policy (EJSON/YAML) | ❌ | ✅ | ❌ | ❓ |
+| Isolated / air-gapped edition | ❓ | ✅ | ✅ | ❓ |
+| AI controls with human approval gate | ❌ | ✅ | ❌ | ❓ |
+| External secrets manager integration (Vault/CyberArk/AWS Secrets Manager) | ❓ | ❓ | ❓ | ❓ (asserted, no primary citation in source's own Works Cited) |
+| RBAC user/role management | 🔌 | ❌ | 💼 | ❓ (Team Edition/CloudBeaver RBAC mentioned only in passing) |
+| Visual role inheritance tree | ❌ | ❌ | 💼 | ❓ |
+| Audit log | 🧪 | ❌ | 💼 | ❓ |
+| Collection compare (3-panel diff) | 💼 | ❌ | 💼 | 🧪 (relational-DDL-oriented schema compare, not a 3-panel collection-data diff; reportedly weak on nested BSON) |
+| Collection sync with direction toggle | 💼 | ❌ | 💼 | ❓ |
+| CDC pipeline (Kafka/Pub/Sub/HTTP) | 🔌 | ❌ | ❌ | ❌ |
+| Kubernetes Helm chart | ✅ | ❌ | ❌ | ❌ |
+| OIDC multi-provider for platform auth | ✅ | ❌ | ❌ | ❓ |
+| Credential protection | ✅ | ✅ | ✅ | ✅ (local keystore baseline) |
+| 3T Explore governed workspace (workspace switcher + access control) | ✅ | ❌ | ❌ | ❌ |
 
 ### F-SCHED — Task Scheduler — iconized
 
-| Dimension | Studio 3T | VisuaLeaf |
-| --- | --- | --- |
-| Task types | ✅ | 💼 |
-| Schedule options | ✅ | ✅ |
-| Timezone-aware with DST | ❓ | ✅ |
-| Execution config | ❓ | ✅ |
-| Task status states | ✅ | ✅ |
-| Task actions | ✅ | ✅ |
-| Email notifications | ✅ | 🔌 |
-| Multiple script units per task | ✅ | ❓ |
-| Compare/sync task with diff view | ✅ | ❌ |
-| Plan limits | 💼 | 💼 |
+*MongoDB Compass: N/A — not supported.*
+
+| Dimension | Studio 3T | VisuaLeaf | DBeaver |
+| --- | --- | --- | --- |
+| Task types | ✅ | 💼 | 🏢 (Enterprise/Ultimate only) |
+| Schedule options | ✅ | ✅ | ❓ |
+| Timezone-aware with DST | ❓ | ✅ | ❓ |
+| Execution config | ❓ | ✅ | ❓ |
+| Task status states | ✅ | ✅ | ❓ |
+| Task actions | ✅ | ✅ | ❓ |
+| Email notifications | ✅ | 🔌 | ❓ |
+| Multiple script units per task | ✅ | ❓ | ❓ |
+| Compare/sync task with diff view | ✅ | ❌ | ❓ |
+| Headless CLI automation | ❓ | ❓ | 🏢 (`dbvr`, unverified against a primary source) |
+| Plan limits | 💼 | 💼 | 🏢 |
 
 ### Edition / pricing constraints — iconized
 
@@ -333,6 +358,19 @@ These are icon-only analogs of the detailed comparison tables below. Product col
 | Visual ERD designer | ❌ | ❌ | 💼 |
 | Atlas Search / Vector Search indexes | ❌ | ✅ | ❌ |
 
+### DBeaver edition / pricing constraints — iconized
+
+| Feature | Community (free) | Lite | Enterprise | Ultimate | Team / CloudBeaver |
+| --- | --- | --- | --- | --- | --- |
+| MongoDB connectivity at all | ❌ | ✅ | ✅ | ✅ | ❓ |
+| Enterprise auth (SAML/Kerberos/Azure AD) | ❌ | ❓ | ✅ | ✅ | ❓ |
+| External secrets manager (Vault/CyberArk/AWS Secrets Manager) | ❌ | ❓ | ❓ | ❓ | ❓ |
+| Task Scheduler | ❌ | ❌ | ✅ | ✅ | ❓ |
+| Headless CLI (`dbvr`) | ❓ | ❓ | ❓ | ❓ | ❓ |
+| AI Assistant | ❓ | ❓ | ❓ | ❓ | ❓ |
+| Team/RBAC workspace | ❌ | ❌ | ❌ | ❌ | ✅ |
+
+Per-tier gating above the MongoDB-connectivity row is Confirmed via the source's own pricing/edition comparison table; per-tier gating of individual sub-capabilities below that row is largely Unverified — the source only states broad tier groupings without itemizing every capability per tier.
 
 ## Deep-review coverage reconciliation
 
@@ -345,6 +383,8 @@ These are icon-only analogs of the detailed comparison tables below. Product col
 Detailed additions are captured in the low-level report under **Reconciliation table (product-matrix IDs added by deep review)**.
 
 ## Feature-group comparison
+
+*Scope note (2026-09-04): the detailed prose tables in this section were authored for Studio 3T, MongoDB Compass, and VisuaLeaf. DBeaver's equivalent detail lives in its own `feature-report.md`/`feature-matrix.md` files under `products/third-party/dbeaver/features/` and is summarized at icon-scan granularity in the "iconized" tables above (per feature area) and in "Unique differentiators per product" and "Key gaps summary" below, rather than repeated row-by-row here.*
 
 ### F-CONN — Connectivity
 
@@ -642,28 +682,38 @@ Detailed additions are captured in the low-level report under **Reconciliation t
 - **FerretDB compatibility:** Only product in this comparison with stated compatibility for FerretDB, the open-source MongoDB-wire-protocol-compatible database, alongside DocumentDB and Cosmos DB.
 - **Query Assist mode (per-query result tabs + Visual Explain in shell):** Only product where shell queries produce individual editable, pinnable result tabs with Visual Explain and code-gen integrated.
 
+### DBeaver
+- **100+ supported database engines:** Only product in this comparison with a single-client footprint spanning relational, cloud-warehouse, NoSQL, graph, and flat-file "database" engines through one JDBC-driver architecture — a fundamentally different value proposition (breadth over MongoDB depth) than Compass, VisuaLeaf, or Studio 3T.
+- **Widest documented AI provider list:** OpenAI (GPT-5 default), Azure OpenAI, Google Gemini, and GitHub Copilot/Codex — broader than any other product reviewed here (unverified in depth, but broadest in breadth).
+- **File-attachment AI context:** Unique mechanism letting a user attach a CSV/JSON/Parquet/XLSX file into an AI Chat session, which DBeaver parses into a temporary in-memory table for combined file-and-database natural-language querying.
+- **MCP server exposure of live connections:** Positions DBeaver in the same agentic-AI/MCP space as Studio 3T's own local MCP server, exposing any of its 100+ connections (not just MongoDB) as governed AI-agent tool interfaces (version claim unverified).
+- **Headless CLI (`dbvr`):** Dedicated command-line executable for CI/CD-driven database operations, exports, and schema migrations — the named competitive comparator for this repository's own `PROP-cli-automation` proposal in the [Proposed Feature Registry](../../feature-dictionary.md#proposed-feature-registry-research-pipeline).
+- **External secrets manager integration:** HashiCorp Vault, CyberArk, and AWS Secrets Manager credential sourcing (Unverified against a primary source, but a real enterprise-relevant claim not made for any other product in this comparison).
+- Note: DBeaver's MongoDB support is a confirmed net *weakness* relative to every other product compared here — no native document query surface, no visual aggregation builder, no sampling-based schema analytics, and three primary-sourced GitHub issues documenting BSON type-fidelity bugs. Its differentiators above are about breadth-of-engine-coverage and general-purpose tooling maturity, not MongoDB-specific depth.
+
 ---
 
 ## Edition / pricing constraints
 
-| Feature | Studio 3T | MongoDB Compass | VisuaLeaf |
-| --- | --- | --- | --- |
-| Visual Query Builder | All editions (free) | N/A | Basic+ required |
-| AI query builder | Pro/Base+ required | N/A | Professional required |
-| Enterprise auth (Kerberos/LDAP/AWS/OIDC) | Ultimate edition only | Free (all confirmed) | LDAP/AWS IAM free (others roadmap) |
-| Shell / IntelliShell | All editions (free) | N/A | Available (plan details unclear) |
-| Data Transfer | Pro/Base+ for task save; formats available all editions | N/A | Community: no automation (0 tasks); Basic: 2 tasks |
-| Team connection sharing | Pro/Base+ required | N/A | N/A |
-| Data masking | Pro/Base+ required | N/A | Basic/Professional — query-result masking; no dedicated import/export masking tool documented |
-| SQL tools | Pro/Base+ required (full migration toolchain) | N/A | Plan tier unverified (SQL Mode — query-only, no migration) |
-| Task scheduler | Pro/Base+ required | N/A | Community: 0 tasks; Basic: 2; Professional: unlimited |
-| Query Manager (multi-type) | All editions (Collection query type free) | No (My Queries only) | Basic+ for saved queries |
-| Collection compare + sync | Pro/Base+ required | N/A | Professional required |
-| RBAC dashboard | Via 3T Access platform | N/A | Professional required |
-| Audit log | Built-in local feature (edition tier not specified in source) — Connection Manager actions only; off by default; Windows GPO/registry activation only | N/A | Professional required |
-| Schema validation UI | N/A (not supported) | Free | Basic+ |
-| Visual ERD designer | N/A | N/A | Basic+ required |
-| Atlas Search / Vector Search indexes | N/A | Free (requires Atlas M10+ or MongoDB 7.0+ local) | N/A |
+| Feature | Studio 3T | MongoDB Compass | VisuaLeaf | DBeaver |
+| --- | --- | --- | --- | --- |
+| Visual Query Builder | All editions (free) | N/A | Basic+ required | Generic relational VQB only; MongoDB applicability unverified |
+| AI query builder | Pro/Base+ required | N/A | Professional required | Included (tier unverified); generates SQL, not a native MongoDB filter |
+| Enterprise auth (Kerberos/LDAP/AWS/OIDC) | Ultimate edition only | Free (all confirmed) | LDAP/AWS IAM free (others roadmap) | Community: none; Enterprise/Ultimate: SAML/Kerberos/Azure AD (MongoDB-specific scope unverified) |
+| Shell / IntelliShell | All editions (free) | N/A | Available (plan details unclear) | N/A (no MongoDB shell/scripting environment evidenced) |
+| Data Transfer | Pro/Base+ for task save; formats available all editions | N/A | Community: no automation (0 tasks); Basic: 2 tasks | CSV/table wizards asserted; tier requirement unverified |
+| Team connection sharing | Pro/Base+ required | N/A | N/A | Team Edition / CloudBeaver (detail unverified) |
+| Data masking | Pro/Base+ required | N/A | Basic/Professional — query-result masking; no dedicated import/export masking tool documented | Not discussed in source |
+| SQL tools | Pro/Base+ required (full migration toolchain) | N/A | Plan tier unverified (SQL Mode — query-only, no migration) | Included in Lite+ — primary MongoDB query surface (SQL-first architecture), not a separate add-on |
+| Task scheduler | Pro/Base+ required | N/A | Community: 0 tasks; Basic: 2; Professional: unlimited | Enterprise/Ultimate only |
+| Query Manager (multi-type) | All editions (Collection query type free) | No (My Queries only) | Basic+ for saved queries | Not discussed in source |
+| Collection compare + sync | Pro/Base+ required | N/A | Professional required | Schema/structure compare included (tier unverified); DDL-oriented, not a collection-data 3-panel diff |
+| RBAC dashboard | Via 3T Access platform | N/A | Professional required | Team Edition / CloudBeaver only (detail unverified) |
+| Audit log | Built-in local feature (edition tier not specified in source) — Connection Manager actions only; off by default; Windows GPO/registry activation only | N/A | Professional required | Not discussed in source |
+| Schema validation UI | N/A (not supported) | Free | Basic+ | Not discussed in source |
+| Visual ERD designer | N/A | N/A | Basic+ required | Not discussed in source |
+| Atlas Search / Vector Search indexes | N/A | Free (requires Atlas M10+ or MongoDB 7.0+ local) | N/A | N/A (F-IDX not evidenced for DBeaver) |
+| MongoDB connectivity at all | Free Community tier (limited) | Free (full) | Free Community tier (limited) | Not available in free Community Edition — requires Lite or above |
 
 ---
 
@@ -697,3 +747,10 @@ Detailed additions are captured in the low-level report under **Reconciliation t
 | GridFS Viewer / Split Panel Views / MongoSync / SQL Mode plan-tier requirement unverified | VisuaLeaf |
 | 3T Explore edition/plan requirement unverified | Studio 3T |
 | FerretDB compatibility depth (which features work) unverified | Studio 3T |
+| No native document query surface (filter bar/tree view) — MongoDB access is SQL-first | DBeaver |
+| No dedicated visual aggregation pipeline builder for MongoDB (JSON-array console only) | DBeaver |
+| No sampling-based schema analytics (field probability, type probability) | DBeaver |
+| Confirmed BSON type-fidelity bugs (date-millisecond truncation, ObjectId misinterpretation) — 3 GitHub issues | DBeaver |
+| No MongoDB connectivity in free Community Edition | DBeaver |
+| No SQL migration wizard or SQL-to-MongoDB code generation | DBeaver |
+| Secrets-manager integration, voice-query, and MCP-server version claims unverified against source's own Works Cited | DBeaver |
