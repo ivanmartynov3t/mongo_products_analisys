@@ -1,5 +1,16 @@
 # Plan 4 — Extend Structured Competitor Coverage
 
+## Non-negotiable: dictionary-first, classification-compliant
+
+Before writing a single product file: any capability that doesn't already have a sub-feature ID **must be added to `feature-dictionary.md`'s Sub-feature registry first**, under the correct Feature ID section, following the exact `<FEATURE>-<suffix>` naming pattern — never invent an ID inline in a matrix and backfill the dictionary later, and never reuse an existing ID for a materially different capability just because the name is close. Every new ID needs: a one-line description matching the dictionary's existing style, and at least one citation (from the product's own research file, ideally a primary source that file itself cites) justifying why it's a distinct, real capability and not a duplicate of something already in the registry — check the full registry (all 11 feature areas, not just the obviously-related one) before minting anything new.
+
+Every fact in every new product-report.md / feature-matrix.md / feature-report.md must carry one of exactly three statuses, using the vocabulary already fixed by `copilot-instructions.md` and the low-level comparison's icon legend — no other status words, no hedging phrases that aren't one of these three:
+- **Confirmed** — traceable to a primary source, or to a secondary research file that itself names a primary source for that specific claim.
+- **Roadmap/planned** — the source explicitly says a capability is announced-but-not-shipped, beta, or feature-flagged.
+- **Unverified** — the source only asserts it without a primary citation, or the matrix compiler couldn't confirm one either way. This is the default for any claim that doesn't clear the "Confirmed" bar — do not round up.
+
+This rule is stricter than "just cite something": a secondary competitive-intelligence research file saying "DBeaver supports X" is not, by itself, enough to mark X confirmed — check whether that file's own Works Cited backs the specific claim with a primary source (vendor doc, GitHub issue, release note) before writing "Confirmed." If it doesn't, write "Unverified — per secondary source, no primary citation" rather than silently treating the research file's prose as ground truth.
+
 ## Objective
 
 `research/google_research/` contains raw competitive-intelligence write-ups on five direct competitors that have never been turned into structured `products/third-party/` entries: DBeaver, DataGrip, Navicat, NoSQLBooster (two files: `nosqlbooster-competitive-analysis/` and `nosqlbooster-competitive-intelligence-analysis/`), and TablePlus. This plan turns each into a first-class product entry following the exact same convention already used for MongoDB Compass and VisuaLeaf.

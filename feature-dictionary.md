@@ -110,6 +110,7 @@ Sub-feature IDs follow the pattern `<FEATURE>-<suffix>` where `<suffix>` is a sh
 | QUERY-view-split | Split panel views | Multi-document/multi-panel side-by-side comparison with synchronized scrolling and flexible layouts |
 | QUERY-charts-dashboards | Charts & dashboards | Build charts from collection/query/pipeline data and combine into saved dashboards |
 | QUERY-value-search | Cross-collection value search | Search a chosen set of collections for a literal value and/or field name, with case-sensitive and regex toggles (Professional+) |
+| QUERY-fluent-api | Fluent chaining query API | Mongoose-like method-chaining query API with helper operators, as an alternative authoring surface to raw filter documents |
 
 ### F-AGG — Aggregation
 
@@ -137,6 +138,7 @@ Sub-feature IDs follow the pattern `<FEATURE>-<suffix>` where `<suffix>` is a sh
 | AGG-code-tab | Query code tab | Bidirectional read/edit JSON representation of full pipeline |
 | AGG-chart-builder | Chart builder | Open pipeline output in chart/visualization builder |
 | AGG-stage-count | Stage catalog | Total number of pipeline stages supported in the builder |
+| AGG-mapreduce-editor | MapReduce editor | Dedicated editor for authoring, testing, and debugging map/reduce functions as an alternative data-processing path to the aggregation pipeline |
 
 ### F-SCHEMA — Schema
 
@@ -173,6 +175,7 @@ Sub-feature IDs follow the pattern `<FEATURE>-<suffix>` where `<suffix>` is a sh
 | SCHEMA-designer-color | Color coding | Per-collection color presets on canvas |
 | SCHEMA-designer-layouts | Named layouts | Save and restore named custom canvas arrangements |
 | SCHEMA-designer-portability | Diagram portability | Export/import diagram to/from file |
+| SCHEMA-anomaly-detection | Field anomaly detection | Statistical outlier/anomaly flagging on sampled field distributions, beyond bare per-field/per-type probability display (see also SCHEMA-field-prob, SCHEMA-type-prob) |
 
 ### F-IDX — Indexing & Performance
 
@@ -214,6 +217,7 @@ Sub-feature IDs follow the pattern `<FEATURE>-<suffix>` where `<suffix>` is a sh
 | IDX-perf-insights | Performance insights | System-level modeling/indexing improvement suggestions |
 | IDX-realtime-perf | Real-time performance | Live operational metrics (mongostat/mongotop/currentOp) with pause/play |
 | IDX-stop-ops | Stop operations | Kill long-running operations from performance view |
+| IDX-log-parser | Log file parser | Parse mongod/mongos log files (offline or live) into a structured, filterable view surfacing slow queries and errors |
 
 ### F-TRANSFER — Data Transfer
 
@@ -245,6 +249,7 @@ Sub-feature IDs follow the pattern `<FEATURE>-<suffix>` where `<suffix>` is a sh
 | TRANSFER-transform-pipeline | Pipeline pre-export | Apply aggregation pipeline stages as server-side pre-export transform |
 | TRANSFER-gridfs-crud | GridFS file CRUD | Full GridFS file management: upload, download, delete, rename, metadata edit — distinct from QUERY-view-gridfs, which is viewing/browsing only |
 | TRANSFER-collection-history | Collection History | Per-collection, document-level change capture (field/array update/remove/rename, whole-document changes) with selective per-document restore and conflict resolution; license-gated, single-collection scope |
+| TRANSFER-test-data-gen | Synthetic test data generator | Generate synthetic/constrained BSON datasets (schema-aware, faker-style) for benchmarking or seeding — distinct from importing real data |
 
 ### F-SHELL — Shell
 
@@ -272,6 +277,8 @@ Sub-feature IDs follow the pattern `<FEATURE>-<suffix>` where `<suffix>` is a sh
 | SHELL-bookmarks | Script bookmarks | Distinct, user-curated bookmarked-script list, separate from the auto-recorded script history |
 | SHELL-oidc-auth | OIDC authentication for shell connections | OIDC login (including device flow) specifically for shell/IntelliShell connections |
 | SHELL-storedjs-rename | Stored JS rename | Rename operation for stored JS functions, alongside CRUD/exists-check, with ANTLR-based syntax validation before save |
+| SHELL-debugger | Interactive script debugger | Breakpoint-based JS debugger for shell scripts: line breakpoints, step over/into, call stack inspection, variable watch |
+| SHELL-npm-utils | Bundled utility libraries | Pre-loaded general-purpose JS utility libraries (e.g. Lodash, Moment.js, ShellJS, Math.js, Faker.js) available inside shell scripts, plus ability to `require()` additional NPM packages |
 
 ### F-AI — AI Features
 
@@ -317,6 +324,10 @@ Sub-feature IDs follow the pattern `<FEATURE>-<suffix>` where `<suffix>` is a sh
 | AI-mcp-tools | MCP tools count | Number and scope of MCP tools exposed by product |
 | AI-stt-cli | stt-cli + PII scanner | Standalone CLI with read-only operations and PII scanner |
 | AI-plan-gate | AI plan gate | Edition/plan gating for AI features |
+| AI-safety-guards | AI execution safety guardrails | Pre-execution safety checks (e.g. confirmation before a destructive AI-generated action runs) plus usage/token consumption analytics for the AI feature |
+| AI-error-fix | AI-assisted error correction | Takes a failing/erroring query or script and returns a corrected version with an explanation of the fix, distinct from generating new queries from natural language |
+| AI-inline-completion | Inline AI code completion | Autocomplete-style inline code suggestions while typing (e.g. a GitHub Copilot–style integration), distinct from a conversational NL-to-query chat interface |
+| AI-voice-query | Voice input for AI queries | Speech-to-text voice input feeding the AI query/chat interface |
 
 ### F-SQL — SQL Tools
 
@@ -335,6 +346,7 @@ Sub-feature IDs follow the pattern `<FEATURE>-<suffix>` where `<suffix>` is a sh
 | SQL-export-relations | SQL export relations | Relationship mapping options for Mongo→SQL export |
 | SQL-export-monitor | SQL export monitoring | SQL export preview/monitoring/logging workflow |
 | SQL-export-targets | SQL export targets | Supported destination SQL engines for Mongo→SQL export |
+| SQL-federated-query | Federated cross-database query | Single SQL query joining tables/collections that live across multiple, separately-configured data source connections (e.g. a relational source and a MongoDB source) in one execution |
 
 ### F-GOV — Governance & Security
 
@@ -378,6 +390,8 @@ Sub-feature IDs follow the pattern `<FEATURE>-<suffix>` where `<suffix>` is a sh
 | GOV-platform-oidc | Platform OIDC providers | Multi-provider OIDC support in platform auth stack |
 | GOV-protect-mode | Protect mode | UI-level destructive-write prevention mode |
 | GOV-telemetry-config | Telemetry configuration | Telemetry opt-out/configuration controls |
+| GOV-secrets-vault | External secrets manager integration | Fetch connection credentials from an external secrets manager (e.g. HashiCorp Vault, CyberArk, AWS Secrets Manager) instead of local storage |
+| GOV-staged-commit | Staged pending-changes review | Edits accumulate as a reviewable "pending changes" set (visually flagged) with the generated write statement shown before the user explicitly commits it |
 
 ### F-SCHED — Task Scheduler
 
@@ -412,6 +426,7 @@ Sub-feature IDs follow the pattern `<FEATURE>-<suffix>` where `<suffix>` is a sh
 | SCHED-recur-interval | Recurrence interval | Every N minutes/hours execution pattern |
 | SCHED-recur-weekly | Recurrence weekly | Weekly scheduled execution pattern |
 | SCHED-recur-monthly | Recurrence monthly | Monthly scheduled execution pattern |
+| SCHED-cli-headless | Headless CLI automation | Standalone command-line executable (no GUI) that can run/trigger scheduled tasks or scripts, suited to CI/CD pipeline integration |
 
 ### Supplemental aliases used in current matrices
 
@@ -430,21 +445,23 @@ Sub-feature IDs follow the pattern `<FEATURE>-<suffix>` where `<suffix>` is a sh
 
 This table shows which features are applicable per product. Features not in a product's folder do not apply to that product.
 
-| Feature | Studio 3T | MongoDB Compass | VisuaLeaf | 3T Explore | 3T MCP | 3T Lens | 3T Access | 3TL Bridge |
-|---|---|---|---|---|---|---|---|---|
-| F-CONN | ✓ | ✓ | ✓ | — | — | — | — | — |
-| F-QUERY | ✓ | ✓ | ✓ | — | — | — | — | — |
-| F-AGG | ✓ | ✓ | ✓ | — | — | — | — | — |
-| F-SCHEMA | ✓ | ✓ | ✓ | — | — | — | — | — |
-| F-IDX | ✓ | ✓ | ✓ | — | — | — | — | — |
-| F-TRANSFER | ✓ | — | ✓ | — | — | — | — | — |
-| F-SHELL | ✓ | — | ✓ | — | — | — | — | — |
-| F-AI | ✓ | ✓ (partial — see notes) | ✓ | ✓ (partial — see notes) | ✓ (partial — see notes) | — | — | — |
-| F-SQL | ✓ | — | ✓ (partial — see notes) | — | — | — | — | — |
-| F-GOV | ✓ (partial — see notes) | ✓ | ✓ | ✓ (partial — see notes) | — | ✓ | ✓ | ✓ |
-| F-SCHED | ✓ | — | ✓ | — | — | — | — | — |
+| Feature | Studio 3T | MongoDB Compass | VisuaLeaf | 3T Explore | 3T MCP | 3T Lens | 3T Access | 3TL Bridge | DBeaver | DataGrip | Navicat | NoSQLBooster | TablePlus |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| F-CONN | ✓ | ✓ | ✓ | — | — | — | — | — | ✓ | ✓ | ✓ | ✓ | ✓ |
+| F-QUERY | ✓ | ✓ | ✓ | — | — | — | — | — | ✓ | ✓ | ✓ | ✓ | ✓ |
+| F-AGG | ✓ | ✓ | ✓ | — | — | — | — | — | ✓ (partial — see notes) | — | ✓ | ✓ | ✓ (partial — see notes) |
+| F-SCHEMA | ✓ | ✓ | ✓ | — | — | — | — | — | ✓ | — | ✓ | ✓ | ✓ |
+| F-IDX | ✓ | ✓ | ✓ | — | — | — | — | — | — | — | ✓ | ✓ | ✓ |
+| F-TRANSFER | ✓ | — | ✓ | — | — | — | — | — | ✓ | — | ✓ | ✓ | ✓ |
+| F-SHELL | ✓ | — | ✓ | — | — | — | — | — | — | — | — | ✓ | — |
+| F-AI | ✓ | ✓ (partial — see notes) | ✓ | ✓ (partial — see notes) | ✓ (partial — see notes) | — | — | — | ✓ | ✓ | ✓ | ✓ | ✓ |
+| F-SQL | ✓ | — | ✓ (partial — see notes) | — | — | — | — | — | — | ✓ | — | ✓ | — |
+| F-GOV | ✓ (partial — see notes) | ✓ | ✓ | ✓ (partial — see notes) | — | ✓ | ✓ | ✓ | ✓ | — | ✓ | — | ✓ (partial — see notes) |
+| F-SCHED | ✓ | — | ✓ | — | — | — | — | — | ✓ (partial — see notes) | ✓ (partial — see notes) | ✓ | ✓ | — |
 
 Notes: MongoDB Compass F-AI is limited to AI-nl-query (natural language querying, confirmed on the official product page); other F-AI sub-features are unconfirmed for Compass. VisuaLeaf F-SQL ("SQL Mode") is limited to SQL-expressions and SQL-code-gen against MongoDB collections only — it is not a SQL migration/export toolchain like Studio 3T's F-SQL.
+
+DBeaver F-AGG is partial: its MongoDB aggregation surface is a text-based "SQL Console" JSON array editor, not a dedicated stage-by-stage visual pipeline builder — see its `feature-matrix.md` for exactly which AGG- sub-feature IDs apply. DBeaver F-SCHED is partial: Task Scheduler exists only in Enterprise/Ultimate editions (`SCHED-plan-limits`). DataGrip has no F-AGG or F-SCHEMA folder at all: its MongoDB support is SQL-to-JS translation with no native document workspace and no visual aggregation or schema-analysis surface (confirmed absent, not merely unverified). DataGrip F-SCHED is partial: only CLI-based data-source management (added 2026.2), no in-app task automation. TablePlus F-AGG is partial: MongoDB pipelines are authored as raw JSON/MQL only, with no visual pipeline editor (confirmed absent per its own competitive-intelligence source). TablePlus F-GOV is partial: it has connection-level Safe Mode/read-only and color tagging, but no RBAC/audit-log/enterprise governance surface.
 
 3T Explore, 3T MCP, 3T Lens, 3T Access, and 3TL Bridge (2026-07-29) are separate products under `products/3t/`, split out of what this dictionary previously tracked as Studio 3T sub-sections. 3T Explore's F-AI coverage is limited to AI-012 (its AI Helper); its F-GOV coverage is limited to GOV-platform-explore (Workspace Switcher + Access Control) — both partial relative to the full F-AI/F-GOV sub-feature sets. 3T MCP's F-AI coverage is limited to AI-010/AI-011 (the standalone binary and its capabilities). Studio 3T's own F-GOV coverage is partial: as of the 2026-07-31 source-code review, its `feature-matrix.md` now has a full Desktop IDE-native capability table (20 sub-feature IDs), but several claims were narrowed or corrected against source (audit logging scope, credential storage mechanism, startup policy mechanism — see `research/studio-3t-desktop-review-2026/10-governance-findings.md`); it remains "partial" because the fuller RBAC/audit/compliance depth lives in 3T Lens/3T Access/3TL Bridge, not because the matrix is unauthored. 3T Lens, 3T Access, and 3TL Bridge each have full coverage of their respective platform-tier F-GOV sub-features (see their own feature matrices).
 
@@ -538,6 +555,7 @@ Full per-candidate rationale, citations, and metric derivations: [04-scored-long
 
 | Date | Change | Author |
 |---|---|---|
+| 2026-09-04 | Plan 4 (extend competitor coverage): added 15 new sub-feature IDs surfaced by building out structured `products/third-party/` entries for DBeaver, DataGrip, Navicat, NoSQLBooster, and TablePlus from their `research/google_research/` competitive-intelligence files: `SCHEMA-anomaly-detection`, `IDX-log-parser`, `TRANSFER-test-data-gen`, `SHELL-debugger`, `SHELL-npm-utils`, `QUERY-fluent-api`, `AGG-mapreduce-editor`, `SQL-federated-query`, `GOV-secrets-vault`, `GOV-staged-commit`, `SCHED-cli-headless`, `AI-safety-guards`, `AI-error-fix`, `AI-inline-completion`, `AI-voice-query`. Every other competitor capability found in the research was mapped to an existing sub-feature ID rather than minting a duplicate (e.g. Navicat's stage-by-stage aggregation builder → `AGG-stage-modes`/`AGG-stage-preview`; DataGrip's MCP tool server → `AI-local-mcp`/`AI-mcp-client`/`AI-mcp-tools`). Added 5 columns to the Product × feature coverage matrix. Per-product citations and confirmed/roadmap/unverified status live in each product's own `feature-matrix.md`/`feature-report.md` under `products/third-party/`. | Claude |
 | 2026-07-31 (2) | Synced `research/feature-decision-2026/` (Stage 8) against the same-day Studio 3T Desktop source-code re-audit. Corrected `PROP-webhook-notify`'s Priority Score from 7.00 to 4.67 — its card had assumed `SCHED-notifications`/`SCHED-email` were already implemented on Desktop without ever checking, and the audit found both confirmed absent (raising Build Effort). Updated the candidate-universe ID counts throughout the decision pipeline (108→89 tracked gap IDs). Full detail: [research/feature-decision-2026/01-research-plan.md, Stage 8](research/feature-decision-2026/01-research-plan.md#stage-8--2026-07-31-sync-with-the-desktop-source-code-re-audit). | Claude |
 | 2026-07-31 | Full source-code re-audit of Studio 3T Desktop across all 11 feature areas (`research/studio-3t-desktop-review-2026/`). Added 17 new sub-feature IDs surfaced by the audit: `CONN-session-restore`, `CONN-git-repo-sharing`, `CONN-access-manager-integration` (F-CONN); `QUERY-value-search` (F-QUERY); `TRANSFER-gridfs-crud`, `TRANSFER-collection-history` (F-TRANSFER); `SHELL-destructive-guard`, `SHELL-result-tab-limit`, `SHELL-bookmarks`, `SHELL-oidc-auth`, `SHELL-storedjs-rename` (F-SHELL); `AI-agentic-mode`, `AI-offline-mcp`, `AI-tab-context`, `AI-chart-render`, `AI-multi-conversation`, `AI-guardrail-layer` (F-AI). Corrected `PROP-schema-erd-cluster`'s dictionary linkage from 13 to 9 IDs (validator authoring/deployment confirmed implemented, not absent). Updated the F-GOV coverage note (Studio 3T's governance matrix is now fully authored, not a pre-existing gap). Full findings, corrections, and citations: [research/studio-3t-desktop-review-2026/](research/studio-3t-desktop-review-2026/) and per-feature `feature-matrix.md`/`feature-report.md` "Last reviewed" sections under `products/3t/studio-3t/features/`. | Claude |
 | 2026-07-30 | Added the Proposed Feature Registry section: a classification scheme (competitive framing, origin, dictionary linkage, pipeline status) for not-yet-implemented candidate features, plus a registry of all 20 candidates from the 2026-07 Studio 3T Desktop feature-decision research (`research/feature-decision-2026/`, `reports/next-feature-recommendation.md`). New `PROP-<slug>` ID prefix and naming rule (#6, #7) added. | Claude |
