@@ -192,4 +192,4 @@ A verification pass on the first draft of this table caught 3 IDs that had been 
 
 ## Coverage accounting
 
-328 dictionary IDs = 225 implemented (excluded from this report) + 9 confirmed absent + 77 unverified + 17 dictionary-alias redundancies.
+334 dictionary IDs = 231 implemented (excluded from this report) + 9 confirmed absent + 77 unverified + 17 dictionary-alias redundancies.
