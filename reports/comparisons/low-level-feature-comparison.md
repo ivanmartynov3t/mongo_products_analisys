@@ -11,8 +11,9 @@ This report compares normalized sub-feature capabilities across all analyzed pro
 - [MongoDB Compass product report](../../products/third-party/mongodb-compass/product-report.md)
 - [VisuaLeaf product report](../../products/third-party/visual-eaf/product-report.md)
 - [DBeaver product report](../../products/third-party/dbeaver/product-report.md)
+- [DataGrip product report](../../products/third-party/datagrip/product-report.md)
 
-**Last reviewed:** 2026-09-04 — added DBeaver (Plan 4, `update-plans/04-extend-competitor-coverage.md`)
+**Last reviewed:** 2026-09-04 — added DataGrip (Plan 4, `update-plans/04-extend-competitor-coverage.md`)
 
 ## Current baseline coverage
 
@@ -20,6 +21,7 @@ This report compares normalized sub-feature capabilities across all analyzed pro
 - VisuaLeaf: F-CONN, F-QUERY, F-AGG, F-SCHEMA, F-IDX, F-TRANSFER, F-SHELL, F-AI, F-GOV, F-SCHED, F-SQL (partial — added 2026-07-28)
 - Studio 3T: all 11 features
 - DBeaver: F-CONN, F-AGG (partial), F-SCHEMA (partial), F-TRANSFER, F-AI, F-SQL, F-GOV, F-SCHED (partial) — added 2026-09-04. No F-QUERY (MongoDB access is SQL-first, tracked under F-SQL instead), F-IDX, or F-SHELL (not discussed in the source for DBeaver specifically). **Scope note:** the two large per-sub-feature tables below ("Sub-feature comparison table — iconized" and "Sub-feature comparison table") were built for Studio 3T/Compass/VisuaLeaf via a dedicated deep-review pass and are not extended to DBeaver's full ID set here — see the "Icon-only quick scan" table just below for a DBeaver summary at the same key-sub-feature grain used for the other products, and DBeaver's own `feature-matrix.md` files under `products/third-party/dbeaver/features/` for full per-ID detail with sources.
+- DataGrip: F-CONN (thin — general connectivity architecture, not MongoDB-specific), F-AI, F-SQL — added 2026-09-04. No F-QUERY (MongoDB access is SQL-to-JS translation, tracked under F-SQL instead), F-AGG or F-SCHEMA (confirmed absent — no pipeline builder or schema-analysis surface of any kind), F-IDX, F-TRANSFER, or F-SHELL (not discussed in the source), and no F-GOV (its only governance-adjacent mechanism, a 4-category AI consent gate, is tracked under F-AI's `AI-safety-guards` instead). No F-SCHED: its 2026.2 "CLI data-source management" is connection-config management, not task scheduling, and does not fit any existing sub-feature ID (see [DataGrip's product report](../../products/third-party/datagrip/product-report.md)). **Scope note:** as with DBeaver, the two large per-sub-feature tables below are not extended to DataGrip's full ID set — see the "Icon-only quick scan" table below for a DataGrip summary and `products/third-party/datagrip/features/*/feature-matrix.md` for full per-ID detail with sources.
 
 ## Icon legend (normalized status)
 
@@ -38,47 +40,47 @@ This report compares normalized sub-feature capabilities across all analyzed pro
 
 ## Icon-only quick scan (key sub-features)
 
-| Feature ID | Sub-feature ID | Sub-feature name | Studio 3T | MongoDB Compass | VisuaLeaf | DBeaver |
-| --- | --- | --- | --- | --- | --- | --- |
-| F-CONN | CONN-topology | Topology types | ✅ | ✅ | ✅ | ❓ |
-| F-CONN | CONN-multi-active | Multiple concurrent connections | ❓ | ✅ | ❓ | ❓ |
-| F-CONN | CONN-read-pref | Read preference | ✅ | ❓ | ✅ | ❓ |
-| F-QUERY | QUERY-filter-bar | Filter bar / query editor | ✅ | ✅ | ✅ | ❌ (SQL Console instead — see F-SQL) |
-| F-QUERY | QUERY-projection | Projection editor | ✅ | ✅ | ✅ | ❌ |
-| F-QUERY | QUERY-sort | Sort editor | ✅ | ✅ | ✅ | ❌ |
-| F-AGG | AGG-stage-count | Number of supported pipeline stages | ❓ | ❓ | ✅ | ❓ |
-| F-AGG | AGG-editor-layout | Pipeline editor layout | ✅ | ✅ | ✅ | 🧪 (text-based JSON array console only) |
-| F-AGG | AGG-stage-mgmt | Stage management operations | ✅ | ✅ | ✅ | ❌ |
-| F-SCHEMA | SCHEMA-sampling | Schema sampling configuration | ✅ | ✅ | ✅ | ❌ |
-| F-SCHEMA | SCHEMA-field-prob | Field probability statistics | ✅ | ✅ | ❌ | ❌ |
-| F-SCHEMA | SCHEMA-type-prob | Per-field BSON type probabilities | ✅ | ✅ | ❌ | ❌ |
-| F-IDX | IDX-inventory | Index list / inventory | ✅ | ✅ | ✅ | ❓ |
-| F-IDX | IDX-type-single | Single-field index | ✅ | ✅ | ✅ | ❓ |
-| F-IDX | IDX-type-compound | Compound index | ✅ | ✅ | ✅ | ❓ |
-| F-TRANSFER | TRANSFER-import-csv | CSV import | ✅ | ❌ | ✅ | ❓ |
-| F-TRANSFER | TRANSFER-import-json | JSON import | ✅ | ❌ | ✅ | ❓ |
-| F-TRANSFER | TRANSFER-import-bson | BSON / mongodump import | ✅ | ❌ | ✅ | ❓ |
-| F-SHELL | SHELL-engine | Shell engine and code editor | ✅ | ❌ | ✅ | ❓ |
-| F-SHELL | SHELL-autocomplete | Shell autocomplete | ✅ | ❌ | ✅ | ❓ |
-| F-SHELL | SHELL-validation | Live syntax validation | ✅ | ❌ | ✅ | ❓ |
-| F-AI | AI-nl-query | NL to find() query | 💼 | 🧪 | 💼 | 🧪 (generates SQL, not a native find() filter) |
-| F-AI | AI-nl-pipeline | NL to aggregation pipeline | 💼 | ❓ | 💼 | ❌ |
-| F-AI | AI-explanation | Plain-English explanation always included | ❓ | ❓ | ✅ | ❓ |
-| F-SQL | SQL-expressions | SQL SELECT/WHERE/GROUP BY/HAVING | 💼 | ❌ | 🧪 | ✅ (independently confirmed via MongoDB's own SQL Interface docs) |
-| F-SQL | SQL-join-mapping | SQL JOIN → $lookup mapping | 🧪 | ❌ | ❌ | ❓ |
-| F-SQL | SQL-code-gen | SQL query → driver language code gen | ✅ | ❌ | 🧪 | ❌ |
-| F-GOV | GOV-readonly-mode | Protect / destructive-write prevention mode | 🧪 | ✅ | ❓ | ✅ (per-connection, client-side) |
-| F-GOV | GOV-network-policy | Network access policy | ❓ | ✅ | ❓ | ❓ |
-| F-GOV | GOV-telemetry | Telemetry opt-out/configuration | ❓ | ✅ | ❓ | ❓ |
-| F-SCHED | SCHED-task-types | Task types supported | ✅ | ❌ | 💼 | 🏢 (Enterprise/Ultimate only) |
-| F-SCHED | SCHED-types-time | Preset schedule types | ✅ | ❌ | ✅ | ❓ |
-| F-SCHED | SCHED-cron | Cron expression support | 🧪 | ❌ | ✅ | ❓ |
+| Feature ID | Sub-feature ID | Sub-feature name | Studio 3T | MongoDB Compass | VisuaLeaf | DBeaver | DataGrip |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| F-CONN | CONN-topology | Topology types | ✅ | ✅ | ✅ | ❓ | ❓ (driver/connection type confirmed; topology detail unverified) |
+| F-CONN | CONN-multi-active | Multiple concurrent connections | ❓ | ✅ | ❓ | ❓ | ❓ |
+| F-CONN | CONN-read-pref | Read preference | ✅ | ❓ | ✅ | ❓ | ❓ |
+| F-QUERY | QUERY-filter-bar | Filter bar / query editor | ✅ | ✅ | ✅ | ❌ (SQL Console instead — see F-SQL) | ❌ (SQL-to-JS translation instead — see F-SQL) |
+| F-QUERY | QUERY-projection | Projection editor | ✅ | ✅ | ✅ | ❌ | ❌ |
+| F-QUERY | QUERY-sort | Sort editor | ✅ | ✅ | ✅ | ❌ | ❌ |
+| F-AGG | AGG-stage-count | Number of supported pipeline stages | ❓ | ❓ | ✅ | ❓ | ❌ (no pipeline builder at all) |
+| F-AGG | AGG-editor-layout | Pipeline editor layout | ✅ | ✅ | ✅ | 🧪 (text-based JSON array console only) | ❌ (confirmed absent) |
+| F-AGG | AGG-stage-mgmt | Stage management operations | ✅ | ✅ | ✅ | ❌ | ❌ |
+| F-SCHEMA | SCHEMA-sampling | Schema sampling configuration | ✅ | ✅ | ✅ | ❌ | ❌ (confirmed absent) |
+| F-SCHEMA | SCHEMA-field-prob | Field probability statistics | ✅ | ✅ | ❌ | ❌ | ❌ |
+| F-SCHEMA | SCHEMA-type-prob | Per-field BSON type probabilities | ✅ | ✅ | ❌ | ❌ | ❌ |
+| F-IDX | IDX-inventory | Index list / inventory | ✅ | ✅ | ✅ | ❓ | ❓ |
+| F-IDX | IDX-type-single | Single-field index | ✅ | ✅ | ✅ | ❓ | ❓ |
+| F-IDX | IDX-type-compound | Compound index | ✅ | ✅ | ✅ | ❓ | ❓ |
+| F-TRANSFER | TRANSFER-import-csv | CSV import | ✅ | ❌ | ✅ | ❓ | ❓ |
+| F-TRANSFER | TRANSFER-import-json | JSON import | ✅ | ❌ | ✅ | ❓ | ❓ |
+| F-TRANSFER | TRANSFER-import-bson | BSON / mongodump import | ✅ | ❌ | ✅ | ❓ | ❓ |
+| F-SHELL | SHELL-engine | Shell engine and code editor | ✅ | ❌ | ✅ | ❓ | ❌ (no MongoDB shell surface; SQL console only) |
+| F-SHELL | SHELL-autocomplete | Shell autocomplete | ✅ | ❌ | ✅ | ❓ | ❌ |
+| F-SHELL | SHELL-validation | Live syntax validation | ✅ | ❌ | ✅ | ❓ | ❓ |
+| F-AI | AI-nl-query | NL to find() query | 💼 | 🧪 | 💼 | 🧪 (generates SQL, not a native find() filter) | 🧪 (agentic chat generates/executes SQL, not a native find() filter) |
+| F-AI | AI-nl-pipeline | NL to aggregation pipeline | 💼 | ❓ | 💼 | ❌ | ❌ (no aggregation surface exists at all) |
+| F-AI | AI-explanation | Plain-English explanation always included | ❓ | ❓ | ✅ | ❓ | ❓ |
+| F-SQL | SQL-expressions | SQL SELECT/WHERE/GROUP BY/HAVING | 💼 | ❌ | 🧪 | ✅ (independently confirmed via MongoDB's own SQL Interface docs) | ✅ (independently confirmed via JetBrains' own "SQL for MongoDB" docs) |
+| F-SQL | SQL-join-mapping | SQL JOIN → $lookup mapping | 🧪 | ❌ | ❌ | ❓ | ❌ (confirmed absent — single equality condition only, no visual editor) |
+| F-SQL | SQL-code-gen | SQL query → driver language code gen | ✅ | ❌ | 🧪 | ❌ | 🧪 (MongoDB shell JS only, not application driver languages) |
+| F-GOV | GOV-readonly-mode | Protect / destructive-write prevention mode | 🧪 | ✅ | ❓ | ✅ (per-connection, client-side) | ❓ (not discussed) |
+| F-GOV | GOV-network-policy | Network access policy | ❓ | ✅ | ❓ | ❓ | ❓ |
+| F-GOV | GOV-telemetry | Telemetry opt-out/configuration | ❓ | ✅ | ❓ | ❓ | ❓ |
+| F-SCHED | SCHED-task-types | Task types supported | ✅ | ❌ | 💼 | 🏢 (Enterprise/Ultimate only) | ❌ (no task automation) |
+| F-SCHED | SCHED-types-time | Preset schedule types | ✅ | ❌ | ✅ | ❓ | ❌ |
+| F-SCHED | SCHED-cron | Cron expression support | 🧪 | ❌ | ✅ | ❓ | ❌ |
 
 ## Detailed iconized tables
 
 These are icon-only analogs of the detailed comparison tables below. Product columns are iconized; non-product columns are preserved.
 
-*Scope note (2026-09-04): the two large tables below (this iconized one and the prose "Sub-feature comparison table") cover Studio 3T, MongoDB Compass, and VisuaLeaf only, per the deep-review pass that built them. DBeaver is not added as a column here — see the "Icon-only quick scan" table above for a DBeaver summary at the same key-sub-feature grain, and `products/third-party/dbeaver/features/*/feature-matrix.md` for DBeaver's full per-ID detail with sources.*
+*Scope note (2026-09-04): the two large tables below (this iconized one and the prose "Sub-feature comparison table") cover Studio 3T, MongoDB Compass, and VisuaLeaf only, per the deep-review pass that built them. DBeaver and DataGrip are not added as columns here — see the "Icon-only quick scan" table above for DBeaver/DataGrip summaries at the same key-sub-feature grain, and `products/third-party/dbeaver/features/*/feature-matrix.md` / `products/third-party/datagrip/features/*/feature-matrix.md` for their full per-ID detail with sources.*
 
 ### Sub-feature comparison table — iconized
 
