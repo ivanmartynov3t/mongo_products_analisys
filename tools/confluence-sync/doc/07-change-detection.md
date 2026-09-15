@@ -20,7 +20,7 @@ broken-link placeholders. Hashing the rendered output catches them.
 
 ## The decision, per page
 
-On each run the script reads every page under the root folder, along with its property, and matches by
+On each run the script reads the root page and every page beneath it, along with their properties, and matches by
 `source_path`:
 
 | Situation | Action |

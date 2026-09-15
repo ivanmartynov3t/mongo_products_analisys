@@ -8,11 +8,16 @@ directory tree, links included.
 ./tools/confluence-sync/sync.sh apply             # publish, then verify
 ./tools/confluence-sync/sync.sh apply --delete    # also trash pages whose source file is gone
 ./tools/confluence-sync/sync.sh verify            # check Confluence still matches the repo
+./tools/confluence-sync/sync.sh purge --yes       # trash every page under the root, to rebuild
 ```
 
 `plan` is safe to run at any time — it makes no writes. Every run leaves a full report in
 `last-run-report.md`: the planned page tree, what changed, and every link or anchor that could not be
 published faithfully.
+
+Step-by-step recipes — including wiping the published tree and rebuilding it from scratch — are in
+[doc/13-recipes.md](doc/13-recipes.md). The full documentation set starts at
+[doc/01-overview.md](doc/01-overview.md).
 
 ## Setup
 
@@ -37,14 +42,18 @@ The page tree mirrors the directory tree one to one — nothing folded, merged o
 
 | Repository | Confluence |
 |---|---|
-| the configured root folder | sync root — never modified |
-| directory `a/b/` | a page for `b`, whose body lists its children |
-| `a/b/c.md`, `a/b/README.md` | child pages of `b` |
+| the repository root | the configured root **page** — its body is the root `README.md` |
+| directory `a/b/` | a page for `b` |
+| `a/b/README.md` | the content of the page for `b` — the one permitted deviation |
+| `a/b/c.md` | a child page of `b` |
 
-**Page titles** come from each document's own `#` heading, falling back to a humanized filename.
-Confluence requires titles to be unique across the entire space, so where several documents share a
-title the directory path is prepended — `3T Lens › Features › Governance`. Every page sharing a name is
-qualified to the same depth, so sibling pages read consistently.
+**Page titles** are the file and directory names themselves — `feature-dictionary.md`, `studio-3t`.
+Confluence requires titles to be unique across the entire space, and 72 files here are called
+`feature-report.md`, so where a name is shared every page sharing it is titled by its full repository
+path: `products/3t/studio-3t/features/ai/feature-report.md`.
+
+**Page bodies contain the converted document and nothing else** — no child listings, no footers, no
+added links. Confluence's own page tree shows the hierarchy.
 
 **Links** between documents become real Confluence page links, with heading anchors preserved. Links
 that cannot be represented are reported rather than silently mangled:

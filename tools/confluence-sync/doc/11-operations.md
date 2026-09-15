@@ -76,7 +76,7 @@ rendered body changed, which fixes it.
   Nothing is ever permanently deleted by this tool.
 - **Want to start over.** Delete the managed pages (they carry the `repo-sync` label, so they are easy to
   find), then run `apply` again. The tool holds no local state, so there is nothing else to clean up.
-- **Want to move the whole tree elsewhere.** Change `root_folder_id` in `confluence-sync.toml` and run
+- **Want to move the whole tree elsewhere.** Change `root_page_id` in `confluence-sync.toml` and run
   `apply`: the new location is empty, so everything is created there. The old pages become orphans of a
   root the tool no longer looks at — delete them by hand, or point the config back and run
   `apply --delete` first.

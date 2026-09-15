@@ -10,12 +10,16 @@ is ever read back from Confluence into the repository.
 ## What it guarantees
 
 - **Identical structure.** One page per directory, one page per document, in the same nesting as the
-  repository — a strict one-to-one mirror. Nothing is folded, merged or reordered, so a future
-  restructuring of the repository reshapes Confluence the same way.
+  repository, each named exactly as the repository names it. The only deviation is that a directory's
+  `README.md` supplies its directory page's content — so `README.md` never appears as a page anywhere,
+  the repository root included. Nothing is reordered or flattened, so a future restructuring of the
+  repository reshapes Confluence the same way.
 - **Working links.** A relative link between two documents becomes a Confluence page link pointing at the
   page the target document was published as, heading anchors included.
 - **Idempotence.** Re-running changes only what actually changed. A page whose rendered content, title and
   parent are unchanged costs no write at all — no new version, no notification to watchers.
+- **Nothing invented.** A page carries exactly what its file carries: no generated child listings, no
+  provenance footers, no navigation. The only links on a page are the ones the author wrote.
 - **Honest reporting.** Anything that cannot be represented faithfully in Confluence (see
   [05-limitations.md](05-limitations.md)) is written to a report, never silently altered or dropped.
 - **Safe deletion.** Deleting a page requires an explicit flag, only ever touches pages this tool created,
@@ -43,6 +47,15 @@ is ever read back from Confluence into the repository.
 | [09-confluence-api.md](09-confluence-api.md) | API behaviours that shaped the design, each one measured |
 | [10-development.md](10-development.md) | code layout, tests, how to extend it safely |
 | [11-operations.md](11-operations.md) | runbook: interrupted runs, failures, recovery, performance |
+| [12-title-collisions.md](12-title-collisions.md) | what reserves a title, and how collisions are resolved |
+| [13-recipes.md](13-recipes.md) | step-by-step: rebuild from scratch, move the tree, recover from trouble |
+
+## The root is a page, not a folder
+
+The repository root is a directory like any other, so it needs somewhere to put its own `README.md` —
+and a Confluence *folder* has no body at all (the API offers no way to give it one). The sync root is
+therefore a **page**: its content is the root `README.md`, and the whole tree hangs beneath it. Its title
+is left alone, since that page is yours to name.
 
 ## Where the code lives
 
@@ -61,3 +74,5 @@ tools/confluence-sync/
 
 `tools/` is excluded from publishing, so this documentation describes the tool without being pushed to
 Confluence by it.
+
+New here? [13-recipes.md](13-recipes.md) is the shortest path to doing something useful.

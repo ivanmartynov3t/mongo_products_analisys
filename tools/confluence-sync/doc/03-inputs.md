@@ -13,7 +13,7 @@ never be committed.
 | `CONFLUENCE_BASE_URL` | yes | Wiki base URL, e.g. `https://3tsoftwarelabs.atlassian.net/wiki`. **The base, not a page URL** — every API path is appended to it. |
 | `CONFLUENCE_USER_EMAIL` | yes | Atlassian account email; the username half of HTTP Basic auth. |
 | `CONFLUENCE_API_TOKEN` | yes | API token from <https://id.atlassian.com/manage-profile/security/api-tokens>. |
-| `CONFLUENCE_ROOT_FOLDER_ID` | no | Not read by `sync.py` — the root is configured in the TOML file. Handy for ad-hoc `curl`. |
+| `CONFLUENCE_ROOT_FOLDER_ID` | no | Not read by `sync.py` — the root is configured in the TOML file. Left over for ad-hoc `curl`. |
 
 A missing variable exits with code `2` and names the variable. The token value is never printed, never
 logged and never written to the report.
@@ -26,7 +26,7 @@ Confluence permissions, which is what this tool expects.
 Sits next to `sync.py` and is read on every run. This file is committed; it contains no secrets.
 
 ```toml
-root_folder_id = "1375076366"   # the Confluence folder everything is published under
+root_page_id = "1377567692"     # the page that becomes the repository root
 space_id = "11436034"           # numeric id of the space that folder lives in
 
 exclude = [                     # paths not published
@@ -43,7 +43,7 @@ directory_index = ["README.md", "index.md", "overview.md"]
 
 | Key | Meaning |
 |---|---|
-| `root_folder_id` | The Confluence folder (or page) everything is created under. It is never modified itself, and nothing outside it is ever touched. |
+| `root_page_id` | The page that **is** the repository root: its body becomes the root `README.md` and the whole tree hangs beneath it. It is never created, renamed or re-parented — only its body is written. Nothing outside it is ever touched. |
 | `space_id` | Numeric space id — **not** the space key. Required when creating a page. Find it in any page's API response as `spaceId`. |
 | `exclude` | Glob patterns, matched against the repository-relative path. A path matches if `Path.match` matches it or if it starts with the pattern's directory prefix. |
 | `fold_directory_index` | **Off.** On, a directory's README would supply its directory page's body instead of being its own page — which would make the page tree differ from the directory tree. |
