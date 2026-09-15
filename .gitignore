@@ -1,2 +1,5 @@
 .DS_Store
 .claude/settings.local.json
+.env
+tools/confluence-sync/last-run-report.md
+__pycache__/

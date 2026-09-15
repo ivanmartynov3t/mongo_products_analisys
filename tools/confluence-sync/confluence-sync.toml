@@ -1,0 +1,21 @@
+# Where the repo is published. Credentials live in .env (gitignored), never here.
+root_folder_id = "1375076366"   # "Product compare" folder
+space_id = "11436034"           # personal space ~712020e5d12e80466743b39a881e1526c936d6
+
+# Every published page ends with a line naming the file it came from, linked here.
+# Set repo_url to "" to print the path without a link.
+repo_url = "https://github.com/ivanmartynov3t/mongo_products_analisys"
+repo_branch = "main"
+
+# Only human-readable documentation is published. Everything below is tooling,
+# templates or scratch material and stays out of Confluence.
+exclude = [
+    ".git/**",
+    ".idea/**",
+    ".github/**",       # Copilot/agent instructions and prompt files - development tooling
+    "templates/**",     # skeleton files whose placeholder links point nowhere
+    "tools/**",         # this script and its own docs
+]
+
+# Markdown file that supplies the body of its directory's page, first match wins.
+directory_index = ["README.md", "index.md", "overview.md"]
