@@ -6,6 +6,8 @@
 ./tools/confluence-sync/sync.sh plan       # work out what would change; write nothing
 ./tools/confluence-sync/sync.sh apply      # publish, then verify
 ./tools/confluence-sync/sync.sh verify     # check Confluence still matches the repository
+./tools/confluence-sync/sync.sh purge      # list every page under the root; delete nothing
+./tools/confluence-sync/sync.sh purge --yes    # trash them all, to rebuild from nothing
 ```
 
 Running `sync.sh` with no argument is the same as `plan`. **This is deliberate: the default does not
@@ -23,6 +25,12 @@ taken) but writes nothing to it. Safe to run at any time.
 Does everything `plan` does, then creates, updates and moves pages so Confluence matches the repository.
 Finishes by running the same checks as `verify` and reports the result.
 
+### `purge`
+
+Moves **every** page *beneath* the root page to the trash — managed or not, since everything below the
+root belongs to the sync. The root page itself is never deleted, because it is yours — so the next `apply` rebuilds from nothing. Without `--yes` it only lists what it would
+delete. Trashed pages stay recoverable from the space's trash.
+
 ### `verify`
 
 Re-reads the published tree from Confluence and checks it against a freshly computed plan. Makes no
@@ -33,6 +41,7 @@ writes. Exits non-zero on any mismatch, so it can be used as a CI gate.
 | Flag | Effect |
 |---|---|
 | `--delete` | Move pages whose source file no longer exists to the trash. Without it, such pages are only reported. Only meaningful with `apply`. |
+| `--yes` | Confirm `purge`. Without it, `purge` only lists what it would delete. |
 | `--verbose` | Print a line per created (`+`) and updated (`~`) page, and a line per retried request. |
 
 ## Exit codes

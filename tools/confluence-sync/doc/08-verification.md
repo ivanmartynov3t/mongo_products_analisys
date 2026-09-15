@@ -63,7 +63,7 @@ It fetches pages with `body-format=view` — the HTML Confluence actually serves
 | a page whose source has links renders some | link rewriting silently dropping everything |
 | no raw Markdown in visible text | an unconverted construct: `[text](url)`, `##`, fences, table rules, bullets — code blocks are excluded, since Markdown inside code is not a leak |
 | tables, headings and code blocks are real elements | a table rendered as a wall of pipes |
-| the source footer is present | a page that cannot be traced to its file |
+| a page whose source has publishable links renders some | link rewriting silently dropping everything |
 
 It also re-checks structure exhaustively: every `.md` file on disk is published, every page maps to a
 file, every parent is right.

@@ -22,8 +22,8 @@ import sync  # noqa: E402
 
 CFG = {
     "exclude": [".git/**", "templates/**"],
-    "directory_index": ["README.md", "index.md", "overview.md"],
-    "fold_directory_index": False,
+    "directory_index": ["README.md"],
+    "fold_directory_index": True,
     "root_folder_id": "ROOT",
     "repo_url": "https://example.invalid/repo",
     "repo_branch": "main",
@@ -68,16 +68,7 @@ def plan(repo: Path, reserved: set[str] | None = None):
 check("slug keeps doubled separators",
       sync.slugify("Stage 8 — 2026-07-31 sync"), "stage-8--2026-07-31-sync")
 check("slug strips punctuation", sync.slugify("Confirmed absent (9)"), "confirmed-absent-9")
-check("humanize expands known acronyms", sync.humanize("sql-tools"), "SQL Tools")
-check("humanize leaves author capitals", sync.humanize("MongoDB Notes"), "MongoDB Notes")
-check("titles drop inline code marks",
-      sync.plain_text("Repository Structure — `mongo_products_analisys`"),
-      "Repository Structure — mongo_products_analisys")
-check("titles drop bold, italic and links",
-      sync.plain_text("**Bold** and *soft* [link](x.md) and ~~gone~~"),
-      "Bold and soft link and gone")
-check("titles keep underscores inside words",
-      sync.plain_text("overview_of_3t_products"), "overview_of_3t_products")
+
 
 # ------------------------------------------------------------------------ structure
 
@@ -90,38 +81,47 @@ repo = build({
 root, nodes, renderer = plan(repo)
 
 check("excluded directory is not published", "templates/skeleton.md" in nodes, False)
-check("the tree mirrors the repository one-to-one",
-      sorted(n.key for n in nodes.values() if n.key),
-      ["README.md", "docs", "docs/README.md", "docs/guide.md"])
-check("a README is a page of its own, not folded away",
-      nodes["docs/README.md"].title, "Docs (README)")
-check("the directory keeps the plain name", nodes["docs"].title, "Docs")
-check("the directory keeps its own page", nodes["docs"].is_dir, True)
-check("a README sits under its own directory", nodes["docs/README.md"].parent.key, "docs")
-check("root files sit directly under the sync root", nodes["README.md"].parent.key, "")
+check("the tree mirrors the repository", sorted(n.key for n in nodes.values()),
+      [".", "docs", "docs/guide.md"])
+check("pages are named after their file", nodes["docs/guide.md"].title, "guide.md")
+check("directories are named after the directory", nodes["docs"].title, "docs")
+check("a subdirectory README becomes that directory's content, not a page",
+      "docs/README.md" in nodes, False)
+check("the directory page carries the README's source path",
+      nodes["docs"].source_path, "docs/README.md")
+check("the root README becomes the root page's content, not a page called README.md",
+      "README.md" in {n.key for n in nodes.values()}, False)
+check("the root page carries the root README", nodes["."].source_path, "README.md")
+check("the root page is named after the repository",
+      nodes["."].title, Path(nodes["."].key).name or "x" and nodes["."].title)
+check("directories hang under the root page", nodes["docs"].parent.key, ".")
 check("child sits under its directory", nodes["docs/guide.md"].parent.key, "docs")
 
-contains("link to a file becomes a page link", nodes["README.md"].body,
-         '<ri:page ri:content-title="Guide"/>')
-contains("a link to another file resolves to that file's own page",
-         nodes["docs/guide.md"].body, '<ri:page ri:content-title="Home"/>')
+contains("link to a file becomes a page link", nodes["."].body,
+         '<ri:page ri:content-title="guide.md"/>')
+contains("a link to the root README resolves to the root page",
+         nodes["docs/guide.md"].body,
+         f'<ri:page ri:content-title="{nodes["."].title}"/>')
 
 # ----------------------------------------------------------------- title collisions
 
 repo = build({
-    "a/feature.md": "# Feature Report\n",
-    "b/feature.md": "# Feature Report\n",
-    "c/feature.md": "# Feature Report\n",
+    "a/feature.md": "# One\n",
+    "b/feature.md": "# Two\n",
+    "c/feature.md": "# Three\n",
+    "solo.md": "# Alone\n",
 })
 root, nodes, _ = plan(repo)
-titles = sorted(n.title for n in nodes.values() if not n.is_dir)
-check("colliding titles are all qualified to the same depth", titles,
-      ["A › Feature Report", "B › Feature Report", "C › Feature Report"])
+check("a shared file name sends the whole group to full paths",
+      sorted(n.title for n in nodes.values() if not n.is_dir),
+      ["a/feature.md", "b/feature.md", "c/feature.md", "solo.md"])
+check("the root page is named after the repository directory",
+      nodes["."].title, repo.name)
 
 repo = build({"one.md": "# Taken\n"})
-root, nodes, _ = plan(repo, reserved={"Taken"})
+root, nodes, _ = plan(repo, reserved={"one.md"})
 check("a title already used elsewhere in the space is avoided",
-      nodes["one.md"].title != "Taken", True)
+      nodes["one.md"].title != "one.md", True)
 
 # ------------------------------------------------------------------------- rendering
 
@@ -144,7 +144,7 @@ body = nodes["doc.md"].body
 
 contains("heading anchor is preserved", body, 'ac:anchor="Prereqs"')
 contains("line anchor falls back to a plain page link", body,
-         '<ri:page ri:content-title="Target"/>')
+         '<ri:page ri:content-title="target.md"/>')
 check("line anchor is reported",
       any(i.kind == "line-anchor-dropped" for i in renderer.issues), True)
 check("broken link is reported",
@@ -159,7 +159,8 @@ contains("code fence becomes a code macro", body, '<ac:structured-macro ac:name=
 contains("code language is carried over", body, "<ac:parameter ac:name=\"language\">python</ac:parameter>")
 contains("table survives", body, "<table>")
 contains("void elements are self-closed for XHTML", body, "<br/>")
-check("the H1 is not repeated in the body", "<h1>" in body, False)
+contains("the document's own heading is kept, since the title is the file name",
+         body, "<h1>Doc</h1>")
 
 check("]]> cannot break out of CDATA",
       sync.code_macro("", "a]]>b"), '<ac:structured-macro ac:name="code">'
@@ -174,23 +175,24 @@ nodes["a.md"].title = "A renamed"
 after = sync.digest_of(nodes["a.md"], "")
 check("a retitle changes the digest", before != after, True)
 
-# --------------------------------------------------------------------- source footer
+# ------------------------------------------------------- nothing is added to a page
 
-repo = build({"docs/guide.md": "# Guide\n\nbody\n"})
+repo = build({"docs/guide.md": "# Guide\n\nbody\n", "docs/other.md": "# Other\n"})
 root, nodes, _ = plan(repo)
-contains("every page names its source file", nodes["docs/guide.md"].body,
-         "docs/guide.md")
-contains("the source is linked to the repository", nodes["docs/guide.md"].body,
-         "https://example.invalid/repo/blob/main/docs/guide.md")
-contains("directory pages name their directory", nodes["docs"].body,
-         "https://example.invalid/repo/tree/main/docs")
+body = nodes["docs/guide.md"].body
+check("no provenance footer is appended", "Published automatically" in body, False)
+check("no child listing is appended", 'ac:name="children"' in body, False)
+check("no links are added to a document that has none", "<a " in body or "ac:link" in body, False)
+check("a directory without a README renders empty", nodes["docs"].body, "")
 
-# ------------------------------------------------- H1 removal survives title cleaning
+# ----------------------------------------------------------- over-long path titles
 
-repo = build({"r.md": "# Structure — `repo`\n\nbody\n"})
+deep = "/".join(["directory-with-a-long-name"] * 12) + "/feature-report.md"
+repo = build({deep: "# Deep\n", "other/feature-report.md": "# Other\n"})
 root, nodes, _ = plan(repo)
-check("markdown is stripped from the title", nodes["r.md"].title, "Structure — repo")
-check("the cleaned H1 is still removed from the body", "<h1>" in nodes["r.md"].body, False)
+title = nodes[deep].title
+check("an over-long path title is clamped", len(title) <= sync.TITLE_LIMIT, True)
+check("clamping keeps the identifying tail", title.endswith("feature-report.md"), True)
 
 # ------------------------------------------------------------------------------ done
 

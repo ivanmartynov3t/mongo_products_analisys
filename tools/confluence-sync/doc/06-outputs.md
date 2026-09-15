@@ -50,8 +50,9 @@ Contents, in order:
 
 ### Pages
 
-Created under the configured root folder, nested to match the repository. Page bodies are Confluence
-storage format. Updates bump the page version with the message `repo-sync <source path>`, so the page
+Created under the configured root page, nested to match the repository. A page body is the converted
+document and nothing else — no child listing, no footer, no added links. Bodies are Confluence storage
+format. Updates bump the page version with the message `repo-sync <source path>`, so the page
 history shows which file a change came from.
 
 ### A content property on every managed page
@@ -75,7 +76,7 @@ recognisable on the next run, from any machine. See [07-change-detection.md](07-
 
 ## What is never written
 
-- **Nothing outside the root folder.** Every operation is scoped to pages beneath it.
+- **Nothing outside the root page.** Every operation is scoped to the root page and its descendants, and the root page itself is never created, renamed, re-parented or deleted.
 - **No page the tool did not create.** Pages lacking the `repo-sync` property are never updated, moved or
   deleted; `verify` reports them as unmanaged rather than adopting them.
 - **No repository files.** The tool only reads the documentation. The one file it writes in the repository

@@ -18,7 +18,7 @@ Checks per page:
   * every internal link resolves to a page inside the synced tree
   * no raw Markdown left in the visible text - outside code blocks, where it belongs
   * block constructs really became blocks: tables as tables, fences as code macros
-  * the source footer naming the repository file is present
+  * no links beyond the ones the source document itself contains
 
 Structure is checked separately and exhaustively: every source file has exactly one
 page, under the right parent.
@@ -34,6 +34,7 @@ import re
 import sys
 import tomllib
 from pathlib import Path
+from urllib.parse import unquote
 
 import httpx
 
@@ -64,6 +65,29 @@ LEAKS = [
 ]
 
 
+SOURCE_LINK = re.compile(r"\[[^\]]*\]\(([^)\s]+)\)")
+
+
+def publishable_links(path: Path) -> int:
+    """How many of a document's links the sync is *able* to publish.
+
+    A page with no rendered links is only suspicious if its source had links worth
+    rendering. Links to http(s)/mailto survive as-is, and links to another published
+    document become page links - but a file:// path to somebody's hard disk, or a link
+    to a file that does not exist, is deliberately dropped, so a page built only from
+    those is correctly link-free.
+    """
+    n = 0
+    for href in SOURCE_LINK.findall(path.read_text(errors="replace")):
+        if href.startswith(("http://", "https://", "mailto:")):
+            n += 1
+        elif ":" not in href.split("/")[0]:
+            target = (path.parent / unquote(href).partition("#")[0]).resolve()
+            if target.exists() and (target.is_dir() or target.suffix == ".md"):
+                n += 1
+    return n
+
+
 def visible_text(view_html: str) -> str:
     """Rendered text with code blocks removed - Markdown inside code is not a leak."""
     without_code = CODEISH.sub(" ", view_html)
@@ -83,9 +107,10 @@ def main() -> int:
                           os.environ["CONFLUENCE_API_TOKEN"])
 
     print("reading the published tree …")
-    remote = sync.read_remote(api, cfg["root_folder_id"])
+    remote = sync.read_remote(api, cfg["root_page_id"])
     root, nodes = sync.discover(REPO, cfg)
-    sync.assign_titles(REPO, nodes, set())
+    sync.assign_titles(REPO, nodes, set(),
+                       root_title=remote[cfg["root_page_id"]].title)
     expected = {n.source_path: n for n in nodes.values() if n.key}
 
     failures: list[str] = []
@@ -107,7 +132,7 @@ def main() -> int:
         page = by_source.get(source)
         if not page:
             continue
-        want = (cfg["root_folder_id"] if node.parent is None or not node.parent.key
+        want = (None if node.parent is None
                 else (by_source.get(node.parent.source_path).id
                       if by_source.get(node.parent.source_path) else None))
         if want and page.parent_id != want:
@@ -144,8 +169,11 @@ def main() -> int:
             if target_id not in ids:
                 failures.append(f"{title!r} links to page {target_id}, "
                                 "which is outside the synced tree")
-        if not ANY_LINK.search(view) and "](" in (REPO / source).read_text(errors="replace"):
-            failures.append(f"{title!r} has links in its source but none rendered")
+        # Only file-backed pages have a source to compare against; a directory page's
+        # source path is a directory, and one without a README is legitimately empty.
+        if not source.endswith("/") and not ANY_LINK.search(view):
+            if publishable_links(REPO / source):
+                failures.append(f"{title!r} has links in its source but none rendered")
 
         totals["tables"] += view.count("<table")
         totals["code"] += len(re.findall(r'class="[^"]*code', view)) + view.count("<pre")
@@ -161,8 +189,6 @@ def main() -> int:
                 # reason to fail a release.
                 warnings.append(f"raw {label} visible in {title!r} ({source}): "
                                 f"{m.group(0)[:60]!r}")
-        if "Published automatically from the repository" not in text:
-            failures.append(f"{title!r} is missing its source footer")
 
     print(f"  rendered: {totals['links']} internal links, {totals['headings']} headings, "
           f"{totals['tables']} tables, {totals['code']} code blocks")

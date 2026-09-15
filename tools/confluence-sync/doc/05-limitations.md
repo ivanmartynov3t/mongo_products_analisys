@@ -42,10 +42,10 @@ render Mermaid without a marketplace app.
 
 **Result:** readable source, not a picture.
 
-## Titles that had to be qualified — 89 occurrences
+## Titles that had to be qualified — 242 occurrences
 
-Not a loss of fidelity, but a visible difference from the repository: a page may be titled
-`3T Lens › Features › Governance` where the directory is just `governance`. This is forced by
+Not a loss of fidelity, but longer titles than the file names: where a name is shared — 72 files are
+called `feature-report.md` — every page sharing it is titled by its full repository path. Forced by
 Confluence's space-wide title uniqueness. See [04-conversion.md](04-conversion.md).
 
 ## Structural notes

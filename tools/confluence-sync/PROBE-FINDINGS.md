@@ -1,5 +1,9 @@
 # Probe findings — 2026-09-15 (verified against the live instance, not documentation)
 
+> Historical raw notes from the first probing session, kept for provenance. The design has moved on
+> since — the sync root is now a page, not this folder — and the maintained account of the API's
+> behaviour is [doc/09-confluence-api.md](doc/09-confluence-api.md).
+
 Space `~712020e5…` = spaceId **11436034**. Root folder `1375076366` = "Product compare",
 itself a child of page `11436238`.
 

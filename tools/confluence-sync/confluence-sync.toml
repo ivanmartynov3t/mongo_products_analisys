@@ -1,11 +1,11 @@
 # Where the repo is published. Credentials live in .env (gitignored), never here.
-root_folder_id = "1375076366"   # "Product compare" folder
+# The sync root is a *page*, not a folder: the repository root is a directory like any
+# other, so it needs somewhere to put its own README - and a Confluence folder has no
+# body (the API offers no way to give it one). This page becomes the repository root:
+# its content is README.md and everything else hangs beneath it. Its title is left
+# alone, since it is yours to name.
+root_page_id = "1377567692"     # "Product compare"
 space_id = "11436034"           # personal space ~712020e5d12e80466743b39a881e1526c936d6
-
-# Every published page ends with a line naming the file it came from, linked here.
-# Set repo_url to "" to print the path without a link.
-repo_url = "https://github.com/ivanmartynov3t/mongo_products_analisys"
-repo_branch = "main"
 
 # Only human-readable documentation is published. Everything below is tooling,
 # templates or scratch material and stays out of Confluence.
@@ -18,8 +18,10 @@ exclude = [
 ]
 
 # The page tree mirrors the directory tree one-to-one: every directory is a page,
-# every document is a page. Turning this on would instead fold a directory's README
-# into the directory's own page - readable, but the page tree would then no longer
-# match the directory tree, so it stays off.
-fold_directory_index = false
-directory_index = ["README.md", "index.md", "overview.md"]
+# every document is a page, named exactly as the repository names it.
+#
+# The one permitted deviation: a directory's README.md supplies that directory's page
+# content instead of becoming a page of its own. README.md only - an overview.md or
+# index.md stays an ordinary page, like any other document.
+fold_directory_index = true
+directory_index = ["README.md"]

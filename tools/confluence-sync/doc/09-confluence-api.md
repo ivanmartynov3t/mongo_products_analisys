@@ -36,8 +36,10 @@ most of [04-conversion.md](04-conversion.md) and [07-change-detection.md](07-cha
 ## 3. Pages can be created directly under a folder
 
 `parentId` accepts a **folder** id; the response comes back with `parentType: "folder"`. Community reports
-suggested otherwise, which is why it was probed first — a fallback design (a manually created root page)
-was not needed.
+suggested otherwise, which is why it was probed first.
+
+This is no longer used — the sync root is a page, for the reason in §7 — but it is worth knowing that
+folder-parented pages do work.
 
 ## 4. `descendants` truncates at depth 2 by default
 
@@ -70,7 +72,40 @@ existed, because the search index lags writes.
 **Consequence:** the tool never uses search to find its pages. It walks the folder tree, which is
 immediately consistent.
 
-## 7. Miscellaneous
+## 7. A folder has no body; only a page can hold content and children
+
+`POST /folders` accepts `spaceId`, `title`, `parentId` — nothing else — and there is no update endpoint
+for a folder at all (`/folders/{id}` offers only `get` and `delete`). A folder can list children, but it
+can never hold content.
+
+That is why the sync root is a **page**. The repository root is a directory like any other and needs
+somewhere to put its own `README.md`; with a folder as the root, that README would have had to appear as
+a page called `README.md`. With a page as the root, `README.md` appears nowhere in Confluence.
+
+## 8. An archived page reserves its title; a trashed one does not
+
+Measured directly:
+
+| Attempt | Result |
+|---|---|
+| create a page titled like an **archived** page | `400 A page already exists with the same TITLE in this space` |
+| create a page titled like a **trashed** page | `200` |
+
+Deleting a page's parent leaves its children **archived with no parent** — invisible in the page tree,
+still holding their titles. Since titles are the link key, those leftovers silently push live pages into
+longer path-qualified names.
+
+The consequence for the design: freeing a title needs only a **trash**, never a permanent purge, so the
+recovery is non-destructive. See [12-title-collisions.md](12-title-collisions.md).
+
+## 9. Deleting a page that is already gone answers 500, not 404
+
+The archived-page listing is eventually consistent and can name a page that has already been purged;
+`DELETE` on it returns `500 INTERNAL_SERVER_ERROR`. Title-freeing is therefore best-effort: a failed
+delete counts as a real failure only if the page is still there afterwards, and a title that genuinely
+cannot be freed makes the run re-plan around it rather than abort.
+
+## 10. Miscellaneous
 
 - `PUT /api/v2/pages/{id}` requires `version.number` to be exactly the current version plus one, so each
   update reads the page first.
@@ -80,6 +115,8 @@ immediately consistent.
 - Labels must be written through the v1 endpoint (`POST /rest/api/content/{id}/label`); v2 exposes reads
   only.
 - Attachment upload exists only in v1. Not used here — this repository has no images.
+- A page cannot be its own parent: sending the root page's own id as its `parentId` returns
+  `400 Can not set page as its own parent`. The root page's `parentId` is simply never sent.
 
 ## Re-checking these
 

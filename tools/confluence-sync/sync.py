@@ -11,6 +11,13 @@ Three phases, each usable on its own:
   plan    walk the repo, resolve titles and links, print what would change (writes nothing)
   apply   plan, then create/update/move/trash pages so Confluence matches the repo
   verify  read the tree back from Confluence and prove it matches the repo
+  purge   trash every page below the root page, to rebuild from nothing (needs --yes)
+
+Titles are unique per space and are this tool's link key, so collisions matter. An
+archived page still reserves its title (a trashed one does not), and deleting a parent
+leaves its children archived - so the tool's own leftovers would otherwise push live
+pages into longer path-qualified names. `apply` trashes exactly those leftovers whose
+titles it needs; `plan` reports them without touching anything.
 
 Design notes that are not obvious, all established by probing the live instance
 (see PROBE-FINDINGS.md):
@@ -44,18 +51,10 @@ from urllib.parse import unquote
 import httpx
 from markdown_it import MarkdownIt
 
+ROOT_KEY = "."      # the repository root, published as a page of its own
 PROPERTY_KEY = "repo-sync"
 LABEL = "repo-sync"
-TOOL_VERSION = "1.0"
-BREADCRUMB = " › "  # "Parent › Child", used to disambiguate colliding titles
-
-# Words that look wrong when naively title-cased.
-ACRONYMS = {
-    "ai": "AI", "sql": "SQL", "mcp": "MCP", "ui": "UI", "api": "API", "cli": "CLI",
-    "3t": "3T", "3tl": "3TL", "eaf": "EAF", "gui": "GUI", "poc": "POC", "voc": "VoC",
-    "mongodb": "MongoDB", "dbeaver": "DBeaver", "nosqlbooster": "NoSQLBooster",
-    "tableplus": "TablePlus", "datagrip": "DataGrip", "json": "JSON", "erd": "ERD",
-}
+TOOL_VERSION = "2.0"
 
 
 # --------------------------------------------------------------------------- model
@@ -90,41 +89,6 @@ class Issue:
 # ----------------------------------------------------------------------- discovery
 
 
-def humanize(name: str) -> str:
-    words = re.split(r"[-_\s]+", name.strip())
-    out = []
-    for w in words:
-        if not w:
-            continue
-        low = w.lower()
-        if low in ACRONYMS:
-            out.append(ACRONYMS[low])
-        elif w[:1].isupper():
-            out.append(w)  # already capitalised by the author, leave it alone
-        else:
-            out.append(w[:1].upper() + w[1:])
-    return " ".join(out)
-
-
-def first_heading(text: str) -> str | None:
-    m = re.search(r"^#\s+(.+?)\s*$", text, re.M)
-    return plain_text(m.group(1)) if m else None
-
-
-def plain_text(heading: str) -> str:
-    """Strip inline Markdown, since a Confluence title is plain text.
-
-    Without this, '# Repository Structure — `mongo_products_analisys`' becomes a page
-    titled with literal backticks.
-    """
-    s = re.sub(r"\[([^\]]*)\]\([^)]*\)", r"\1", heading)   # [text](url) -> text
-    s = re.sub(r"`+([^`]*)`+", r"\1", s)                   # `code` -> code
-    s = re.sub(r"(\*\*|__)(.+?)\1", r"\2", s)              # bold
-    s = re.sub(r"(?<!\w)([*_])(.+?)\1(?!\w)", r"\2", s)    # italic
-    s = re.sub(r"~~(.+?)~~", r"\1", s)                     # strikethrough
-    return s.strip()
-
-
 def slugify(heading: str) -> str:
     """GitHub-style heading anchor, so in-repo '#some-heading' links can be resolved.
 
@@ -137,12 +101,19 @@ def slugify(heading: str) -> str:
 
 
 def discover(repo: Path, cfg: dict) -> tuple[Node, dict[str, Node]]:
-    """Mirror the directory tree exactly: one page per directory, one per document.
+    """Mirror the directory tree: one page per directory, one page per document.
 
-    Nothing is folded, merged or reordered, so whatever shape the repository takes in
-    future, Confluence takes the same shape. `fold_directory_index` can put a README's
-    content into its own directory's page, but it is off by default because it makes
-    the page tree differ from the directory tree.
+    Nothing is reordered or flattened, so whatever shape the repository takes in
+    future, Confluence takes the same shape.
+
+    The single permitted deviation is `fold_directory_index`: a directory's README
+    becomes that directory's page content instead of a page of its own, because a
+    page with no content of its own is exactly what a README is for. That holds for
+    the repository root too, which is why the root is published as a *page* rather
+    than mapped onto the configured Confluence folder: a folder has no body (the API
+    offers no way to give it one), so a root README would have nowhere to live and
+    would have to appear as a page named README.md. The root page carries the root
+    README's content and everything else hangs beneath it.
     """
     excludes = cfg["exclude"]
     index_names = cfg["directory_index"] if cfg.get("fold_directory_index") else []
@@ -156,10 +127,12 @@ def discover(repo: Path, cfg: dict) -> tuple[Node, dict[str, Node]]:
         if not excluded(p.relative_to(repo))
     )
 
-    root = Node(key="", is_dir=True, title="<root folder>")
-    nodes: dict[str, Node] = {"": root}
+    root = Node(key=ROOT_KEY, is_dir=True)
+    nodes: dict[str, Node] = {ROOT_KEY: root}
 
     def container(rel_dir: str) -> Node:
+        if not rel_dir:
+            return root
         if rel_dir in nodes:
             return nodes[rel_dir]
         parent_key = rel_dir.rpartition("/")[0] if "/" in rel_dir else ""
@@ -169,8 +142,8 @@ def discover(repo: Path, cfg: dict) -> tuple[Node, dict[str, Node]]:
         nodes[rel_dir] = node
         return node
 
-    # A directory's index file becomes that directory's page body rather than a page
-    # of its own, so 'docs/README.md' does not sit as a child of 'docs'.
+    # A directory's README becomes that directory's page body rather than a page of
+    # its own, so 'docs/README.md' does not sit as a child of 'docs'.
     index_for: dict[str, Path] = {}
     for f in files:
         rel = f.relative_to(repo)
@@ -184,8 +157,7 @@ def discover(repo: Path, cfg: dict) -> tuple[Node, dict[str, Node]]:
                 index_for[d] = rel
 
     for dir_key, rel in index_for.items():
-        node = container(dir_key) if dir_key else root
-        node.source = rel
+        container(dir_key).source = rel
 
     for f in files:
         rel = f.relative_to(repo)
@@ -193,72 +165,50 @@ def discover(repo: Path, cfg: dict) -> tuple[Node, dict[str, Node]]:
         d = "" if d == "." else d
         if index_for.get(d) == rel:
             continue  # already the body of its directory
-        parent = container(d) if d else root
+        parent = container(d)
         node = Node(key=rel.as_posix(), is_dir=False, source=rel, parent=parent)
         parent.children.append(node)
         nodes[node.key] = node
-
-    # The repo root's own index (README.md) has nowhere to live: the sync root is a
-    # Confluence folder, and folders hold no body. It becomes an ordinary page.
-    if root.source is not None:
-        rel = root.source
-        node = Node(key=rel.as_posix(), is_dir=False, source=rel, parent=root)
-        root.children.append(node)
-        nodes[node.key] = node
-        root.source = None
 
     for n in nodes.values():
         n.children.sort(key=lambda c: (not c.is_dir, c.key))
     return root, nodes
 
 
-def assign_titles(repo: Path, nodes: dict[str, Node], reserved: set[str]) -> list[Issue]:
-    """Give every node a space-unique title.
+def assign_titles(repo: Path, nodes: dict[str, Node], reserved: set[str],
+                  root_title: str | None = None) -> list[Issue]:
+    """Title every page after the file or directory it mirrors.
 
-    Preferred title is the document's own H1 (or a humanized directory name). On
-    collision the parent path is prepended one segment at a time, which is stable as
-    long as the file stays where it is - and a move rewrites the links anyway.
+    A page is called exactly what the repository calls it - `feature-dictionary.md`,
+    `studio-3t` - so the page tree reads like a directory listing.
+
+    Confluence titles must be unique across the whole space, and this repository has 72
+    files named `feature-report.md`. Where a name is not unique, every page sharing it
+    is titled by its full repository path instead, which is unique by construction:
+    `products/3t/studio-3t/features/ai/feature-report.md`.
+
+    The root page is the exception: it already exists and its title is the user's to
+    choose, so it is kept as it is rather than renamed to the repository's name.
     """
     issues: list[Issue] = []
     taken = set(reserved)
-    ordered = sorted((n for n in nodes.values() if n.key != ""), key=lambda n: n.key)
+    ordered = sorted(nodes.values(), key=lambda n: n.key)
 
-    bases: dict[Node, str] = {}
-    for node in ordered:
-        if node.source is not None:
-            text = (repo / node.source).read_text(encoding="utf-8", errors="replace")
-            base = first_heading(text) or humanize(node.source.stem)
-        else:
-            base = humanize(Path(node.key).name)
-        base = re.sub(r"\s+", " ", base).strip()[:240]
-        # A README headed "# Docs" inside docs/ would otherwise be qualified into
-        # "Docs › Docs". Naming the file instead reads properly in the page tree.
-        if node.source is not None and node.parent is not None and node.parent.key:
-            if base.casefold() == humanize(Path(node.parent.key).name).casefold():
-                base = f"{base} ({node.source.stem})"
-        bases[node] = base
-
-    # Every node sharing a base name is disambiguated to the *same* depth, so the ten
-    # "Governance" folders all read "<Product> › Features › Governance" rather than one
-    # of them keeping the bare name because it happened to be walked first.
     groups: dict[str, list[Node]] = {}
-    for node, base in bases.items():
-        groups.setdefault(base, []).append(node)
+    for node in ordered:
+        name = Path(node.key).name or (root_title or repo.name)
+        groups.setdefault(name, []).append(node)
 
     for base, group in groups.items():
-        depth = 0
-        if len(group) > 1 or base in taken:
-            limit = max(len(list(iter_ancestors(n))) for n in group)
-            while depth < limit:
-                depth += 1
-                labels = {qualified(n, base, depth) for n in group}
-                if len(labels) == len(group) and not (labels & taken):
-                    break
-        for node in sorted(group, key=lambda n: n.key):
-            candidate = qualified(node, base, depth)
+        # One page may keep the bare name; a shared name sends the whole group to full
+        # paths, so siblings never read inconsistently.
+        use_path = len(group) > 1 or base in taken
+        for node in group:
+            path_title = base if node.key == ROOT_KEY else node.key
+            candidate = clamp(path_title if use_path else base)
             n = 2
             while candidate in taken:
-                candidate = f"{qualified(node, base, depth)} ({n})"
+                candidate = clamp(path_title if use_path else base, suffix=f" ({n})")
                 n += 1
             if candidate != base:
                 issues.append(Issue("title-disambiguated", node.source_path, candidate))
@@ -267,20 +217,15 @@ def assign_titles(repo: Path, nodes: dict[str, Node], reserved: set[str]) -> lis
     return issues
 
 
-def qualified(node: Node, base: str, depth: int) -> str:
-    """`base` prefixed with the `depth` nearest ancestor directory names."""
-    if depth == 0:
-        return base
-    ancestors = [a for a in iter_ancestors(node)][::-1]
-    prefix = BREADCRUMB.join(humanize(Path(a.key).name) for a in ancestors[-depth:])
-    return f"{prefix}{BREADCRUMB}{base}" if prefix else base
+TITLE_LIMIT = 250  # Confluence rejects longer titles
 
 
-def iter_ancestors(node: Node):
-    p = node.parent
-    while p is not None and p.key != "":
-        yield p
-        p = p.parent
+def clamp(title: str, suffix: str = "") -> str:
+    """Keep the tail of an over-long path - the end identifies a file, the start repeats."""
+    room = TITLE_LIMIT - len(suffix)
+    if len(title) > room:
+        title = "…" + title[-(room - 1):]
+    return title + suffix
 
 
 # ------------------------------------------------------------------------ rendering
@@ -418,47 +363,19 @@ class Renderer:
     # -- entry point -------------------------------------------------------
 
     def render(self, node: Node) -> str:
-        if node.source is None:
-            body = ('<p>This page mirrors a folder of the repository. Its contents:</p>'
-                    '<ac:structured-macro ac:name="children">'
-                    '<ac:parameter ac:name="all">true</ac:parameter>'
-                    "</ac:structured-macro>")
-            return body + self.footer(node)
-        text = (self.repo / node.source).read_text(encoding="utf-8", errors="replace")
-        text = strip_title_heading(text, node.title)
-        html = self.md.render(text, {"node": node, "stack": []})
-        children = ('<p><ac:structured-macro ac:name="children">'
-                    '<ac:parameter ac:name="all">true</ac:parameter>'
-                    "</ac:structured-macro></p>" if node.children else "")
-        return to_xhtml(html) + children + self.footer(node)
+        """The converted file, and nothing else.
 
-    def footer(self, node: Node) -> str:
-        """Name the file this page was generated from.
-
-        Page titles come from each document's own heading, so a reader cannot otherwise
-        tell which repository file they are looking at - and two documents may share a
-        heading. This line makes every page traceable, and searchable by path.
+        No child listing, no provenance footer, no navigation: a page carries exactly
+        what its file carries, so the only links on it are the ones the author wrote.
+        Confluence's own page tree already shows the hierarchy. A directory with no
+        README therefore renders as an empty page.
         """
-        path = node.source_path
-        url = self.cfg.get("repo_url", "")
-        if url:
-            branch = self.cfg.get("repo_branch", "main")
-            kind = "tree" if node.source is None else "blob"
-            href = f"{url.rstrip('/')}/{kind}/{branch}/{path.rstrip('/')}"
-            where = f'<a href="{escape_attr(href)}">{escape_attr(path)}</a>'
-        else:
-            where = f"<code>{escape_attr(path)}</code>"
-        return ("<hr/><p><em>Source: " + where
-                + ". Published automatically from the repository - "
-                  "edits made here are overwritten on the next sync.</em></p>")
-
-
-def strip_title_heading(text: str, title: str) -> str:
-    """Drop the leading H1 when Confluence already shows it as the page title."""
-    m = re.search(r"^#\s+(.+?)\s*$", text, re.M)
-    if m and plain_text(m.group(1)) == title:
-        return text[: m.start()] + text[m.end():]
-    return text
+        if node.source is None:
+            return ""
+        # The document's own H1 is kept: the page is titled after the file, so the
+        # heading is not a duplicate of the title.
+        text = (self.repo / node.source).read_text(encoding="utf-8", errors="replace")
+        return to_xhtml(self.md.render(text, {"node": node, "stack": []}))
 
 
 def escape_attr(value: str) -> str:
@@ -557,9 +474,14 @@ def walk_descendants(api: Confluence, kind: str, content_id: str):
         frontier.extend(deepest)
 
 
-def read_remote(api: Confluence, folder_id: str) -> dict[str, RemotePage]:
+def read_remote(api: Confluence, root_page_id: str) -> dict[str, RemotePage]:
+    """The root page and everything beneath it."""
     pages: dict[str, RemotePage] = {}
-    for item in walk_descendants(api, "folders", folder_id):
+    root = api.request("GET", f"/api/v2/pages/{root_page_id}")
+    items = [{"id": root["id"], "title": root["title"], "type": "page",
+              "parentId": root.get("parentId"), "root": True}]
+    items += list(walk_descendants(api, "pages", root_page_id))
+    for item in items:
         if item.get("type") != "page":
             continue
         pid = item["id"]
@@ -572,7 +494,7 @@ def read_remote(api: Confluence, folder_id: str) -> dict[str, RemotePage]:
         pages[pid] = RemotePage(
             id=pid,
             title=item["title"],
-            parent_id=str(item.get("parentId") or ""),
+            parent_id="" if item.get("root") else str(item.get("parentId") or ""),
             source_path=value.get("source_path"),
             digest=value.get("digest"),
             property_id=(prop or {}).get("id"),
@@ -593,25 +515,23 @@ def digest_of(node: Node, parent_title: str) -> str:
     return h.hexdigest()
 
 
-def plan(repo: Path, cfg: dict, api: Confluence | None, reserved: set[str]):
+def plan(repo: Path, cfg: dict, api: Confluence | None, reserved: set[str],
+         root_title: str | None = None):
     root, nodes = discover(repo, cfg)
-    issues = assign_titles(repo, nodes, reserved)
+    issues = assign_titles(repo, nodes, reserved, root_title)
 
     renderer = Renderer(repo, nodes, cfg)
     renderer.index_anchors()
     for node in nodes.values():
-        if node.key == "":
-            continue
         node.body = renderer.render(node)
     for node in nodes.values():
-        if node.key != "":
-            node.digest = digest_of(node, node.parent.title if node.parent else "")
+        node.digest = digest_of(node, node.parent.title if node.parent else "")
     issues.extend(renderer.issues)
     return root, nodes, issues
 
 
 def bfs(root: Node):
-    queue = list(root.children)
+    queue = [root]
     while queue:
         node = queue.pop(0)
         yield node
@@ -633,9 +553,12 @@ def apply_tree(api: Confluence, cfg: dict, root: Node, nodes: dict[str, Node],
     page_ids: dict[str, str] = {}
 
     for node in bfs(root):  # parents before children
-        parent_id = (cfg["root_folder_id"] if node.parent is None or node.parent.key == ""
-                     else page_ids[node.parent.key])
-        existing = by_source.get(node.source_path)
+        # The root page already exists and sits wherever the user put it, so it is
+        # never created and never re-parented - only its content is ours to write.
+        is_root = node.parent is None
+        parent_id = None if is_root else page_ids[node.parent.key]
+        existing = (remote.get(cfg["root_page_id"]) if is_root
+                    else by_source.get(node.source_path))
         if existing is None and node.title in by_title:
             existing = by_title.pop(node.title)
             stats["adopted"] += 1
@@ -654,7 +577,7 @@ def apply_tree(api: Confluence, cfg: dict, root: Node, nodes: dict[str, Node],
             continue
 
         page_ids[node.key] = existing.id
-        moved = existing.parent_id != parent_id
+        moved = not is_root and existing.parent_id != parent_id
         # A missing digest means the page was never fully stamped, so it cannot be
         # trusted as up to date however its content looks.
         if existing.digest is not None and existing.digest == node.digest and not moved:
@@ -662,19 +585,21 @@ def apply_tree(api: Confluence, cfg: dict, root: Node, nodes: dict[str, Node],
             continue
 
         current = api.request("GET", f"/api/v2/pages/{existing.id}")
-        api.request("PUT", f"/api/v2/pages/{existing.id}", {
+        update = {
             "id": existing.id, "status": "current", "title": node.title,
-            "parentId": parent_id,
             "body": {"representation": "storage", "value": node.body},
             "version": {"number": current["version"]["number"] + 1,
                         "message": f"repo-sync {node.source_path}"},
-        })
+        }
+        if parent_id is not None:
+            update["parentId"] = parent_id
+        api.request("PUT", f"/api/v2/pages/{existing.id}", update)
         write_state(api, existing.id, node)
         stats["moved" if moved else "updated"] += 1
         if verbose:
             print(f"  ~ {node.title}")
 
-    wanted = {n.source_path for n in nodes.values() if n.key != ""}
+    wanted = {n.source_path for n in nodes.values()}
     orphans = [r for r in remote.values() if r.source_path and r.source_path not in wanted]
     for orphan in orphans:
         if not delete:
@@ -712,9 +637,9 @@ def write_state(api: Confluence, page_id: str, node: Node, is_new: bool = False)
 
 def verify(api: Confluence, cfg: dict, root: Node, nodes: dict[str, Node]) -> list[str]:
     failures: list[str] = []
-    remote = read_remote(api, cfg["root_folder_id"])
+    remote = read_remote(api, cfg["root_page_id"])
     by_source = {r.source_path: r for r in remote.values() if r.source_path}
-    expected = {n.source_path: n for n in nodes.values() if n.key != ""}
+    expected = {n.source_path: n for n in nodes.values()}
 
     missing = sorted(set(expected) - set(by_source))
     failures += [f"missing page for {m}" for m in missing]
@@ -736,8 +661,8 @@ def verify(api: Confluence, cfg: dict, root: Node, nodes: dict[str, Node]) -> li
             failures.append(f"title differs for {source}: {remote_page.title!r} != {node.title!r}")
         if remote_page.digest != node.digest:
             failures.append(f"stale content for {source}")
-        if node.parent is None or node.parent.key == "":
-            parent_id = cfg["root_folder_id"]
+        if node.parent is None:
+            parent_id = None  # the root page hangs wherever the user put it
         else:
             parent = by_source.get(node.parent.source_path)
             # The parent page's own absence is reported by the `missing` check above;
@@ -761,6 +686,89 @@ def verify(api: Confluence, cfg: dict, root: Node, nodes: dict[str, Node]) -> li
     return failures
 
 
+# ----------------------------------------------------------------------------- purge
+
+
+def purge(api: Confluence, cfg: dict, confirmed: bool) -> int:
+    """Trash every page beneath the sync root, so the next publish rebuilds from nothing.
+
+    Unlike orphan deletion, this does not spare unmanaged pages: everything below the
+    root belongs to the sync, and a half-finished run can leave pages carrying no
+    property. The root page itself is never deleted - it is not ours - and everything
+    goes to the trash, where it stays recoverable.
+    """
+    pages = [(item.get("depth", 0), item["id"], item["title"])
+             for item in walk_descendants(api, "pages", cfg["root_page_id"])
+             if item.get("type") == "page"]
+    if not pages:
+        print("the folder is already empty")
+        return 0
+    print(f"{len(pages)} page(s) under the root folder:")
+    for _, _, title in sorted(pages, key=lambda p: p[2])[:10]:
+        print(f"    {title}")
+    if len(pages) > 10:
+        print(f"    … and {len(pages) - 10} more")
+    if not confirmed:
+        print("\nnothing deleted — re-run with --yes to move all of these to the trash")
+        return 1
+    for _, page_id, _ in sorted(pages, reverse=True):  # children before their parents
+        api.request("DELETE", f"/api/v2/pages/{page_id}")
+    print(f"\ntrashed {len(pages)} page(s) — recoverable from the space's trash")
+    return 0
+
+
+def stale_titles(api: Confluence, cfg: dict) -> dict[str, str]:
+    """Titles held by archived pages this tool created: {title: page id}.
+
+    Deleting a page's parent leaves its children *archived* with no parent. They are
+    invisible in the page tree, but - measured against the live API - an archived page
+    still reserves its title, while a trashed one does not:
+
+        create a page titled like an archived one  -> 400, "A page already exists
+                                                       with the same TITLE in this space"
+        create a page titled like a trashed one    -> 200
+
+    Titles are this tool's link key, so a leftover silently pushes the live page into a
+    longer path-qualified name. Moving the leftover to the trash frees the title and is
+    recoverable, which is why nothing here is ever purged permanently.
+    """
+    held: dict[str, str] = {}
+    for page in api.paged(f"/api/v2/spaces/{cfg['space_id']}/pages?status=archived&limit=250"):
+        props = [pr for pr in api.paged(f"/api/v2/pages/{page['id']}/properties?limit=50")
+                 if pr["key"] == PROPERTY_KEY]
+        if props:
+            held[page["title"]] = page["id"]
+    return held
+
+
+def free_titles(api: Confluence, held: dict[str, str],
+                wanted: set[str]) -> tuple[list[str], list[str]]:
+    """Trash the archived leftovers whose titles are needed: (freed, still held).
+
+    Best-effort by design. The archived listing is eventually consistent and can name a
+    page that has already gone, for which Confluence answers 500 rather than 404 - so a
+    failed delete is only a real failure if the page is still there afterwards. A title
+    that genuinely cannot be freed is handed back, and the caller re-plans with it
+    treated as taken rather than failing the run.
+    """
+    freed, stuck = [], []
+    for title, page_id in held.items():
+        if title not in wanted:
+            continue
+        try:
+            api.request("DELETE", f"/api/v2/pages/{page_id}", tries=3)  # archived -> trashed
+            freed.append(title)
+            continue
+        except RuntimeError:
+            pass
+        try:
+            api.request("GET", f"/api/v2/pages/{page_id}", tries=1)
+            stuck.append(title)
+        except RuntimeError:
+            freed.append(title)  # already gone, so the title is free regardless
+    return freed, stuck
+
+
 # -------------------------------------------------------------------------- reporting
 
 
@@ -768,8 +776,8 @@ def write_report(path: Path, root: Node, nodes: dict[str, Node], issues: list[Is
                  stats: dict | None, failures: list[str] | None) -> None:
     lines = [f"# confluence-sync report", "",
              f"Generated {time.strftime('%Y-%m-%d %H:%M:%S')}", "",
-             f"- pages planned: **{len(nodes) - 1}** "
-             f"({sum(1 for n in nodes.values() if n.is_dir and n.key)} folders, "
+             f"- pages planned: **{len(nodes)}** "
+             f"({sum(1 for n in nodes.values() if n.is_dir)} directories, "
              f"{sum(1 for n in nodes.values() if not n.is_dir)} documents)"]
     if stats:
         lines.append("- result: " + ", ".join(f"{k} {v}" for k, v in stats.items()))
@@ -791,8 +799,8 @@ def write_report(path: Path, root: Node, nodes: dict[str, Node], issues: list[Is
     lines += ["## Page tree", "", "```"]
 
     def walk(node: Node, depth: int):
+        lines.append("  " * depth + node.title + ("/" if node.is_dir else ""))
         for child in node.children:
-            lines.append("  " * depth + child.title + ("/" if child.is_dir else ""))
             walk(child, depth + 1)
 
     walk(root, 0)
@@ -805,9 +813,11 @@ def write_report(path: Path, root: Node, nodes: dict[str, Node], issues: list[Is
 
 def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__.splitlines()[0])
-    ap.add_argument("command", choices=["plan", "apply", "verify"])
+    ap.add_argument("command", choices=["plan", "apply", "verify", "purge"])
     ap.add_argument("--delete", action="store_true",
                     help="trash pages whose source file no longer exists (recoverable)")
+    ap.add_argument("--yes", action="store_true",
+                    help="confirm `purge`, which trashes every page under the root")
     ap.add_argument("--verbose", action="store_true")
     args = ap.parse_args()
 
@@ -823,16 +833,35 @@ def main() -> int:
         print(f"missing environment variable {exc} - see .env", file=sys.stderr)
         return 2
 
+    if args.command == "purge":
+        return purge(api, cfg, args.yes)
+
     # Titles must be unique across the whole space, not just our subtree, so pages
     # that already exist elsewhere in the space reserve their titles.
     print("reading the target space …")
-    remote = read_remote(api, cfg["root_folder_id"])
+    remote = read_remote(api, cfg["root_page_id"])
     managed_titles = {r.title for r in remote.values()}
+    root_page = remote.get(cfg["root_page_id"])
+
+    # Titles are unique per space, so anything else in the space reserves its name -
+    # archived pages included, which is measured, not assumed (see stale_titles).
+    # Leftovers this tool archived are the exception: their titles can be reclaimed,
+    # so they are planned around rather than treated as permanently taken.
+    held = stale_titles(api, cfg)
     reserved = {p["title"] for p in api.paged(f"/api/v2/spaces/{cfg['space_id']}/pages?limit=250")}
     reserved -= managed_titles
+    reserved -= set(held)
 
-    root, nodes, issues = plan(repo, cfg, api, reserved)
-    print(f"planned {len(nodes) - 1} pages from {repo}")
+    root, nodes, issues = plan(repo, cfg, api, reserved,
+                               root_page.title if root_page else None)
+    print(f"planned {len(nodes)} pages from {repo}")
+
+    wanted_titles = {n.title for n in nodes.values()}
+    reclaimable = sorted(set(held) & wanted_titles)
+    if reclaimable:
+        verb = "will be freed" if args.command == "apply" else "would be freed"
+        print(f"  {len(reclaimable)} title(s) held by archived leftovers {verb} "
+              f"(moved to trash, recoverable): e.g. {', '.join(reclaimable[:3])}")
 
     report = here / "last-run-report.md"
     if args.command == "plan":
@@ -848,6 +877,16 @@ def main() -> int:
         for f in failures[:30]:
             print("  ✗ " + f)
         return 0 if not failures else 1
+
+    if reclaimable:
+        freed, stuck = free_titles(api, held, wanted_titles)
+        print(f"freed {len(freed)} title(s) from archived leftovers")
+        if stuck:
+            # Whatever could not be freed is genuinely taken, so plan around it
+            # instead of failing: those pages fall back to path-qualified titles.
+            print(f"  {len(stuck)} could not be freed; re-planning around them")
+            root, nodes, issues = plan(repo, cfg, api, reserved | set(stuck),
+                                       root_page.title if root_page else None)
 
     print("publishing …")
     stats, _, orphans = apply_tree(api, cfg, root, nodes, remote, args.delete, args.verbose)
@@ -869,7 +908,7 @@ def main() -> int:
 
 def summarise(nodes, remote, issues) -> None:
     by_source = {r.source_path for r in remote.values() if r.source_path}
-    wanted = {n.source_path for n in nodes.values() if n.key != ""}
+    wanted = {n.source_path for n in nodes.values()}
     print(f"  create {len(wanted - by_source)}, "
           f"existing {len(wanted & by_source)}, orphan {len(by_source - wanted)}")
     kinds: dict[str, int] = {}
