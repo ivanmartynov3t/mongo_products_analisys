@@ -23,6 +23,7 @@ import sync  # noqa: E402
 CFG = {
     "exclude": [".git/**", "templates/**"],
     "directory_index": ["README.md", "index.md", "overview.md"],
+    "fold_directory_index": False,
     "root_folder_id": "ROOT",
     "repo_url": "https://example.invalid/repo",
     "repo_branch": "main",
@@ -89,16 +90,20 @@ repo = build({
 root, nodes, renderer = plan(repo)
 
 check("excluded directory is not published", "templates/skeleton.md" in nodes, False)
-check("directory index is not a separate page", "docs/README.md" in nodes, False)
-check("directory page takes the index title", nodes["docs"].title, "Docs")
-check("root index becomes an ordinary page", nodes["README.md"].title, "Home")
-check("page count", sorted(n.key for n in nodes.values() if n.key),
-      ["README.md", "docs", "docs/guide.md"])
+check("the tree mirrors the repository one-to-one",
+      sorted(n.key for n in nodes.values() if n.key),
+      ["README.md", "docs", "docs/README.md", "docs/guide.md"])
+check("a README is a page of its own, not folded away",
+      nodes["docs/README.md"].title, "Docs (README)")
+check("the directory keeps the plain name", nodes["docs"].title, "Docs")
+check("the directory keeps its own page", nodes["docs"].is_dir, True)
+check("a README sits under its own directory", nodes["docs/README.md"].parent.key, "docs")
+check("root files sit directly under the sync root", nodes["README.md"].parent.key, "")
 check("child sits under its directory", nodes["docs/guide.md"].parent.key, "docs")
 
 contains("link to a file becomes a page link", nodes["README.md"].body,
          '<ri:page ri:content-title="Guide"/>')
-contains("link to a directory index resolves to the directory page",
+contains("a link to another file resolves to that file's own page",
          nodes["docs/guide.md"].body, '<ri:page ri:content-title="Home"/>')
 
 # ----------------------------------------------------------------- title collisions

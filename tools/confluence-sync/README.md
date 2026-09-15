@@ -33,13 +33,13 @@ Which space and folder to publish into, and what to exclude, live in `confluence
 
 ## How the mapping works
 
+The page tree mirrors the directory tree one to one — nothing folded, merged or reordered.
+
 | Repository | Confluence |
 |---|---|
 | the configured root folder | sync root — never modified |
-| directory `a/b/` | a page for `b` |
-| `a/b/README.md` | the body of the `b` page (not a separate child) |
-| `a/b/c.md` | a child page of `b` |
-| a directory with no README | a page listing its children |
+| directory `a/b/` | a page for `b`, whose body lists its children |
+| `a/b/c.md`, `a/b/README.md` | child pages of `b` |
 
 **Page titles** come from each document's own `#` heading, falling back to a humanized filename.
 Confluence requires titles to be unique across the entire space, so where several documents share a

@@ -17,5 +17,9 @@ exclude = [
     "tools/**",         # this script and its own docs
 ]
 
-# Markdown file that supplies the body of its directory's page, first match wins.
+# The page tree mirrors the directory tree one-to-one: every directory is a page,
+# every document is a page. Turning this on would instead fold a directory's README
+# into the directory's own page - readable, but the page tree would then no longer
+# match the directory tree, so it stays off.
+fold_directory_index = false
 directory_index = ["README.md", "index.md", "overview.md"]

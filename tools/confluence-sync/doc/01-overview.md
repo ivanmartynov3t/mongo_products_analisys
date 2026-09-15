@@ -9,9 +9,9 @@ is ever read back from Confluence into the repository.
 
 ## What it guarantees
 
-- **Identical structure.** Every published directory is a page; every published document is a page under
-  the page for its directory. A `README.md` supplies the body of its own directory's page rather than
-  appearing as a separate child.
+- **Identical structure.** One page per directory, one page per document, in the same nesting as the
+  repository — a strict one-to-one mirror. Nothing is folded, merged or reordered, so a future
+  restructuring of the repository reshapes Confluence the same way.
 - **Working links.** A relative link between two documents becomes a Confluence page link pointing at the
   page the target document was published as, heading anchors included.
 - **Idempotence.** Re-running changes only what actually changed. A page whose rendered content, title and
