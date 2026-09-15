@@ -137,8 +137,15 @@ def slugify(heading: str) -> str:
 
 
 def discover(repo: Path, cfg: dict) -> tuple[Node, dict[str, Node]]:
+    """Mirror the directory tree exactly: one page per directory, one per document.
+
+    Nothing is folded, merged or reordered, so whatever shape the repository takes in
+    future, Confluence takes the same shape. `fold_directory_index` can put a README's
+    content into its own directory's page, but it is off by default because it makes
+    the page tree differ from the directory tree.
+    """
     excludes = cfg["exclude"]
-    index_names = cfg["directory_index"]
+    index_names = cfg["directory_index"] if cfg.get("fold_directory_index") else []
 
     def excluded(rel: Path) -> bool:
         return any(rel.match(pat) or rel.as_posix().startswith(pat.rstrip("*").rstrip("/") + "/")
@@ -223,7 +230,13 @@ def assign_titles(repo: Path, nodes: dict[str, Node], reserved: set[str]) -> lis
             base = first_heading(text) or humanize(node.source.stem)
         else:
             base = humanize(Path(node.key).name)
-        bases[node] = re.sub(r"\s+", " ", base).strip()[:240]
+        base = re.sub(r"\s+", " ", base).strip()[:240]
+        # A README headed "# Docs" inside docs/ would otherwise be qualified into
+        # "Docs › Docs". Naming the file instead reads properly in the page tree.
+        if node.source is not None and node.parent is not None and node.parent.key:
+            if base.casefold() == humanize(Path(node.parent.key).name).casefold():
+                base = f"{base} ({node.source.stem})"
+        bases[node] = base
 
     # Every node sharing a base name is disambiguated to the *same* depth, so the ten
     # "Governance" folders all read "<Product> › Features › Governance" rather than one

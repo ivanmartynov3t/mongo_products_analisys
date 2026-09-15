@@ -6,21 +6,21 @@ links included). They happen in that order, because links can only be rewritten 
 
 ## 1. Structure
 
+The page tree mirrors the directory tree **one to one**. Nothing is folded, merged, reordered or
+flattened, so when the repository is restructured, Confluence takes the new shape exactly.
+
 | Repository | Confluence |
 |---|---|
 | the configured root folder | the sync root; never modified |
 | directory `a/b/` | a page for `b`, under the page for `a` |
-| `a/b/README.md` | the **body** of the page for `b` |
+| `a/b/README.md` | a child page of `b`, like any other document |
 | `a/b/c.md` | a child page of `b` |
-| a directory with no index file | a page whose body lists its children |
-| the repository's own `README.md` | an ordinary page directly under the root folder |
+| a file at the repository root | a page directly under the root folder |
 
-Two consequences worth knowing:
-
-- A directory's `README.md` does **not** appear as a separate page. `docs/README.md` becomes the body of
-  the `docs` page, which is what makes the tree read the same way the repository does.
-- The repository root's `README.md` is the exception. The sync root is a Confluence *folder*, and folders
-  hold no body, so the root README becomes a normal page under the folder.
+A directory's page body is a list of its children; the documents inside it, `README.md` included, are
+pages in their own right. `confluence-sync.toml` has a `fold_directory_index` switch that would instead
+merge a README into its directory's page — it is **off**, because it makes the page tree stop matching
+the directory tree.
 
 Only directories that contain at least one publishable document (at any depth) become pages. Siblings are
 ordered directories first, then documents, each alphabetically by path.

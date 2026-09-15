@@ -37,6 +37,7 @@ exclude = [                     # paths not published
     "tools/**",
 ]
 
+fold_directory_index = false
 directory_index = ["README.md", "index.md", "overview.md"]
 ```
 
@@ -45,7 +46,8 @@ directory_index = ["README.md", "index.md", "overview.md"]
 | `root_folder_id` | The Confluence folder (or page) everything is created under. It is never modified itself, and nothing outside it is ever touched. |
 | `space_id` | Numeric space id — **not** the space key. Required when creating a page. Find it in any page's API response as `spaceId`. |
 | `exclude` | Glob patterns, matched against the repository-relative path. A path matches if `Path.match` matches it or if it starts with the pattern's directory prefix. |
-| `directory_index` | File names that supply the body of their own directory's page instead of becoming a separate child page. Earlier entries win when a directory contains more than one. |
+| `fold_directory_index` | **Off.** On, a directory's README would supply its directory page's body instead of being its own page — which would make the page tree differ from the directory tree. |
+| `directory_index` | Which file names `fold_directory_index` would treat as a directory's index, earlier entries winning. Unused while folding is off. |
 
 ### What is deliberately excluded
 
