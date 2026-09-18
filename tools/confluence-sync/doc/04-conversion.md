@@ -83,9 +83,7 @@ accepts macros, and the API does not accept Markdown at all.
 | the document's own `# ` heading | **kept** — the page is titled after the file, so it is not a duplicate |
 
 
-Raw HTML embedded in Markdown is escaped rather than passed through, so a stray tag cannot produce a
-document Confluence refuses to store. Content inside a code macro is wrapped in CDATA, and a literal
-`]]>` in the code is split across two CDATA sections so it cannot terminate the block early.
+Raw HTML embedded in Markdown is passed through by the CommonMark parser (`html=True`), while Confluence's storage format renderer sanitizes and strips tags it does not support while preserving their inner text. Void elements like `<br>` are self-closed to `<br/>` for XHTML compliance. Content inside a code macro is wrapped in CDATA, and a literal `]]>` in the code is split across two CDATA sections so it cannot terminate the block early.
 
 ### Links
 
