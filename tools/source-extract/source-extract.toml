@@ -1,0 +1,40 @@
+# Source code extraction configuration for 3t.tools evidence
+# Pinned repository metadata and targets for deterministic extracts.
+
+[source]
+# Path to local checkout of the private source repository (fallback/override via SOURCE_EXTRACT_REPO_PATH env)
+repo_path = "/Users/ivan/Project/3t.tools.intellij/3t.tools"
+# Pinned commit SHA representing the audited baseline
+pinned_sha = "7ad943c5452"
+repo_url = "https://github.com/3tio/3t.tools"
+
+[output]
+directory = "research/source-extracts"
+
+# Target classes and methods/javadocs to extract
+[[extract]]
+target_file = "product-suite/data-man-mongodb-ent/src/main/java/t3/tasks/DCSTask.java"
+symbols = [
+    { type = "javadoc", symbol = "DCSTask", line_hint = 41 },
+    { type = "method", symbol = "execute(boolean)", line_hint = 162 },
+    { type = "javadoc", symbol = "execute(boolean)", line_hint = 157 }
+]
+
+[[extract]]
+target_file = "product-suite/data-man-mongodb-ent/src/main/java/t3/tasks/TaskScheduleManager.java"
+symbols = [
+    { type = "method_snippet", symbol = "executeTasks", pattern = "Display display = AppWindow.getShell().getDisplay();" },
+    { type = "method_snippet", symbol = "scheduleLoop", pattern = "Instant thisMinute = now.truncatedTo(ChronoUnit.MINUTES);" }
+]
+
+[[extract]]
+target_file = "product-suite/data-man-mongodb-ent/src/main/java/t3/utils/mongodb/importexport/ImportExportService.java"
+symbols = [
+    { type = "field_javadoc", symbol = "shellSupplier", pattern = "This is, hopefully, temporary." }
+]
+
+[[extract]]
+target_file = "product-suite/data-man-mongodb-ent/src/main/java/t3/dataman/mongodb/app/AppRunner.java"
+symbols = [
+    { type = "method_snippet", symbol = "initPasswordManager", pattern = "PasswordManagerGUI.initPasswordManager(mainShell);" }
+]

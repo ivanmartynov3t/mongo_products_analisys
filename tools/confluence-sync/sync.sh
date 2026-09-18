@@ -24,4 +24,13 @@ fi
 
 command -v uv >/dev/null || { echo "error: uv is not installed (brew install uv)" >&2; exit 2; }
 
+# If source extraction tool is present and local source repository is available, extract/refresh references
+if [[ -f "$repo/tools/source-extract/extract.sh" ]]; then
+  cfg_source_repo="/Users/ivan/Project/3t.tools.intellij/3t.tools"
+  if [[ -d "${SOURCE_EXTRACT_REPO_PATH:-$cfg_source_repo}" ]]; then
+    echo "Refreshing source code extracts before Confluence publish..."
+    "$repo/tools/source-extract/extract.sh" extract
+  fi
+fi
+
 exec uv run --quiet "$here/sync.py" "${@:-plan}"
