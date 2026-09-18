@@ -2,7 +2,7 @@
 
 ## 1. Executive Summary & Resolution Matrix
 
-This report provides a deep code investigation of all potential technical resolutions for enabling Headless / CLI execution in Studio 3T, considering the existing codebase (`product-suite/data-man-mongodb-ent`), embedded Jetty MCP server, and application launching mechanics.
+This report provides a deep code investigation of all potential technical resolutions for enabling Headless / CLI execution in Studio 3T, considering the existing codebase (`3tio/3t.tools` repository, `product-suite/data-man-mongodb-ent`, commit `7ad943c5452`), embedded Jetty MCP server, and application launching mechanics. All code references cite specific packages, classes, and methods within this audited snapshot.
 
 | Resolution Option | Implementation Mechanism | Latency | Code Refactoring Effort | OS Headless (Docker/CI) Compatibility | Feasibility Verdict |
 |---|---|---|---|---|---|
@@ -18,19 +18,19 @@ This report provides a deep code investigation of all potential technical resolu
 ### 2.1 Limitation 1: SWT UI Thread & `Shell` Coupling
 
 #### Codebase Analysis:
-- **Location**: [`DCSTask.java:L163-L173`](file:///Users/ivan/Project/3t.tools.intellij/3t.tools/product-suite/data-man-mongodb-ent/src/main/java/t3/tasks/DCSTask.java#L163-L173)
+- **Location**: `t3/tasks/DCSTask.java` (`execute(boolean)`)
 ```java
 @Override
 public void execute(boolean silent) {
     execute(AppWindow.getInstance().getTabFolderComposite(), silent);
 }
 ```
-- **Location**: [`TaskScheduleManager.java:L86-L89`](file:///Users/ivan/Project/3t.tools.intellij/3t.tools/product-suite/data-man-mongodb-ent/src/main/java/t3/tasks/TaskScheduleManager.java#L86-L89)
+- **Location**: `t3/tasks/TaskScheduleManager.java` (`executeTasks`)
 ```java
 Display display = AppWindow.getShell().getDisplay();
 display.syncExec(() -> executeTasks(instant, isCurrentMinute));
 ```
-- **Location**: [`ImportExportService.java:L115`](file:///Users/ivan/Project/3t.tools.intellij/3t.tools/product-suite/data-man-mongodb-ent/src/main/java/t3/utils/mongodb/importexport/ImportExportService.java#L115)
+- **Location**: `t3/utils/mongodb/importexport/ImportExportService.java` (`shellSupplier`)
 ```java
 /**
  * This is, hopefully, temporary. This class should know nothing UI-related; it should not know what a shell is.
@@ -51,8 +51,8 @@ private final Supplier<Shell> shellSupplier;
 ### 2.2 Limitation 2: Password & Keystore Encryption UI Dialogs
 
 #### Codebase Analysis:
-- **Location**: [`AppRunner.java:L172`](file:///Users/ivan/Project/3t.tools.intellij/3t.tools/product-suite/data-man-mongodb-ent/src/main/java/t3/dataman/mongodb/app/AppRunner.java#L172)
-- **Location**: [`PasswordManagerGUI.java:L30`](file:///Users/ivan/Project/3t.tools.intellij/3t.tools/product-suite/data-man-mongodb-ent/src/main/java/t3/utils/security/password/PasswordManagerGUI.java#L30)
+- **Location**: `t3/dataman/mongodb/app/AppRunner.java` (`initPasswordManager`)
+- **Location**: `t3/utils/security/password/PasswordManagerGUI.java` (`initPasswordManager`)
 ```java
 PasswordManagerGUI.initPasswordManager(mainShell);
 ```
@@ -68,7 +68,7 @@ Introduce a `HeadlessPasswordProvider` interface. In CLI/headless mode, read mas
 ### 2.3 Limitation 3: Scheduler 1-Minute Interval Floor
 
 #### Codebase Analysis:
-- **Location**: [`TaskScheduleManager.java:L74`](file:///Users/ivan/Project/3t.tools.intellij/3t.tools/product-suite/data-man-mongodb-ent/src/main/java/t3/tasks/TaskScheduleManager.java#L74)
+- **Location**: `t3/tasks/TaskScheduleManager.java` (`scheduleLoop`)
 ```java
 Instant thisMinute = now.truncatedTo(ChronoUnit.MINUTES);
 ```
@@ -84,7 +84,7 @@ CLI/HTTP invocation (`studio3t task run`) bypasses `TaskScheduleManager` entirel
 ### 2.4 Limitation 4: Dynamic Parameterization (`--param db=X`)
 
 #### Codebase Analysis:
-- **Location**: [`Task.java`](file:///Users/ivan/Project/3t.tools.intellij/3t.tools/product-suite/data-man-mongodb-ent/src/main/java/t3/tasks/Task.java) and [`ExportTask.java:L51`](file:///Users/ivan/Project/3t.tools.intellij/3t.tools/product-suite/data-man-mongodb-ent/src/main/java/t3/tasks/ExportTask.java#L51)
+- **Location**: `t3/tasks/Task.java` and `t3/tasks/ExportTask.java` (`fromMap` / `toMap`)
 
 #### Obstacle & Impact:
 Tasks serialize target database names, collection names, and output file paths into static map structures (`ExportJob.toMap()`). Currently, there is no runtime variable substitution.
@@ -155,7 +155,7 @@ graph TD
 ```
 
 ### 4.2 Code Modification Requirements
-In [`AppRunner.java:L444`](file:///Users/ivan/Project/3t.tools.intellij/3t.tools/product-suite/data-man-mongodb-ent/src/main/java/t3/dataman/mongodb/app/AppRunner.java#L444):
+In `t3/dataman/mongodb/app/AppRunner.java` (`main` / startup flow):
 ```java
 if (CliOptions.isHiddenMode()) {
     mainShell.setVisible(false);
@@ -200,8 +200,8 @@ graph LR
 ```
 
 ### 5.2 Code Assets Used
-- **Jetty Server**: [`McpServerBootstrap.java:L62`](file:///Users/ivan/Project/3t.tools.intellij/3t.tools/product-suite/data-man-mongodb-ent/src/main/java/t3/mcp/server/McpServerBootstrap.java#L62)
-- **MCP Tool Registry**: [`Studio3TToolService.java`](file:///Users/ivan/Project/3t.tools.intellij/3t.tools/product-suite/data-man-mongodb-ent/src/main/java/t3/mcp/tools/Studio3TToolService.java)
+- **Jetty Server**: `t3/mcp/server/McpServerBootstrap.java`
+- **MCP Tool Registry**: `t3/mcp/tools/Studio3TToolService.java`
 
 ### 5.3 Technical Advantages
 - ⚡ **Instant Execution (<50 ms)**: No JVM cold-start penalty.
@@ -227,8 +227,8 @@ graph TD
 
 ### 6.2 Implementation Plan
 1. **Studio 3T Side**:
-   - Add a lightweight `TaskRestServlet` to Jetty in [`McpServerBootstrap.java`](file:///Users/ivan/Project/3t.tools.intellij/3t.tools/product-suite/data-man-mongodb-ent/src/main/java/t3/mcp/server/McpServerBootstrap.java).
-   - Add `--hidden` flag support to [`Studio3TApp.java`](file:///Users/ivan/Project/3t.tools.intellij/3t.tools/product-suite/data-man-mongodb-ent/src/main/java/t3/dataman/mongodb/app/Studio3TApp.java).
+   - Add a lightweight `TaskRestServlet` to Jetty in `t3/mcp/server/McpServerBootstrap.java`.
+   - Add `--hidden` flag support to `t3/dataman/mongodb/app/Studio3TApp.java`.
 2. **CLI Utility (`s3t`)**:
    - Single standalone binary (Go or Rust) executable on Windows (`s3t.exe`), macOS (`s3t`), and Linux (`s3t`).
    - Automatically detects running instances or launches background hidden instances on demand.
