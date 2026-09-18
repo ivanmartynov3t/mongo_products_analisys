@@ -13,11 +13,14 @@ set -euo pipefail
 here="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 repo="$(cd "$here/../.." && pwd)"
 
-if [[ ! -f "$repo/.env" ]]; then
-  echo "error: $repo/.env not found (needs CONFLUENCE_BASE_URL, CONFLUENCE_USER_EMAIL, CONFLUENCE_API_TOKEN)" >&2
+if [[ -f "$repo/.env" ]]; then
+  set -a; . "$repo/.env"; set +a
+fi
+
+if [[ -z "${CONFLUENCE_BASE_URL:-}" || -z "${CONFLUENCE_USER_EMAIL:-}" || -z "${CONFLUENCE_API_TOKEN:-}" ]]; then
+  echo "error: Confluence credentials missing in environment or $repo/.env (needs CONFLUENCE_BASE_URL, CONFLUENCE_USER_EMAIL, CONFLUENCE_API_TOKEN)" >&2
   exit 2
 fi
-set -a; . "$repo/.env"; set +a
 
 command -v uv >/dev/null || { echo "error: uv is not installed (brew install uv)" >&2; exit 2; }
 
