@@ -40,7 +40,28 @@ jobs:
           CONFLUENCE_USER_EMAIL: ${{ secrets.CONFLUENCE_USER_EMAIL }}
           CONFLUENCE_API_TOKEN: ${{ secrets.CONFLUENCE_API_TOKEN }}
         run: |
-          ./tools/confluence-sync/sync.sh apply --delete
+          set -o pipefail
+          report_path="tools/confluence-sync/last-run-report.md"
+          log_path="$(mktemp)"
+          status=0
+
+          ./tools/confluence-sync/sync.sh apply --delete 2>&1 | tee "$log_path" || status=$?
+
+          if [[ "$status" -ne 0 && ! -f "$report_path" ]]; then
+            {
+              echo "# Confluence sync failed before writing the normal report"
+              echo
+              echo "- Exit status: $status"
+              echo
+              echo "## Command output"
+              echo
+              echo '```text'
+              cat "$log_path"
+              echo '```'
+            } > "$report_path"
+          fi
+
+          exit "$status"
 
       - name: Upload Last Run Report
         if: always()
@@ -48,4 +69,4 @@ jobs:
         with:
           name: confluence-sync-last-run-report
           path: tools/confluence-sync/last-run-report.md
-          if-no-files-found: ignore
+          if-no-files-found: error
