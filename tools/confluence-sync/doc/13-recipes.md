@@ -154,3 +154,16 @@ uv run tools/confluence-sync/audit.py --all   # thorough: what Confluence actual
 ```
 
 Both need the same `.env` credentials as a publish.
+
+---
+
+## Automated publishing in CI
+
+Documentation publishing runs automatically via GitHub Actions (`.github/workflows/confluence-sync.yml`):
+
+- **On push to `main`**: runs whenever any `.md` document or `tools/confluence-sync/**` file is modified.
+- **Daily schedule (`04:00 UTC`)**: checks for manual drift in Confluence and catches any unsynced updates.
+- **Manual dispatch (`workflow_dispatch`)**: triggerable on-demand from the Actions tab.
+
+The workflow executes `./tools/confluence-sync/sync.sh apply --delete` using repository secrets (`CONFLUENCE_BASE_URL`, `CONFLUENCE_USER_EMAIL`, `CONFLUENCE_API_TOKEN`). It saves `last-run-report.md` as an action run artifact on both success and failure.
+
