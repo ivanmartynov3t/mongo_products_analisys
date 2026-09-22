@@ -13,6 +13,15 @@
 - [→ Governance Matrix](../governance/feature-matrix.md)
 - [→ Task Scheduler Matrix](../task-scheduler/feature-matrix.md)
 
+## Feature metadata
+
+- Product name: VisuaLeaf
+- Product group: third-party
+- Feature ID: F-AGG (see [feature-dictionary.md](../../../../../feature-dictionary.md))
+- Feature folder: `aggregation`
+- Analysis date: 2026-07-28
+- Version/release context: —
+
 ## Source index
 
 - S1: https://visualeaf.com/docs/aggregation

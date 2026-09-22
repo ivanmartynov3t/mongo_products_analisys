@@ -7,6 +7,15 @@
 - [Feature dictionary](../../../../../feature-dictionary.md)
 - [Low-level comparison](../../../../../reports/comparisons/low-level-feature-comparison.md)
 
+## Feature metadata
+
+- Product name: MongoDB Compass
+- Product group: third-party
+- Feature ID: F-GOV (see [feature-dictionary.md](../../../../../feature-dictionary.md))
+- Feature folder: `governance`
+- Analysis date: 2026-06-22
+- Version/release context: —
+
 ## Source index
 
 - S1: https://www.mongodb.com/docs/compass/settings/read-only/

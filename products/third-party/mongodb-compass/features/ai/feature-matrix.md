@@ -7,6 +7,15 @@
 - [Feature dictionary](../../../../../feature-dictionary.md)
 - [Low-level comparison](../../../../../reports/comparisons/low-level-feature-comparison.md)
 
+## Feature metadata
+
+- Product name: MongoDB Compass
+- Product group: third-party
+- Feature ID: F-AI (see [feature-dictionary.md](../../../../../feature-dictionary.md))
+- Feature folder: `ai`
+- Analysis date: 2026-07-28
+- Version/release context: —
+
 ## Source index
 
 - S1: https://www.mongodb.com/products/tools/compass

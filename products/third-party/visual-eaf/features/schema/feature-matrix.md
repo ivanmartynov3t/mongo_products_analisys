@@ -12,6 +12,15 @@
 - [→ Governance Matrix](../governance/feature-matrix.md)
 - [→ Task Scheduler Matrix](../task-scheduler/feature-matrix.md)
 
+## Feature metadata
+
+- Product name: VisuaLeaf
+- Product group: third-party
+- Feature ID: F-SCHEMA (see [feature-dictionary.md](../../../../../feature-dictionary.md))
+- Feature folder: `schema`
+- Analysis date: 2026-06-22
+- Version/release context: —
+
 ## Source index
 
 - S_SCH: https://visualeaf.com/docs/json-schema

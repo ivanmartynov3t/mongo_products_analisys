@@ -1,13 +1,20 @@
 # Feature Matrix — Studio 3T / Aggregation
 
-**Last reviewed:** 2026-07-31 — see [research findings](../../../../../research/studio-3t-desktop-review-2026/03-aggregation-findings.md)
-
 ## Navigation
 
 - [Product report](../../product-report.md)
 - [Feature report](feature-report.md)
 - [Feature dictionary](../../../../../feature-dictionary.md)
 - [Low-level comparison](../../../../../reports/comparisons/low-level-feature-comparison.md)
+
+## Feature metadata
+
+- Product name: Studio 3T
+- Product group: 3t
+- Feature ID: F-AGG (see [feature-dictionary.md](../../../../../feature-dictionary.md))
+- Feature folder: `aggregation`
+- Analysis date: 2026-07-31
+- Version/release context: —
 
 ## Source index
 

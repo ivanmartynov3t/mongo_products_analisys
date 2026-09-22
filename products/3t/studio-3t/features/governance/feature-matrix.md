@@ -1,7 +1,5 @@
 # Feature Matrix — Studio 3T / Governance & Security
 
-**Last reviewed:** 2026-07-31 — see [research findings](../../../../../research/studio-3t-desktop-review-2026/10-governance-findings.md)
-
 ## Navigation
 
 - [Product report](../../product-report.md)

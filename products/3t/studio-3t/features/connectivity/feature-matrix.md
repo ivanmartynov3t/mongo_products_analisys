@@ -7,7 +7,14 @@
 - [Feature dictionary](../../../../../feature-dictionary.md)
 - [Low-level comparison](../../../../../reports/comparisons/low-level-feature-comparison.md)
 
-**Last reviewed:** 2026-07-31 — see [research findings](../../../../../research/studio-3t-desktop-review-2026/01-connectivity-findings.md)
+## Feature metadata
+
+- Product name: Studio 3T
+- Product group: 3t
+- Feature ID: F-CONN (see [feature-dictionary.md](../../../../../feature-dictionary.md))
+- Feature folder: `connectivity`
+- Analysis date: 2026-07-31
+- Version/release context: —
 
 ## Source index
 

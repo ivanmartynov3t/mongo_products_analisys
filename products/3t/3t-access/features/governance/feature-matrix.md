@@ -7,6 +7,15 @@
 - [Feature dictionary](../../../../../feature-dictionary.md)
 - [Low-level comparison](../../../../../reports/comparisons/low-level-feature-comparison.md)
 
+## Feature metadata
+
+- Product name: 3T Access
+- Product group: 3t
+- Feature ID: F-GOV (see [feature-dictionary.md](../../../../../feature-dictionary.md))
+- Feature folder: `governance`
+- Analysis date: 2026-07-29
+- Version/release context: —
+
 ## Source index
 
 - S1: https://studio3t.com/3t-lens/ (3T Access has no independently confirmed dedicated product page; it is described within the 3T Lens product page)

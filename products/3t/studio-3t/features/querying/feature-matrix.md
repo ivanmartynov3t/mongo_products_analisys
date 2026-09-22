@@ -1,7 +1,5 @@
 # Feature Matrix — Studio 3T / Querying
 
-**Last reviewed:** 2026-07-31 — see [research findings](../../../../research/studio-3t-desktop-review-2026/02-querying-findings.md)
-
 ## Navigation
 
 - [Product report](../../product-report.md)
@@ -9,6 +7,15 @@
 - [Feature dictionary](../../../../../feature-dictionary.md)
 - [Shell feature](../shell/feature-matrix.md) — IntelliShell capabilities (SHELL-*)
 - [Low-level comparison](../../../../../reports/comparisons/low-level-feature-comparison.md)
+
+## Feature metadata
+
+- Product name: Studio 3T
+- Product group: 3t
+- Feature ID: F-QUERY (see [feature-dictionary.md](../../../../../feature-dictionary.md))
+- Feature folder: `querying`
+- Analysis date: 2026-07-31
+- Version/release context: —
 
 ## Source index
 
