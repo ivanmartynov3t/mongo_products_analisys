@@ -30,7 +30,7 @@ The 3T MCP standalone binary (stt-cli) is distributed via GitHub releases. Unlik
 
 ## Interactions and dependencies
 
-- Complements, but is architecturally distinct from, the Studio 3T Desktop IDE's Local MCP Server (HTTP transport, AI-007–AI-009) — the two are not interchangeable.
+- Complements, but is architecturally distinct from, the Studio 3T Desktop IDE's Local MCP Server (HTTP transport, AI-local-mcp, AI-mcp-tools, AI-mcp-client) — the two are not interchangeable.
 
 ## Conclusions
 

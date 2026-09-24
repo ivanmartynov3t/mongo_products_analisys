@@ -43,7 +43,7 @@ One architectural point is worth calling out explicitly because it is easy to ov
 
 - AI-generated output executes through [F-SQL](../sql-tools/feature-report.md)'s `execute_sql_query` MCP tool — AI agents produce and run SQL text against MongoDB the same way a human user would (SQL-to-JS translation, no native MongoDB filter/pipeline output).
 - Depends on [F-CONN](../connectivity/feature-report.md) for the underlying JDBC connection the MCP server's tools operate against.
-- Conceptually adjacent to Studio 3T's own `AI-007`/`AI-008`/`AI-009` local MCP server capabilities and to DBeaver's MCP server exposure (see [feature-dictionary.md](../../../../../feature-dictionary.md)) — useful for direct competitive comparison in `reports/comparisons/`.
+- Conceptually adjacent to Studio 3T's own `AI-local-mcp`/`AI-mcp-tools`/`AI-mcp-client` local MCP server capabilities and to DBeaver's MCP server exposure (see [feature-dictionary.md](../../../../../feature-dictionary.md)) — useful for direct competitive comparison in `reports/comparisons/`.
 
 ## Conclusions
 

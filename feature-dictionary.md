@@ -296,15 +296,15 @@ Sub-feature IDs follow the pattern `<FEATURE>-<suffix>` where `<suffix>` is a sh
 | AI-key-storage | API key storage | Local encrypted storage of API keys; never transmitted to vendor |
 | AI-multi-config | Multiple configs | Multiple named AI configurations with enable/disable toggle |
 | AI-plan-req | Plan requirement | Edition or subscription tier required to access AI features |
-| AI-001 | AI helper backends | Studio 3T AI helper provider backend set (Azure/OpenAI/Anthropic) |
+| AI-001 | AI helper backends | Studio 3T AI helper provider backend set (Azure/OpenAI/Anthropic) — *Retired 2026-09-24: alias of `AI-providers` (issue #15).* |
 | AI-002 | AI helper configuration | Studio 3T AI helper runtime configuration controls (temperature/enable) |
 | AI-003 | AI helper NL generation | Studio 3T natural-language query/pipeline/script generation workflow |
 | AI-004 | AI helper apply results | Apply/copy generated AI results into active editors |
 | AI-005 | AI helper history | Local AI session history and restore across restarts |
 | AI-006 | AI helper shortcuts | Keyboard shortcut support for AI helper actions |
-| AI-007 | Local MCP server config | Local MCP HTTP server availability and configuration |
-| AI-008 | Local MCP toolset | Local MCP tool catalog exposed by Studio 3T |
-| AI-009 | MCP client compatibility | Supported MCP client integrations for Studio 3T local server |
+| AI-007 | Local MCP server config | Local MCP HTTP server availability and configuration — *Retired 2026-09-24: alias of `AI-local-mcp` (issue #15).* |
+| AI-008 | Local MCP toolset | Local MCP tool catalog exposed by Studio 3T — *Retired 2026-09-24: alias of `AI-mcp-tools` (issue #15).* |
+| AI-009 | MCP client compatibility | Supported MCP client integrations for Studio 3T local server — *Retired 2026-09-24: alias of `AI-mcp-client` (issue #15).* |
 | AI-010 | stt-cli binary | Standalone 3T MCP binary capability surface |
 | AI-011 | stt-cli feature set | stt-cli read-only browsing/query/schema/PII capabilities |
 | AI-012 | 3T Explore AI agent | AI Helper agent support in the 3T Explore browser IDE context (this dictionary previously used the name "3T Build" for this product; corrected to "3T Explore" per studio3t.com, 2026-07-28) |
@@ -315,15 +315,15 @@ Sub-feature IDs follow the pattern `<FEATURE>-<suffix>` where `<suffix>` is a sh
 | AI-multi-conversation | AI Helper — multiple named conversations | Multiple named, rename/delete/switchable conversations with LLM-generated auto-titling; supersedes a single-history-stream model |
 | AI-guardrail-layer | AI Helper mismatch/guard-rail apply layer | Type-compatibility routing, source-collection-mismatch confirmation, unsaved-changes protection, and syntactic query-parse validation gating "apply to editor" |
 | AI-model-chooser | Model chooser | User-selectable AI model per configuration |
-| AI-sample-data-toggle | Sample data toggle | User-facing toggle for sending sample data to improve AI accuracy |
-| AI-context-turns | Conversation turns | Multi-turn context retention for iterative refinement |
-| AI-named-configs | Named AI configs | Multiple named AI configurations in settings |
-| AI-schema-context | Schema context | Injection of field/schema metadata into AI prompts |
+| AI-sample-data-toggle | Sample data toggle | User-facing toggle for sending sample data to improve AI accuracy — *Retired 2026-09-24: alias of `AI-sample-context` (issue #15).* |
+| AI-context-turns | Conversation turns | Multi-turn context retention for iterative refinement — *Retired 2026-09-24: alias of `AI-conversation` (issue #15).* |
+| AI-named-configs | Named AI configs | Multiple named AI configurations in settings — *Retired 2026-09-24: alias of `AI-multi-config` (issue #15).* |
+| AI-schema-context | Schema context | Injection of field/schema metadata into AI prompts — *Retired 2026-09-24: alias of `AI-schema-aware` (issue #15).* |
 | AI-local-mcp | Local MCP server | Presence of local MCP server endpoint for AI tooling |
 | AI-mcp-client | MCP client support | External MCP clients supported by product integration |
 | AI-mcp-tools | MCP tools count | Number and scope of MCP tools exposed by product |
 | AI-stt-cli | stt-cli + PII scanner | Standalone CLI with read-only operations and PII scanner |
-| AI-plan-gate | AI plan gate | Edition/plan gating for AI features |
+| AI-plan-gate | AI plan gate | Edition/plan gating for AI features — *Retired 2026-09-24: alias of `AI-plan-req` (issue #15).* |
 | AI-safety-guards | AI execution safety guardrails | Pre-execution safety checks (e.g. confirmation before a destructive AI-generated action runs) plus usage/token consumption analytics for the AI feature |
 | AI-error-fix | AI-assisted error correction | Takes a failing/erroring query or script and returns a corrected version with an explanation of the fix, distinct from generating new queries from natural language |
 | AI-inline-completion | Inline AI code completion | Autocomplete-style inline code suggestions while typing (e.g. a GitHub Copilot–style integration), distinct from a conversational NL-to-query chat interface |
@@ -387,10 +387,10 @@ Sub-feature IDs follow the pattern `<FEATURE>-<suffix>` where `<suffix>` is a sh
 | GOV-012 | Bridge security identity | 3TL Bridge credentials/OIDC security configuration |
 | GOV-013 | Bridge deployment scaling | 3TL Bridge Helm/deployment/scaling/observability support |
 | GOV-platform-bridge | Platform bridge integration | 3TL Bridge integration surface for event/data pipelines |
-| GOV-platform-k8s | Platform Kubernetes deployment | Kubernetes Helm deployment support for platform components |
+| GOV-platform-k8s | Platform Kubernetes deployment | Kubernetes Helm deployment support for platform components — *Retired 2026-09-24: alias of `GOV-013` (issue #15).* |
 | GOV-platform-oidc | Platform OIDC providers | Multi-provider OIDC support in platform auth stack |
-| GOV-protect-mode | Protect mode | UI-level destructive-write prevention mode |
-| GOV-telemetry-config | Telemetry configuration | Telemetry opt-out/configuration controls |
+| GOV-protect-mode | Protect mode | UI-level destructive-write prevention mode — *Retired 2026-09-24: alias of `GOV-readonly-mode` (issue #15).* |
+| GOV-telemetry-config | Telemetry configuration | Telemetry opt-out/configuration controls — *Retired 2026-09-24: alias of `GOV-telemetry` (issue #15).* |
 | GOV-secrets-vault | External secrets manager integration | Fetch connection credentials from an external secrets manager (e.g. HashiCorp Vault, CyberArk, AWS Secrets Manager) instead of local storage |
 | GOV-staged-commit | Staged pending-changes review | Edits accumulate as a reviewable "pending changes" set (visually flagged) with the generated write statement shown before the user explicitly commits it |
 
@@ -408,15 +408,15 @@ Sub-feature IDs follow the pattern `<FEATURE>-<suffix>` where `<suffix>` is a sh
 | SCHED-status-states | Task status states | Scheduled / Running / Completed / Failed / Paused state machine |
 | SCHED-actions | Task actions | Run Now, Pause/Resume, Edit, Clone, Delete, View History |
 | SCHED-notifications | Notifications | Email and in-app notifications on success, failure, warning |
-| SCHED-preset-types | Preset schedule types | Named schedule presets (once/hourly/daily/weekly/monthly) |
-| SCHED-task-actions | Task management actions | Run/enable-disable/edit/clone/delete style lifecycle actions |
+| SCHED-preset-types | Preset schedule types | Named schedule presets (once/hourly/daily/weekly/monthly) — *Retired 2026-09-24: alias of `SCHED-types-time` (issue #15).* |
+| SCHED-task-actions | Task management actions | Run/enable-disable/edit/clone/delete style lifecycle actions — *Retired 2026-09-24: alias of `SCHED-actions` (issue #15).* |
 | SCHED-script-tasks | Script task units | Scheduler support for script-based task definitions |
 | SCHED-compare-setup | Compare setup | Data compare task setup workflow |
 | SCHED-compare-results | Compare results | Data compare result/diff presentation |
 | SCHED-compare-sync | Compare sync actions | Sync operations launched from compare results |
 | SCHED-compare-schedule | Compare schedule save | Save compare workflows as scheduled tasks |
 | SCHED-plan-limits | Scheduler plan limits | Plan-tier limits for task scheduler capabilities |
-| SCHED-task-save | Task save from tools | Save import/export/compare configs as scheduler tasks |
+| SCHED-task-save | Task save from tools | Save import/export/compare configs as scheduler tasks — *Retired 2026-09-24: alias of `TRANSFER-task-save` (issue #15).* |
 | SCHED-retry | Retry policy | Retry behavior configuration for scheduled runs |
 | SCHED-concurrent | Concurrent execution | Max concurrent task execution control |
 | SCHED-batch | Batch size | Batch size configuration for scheduled execution |
@@ -433,14 +433,27 @@ Sub-feature IDs follow the pattern `<FEATURE>-<suffix>` where `<suffix>` is a sh
 
 | Sub-feature ID | Name | Description |
 |---|---|---|
-| SHELL-open-from | Open in shell from tools | Open shell from query/aggregation/profiler/manager contexts |
-| SHELL-sessions | Shell sessions | Multiple concurrent shell sessions |
-| SHELL-background-exec | Background execution | Shell script execution continues when switching tabs |
-| SHELL-auto-reconnect | Auto reconnect | Shell reconnect behavior on connection drop |
-| SHELL-persistent-vars | Persistent variables | Variables persist within same shell session |
+| SHELL-open-from | Open in shell from tools | Open shell from query/aggregation/profiler/manager contexts — *Retired 2026-09-24: alias of `SHELL-integrations` (issue #15).* |
+| SHELL-sessions | Shell sessions | Multiple concurrent shell sessions — *Retired 2026-09-24: alias of `SHELL-sessions-multi` (issue #15).* |
+| SHELL-background-exec | Background execution | Shell script execution continues when switching tabs — *Retired 2026-09-24: alias of `SHELL-background` (issue #15).* |
+| SHELL-auto-reconnect | Auto reconnect | Shell reconnect behavior on connection drop — *Retired 2026-09-24: alias of `SHELL-reconnect` (issue #15).* |
+| SHELL-persistent-vars | Persistent variables | Variables persist within same shell session — *Retired 2026-09-24: alias of `SHELL-sessions-vars` (issue #15).* |
 | TRANSFER-plan-limits | Transfer task plan limits | Plan-tier limits specifically for transfer task automation |
 
 ---
+
+### Taxonomy reconciliation with prod_info_silo (issue #15)
+
+Reconciled on 2026-09-24 against `prod_info_silo/config/taxonomy.yaml`. Full per-ID table, evidence and method: [taxonomy reconciliation report](reports/taxonomy-reconciliation.md); machine-readable version for the weekly triage (#18): [`reports/taxonomy-reconciliation.tsv`](reports/taxonomy-reconciliation.tsv).
+
+- Every silo ID exists in this dictionary with the same definition.
+- Of the 82 IDs this dictionary has and the silo did not:
+  - **8 feed-upstream** — now also defined in the silo taxonomy.
+  - **20 retired** — synonyms of another ID. Rows are kept and marked *Retired*, so old references still resolve; do not use them in new work.
+  - **27 child-of** — finer-grained distinctions kept for analysis; the silo detects their parent ID.
+  - **27 analysis-only (Tier 2)** — proposals and source-code-only distinctions the silo cannot detect from documents.
+- Retiring an ID never changes a capability status. Silo detection is not evidence that a product has a capability.
+
 
 ## Product × feature coverage matrix
 
@@ -556,6 +569,7 @@ Full per-candidate rationale, citations, and metric derivations: [04-scored-long
 
 | Date | Change | Author |
 |---|---|---|
+| 2026-09-24 | Plan 07 / issue #15 (taxonomy reconciliation with `prod_info_silo`): marked 20 synonym IDs as *Retired* with their surviving alias (rows kept so existing references resolve); added the "Taxonomy reconciliation with prod_info_silo" section. Classified all 82 IDs absent from the silo as feed-upstream / retired / child-of / analysis-only, based on corpus measurements (see `reports/taxonomy-reconciliation.md`). Living matrices and reports were migrated to the surviving IDs; historical research notes and plan logs were deliberately left unchanged. No capability status was changed. | Claude |
 | 2026-09-04 (3) | Plan 4 (extend competitor coverage): completed TablePlus — the 5th and final competitor of this effort. Built `products/third-party/tableplus/` (product-report.md + 7 feature areas: F-CONN, F-QUERY [partial], F-AGG [partial], F-IDX [partial], F-TRANSFER [partial], F-GOV [partial], F-AI [partial]). Deliberately omitted F-SCHEMA, F-SQL, F-SHELL, and F-SCHED — all four are confirmed absent by direct, unambiguous statement in the source ("No Schema Profiling or Type Discovery," "SQL-to-MongoDB Querying: Not Supported," "Lack of an Interactive Shell," "No Task Scheduling or Automated Workflows"), not merely unmentioned. 0 new dictionary IDs minted beyond the 16 already available for this effort; every TablePlus capability found mapped to an existing sub-feature ID, with `GOV-staged-commit` finding its clearest and most-repeated evidentiary basis here (the staged "pending changes" commit-review model is named consistently across four separate sections of the source). Corrected two coverage-matrix cells left over from the earlier prep pass (commit `47c4a97`), before this product's own source material had been read in full: F-SCHEMA flipped from a plain "✓" to "—" (confirmed absent), and F-QUERY/F-IDX/F-TRANSFER/F-AI/F-SQL/F-SCHED cells corrected to reflect this review's actual findings. Notable judgment calls: (1) built a thin F-AGG matrix rather than omitting it entirely, since — unlike DataGrip, which cannot execute a native MongoDB pipeline at all — TablePlus can genuinely run raw-JSON MQL aggregation pipelines, just without any visual tooling; (2) treated most specific-sounding capability claims (SSH auth modes, local credential encryption, BYOK AI providers) as Unverified rather than Confirmed because the source's body text carries no inline per-claim citation markers anywhere (only an end-of-file Works Cited list), reserving Confirmed for claims traceable to a specific, matching Works Cited primary source (none were found strong enough to clear that bar in the feature matrices themselves); (3) flagged that TablePlus's BYOK NL-to-query and GitHub Copilot inline-completion capabilities are named in the source as SQL-specific, not MQL, and declined to assume MongoDB applicability despite F-AI otherwise reading as one of TablePlus's stronger areas; (4) treated the "Open Anything" command palette and the Metrics Board as out-of-taxonomy or too MongoDB-unconfirmed to map to any Feature ID, documenting both in product-report.md prose instead of forcing a match. Updated the Product × feature coverage matrix and TablePlus explanatory-notes paragraph, both comparison reports, and `products/third-party/README.md`. **All 5 competitors from this plan's Objective (DBeaver, DataGrip, Navicat, NoSQLBooster, TablePlus) are now complete.** | Claude |
 | 2026-09-04 (2) | Plan 4 (extend competitor coverage): completed NoSQLBooster, built from **two** source files (`research/google_research/nosqlbooster-competitive-analysis/` and `.../nosqlbooster-competitive-intelligence-analysis/`), reconciled against two directly-fetched primary sources (nosqlbooster.com/features, nosqlbooster.com/compareEditions). Built `products/third-party/nosqlbooster/` (product-report.md + 9 feature areas: F-CONN, F-QUERY, F-AGG [partial], F-SCHEMA [partial], F-IDX [partial], F-TRANSFER, F-SHELL, F-AI [partial], F-SQL, F-SCHED [partial]); F-GOV deliberately omitted (both source files confirm absent centralized team/RBAC governance by direct statement). Two direct two-file conflicts were resolved via primary-source fetch rather than picked arbitrarily: (1) Visual Query Builder existence — one file claimed it was absent (citing only third-party ranking blogs), the other claimed it existed; the vendor's own Feature Tour page confirmed a real "two-way" Visual Query Builder, so the absence claim was not carried forward; (2) code-generation language count (8 vs. 10+ targets) — resolved by finding these are two distinct capabilities (a deterministic 8-target Query Code Generator, primary-source-confirmed exactly, versus a separate AI Helper script-translation action whose own language roster remains unconfirmed by any primary source fetched). Added 5 sub-feature IDs' worth of direct evidentiary basis confirmed for NoSQLBooster specifically among the 15 minted during this same effort (`SHELL-debugger`, `SHELL-npm-utils`, `QUERY-fluent-api`, `IDX-log-parser`, `TRANSFER-test-data-gen`, `SCHED-cli-headless`); 0 new dictionary IDs minted beyond those already available — every other capability found mapped to an existing ID (e.g., the Collection Re-Schema Tool → `SQL-reschema`, despite living outside a SQL-authoring context, following this dictionary's existing DBeaver/Navicat precedent of cross-referencing an ID's best content match across feature areas). Updated the Product × feature coverage matrix (5 cells corrected from plain ✓ to "partial — see notes") and added a NoSQLBooster explanatory-notes paragraph, both comparison reports, and `products/third-party/README.md`. | Claude |
 | 2026-09-04 | Plan 4 (extend competitor coverage): added 15 new sub-feature IDs surfaced by building out structured `products/third-party/` entries for DBeaver, DataGrip, Navicat, NoSQLBooster, and TablePlus from their `research/google_research/` competitive-intelligence files: `SCHEMA-anomaly-detection`, `IDX-log-parser`, `TRANSFER-test-data-gen`, `SHELL-debugger`, `SHELL-npm-utils`, `QUERY-fluent-api`, `AGG-mapreduce-editor`, `SQL-federated-query`, `GOV-secrets-vault`, `GOV-staged-commit`, `SCHED-cli-headless`, `AI-safety-guards`, `AI-error-fix`, `AI-inline-completion`, `AI-voice-query`. Every other competitor capability found in the research was mapped to an existing sub-feature ID rather than minting a duplicate (e.g. Navicat's stage-by-stage aggregation builder → `AGG-stage-modes`/`AGG-stage-preview`; DataGrip's MCP tool server → `AI-local-mcp`/`AI-mcp-client`/`AI-mcp-tools`). Added 5 columns to the Product × feature coverage matrix. Per-product citations and confirmed/roadmap/unverified status live in each product's own `feature-matrix.md`/`feature-report.md` under `products/third-party/`. | Claude |

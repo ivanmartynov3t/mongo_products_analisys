@@ -111,9 +111,9 @@ Open research questions, not confirmed gaps. Grouped by feature area.
 | SHELL-sessions-vars | Session variable scope |
 | SHELL-reconnect | Auto-reconnect |
 | SHELL-background | Background execution |
-| SHELL-background-exec | Background execution (dictionary alias of `SHELL-background`, itself unverified) |
-| SHELL-auto-reconnect | Auto reconnect (dictionary alias of `SHELL-reconnect`, itself unverified) |
-| SHELL-persistent-vars | Persistent variables (dictionary alias of `SHELL-sessions-vars`, itself unverified) |
+| SHELL-background-exec | Background execution (retired 2026-09-24 as alias of `SHELL-background`, #15;, itself unverified) |
+| SHELL-auto-reconnect | Auto reconnect (retired 2026-09-24 as alias of `SHELL-reconnect`, #15;, itself unverified) |
+| SHELL-persistent-vars | Persistent variables (retired 2026-09-24 as alias of `SHELL-sessions-vars`, #15;, itself unverified) |
 
 ### F-AI — AI Features (12)
 | Sub-feature ID | Name |
@@ -125,10 +125,10 @@ Open research questions, not confirmed gaps. Grouped by feature area.
 | AI-privacy | Privacy mode |
 | AI-key-storage | API key storage |
 | AI-multi-config | Multiple configs |
-| AI-sample-data-toggle | Sample data toggle (dictionary alias of `AI-sample-context`, itself unverified) |
-| AI-context-turns | Conversation turns (dictionary alias of `AI-conversation`, itself unverified) |
-| AI-named-configs | Named AI configs (dictionary alias of `AI-multi-config`, itself unverified) |
-| AI-schema-context | Schema context (dictionary alias of `AI-schema-aware`, itself unverified) |
+| AI-sample-data-toggle | Sample data toggle (retired 2026-09-24 as alias of `AI-sample-context`, #15;, itself unverified) |
+| AI-context-turns | Conversation turns (retired 2026-09-24 as alias of `AI-conversation`, #15;, itself unverified) |
+| AI-named-configs | Named AI configs (retired 2026-09-24 as alias of `AI-multi-config`, #15;, itself unverified) |
+| AI-schema-context | Schema context (retired 2026-09-24 as alias of `AI-schema-aware`, #15;, itself unverified) |
 | AI-model-chooser | Model chooser (dictionary alias of `AI-models` — that ID's "specific models available" aspect is ✅ confirmed, but its "user-selectable model per config" aspect, which is what this ID means, is ❓ unverified) |
 
 ### F-SQL — SQL Tools (1)
@@ -150,7 +150,7 @@ Open research questions, not confirmed gaps. Grouped by feature area.
 | GOV-rbac-inheritance | Role inheritance |
 | GOV-rbac-tree | Privilege tree view |
 | GOV-rbac-actions | Privilege actions |
-| GOV-telemetry-config | Telemetry configuration (dictionary alias of `GOV-telemetry`, itself unverified) |
+| GOV-telemetry-config | Telemetry configuration (retired 2026-09-24 as alias of `GOV-telemetry`, #15;, itself unverified) |
 
 ### F-SCHED — Task Scheduler (8)
 | Sub-feature ID | Name |
@@ -189,6 +189,8 @@ A verification pass on the first draft of this table caught 3 IDs that had been 
 | SCHED-history | Execution history | `SCHED-history-retention` |
 | SHELL-open-from | Open in shell from tools | `SHELL-integrations` |
 | SHELL-sessions | Shell sessions | `SHELL-sessions-multi` |
+
+> **2026-09-24 update (issue #15, taxonomy reconciliation):** the dictionary now treats the descriptive IDs as canonical. `AI-007`, `AI-008` and `AI-009` were retired as aliases of `AI-local-mcp`, `AI-mcp-tools` and `AI-mcp-client`; `AI-010` and `AI-011` are now finer-grained children of `AI-stt-cli`. The duplicate pairs and all counts in this report are unchanged; only the direction of those rows is reversed. See [taxonomy reconciliation](taxonomy-reconciliation.md).
 
 ## Coverage accounting
 

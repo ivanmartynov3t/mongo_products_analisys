@@ -28,7 +28,7 @@ Beyond these two connection-level mechanisms, the source is explicit that TableP
 | Sub-feature ID | Finding | Impact | Evidence |
 | --- | --- | --- | --- |
 | GOV-staged-commit | Grid edits queue as color-coded pending changes; the generated write statement is shown for review before commit. | A genuine, structural safeguard against accidental writes — distinct from a simple "are you sure?" dialog, since the actual statement is inspectable before it runs. | S1 Sections 4, 6, 7 |
-| GOV-protect-mode | Color-tagged connections (e.g., red = production) auto-enable Safe Mode, disabling auto-commit and requiring manual confirmation for destructive operations. | Reduces the risk of an accidental destructive action against a flagged environment; a real, if connection-scoped, mitigation. | S1 Sections 4, 10 |
+| GOV-readonly-mode | Color-tagged connections (e.g., red = production) auto-enable Safe Mode, disabling auto-commit and requiring manual confirmation for destructive operations. | Reduces the risk of an accidental destructive action against a flagged environment; a real, if connection-scoped, mitigation. | S1 Sections 4, 10 |
 | GOV-rbac-users | No RBAC of any kind. | TablePlus is unsuitable as a shared, permission-differentiated team access point; all governance is per-user, local, and connection-scoped. | S1 Section 11 |
 | GOV-data-masking | No dynamic data masking. | Exporting or viewing production data through TablePlus carries the same sensitive-data exposure risk as any unmasked client. | S1 Section 18 |
 

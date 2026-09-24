@@ -41,7 +41,7 @@ The most forward-looking capability described is DBeaver exposing its live datab
 ## Interactions and dependencies
 
 - AI-generated SQL output depends on and executes through [F-SQL](../sql-tools/feature-report.md)'s SQL Console for MongoDB connections.
-- MCP server exposure is conceptually adjacent to Studio 3T's own `AI-007`/`AI-008`/`AI-009` local MCP server capabilities (see [feature-dictionary.md](../../../../../feature-dictionary.md)) — useful for direct competitive comparison in `reports/comparisons/`.
+- MCP server exposure is conceptually adjacent to Studio 3T's own `AI-local-mcp`/`AI-mcp-tools`/`AI-mcp-client` local MCP server capabilities (see [feature-dictionary.md](../../../../../feature-dictionary.md)) — useful for direct competitive comparison in `reports/comparisons/`.
 
 ## Conclusions
 

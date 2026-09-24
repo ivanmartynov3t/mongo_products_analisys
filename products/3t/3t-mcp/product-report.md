@@ -22,7 +22,7 @@
 
 3T MCP is a standalone command-line binary (`stt-cli`) that exposes read-only MongoDB access to AI coding agents via the Model Context Protocol over stdio transport. It is distributed independently via GitHub releases and requires a free 3T account (browser-based OAuth login). Its capability surface is strictly read-only: collection/database browsing, find query execution and explain, full schema analysis, and a PII scanner that flags fields potentially containing personally identifiable information. It runs entirely locally with no cloud intermediary for MongoDB data.
 
-It is architecturally distinct from the Studio 3T Desktop IDE's built-in Local MCP Server (HTTP transport, no auth required for local loopback access) — see [Studio 3T's AI feature matrix](../studio-3t/features/ai/feature-matrix.md) (AI-007–AI-009). Per studio3t.com, 3T MCP is one of three products in the "Build" track, alongside the Studio 3T Desktop IDE and 3T Explore; "Build" is the product track name, not a product name.
+It is architecturally distinct from the Studio 3T Desktop IDE's built-in Local MCP Server (HTTP transport, no auth required for local loopback access) — see [Studio 3T's AI feature matrix](../studio-3t/features/ai/feature-matrix.md) (AI-local-mcp, AI-mcp-tools, AI-mcp-client). Per studio3t.com, 3T MCP is one of three products in the "Build" track, alongside the Studio 3T Desktop IDE and 3T Explore; "Build" is the product track name, not a product name.
 
 ## Feature inventory
 

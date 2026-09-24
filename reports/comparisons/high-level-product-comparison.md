@@ -668,8 +668,8 @@ Detailed additions are captured in the low-level report under **Reconciliation t
 | Conversation turns for refinement | Not documented | Not documented | ✓ prior turns used |
 | Multiple named AI configs | Not documented | Not documented | ✓ |
 | API key storage | Not documented as AES-masked | Not documented | AES-masked in Settings; never transmitted to SozoCode |
-| Local MCP server | ✓ AI-007: HTTP at 127.0.0.1:27117; 10 tools | — | — |
-| MCP client integrations | ✓ AI-009: VS Code, Cursor, Claude Desktop, others | — | — |
+| Local MCP server | ✓ AI-local-mcp: HTTP at 127.0.0.1:27117; 10 tools | — | — |
+| MCP client integrations | ✓ AI-mcp-client: VS Code, Cursor, Claude Desktop, others | — | — |
 | Total MCP tools | 10 via local server; 59 via 3T Lens platform | — | — |
 | stt-cli + PII scanner | ✓ AI-010 | — | — |
 | 3T Explore AI Helper | ✓ AI-012 (edition/plan unverified) | — | — |

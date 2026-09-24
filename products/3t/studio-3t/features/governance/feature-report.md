@@ -48,7 +48,7 @@ Previously described (via `GOV-startup-policy`) as an "EJSON/YAML config setting
 ### Other corrections
 
 - **`GOV-cli-policy`** is absent: the Desktop IDE recognizes exactly one CLI flag (`--log-licenses`), unrelated to governance. This looks like a carry-over from MongoDB Compass, which does have CLI-based enterprise policy enforcement.
-- **`GOV-protect-mode`** has no distinct supporting code in the source tree — everything found maps to the same `AppFeatures.READ_ONLY_LOCK` mechanism as `GOV-readonly-mode`. Flagged as a likely duplicate/alias rather than removed, pending confirmation with the original documenter.
+- **`GOV-protect-mode`** had no distinct supporting code in the source tree — everything found maps to the same `AppFeatures.READ_ONLY_LOCK` mechanism as `GOV-readonly-mode`. It was retired on 2026-09-24 as an alias of `GOV-readonly-mode` (issue #15, taxonomy reconciliation); its evidence now sits on the `GOV-readonly-mode` row.
 - **`GOV-isolated-edition`** is absent for Studio 3T — the only "Isolated Edition" string found is a MongoDB Compass install-path detector used for connection import, not a Studio 3T build variant.
 - **`GOV-cred-protection`** is real but is two narrower, separate mechanisms rather than a single "Protect Mode": a `DisableShowPassword` registry flag suppressing the password-reveal toggle, and a 3T-Access-scoped copy/export restriction (`RestrictionLevel`) that only applies to 3T Access-managed connections.
 

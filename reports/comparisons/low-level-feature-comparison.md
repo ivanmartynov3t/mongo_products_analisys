@@ -285,9 +285,9 @@ These are icon-only analogs of the detailed comparison tables below. Product col
 | F-AI | AI-multi-config | Multiple named AI configurations | ❓ | ❓ | ✅ | Missing (Compass, Studio 3T) | [VisuaLeaf](../../products/third-party/visual-eaf/features/ai/feature-matrix.md) |
 | F-AI | AI-key-storage | API key storage security | ❓ | ❓ | ✅ | Missing (Compass, Studio 3T) | [VisuaLeaf](../../products/third-party/visual-eaf/features/ai/feature-matrix.md) |
 | F-AI | AI-schema-aware | Schema and field names injected as AI context | ❓ | ❓ | ✅ | Missing (Compass) | [VisuaLeaf](../../products/third-party/visual-eaf/features/ai/feature-matrix.md) |
-| F-AI | AI-007 | Local MCP server | 🔌 | ❌ | ❓ | Missing (Compass, VisuaLeaf) | [Studio 3T](../../products/3t/studio-3t/features/ai/feature-matrix.md) |
-| F-AI | AI-009 | MCP client integrations | 🔌 | ❌ | ❓ | Missing (Compass, VisuaLeaf) | [Studio 3T](../../products/3t/studio-3t/features/ai/feature-matrix.md) |
-| F-AI | AI-008 | Number of MCP tools exposed | 🔌 | ❌ | ❓ | Missing (Compass, VisuaLeaf) | [Studio 3T](../../products/3t/studio-3t/features/ai/feature-matrix.md) |
+| F-AI | AI-local-mcp | Local MCP server | 🔌 | ❌ | ❓ | Missing (Compass, VisuaLeaf) | [Studio 3T](../../products/3t/studio-3t/features/ai/feature-matrix.md) |
+| F-AI | AI-mcp-client | MCP client integrations | 🔌 | ❌ | ❓ | Missing (Compass, VisuaLeaf) | [Studio 3T](../../products/3t/studio-3t/features/ai/feature-matrix.md) |
+| F-AI | AI-mcp-tools | Number of MCP tools exposed | 🔌 | ❌ | ❓ | Missing (Compass, VisuaLeaf) | [Studio 3T](../../products/3t/studio-3t/features/ai/feature-matrix.md) |
 | F-AI | AI-010 | stt-cli standalone binary and PII scanner | ✅ | ❌ | ❓ | Missing (Compass, VisuaLeaf) | [3T MCP](../../products/3t/3t-mcp/features/ai/feature-matrix.md) |
 | F-AI | AI-plan-req | Plan required to access AI features | 💼 | ❓ | 💼 | Constraint | [VisuaLeaf](../../products/third-party/visual-eaf/features/ai/feature-matrix.md) · [Studio 3T](../../products/3t/studio-3t/features/ai/feature-matrix.md) |
 | F-SQL | SQL-expressions | SQL SELECT/WHERE/GROUP BY/HAVING | 💼 | ❌ | 🧪 | Partial (VisuaLeaf — MongoDB-only, no migration); Missing (Compass) | [VisuaLeaf](../../products/third-party/visual-eaf/features/sql-tools/feature-matrix.md) · [Studio 3T](../../products/3t/studio-3t/features/sql-tools/feature-matrix.md) |
@@ -343,15 +343,15 @@ These are icon-only analogs of the detailed comparison tables below. Product col
 | F-SCHED | SCHED-exec-config | Concurrent task execution config | ❌ | ❌ | ✅ | Missing (Compass, Studio 3T) | [VisuaLeaf](../../products/third-party/visual-eaf/features/task-scheduler/feature-matrix.md) |
 | F-SCHED | SCHED-exec-config | Batch size configuration per task | ❌ | ❌ | ✅ | Missing (Compass, Studio 3T) | [VisuaLeaf](../../products/third-party/visual-eaf/features/task-scheduler/feature-matrix.md) |
 
-| F-AI | AI-001 | AI helper backends | ✅ | ❌ | ❓ | Missing | [Studio 3T](../../products/3t/studio-3t/features/ai/feature-matrix.md) |
+| F-AI | AI-providers | AI helper backends | ✅ | ❌ | ❓ | Missing | [Studio 3T](../../products/3t/studio-3t/features/ai/feature-matrix.md) |
 | F-AI | AI-002 | AI helper configuration | ✅ | ❌ | ❓ | Missing | [Studio 3T](../../products/3t/studio-3t/features/ai/feature-matrix.md) |
 | F-AI | AI-003 | AI helper NL generation | ✅ | ❌ | ❓ | Missing | [Studio 3T](../../products/3t/studio-3t/features/ai/feature-matrix.md) |
 | F-AI | AI-004 | AI helper apply results | ✅ | ❌ | ❓ | Missing | [Studio 3T](../../products/3t/studio-3t/features/ai/feature-matrix.md) |
 | F-AI | AI-005 | AI helper history | ✅ | ❌ | ❓ | Missing | [Studio 3T](../../products/3t/studio-3t/features/ai/feature-matrix.md) |
 | F-AI | AI-006 | AI helper shortcuts | ✅ | ❌ | ❓ | Missing | [Studio 3T](../../products/3t/studio-3t/features/ai/feature-matrix.md) |
-| F-AI | AI-007 | Local MCP server config | ✅ | ❌ | ❓ | Missing | [Studio 3T](../../products/3t/studio-3t/features/ai/feature-matrix.md) |
-| F-AI | AI-008 | Local MCP toolset | ✅ | ❌ | ❓ | Missing | [Studio 3T](../../products/3t/studio-3t/features/ai/feature-matrix.md) |
-| F-AI | AI-009 | MCP client compatibility | ✅ | ❌ | ❓ | Missing | [Studio 3T](../../products/3t/studio-3t/features/ai/feature-matrix.md) |
+| F-AI | AI-local-mcp | Local MCP server config | ✅ | ❌ | ❓ | Missing | [Studio 3T](../../products/3t/studio-3t/features/ai/feature-matrix.md) |
+| F-AI | AI-mcp-tools | Local MCP toolset | ✅ | ❌ | ❓ | Missing | [Studio 3T](../../products/3t/studio-3t/features/ai/feature-matrix.md) |
+| F-AI | AI-mcp-client | MCP client compatibility | ✅ | ❌ | ❓ | Missing | [Studio 3T](../../products/3t/studio-3t/features/ai/feature-matrix.md) |
 | F-AI | AI-010 | stt-cli binary | ✅ | ❌ | ❓ | Missing | [3T MCP](../../products/3t/3t-mcp/features/ai/feature-matrix.md) |
 | F-AI | AI-011 | stt-cli feature set | ✅ | ❌ | ❓ | Missing | [3T MCP](../../products/3t/3t-mcp/features/ai/feature-matrix.md) |
 | F-AI | AI-012 | 3T Explore AI agent | ✅ | ❌ | ❓ | Missing | [3T Explore](../../products/3t/3t-explore/features/ai/feature-matrix.md) |
@@ -618,9 +618,9 @@ Gap types: `Missing` | `Partial` | `Mismatch` | `Constraint` | `Roadmap`
 | F-AI | AI-multi-config | Multiple named AI configurations | Not documented | Not documented | Multiple named configs supported | Missing (Compass, Studio 3T) | [VisuaLeaf](../../products/third-party/visual-eaf/features/ai/feature-matrix.md) |
 | F-AI | AI-key-storage | API key storage security | Not documented as AES-masked | Not documented | AES-masked in Settings; never transmitted to SozoCode | Missing (Compass, Studio 3T) | [VisuaLeaf](../../products/third-party/visual-eaf/features/ai/feature-matrix.md) |
 | F-AI | AI-schema-aware | Schema and field names injected as AI context | Not documented explicitly | Not documented | Field names + BSON types used; collection schema injected | Missing (Compass) | [VisuaLeaf](../../products/third-party/visual-eaf/features/ai/feature-matrix.md) |
-| F-AI | AI-007 | Local MCP server | AI-007 — local MCP Server; 10 tools; HTTP at 127.0.0.1:27117 | N/A — not supported | Not documented | Missing (Compass, VisuaLeaf) | [Studio 3T](../../products/3t/studio-3t/features/ai/feature-matrix.md) |
-| F-AI | AI-009 | MCP client integrations | AI-009 — MCP client: VS Code, Cursor, Claude Desktop, and others | N/A — not supported | Not documented | Missing (Compass, VisuaLeaf) | [Studio 3T](../../products/3t/studio-3t/features/ai/feature-matrix.md) |
-| F-AI | AI-008 | Number of MCP tools exposed | 10 tools via local MCP server (AI-007); 59 MCP tools via 3T Lens platform | N/A — not supported | Not documented | Missing (Compass, VisuaLeaf) | [Studio 3T](../../products/3t/studio-3t/features/ai/feature-matrix.md) |
+| F-AI | AI-local-mcp | Local MCP server | AI-local-mcp — local MCP Server; 10 tools; HTTP at 127.0.0.1:27117 | N/A — not supported | Not documented | Missing (Compass, VisuaLeaf) | [Studio 3T](../../products/3t/studio-3t/features/ai/feature-matrix.md) |
+| F-AI | AI-mcp-client | MCP client integrations | AI-mcp-client — MCP client: VS Code, Cursor, Claude Desktop, and others | N/A — not supported | Not documented | Missing (Compass, VisuaLeaf) | [Studio 3T](../../products/3t/studio-3t/features/ai/feature-matrix.md) |
+| F-AI | AI-mcp-tools | Number of MCP tools exposed | 10 tools via local MCP server (AI-local-mcp); 59 MCP tools via 3T Lens platform | N/A — not supported | Not documented | Missing (Compass, VisuaLeaf) | [Studio 3T](../../products/3t/studio-3t/features/ai/feature-matrix.md) |
 | F-AI | AI-010 | stt-cli standalone binary and PII scanner | AI-010 — stt-cli standalone binary; PII scanner | N/A — not supported | Not documented | Missing (Compass, VisuaLeaf) | [3T MCP](../../products/3t/3t-mcp/features/ai/feature-matrix.md) |
 | F-AI | AI-plan-req | Plan required to access AI features | Pro/Base+ required | Not documented | Professional plan required | Constraint | [VisuaLeaf](../../products/third-party/visual-eaf/features/ai/feature-matrix.md) · [Studio 3T](../../products/3t/studio-3t/features/ai/feature-matrix.md) |
 | F-SQL | SQL-expressions | SQL SELECT/WHERE/GROUP BY/HAVING | Pro/Base+ — full SELECT/WHERE/JOIN/GROUP BY/ORDER BY/HAVING; MongoDB-to-SQL translation engine | N/A — not supported | SQL Mode: SELECT/WHERE/ORDER BY/LIMIT + COUNT/SUM/AVG against MongoDB only; JOIN/GROUP BY/subqueries via SQL Helper examples; no migration to/from external relational databases | Partial (VisuaLeaf); Missing (Compass) | [VisuaLeaf](../../products/third-party/visual-eaf/features/sql-tools/feature-matrix.md) · [Studio 3T](../../products/3t/studio-3t/features/sql-tools/feature-matrix.md) |
@@ -680,15 +680,15 @@ Gap types: `Missing` | `Partial` | `Mismatch` | `Constraint` | `Roadmap`
 
 | Feature ID | Sub-feature ID | Sub-feature name | Studio 3T | MongoDB Compass | VisuaLeaf | Gap type | Sources |
 | --- | --- | --- | --- | --- | --- | --- | --- |
-| F-AI | AI-001 | AI helper backends | Supported | N/A — not supported | Not documented | Missing | [Studio 3T](../../products/3t/studio-3t/features/ai/feature-matrix.md) |
+| F-AI | AI-providers | AI helper backends | Supported | N/A — not supported | Not documented | Missing | [Studio 3T](../../products/3t/studio-3t/features/ai/feature-matrix.md) |
 | F-AI | AI-002 | AI helper configuration | Supported | N/A — not supported | Not documented | Missing | [Studio 3T](../../products/3t/studio-3t/features/ai/feature-matrix.md) |
 | F-AI | AI-003 | AI helper NL generation | Supported | N/A — not supported | Not documented | Missing | [Studio 3T](../../products/3t/studio-3t/features/ai/feature-matrix.md) |
 | F-AI | AI-004 | AI helper apply results | Supported | N/A — not supported | Not documented | Missing | [Studio 3T](../../products/3t/studio-3t/features/ai/feature-matrix.md) |
 | F-AI | AI-005 | AI helper history | Supported | N/A — not supported | Not documented | Missing | [Studio 3T](../../products/3t/studio-3t/features/ai/feature-matrix.md) |
 | F-AI | AI-006 | AI helper shortcuts | Supported | N/A — not supported | Not documented | Missing | [Studio 3T](../../products/3t/studio-3t/features/ai/feature-matrix.md) |
-| F-AI | AI-007 | Local MCP server config | Supported | N/A — not supported | Not documented | Missing | [Studio 3T](../../products/3t/studio-3t/features/ai/feature-matrix.md) |
-| F-AI | AI-008 | Local MCP toolset | Supported | N/A — not supported | Not documented | Missing | [Studio 3T](../../products/3t/studio-3t/features/ai/feature-matrix.md) |
-| F-AI | AI-009 | MCP client compatibility | Supported | N/A — not supported | Not documented | Missing | [Studio 3T](../../products/3t/studio-3t/features/ai/feature-matrix.md) |
+| F-AI | AI-local-mcp | Local MCP server config | Supported | N/A — not supported | Not documented | Missing | [Studio 3T](../../products/3t/studio-3t/features/ai/feature-matrix.md) |
+| F-AI | AI-mcp-tools | Local MCP toolset | Supported | N/A — not supported | Not documented | Missing | [Studio 3T](../../products/3t/studio-3t/features/ai/feature-matrix.md) |
+| F-AI | AI-mcp-client | MCP client compatibility | Supported | N/A — not supported | Not documented | Missing | [Studio 3T](../../products/3t/studio-3t/features/ai/feature-matrix.md) |
 | F-AI | AI-010 | stt-cli binary | Supported | N/A — not supported | Not documented | Missing | [3T MCP](../../products/3t/3t-mcp/features/ai/feature-matrix.md) |
 | F-AI | AI-011 | stt-cli feature set | Supported | N/A — not supported | Not documented | Missing | [3T MCP](../../products/3t/3t-mcp/features/ai/feature-matrix.md) |
 | F-AI | AI-012 | 3T Explore AI agent | Supported | N/A — not supported | Not documented | Missing | [3T Explore](../../products/3t/3t-explore/features/ai/feature-matrix.md) |

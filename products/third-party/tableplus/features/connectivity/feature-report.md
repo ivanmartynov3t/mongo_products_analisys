@@ -40,7 +40,7 @@ The source describes SSH tunneling (password, private key, and SSH Agent authent
 
 ## Interactions and dependencies
 
-- Connection color tagging (`CONN-color-coding`) is the trigger mechanism for Safe Mode, documented under [F-GOV](../governance/feature-report.md) (`GOV-protect-mode` / `GOV-readonly-mode`).
+- Connection color tagging (`CONN-color-coding`) is the trigger mechanism for Safe Mode, documented under [F-GOV](../governance/feature-report.md) (`GOV-readonly-mode`).
 - Credential storage interacts with TablePlus's hardware-hash-based device licensing model (documented in `product-report.md`'s pricing/commercial-terms narrative, not itself an F-CONN capability).
 
 ## Conclusions

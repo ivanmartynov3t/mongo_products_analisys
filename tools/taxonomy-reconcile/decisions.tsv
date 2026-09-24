@@ -1,0 +1,365 @@
+id	scope	verdict	maps_to	silo_action	probe_hits	precision	reason
+AI-001	ours-only	retire (synonym)	AI-providers		39		Same provider-set definition; silo pattern already catches 72% of hits
+AI-002	ours-only	child-of	AI-multi-config		51		Runtime config controls (temperature/enable) within AI configs; Enable/config controls are covered by AI-multi-config (98% family coverage)
+AI-003	ours-only	child-of	AI-nl-query		55		Studio 3T NL generation workflow spanning query/pipeline/script; NL query/pipeline generation = AI-nl-query + AI-nl-pipeline; 75% covered
+AI-004	ours-only	analysis-only			18	1	Apply-generated-result; probe precision 1/5, source-code distinction
+AI-005	ours-only	analysis-only			18		Local AI history restore; Studio 3T source-only, 18 hits
+AI-006	ours-only	analysis-only			4		AI shortcuts; 4 hits in whole corpus
+AI-007	ours-only	retire (synonym)	AI-local-mcp		130	4	"Same ""local MCP server"" meaning; never in same matrix as AI-local-mcp"
+AI-008	ours-only	retire (synonym)	AI-mcp-tools		73	4	Same MCP tool-catalog meaning; never co-used
+AI-009	ours-only	retire (synonym)	AI-mcp-client		31	5	Same MCP-client-compat meaning; never co-used
+AI-010	ours-only	child-of	AI-stt-cli		18	5	Binary surface of stt-cli; co-exists with AI-011 in the 3T MCP matrix; stt-cli binary = AI-stt-cli
+AI-011	ours-only	child-of	AI-stt-cli		18	5	Feature set of stt-cli; co-exists with AI-010 in the 3T MCP matrix; stt-cli feature set = AI-stt-cli
+AI-012	ours-only	analysis-only			5		3T Explore AI agent; 5 hits, all already family-tagged
+AI-context-turns	ours-only	retire (synonym)	AI-conversation		98	0	Identical definition to AI-conversation; orphan
+AI-local-mcp	ours-only	feed-upstream		added to silo	130	7	Only new ID worth adding: generic MCP server; silo AI-offline-mcp (Studio 3T-bundled) catches 5%; 75 distinct uncaught snippets, 7/8 precise, 15 products
+AI-mcp-client	ours-only	child-of	AI-local-mcp		22	7	Facet of the local MCP server; its phrasing is folded into the silo AI-local-mcp pattern; Fold into upstream AI-local-mcp patterns (24/31 docs overlap); client lists are matrix detail
+AI-mcp-tools	ours-only	child-of	AI-local-mcp		73	5	Facet of the local MCP server; its phrasing is folded into the silo AI-local-mcp pattern; Fold into upstream AI-local-mcp patterns (44/73 docs overlap); tool counts are matrix-level detail; 5/8 precise
+AI-model-chooser	ours-only	child-of	AI-models		57	7	"Gap report: ""user-selectable model per config"" aspect differs from AI-models (""models available""); Same meaning as AI-models; widen AI-models pattern (catches 23%; 23 distinct uncaught, 7/8)"
+AI-named-configs	ours-only	retire (synonym)	AI-multi-config		23		"Same ""multiple named AI configs"" definition"
+AI-plan-gate	ours-only	retire (synonym)	AI-plan-req		24		Near-identical definition to AI-plan-req; never co-used
+AI-plan-req	ours-only	analysis-only			24	5	Precise (5/5) but all 24 hits are DBeaver edition banners; single-vendor
+AI-sample-data-toggle	ours-only	retire (synonym)	AI-sample-context		3		Same sample-data opt-in definition
+AI-schema-context	ours-only	retire (synonym)	AI-schema-aware		23	8	Same meaning as AI-schema-aware; widen pattern (0% caught) - but 7 distinct snippets, 1 vendor (DataGrip)
+AI-stt-cli	ours-only	feed-upstream		added to silo	18	8	3T MCP binary; 0% caught by PROP-cli-automation/SCHED-cli-headless; 8 distinct snippets, all 3T docs
+GOV-002	ours-only	analysis-only			22	5	Lens-internal; 3T repo docs only, 73% family-tagged
+GOV-003	ours-only	feed-upstream	PROP-webhook-notify	added to silo	35	8	Shipped in 3T Lens/Policy Engine; silo lists it only as PROP-webhook-notify -> promote PROP to sub-feature (catches 23%)
+GOV-004	ours-only	feed-upstream	PROP-pii-discovery	added to silo	141	8	Shipped in Lens/PII Scanner; PROP-pii-discovery already catches 75% -> promote PROP to sub-feature
+GOV-005	ours-only	analysis-only			8		8 hits; source-audit distinction
+GOV-006	ours-only	feed-upstream	PROP-idx-perf-advisor	added to silo	31	8	Shipped (Lens, VisuaLeaf); PROP-idx-perf-advisor catches 0% -> promote + widen pattern
+GOV-007	ours-only	analysis-only			6		6 hits, all tagged
+GOV-010	ours-only	analysis-only			4		4 hits, all tagged
+GOV-011	ours-only	analysis-only			2		2 hits, both tagged by GOV-data-masking
+GOV-012	ours-only	analysis-only			2		2 hits
+GOV-013	ours-only	analysis-only			612	1	Survivor of GOV-platform-k8s (broader: Helm + scaling + observability; exception to descriptive-name rule); Same Helm/K8s meaning; probe 1/5 (K8s mostly = DBeaver connection type)
+GOV-ai-controls	ours-only	feed-upstream		added to silo	50	7	Disable/approve AI; AI-privacy (schema-only vs samples) is a different meaning and catches 0%; 27 distinct, 7/8, 9 products
+GOV-cli-policy	ours-only	analysis-only			2		2 hits
+GOV-cred-storage-os	ours-only	child-of	CONN-cred-storage		29	4	OS-keychain mechanism of credential storage; Same meaning as CONN-cred-storage (cross-family); widen pattern (catches 21%)
+GOV-isolated-edition	ours-only	analysis-only			120	5	103 hits are one repeated Compass banner; single-vendor
+GOV-platform-bridge	ours-only	child-of	GOV-platform-cdc		79		Bridge integration surface around the CDC engine; 86% already caught by GOV-platform-cdc; orphan
+GOV-platform-explore	ours-only	analysis-only			0		0 corpus hits; source-only
+GOV-platform-k8s	ours-only	retire (synonym)	GOV-013		612	1	Narrower synonym of GOV-013 (1 reference); Survivor of GOV-013; probe precision 1/5 -> not worth upstream
+GOV-platform-oidc	ours-only	child-of	CONN-auth-enterprise		38	3	Platform multi-provider OIDC; silo parent catches 95%; CONN-auth-enterprise (includes MongoDB OIDC) already catches 95%; orphan
+GOV-protect-mode	ours-only	retire (synonym)	GOV-readonly-mode		26		"Own Studio 3T matrix row already says ""Likely duplicate of GOV-readonly-mode"""
+GOV-rbac-actions	ours-only	analysis-only			30	2	Probe 2/5 (role names in code samples); 87% tagged
+GOV-startup-policy	ours-only	analysis-only			2		2 hits (Compass only)
+GOV-telemetry-config	ours-only	retire (synonym)	GOV-telemetry		12		Same telemetry opt-out meaning
+PROP-desktop-sso	ours-only	analysis-only			-		Proposed feature; silo has no concept of our proposals by design
+PROP-ide-companion	ours-only	analysis-only			-		Proposed feature; silo has no concept of our proposals by design
+PROP-intellishell-debugger	ours-only	analysis-only			-		Proposed feature; silo has no concept of our proposals by design
+PROP-jit-dynamic-masking	ours-only	analysis-only			-		Proposed feature; silo has no concept of our proposals by design
+PROP-schema-health-advisor	ours-only	analysis-only			-		Proposed feature; silo has no concept of our proposals by design
+PROP-siem-export	ours-only	analysis-only			-		Proposed feature; silo has no concept of our proposals by design
+SCHED-actions	ours-only	feed-upstream		added to silo	18	8	Task run/pause/clone/delete; no same-meaning silo ID (SCHED-status-states catches 17%); 9 distinct, 8/8
+SCHED-batch	ours-only	child-of	SCHED-exec-config		77		One field of execution config; distinct source evidence; Batch size is one field of SCHED-exec-config; 100% covered
+SCHED-compare-results	ours-only	child-of	GOV-collection-compare		58	3	Compare results view; scheduler-matrix detail; Cross-family duplicate; widen silo GOV-collection-compare instead (catches 3%)
+SCHED-compare-schedule	ours-only	child-of	SCHED-task-types		14		Compare saved as a scheduled task (corrected: not GOV-collection-compare); Cross-family duplicate
+SCHED-compare-setup	ours-only	child-of	GOV-collection-compare		191	5	Compare setup step; scheduler-matrix detail; Cross-family duplicate; 155 untagged, 5/5 -> widen silo pattern
+SCHED-compare-sync	ours-only	child-of	GOV-collection-sync		56	4	Sync actions from compare results; Cross-family duplicate; widen silo GOV-collection-sync (catches 16%)
+SCHED-concurrent	ours-only	child-of	SCHED-exec-config		6		One field of execution config; distinct source evidence; Concurrency is one field of SCHED-exec-config
+SCHED-email	ours-only	child-of	SCHED-notifications		66	1	"Provider-level detail of notifications; Own matrix row: ""same evidence as SCHED-notifications"""
+SCHED-history	ours-only	feed-upstream		added to silo	83	6	Execution history/logs; not covered by SCHED-status-states/progress (10%); 40 distinct, 6/8, vendor docs (DBeaver, VisuaLeaf)
+SCHED-history-retention	ours-only	analysis-only			45	1	Hits are mostly query-history retention, not scheduler
+SCHED-plan-limits	ours-only	analysis-only			24	5	5/5 but all DBeaver edition banners; single-vendor
+SCHED-preset-types	ours-only	retire (synonym)	SCHED-types-time		302		Identical definition to SCHED-types-time
+SCHED-recur-daily	ours-only	child-of	SCHED-types-time		126	1	One recurrence value; matrix keeps per-value evidence; Sub-value of SCHED-types-time; probe ~1/6 precise
+SCHED-recur-interval	ours-only	child-of	SCHED-types-time		27	0	One recurrence value; matrix keeps per-value evidence; Sub-value; probe 0/5 precise
+SCHED-recur-monthly	ours-only	child-of	SCHED-types-time		139		One recurrence value; matrix keeps per-value evidence; Sub-value of SCHED-types-time
+SCHED-recur-once	ours-only	child-of	SCHED-types-time		23		One recurrence value; matrix keeps per-value evidence; Sub-value of SCHED-types-time
+SCHED-recur-weekly	ours-only	child-of	SCHED-types-time		75	2	One recurrence value; matrix keeps per-value evidence; Sub-value; probe 2/5 precise
+SCHED-retry	ours-only	child-of	SCHED-exec-config		12		One field of execution config; distinct source evidence; Retry is one field of SCHED-exec-config
+SCHED-script-tasks	ours-only	child-of	SCHED-task-types		17		One task type with its own unit structure; Script is one of SCHED-task-types; 71% covered
+SCHED-task-actions	ours-only	retire (synonym)	SCHED-actions		18	5	"Own matrix row literally says ""Alias of SCHED-actions"""
+SCHED-task-save	ours-only	retire (synonym)	TRANSFER-task-save		76	8	Same meaning as silo TRANSFER-task-save (cross-family); widen it - catches 5%, 39 distinct uncaught, 8/8
+SHELL-auto-reconnect	ours-only	retire (synonym)	SHELL-reconnect		11		Same definition
+SHELL-background-exec	ours-only	retire (synonym)	SHELL-background		45	0	Word-for-word same description as SHELL-background
+SHELL-open-from	ours-only	retire (synonym)	SHELL-integrations		14		"Covered by SHELL-integrations (""open from other tools"")"
+SHELL-persistent-vars	ours-only	retire (synonym)	SHELL-sessions-vars		2		Same definition
+SHELL-sessions	ours-only	retire (synonym)	SHELL-sessions-multi		43	1	Same definition
+SQL-export-monitor	ours-only	analysis-only			30	1	"Probe finds ""export to SQL"", not monitoring; definition not doc-detectable"
+SQL-migration-1to-many	ours-only	child-of	SQL-migration		26	3	Mapping mode inside the migration wizard; Detail of SQL-migration wizard; 13 distinct uncaught, precision 3/5 (ER-diagram noise)
+SQL-migration-1to1	ours-only	child-of	SQL-migration		17	3	Mapping mode inside the migration wizard; Detail of SQL-migration wizard; 6 distinct uncaught
+SQL-migration-schema	ours-only	child-of	SQL-migration		115	7	Schema-mapping stage of the migration wizard; Same meaning as SQL-migration; widen pattern (catches 29%; 59 distinct uncaught, 7/8)
+TRANSFER-plan-limits	ours-only	analysis-only			13	1	Probe 1/5; single-vendor
+CONN-topology	shared	same definition	CONN-topology	tightened			"4/8: generic ""direct connection"""
+CONN-read-pref	shared	same definition	CONN-read-pref				names/descriptions match (silo text is a shortened form where different)
+CONN-uri-paste	shared	same definition	CONN-uri-paste				names/descriptions match (silo text is a shortened form where different)
+CONN-uri-export	shared	same definition	CONN-uri-export				names/descriptions match (silo text is a shortened form where different)
+CONN-import-clients	shared	same definition	CONN-import-clients				names/descriptions match (silo text is a shortened form where different)
+CONN-auth-std	shared	same definition	CONN-auth-std				names/descriptions match (silo text is a shortened form where different)
+CONN-auth-enterprise	shared	same definition	CONN-auth-enterprise				names/descriptions match (silo text is a shortened form where different)
+CONN-tls	shared	same definition	CONN-tls	tightened			5/8: bare TLS/SSL/PEM
+CONN-ssh	shared	same definition	CONN-ssh				names/descriptions match (silo text is a shortened form where different)
+CONN-proxy	shared	same definition	CONN-proxy				names/descriptions match (silo text is a shortened form where different)
+CONN-pool-params	shared	same definition	CONN-pool-params				names/descriptions match (silo text is a shortened form where different)
+CONN-org-folders	shared	same definition	CONN-org-folders				names/descriptions match (silo text is a shortened form where different)
+CONN-color-coding	shared	same definition	CONN-color-coding				names/descriptions match (silo text is a shortened form where different)
+CONN-team-sharing	shared	same definition	CONN-team-sharing				names/descriptions match (silo text is a shortened form where different)
+CONN-readonly-lock	shared	same definition	CONN-readonly-lock				names/descriptions match (silo text is a shortened form where different)
+CONN-cred-storage	shared	same definition	CONN-cred-storage	widened			pattern narrower than definition; new pattern sampled >= 6/8
+CONN-multi-active	shared	same definition	CONN-multi-active				names/descriptions match (silo text is a shortened form where different)
+CONN-in-use-enc	shared	same definition	CONN-in-use-enc				names/descriptions match (silo text is a shortened form where different)
+CONN-role-docs	shared	same definition	CONN-role-docs				names/descriptions match (silo text is a shortened form where different)
+CONN-test-steps	shared	same definition	CONN-test-steps				names/descriptions match (silo text is a shortened form where different)
+CONN-sidebar-ops	shared	same definition	CONN-sidebar-ops	tightened			"3/8: ""connection tree"", ""Database Navigator"", ""connect to"""
+CONN-search-nav	shared	same definition	CONN-search-nav				names/descriptions match (silo text is a shortened form where different)
+CONN-portability	shared	same definition	CONN-portability				names/descriptions match (silo text is a shortened form where different)
+CONN-compat-docdb	shared	same definition	CONN-compat-docdb				names/descriptions match (silo text is a shortened form where different)
+CONN-compat-cosmos	shared	same definition	CONN-compat-cosmos				names/descriptions match (silo text is a shortened form where different)
+CONN-compat-redis	shared	same definition	CONN-compat-redis				names/descriptions match (silo text is a shortened form where different)
+CONN-compat-ferretdb	shared	same definition	CONN-compat-ferretdb				names/descriptions match (silo text is a shortened form where different)
+CONN-session-restore	shared	same definition	CONN-session-restore				names/descriptions match (silo text is a shortened form where different)
+CONN-git-repo-sharing	shared	same definition	CONN-git-repo-sharing	no corpus evidence; pattern kept			0 docs; definition probe < 5 docs or < 6/8
+CONN-access-manager-integration	shared	same definition	CONN-access-manager-integration				names/descriptions match (silo text is a shortened form where different)
+QUERY-filter-bar	shared	same definition	QUERY-filter-bar	boundary bug left in place			"Fixing \b next to ""("" / ""$"" revived alternatives such as find()/sort()/NOW()/$ that matched code samples (0/8 to 3/6 on-topic); previous behaviour kept, latent dead alternatives documented"
+QUERY-projection	shared	same definition	QUERY-projection				names/descriptions match (silo text is a shortened form where different)
+QUERY-sort	shared	same definition	QUERY-sort	boundary bug left in place			"Fixing \b next to ""("" / ""$"" revived alternatives such as find()/sort()/NOW()/$ that matched code samples (0/8 to 3/6 on-topic); previous behaviour kept, latent dead alternatives documented"
+QUERY-skip-limit	shared	same definition	QUERY-skip-limit	boundary bug left in place			"Fixing \b next to ""("" / ""$"" revived alternatives such as find()/sort()/NOW()/$ that matched code samples (0/8 to 3/6 on-topic); previous behaviour kept, latent dead alternatives documented"
+QUERY-collation	shared	same definition	QUERY-collation				names/descriptions match (silo text is a shortened form where different)
+QUERY-max-time	shared	same definition	QUERY-max-time				names/descriptions match (silo text is a shortened form where different)
+QUERY-history	shared	same definition	QUERY-history				names/descriptions match (silo text is a shortened form where different)
+QUERY-saved	shared	same definition	QUERY-saved				names/descriptions match (silo text is a shortened form where different)
+QUERY-export-lang	shared	same definition	QUERY-export-lang				names/descriptions match (silo text is a shortened form where different)
+QUERY-view-tree	shared	same definition	QUERY-view-tree				names/descriptions match (silo text is a shortened form where different)
+QUERY-view-table	shared	same definition	QUERY-view-table				names/descriptions match (silo text is a shortened form where different)
+QUERY-view-json	shared	same definition	QUERY-view-json				names/descriptions match (silo text is a shortened form where different)
+QUERY-view-explain	shared	same definition	QUERY-view-explain				names/descriptions match (silo text is a shortened form where different)
+QUERY-inline-edit	shared	same definition	QUERY-inline-edit				names/descriptions match (silo text is a shortened form where different)
+QUERY-batch-edit	shared	same definition	QUERY-batch-edit				names/descriptions match (silo text is a shortened form where different)
+QUERY-doc-dialog	shared	same definition	QUERY-doc-dialog				names/descriptions match (silo text is a shortened form where different)
+QUERY-multi-update	shared	same definition	QUERY-multi-update	boundary-bug fixed			names/descriptions match (silo text is a shortened form where different)
+QUERY-vqb-core	shared	same definition	QUERY-vqb-core				names/descriptions match (silo text is a shortened form where different)
+QUERY-vqb-proj-sort	shared	same definition	QUERY-vqb-proj-sort	no corpus evidence; pattern kept			0 docs; definition probe < 5 docs or < 6/8
+QUERY-vqb-bidirectional	shared	same definition	QUERY-vqb-bidirectional				names/descriptions match (silo text is a shortened form where different)
+QUERY-vqb-plan	shared	same definition	QUERY-vqb-plan	no corpus evidence; pattern kept			0 docs; definition probe < 5 docs or < 6/8
+QUERY-date-tags	shared	same definition	QUERY-date-tags	boundary bug left in place			"Fixing \b next to ""("" / ""$"" revived alternatives such as find()/sort()/NOW()/$ that matched code samples (0/8 to 3/6 on-topic); previous behaviour kept, latent dead alternatives documented"
+QUERY-run-variants	shared	same definition	QUERY-run-variants	boundary bug left in place			"Fixing \b next to ""("" / ""$"" revived alternatives such as find()/sort()/NOW()/$ that matched code samples (0/8 to 3/6 on-topic); previous behaviour kept, latent dead alternatives documented"
+QUERY-cancel	shared	same definition	QUERY-cancel				names/descriptions match (silo text is a shortened form where different)
+QUERY-perf-timer	shared	same definition	QUERY-perf-timer				names/descriptions match (silo text is a shortened form where different)
+QUERY-undo-redo	shared	same definition	QUERY-undo-redo	no corpus evidence; pattern kept			0 docs; definition probe < 5 docs or < 6/8
+QUERY-copy-options	shared	same definition	QUERY-copy-options				names/descriptions match (silo text is a shortened form where different)
+QUERY-pagination	shared	same definition	QUERY-pagination				names/descriptions match (silo text is a shortened form where different)
+QUERY-manager	shared	same definition	QUERY-manager				names/descriptions match (silo text is a shortened form where different)
+QUERY-open-in	shared	same definition	QUERY-open-in				names/descriptions match (silo text is a shortened form where different)
+QUERY-ai-builder	shared	same definition	QUERY-ai-builder	boundary-bug fixed			names/descriptions match (silo text is a shortened form where different)
+QUERY-view-gridfs	shared	same definition	QUERY-view-gridfs				names/descriptions match (silo text is a shortened form where different)
+QUERY-view-split	shared	same definition	QUERY-view-split				names/descriptions match (silo text is a shortened form where different)
+QUERY-charts-dashboards	shared	same definition	QUERY-charts-dashboards				names/descriptions match (silo text is a shortened form where different)
+QUERY-value-search	shared	same definition	QUERY-value-search				names/descriptions match (silo text is a shortened form where different)
+QUERY-fluent-api	shared	same definition	QUERY-fluent-api				names/descriptions match (silo text is a shortened form where different)
+AGG-editor-layout	shared	same definition	AGG-editor-layout				names/descriptions match (silo text is a shortened form where different)
+AGG-stage-mgmt	shared	same definition	AGG-stage-mgmt				names/descriptions match (silo text is a shortened form where different)
+AGG-stage-toggle	shared	same definition	AGG-stage-toggle				names/descriptions match (silo text is a shortened form where different)
+AGG-pipeline-opts	shared	same definition	AGG-pipeline-opts				names/descriptions match (silo text is a shortened form where different)
+AGG-code-gen	shared	same definition	AGG-code-gen				names/descriptions match (silo text is a shortened form where different)
+AGG-export-results	shared	same definition	AGG-export-results				names/descriptions match (silo text is a shortened form where different)
+AGG-result-formats	shared	same definition	AGG-result-formats				names/descriptions match (silo text is a shortened form where different)
+AGG-save-load	shared	same definition	AGG-save-load				names/descriptions match (silo text is a shortened form where different)
+AGG-create-view	shared	same definition	AGG-create-view	boundary-bug fixed			names/descriptions match (silo text is a shortened form where different)
+AGG-vqb-sync	shared	same definition	AGG-vqb-sync	no corpus evidence; pattern kept			0 docs; definition probe < 5 docs or < 6/8
+AGG-change-target	shared	same definition	AGG-change-target				names/descriptions match (silo text is a shortened form where different)
+AGG-date-tags	shared	same definition	AGG-date-tags				names/descriptions match (silo text is a shortened form where different)
+AGG-clipboard	shared	same definition	AGG-clipboard	no corpus evidence; pattern kept			0 docs; definition probe < 5 docs or < 6/8
+AGG-stage-modes	shared	same definition	AGG-stage-modes				names/descriptions match (silo text is a shortened form where different)
+AGG-stage-preview	shared	same definition	AGG-stage-preview				names/descriptions match (silo text is a shortened form where different)
+AGG-pagination	shared	same definition	AGG-pagination	no corpus evidence; pattern kept			0 docs; definition probe < 5 docs or < 6/8
+AGG-timer-cancel	shared	same definition	AGG-timer-cancel				names/descriptions match (silo text is a shortened form where different)
+AGG-keyboard	shared	same definition	AGG-keyboard	no corpus evidence; pattern kept			0 docs; definition probe < 5 docs or < 6/8
+AGG-js-import-export	shared	same definition	AGG-js-import-export	no corpus evidence; pattern kept			0 docs; definition probe < 5 docs or < 6/8
+AGG-code-tab	shared	same definition	AGG-code-tab				names/descriptions match (silo text is a shortened form where different)
+AGG-chart-builder	shared	same definition	AGG-chart-builder	widened			pattern narrower than definition; new pattern sampled >= 6/8
+AGG-stage-count	shared	same definition	AGG-stage-count	boundary-bug fixed			names/descriptions match (silo text is a shortened form where different)
+AGG-mapreduce-editor	shared	same definition	AGG-mapreduce-editor				names/descriptions match (silo text is a shortened form where different)
+SCHEMA-sampling	shared	same definition	SCHEMA-sampling				names/descriptions match (silo text is a shortened form where different)
+SCHEMA-field-prob	shared	same definition	SCHEMA-field-prob				names/descriptions match (silo text is a shortened form where different)
+SCHEMA-type-prob	shared	same definition	SCHEMA-type-prob				names/descriptions match (silo text is a shortened form where different)
+SCHEMA-explore-docs	shared	same definition	SCHEMA-explore-docs	widened			pattern narrower than definition; new pattern sampled >= 6/8
+SCHEMA-histogram	shared	same definition	SCHEMA-histogram				names/descriptions match (silo text is a shortened form where different)
+SCHEMA-top-values	shared	same definition	SCHEMA-top-values				names/descriptions match (silo text is a shortened form where different)
+SCHEMA-date-dist	shared	same definition	SCHEMA-date-dist	no corpus evidence; pattern kept			0 docs; definition probe < 5 docs or < 6/8
+SCHEMA-stats-notes	shared	same definition	SCHEMA-stats-notes				names/descriptions match (silo text is a shortened form where different)
+SCHEMA-doc-export	shared	same definition	SCHEMA-doc-export				names/descriptions match (silo text is a shortened form where different)
+SCHEMA-rename-discover	shared	same definition	SCHEMA-rename-discover	no corpus evidence; pattern kept			0 docs; definition probe < 5 docs or < 6/8
+SCHEMA-geo-analysis	shared	same definition	SCHEMA-geo-analysis				names/descriptions match (silo text is a shortened form where different)
+SCHEMA-file-export	shared	same definition	SCHEMA-file-export				names/descriptions match (silo text is a shortened form where different)
+SCHEMA-view-editor	shared	same definition	SCHEMA-view-editor				names/descriptions match (silo text is a shortened form where different)
+SCHEMA-view-from-sql	shared	same definition	SCHEMA-view-from-sql	no corpus evidence; pattern kept			0 docs; definition probe < 5 docs or < 6/8
+SCHEMA-views-tree	shared	same definition	SCHEMA-views-tree				names/descriptions match (silo text is a shortened form where different)
+SCHEMA-validation-model	shared	same definition	SCHEMA-validation-model	boundary-bug fixed			names/descriptions match (silo text is a shortened form where different)
+SCHEMA-validation-strictness	shared	same definition	SCHEMA-validation-strictness				names/descriptions match (silo text is a shortened form where different)
+SCHEMA-validation-ui	shared	same definition	SCHEMA-validation-ui	widened			pattern narrower than definition; new pattern sampled >= 6/8
+SCHEMA-validation-limits	shared	same definition	SCHEMA-validation-limits	no corpus evidence; pattern kept			0 docs; definition probe < 5 docs or < 6/8
+SCHEMA-json-editor	shared	same definition	SCHEMA-json-editor				names/descriptions match (silo text is a shortened form where different)
+SCHEMA-deploy-validator	shared	same definition	SCHEMA-deploy-validator	widened			pattern narrower than definition; new pattern sampled >= 6/8
+SCHEMA-import-from-db	shared	same definition	SCHEMA-import-from-db				names/descriptions match (silo text is a shortened form where different)
+SCHEMA-bson-types	shared	same definition	SCHEMA-bson-types				names/descriptions match (silo text is a shortened form where different)
+SCHEMA-field-constraints	shared	same definition	SCHEMA-field-constraints				names/descriptions match (silo text is a shortened form where different)
+SCHEMA-verify	shared	same definition	SCHEMA-verify				names/descriptions match (silo text is a shortened form where different)
+SCHEMA-designer-canvas	shared	same definition	SCHEMA-designer-canvas				names/descriptions match (silo text is a shortened form where different)
+SCHEMA-designer-auto	shared	same definition	SCHEMA-designer-auto				names/descriptions match (silo text is a shortened form where different)
+SCHEMA-designer-links	shared	same definition	SCHEMA-designer-links				names/descriptions match (silo text is a shortened form where different)
+SCHEMA-designer-color	shared	same definition	SCHEMA-designer-color	no corpus evidence; pattern kept			0 docs; definition probe < 5 docs or < 6/8
+SCHEMA-designer-layouts	shared	same definition	SCHEMA-designer-layouts	no corpus evidence; pattern kept			0 docs; definition probe < 5 docs or < 6/8
+SCHEMA-designer-portability	shared	same definition	SCHEMA-designer-portability				names/descriptions match (silo text is a shortened form where different)
+SCHEMA-anomaly-detection	shared	same definition	SCHEMA-anomaly-detection				names/descriptions match (silo text is a shortened form where different)
+IDX-inventory	shared	same definition	IDX-inventory	boundary-bug fixed			names/descriptions match (silo text is a shortened form where different)
+IDX-type-single	shared	same definition	IDX-type-single				names/descriptions match (silo text is a shortened form where different)
+IDX-type-compound	shared	same definition	IDX-type-compound				names/descriptions match (silo text is a shortened form where different)
+IDX-type-multikey	shared	same definition	IDX-type-multikey				names/descriptions match (silo text is a shortened form where different)
+IDX-type-text	shared	same definition	IDX-type-text				names/descriptions match (silo text is a shortened form where different)
+IDX-type-wildcard	shared	same definition	IDX-type-wildcard	boundary bug left in place			"Fixing \b next to ""("" / ""$"" revived alternatives such as find()/sort()/NOW()/$ that matched code samples (0/8 to 3/6 on-topic); previous behaviour kept, latent dead alternatives documented"
+IDX-type-2d	shared	same definition	IDX-type-2d				names/descriptions match (silo text is a shortened form where different)
+IDX-type-2dsphere	shared	same definition	IDX-type-2dsphere				names/descriptions match (silo text is a shortened form where different)
+IDX-type-hashed	shared	same definition	IDX-type-hashed				names/descriptions match (silo text is a shortened form where different)
+IDX-type-ttl	shared	same definition	IDX-type-ttl				names/descriptions match (silo text is a shortened form where different)
+IDX-type-haystack	shared	same definition	IDX-type-haystack				names/descriptions match (silo text is a shortened form where different)
+IDX-props-unique-sparse	shared	same definition	IDX-props-unique-sparse				names/descriptions match (silo text is a shortened form where different)
+IDX-props-hidden	shared	same definition	IDX-props-hidden	boundary-bug fixed			names/descriptions match (silo text is a shortened form where different)
+IDX-props-partial	shared	same definition	IDX-props-partial				names/descriptions match (silo text is a shortened form where different)
+IDX-props-collation	shared	same definition	IDX-props-collation				names/descriptions match (silo text is a shortened form where different)
+IDX-build-mode	shared	same definition	IDX-build-mode				names/descriptions match (silo text is a shortened form where different)
+IDX-copy-paste	shared	same definition	IDX-copy-paste				names/descriptions match (silo text is a shortened form where different)
+IDX-hide-unhide	shared	same definition	IDX-hide-unhide				names/descriptions match (silo text is a shortened form where different)
+IDX-atlas-search	shared	same definition	IDX-atlas-search				names/descriptions match (silo text is a shortened form where different)
+IDX-vector-search	shared	same definition	IDX-vector-search				names/descriptions match (silo text is a shortened form where different)
+IDX-collation-opts	shared	same definition	IDX-collation-opts				names/descriptions match (silo text is a shortened form where different)
+IDX-text-opts	shared	same definition	IDX-text-opts				names/descriptions match (silo text is a shortened form where different)
+IDX-geo-opts	shared	same definition	IDX-geo-opts				names/descriptions match (silo text is a shortened form where different)
+IDX-advanced-opts	shared	same definition	IDX-advanced-opts				names/descriptions match (silo text is a shortened form where different)
+IDX-quick-actions	shared	same definition	IDX-quick-actions				names/descriptions match (silo text is a shortened form where different)
+IDX-explain-brief	shared	same definition	IDX-explain-brief				names/descriptions match (silo text is a shortened form where different)
+IDX-explain-full	shared	same definition	IDX-explain-full				names/descriptions match (silo text is a shortened form where different)
+IDX-explain-sources	shared	same definition	IDX-explain-sources	no corpus evidence; pattern kept			0 docs; definition probe < 5 docs or < 6/8
+IDX-profiler-config	shared	same definition	IDX-profiler-config				names/descriptions match (silo text is a shortened form where different)
+IDX-profiler-analysis	shared	same definition	IDX-profiler-analysis				names/descriptions match (silo text is a shortened form where different)
+IDX-profiler-drilldown	shared	same definition	IDX-profiler-drilldown	no corpus evidence; pattern kept			0 docs; definition probe < 5 docs or < 6/8
+IDX-profiler-export	shared	same definition	IDX-profiler-export	no corpus evidence; pattern kept			0 docs; definition probe < 5 docs or < 6/8
+IDX-profiler-live	shared	same definition	IDX-profiler-live	boundary-bug fixed			names/descriptions match (silo text is a shortened form where different)
+IDX-perf-insights	shared	same definition	IDX-perf-insights				names/descriptions match (silo text is a shortened form where different)
+IDX-realtime-perf	shared	same definition	IDX-realtime-perf				names/descriptions match (silo text is a shortened form where different)
+IDX-stop-ops	shared	same definition	IDX-stop-ops	boundary-bug fixed			names/descriptions match (silo text is a shortened form where different)
+IDX-log-parser	shared	same definition	IDX-log-parser	no corpus evidence; pattern kept			0 docs; definition probe < 5 docs or < 6/8
+TRANSFER-import-csv	shared	same definition	TRANSFER-import-csv				names/descriptions match (silo text is a shortened form where different)
+TRANSFER-import-json	shared	same definition	TRANSFER-import-json				names/descriptions match (silo text is a shortened form where different)
+TRANSFER-import-bson	shared	same definition	TRANSFER-import-bson				names/descriptions match (silo text is a shortened form where different)
+TRANSFER-import-sql	shared	same definition	TRANSFER-import-sql				names/descriptions match (silo text is a shortened form where different)
+TRANSFER-import-mongo	shared	same definition	TRANSFER-import-mongo				names/descriptions match (silo text is a shortened form where different)
+TRANSFER-import-modes	shared	same definition	TRANSFER-import-modes				names/descriptions match (silo text is a shortened form where different)
+TRANSFER-export-src	shared	same definition	TRANSFER-export-src				names/descriptions match (silo text is a shortened form where different)
+TRANSFER-export-csv	shared	same definition	TRANSFER-export-csv				names/descriptions match (silo text is a shortened form where different)
+TRANSFER-export-excel	shared	same definition	TRANSFER-export-excel				names/descriptions match (silo text is a shortened form where different)
+TRANSFER-export-json	shared	same definition	TRANSFER-export-json				names/descriptions match (silo text is a shortened form where different)
+TRANSFER-export-bson	shared	same definition	TRANSFER-export-bson	widened			pattern narrower than definition; new pattern sampled >= 6/8
+TRANSFER-export-sql	shared	same definition	TRANSFER-export-sql				names/descriptions match (silo text is a shortened form where different)
+TRANSFER-export-mongo	shared	same definition	TRANSFER-export-mongo				names/descriptions match (silo text is a shortened form where different)
+TRANSFER-export-sql-stmts	shared	same definition	TRANSFER-export-sql-stmts	boundary-bug fixed			names/descriptions match (silo text is a shortened form where different)
+TRANSFER-incremental	shared	same definition	TRANSFER-incremental				names/descriptions match (silo text is a shortened form where different)
+TRANSFER-masking-tool	shared	same definition	TRANSFER-masking-tool				names/descriptions match (silo text is a shortened form where different)
+TRANSFER-masking-types	shared	same definition	TRANSFER-masking-types				names/descriptions match (silo text is a shortened form where different)
+TRANSFER-masking-inline	shared	same definition	TRANSFER-masking-inline				names/descriptions match (silo text is a shortened form where different)
+TRANSFER-task-save	shared	same definition	TRANSFER-task-save	widened			pattern narrower than definition; new pattern sampled >= 6/8
+TRANSFER-field-mapping	shared	same definition	TRANSFER-field-mapping				names/descriptions match (silo text is a shortened form where different)
+TRANSFER-transform-types	shared	same definition	TRANSFER-transform-types				names/descriptions match (silo text is a shortened form where different)
+TRANSFER-transform-filter	shared	same definition	TRANSFER-transform-filter	no corpus evidence; pattern kept			0 docs; definition probe < 5 docs or < 6/8
+TRANSFER-transform-js	shared	same definition	TRANSFER-transform-js	no corpus evidence; pattern kept			0 docs; definition probe < 5 docs or < 6/8
+TRANSFER-transform-pipeline	shared	same definition	TRANSFER-transform-pipeline	widened			pattern narrower than definition; new pattern sampled >= 6/8
+TRANSFER-gridfs-crud	shared	same definition	TRANSFER-gridfs-crud				names/descriptions match (silo text is a shortened form where different)
+TRANSFER-collection-history	shared	same definition	TRANSFER-collection-history				names/descriptions match (silo text is a shortened form where different)
+TRANSFER-test-data-gen	shared	same definition	TRANSFER-test-data-gen				names/descriptions match (silo text is a shortened form where different)
+SHELL-engine	shared	same definition	SHELL-engine				names/descriptions match (silo text is a shortened form where different)
+SHELL-autocomplete	shared	same definition	SHELL-autocomplete				names/descriptions match (silo text is a shortened form where different)
+SHELL-validation	shared	same definition	SHELL-validation				names/descriptions match (silo text is a shortened form where different)
+SHELL-minimap	shared	same definition	SHELL-minimap				names/descriptions match (silo text is a shortened form where different)
+SHELL-run-all	shared	same definition	SHELL-run-all				names/descriptions match (silo text is a shortened form where different)
+SHELL-run-select	shared	same definition	SHELL-run-select				names/descriptions match (silo text is a shortened form where different)
+SHELL-run-cursor	shared	same definition	SHELL-run-cursor	widened			pattern narrower than definition; new pattern sampled >= 6/8
+SHELL-result-tabs	shared	same definition	SHELL-result-tabs				names/descriptions match (silo text is a shortened form where different)
+SHELL-result-views	shared	same definition	SHELL-result-views	no corpus evidence; pattern kept			0 docs; definition probe < 5 docs or < 6/8
+SHELL-save-load	shared	same definition	SHELL-save-load				names/descriptions match (silo text is a shortened form where different)
+SHELL-history	shared	same definition	SHELL-history				names/descriptions match (silo text is a shortened form where different)
+SHELL-sessions-multi	shared	same definition	SHELL-sessions-multi				names/descriptions match (silo text is a shortened form where different)
+SHELL-sessions-vars	shared	same definition	SHELL-sessions-vars	no corpus evidence; pattern kept			0 docs; definition probe < 5 docs or < 6/8
+SHELL-reconnect	shared	same definition	SHELL-reconnect	widened			pattern narrower than definition; new pattern sampled >= 6/8
+SHELL-background	shared	same definition	SHELL-background	no corpus evidence; pattern kept			0 docs; definition probe < 5 docs or < 6/8
+SHELL-integrations	shared	same definition	SHELL-integrations	widened			pattern narrower than definition; new pattern sampled >= 6/8
+SHELL-modes	shared	same definition	SHELL-modes				names/descriptions match (silo text is a shortened form where different)
+SHELL-destructive-guard	shared	same definition	SHELL-destructive-guard	no corpus evidence; pattern kept			0 docs; definition probe < 5 docs or < 6/8
+SHELL-result-tab-limit	shared	same definition	SHELL-result-tab-limit	no corpus evidence; pattern kept			0 docs; definition probe < 5 docs or < 6/8
+SHELL-bookmarks	shared	same definition	SHELL-bookmarks				names/descriptions match (silo text is a shortened form where different)
+SHELL-oidc-auth	shared	same definition	SHELL-oidc-auth	widened			pattern narrower than definition; new pattern sampled >= 6/8
+SHELL-storedjs-rename	shared	same definition	SHELL-storedjs-rename	no corpus evidence; pattern kept			0 docs; definition probe < 5 docs or < 6/8
+SHELL-debugger	shared	same definition	SHELL-debugger				names/descriptions match (silo text is a shortened form where different)
+SHELL-npm-utils	shared	same definition	SHELL-npm-utils	boundary-bug fixed			names/descriptions match (silo text is a shortened form where different)
+AI-nl-query	shared	same definition	AI-nl-query	boundary-bug fixed; tightened			"~1/8 on-topic: bare ""AI Helper/assistant"" mentions"
+AI-nl-pipeline	shared	same definition	AI-nl-pipeline	widened			pattern narrower than definition; new pattern sampled >= 6/8
+AI-explanation	shared	same definition	AI-explanation				names/descriptions match (silo text is a shortened form where different)
+AI-schema-aware	shared	same definition	AI-schema-aware	widened			pattern narrower than definition; new pattern sampled >= 6/8
+AI-sample-context	shared	same definition	AI-sample-context	no corpus evidence; pattern kept			0 docs; definition probe < 5 docs or < 6/8
+AI-conversation	shared	same definition	AI-conversation	widened			pattern narrower than definition; new pattern sampled >= 6/8
+AI-models	shared	same definition	AI-models	widened			pattern narrower than definition; new pattern sampled >= 6/8
+AI-providers	shared	same definition	AI-providers				names/descriptions match (silo text is a shortened form where different)
+AI-privacy	shared	same definition	AI-privacy	no corpus evidence; pattern kept			0 docs; definition probe < 5 docs or < 6/8
+AI-key-storage	shared	same definition	AI-key-storage				names/descriptions match (silo text is a shortened form where different)
+AI-multi-config	shared	same definition	AI-multi-config				names/descriptions match (silo text is a shortened form where different)
+AI-agentic-mode	shared	same definition	AI-agentic-mode	no corpus evidence; pattern kept			0 docs; definition probe < 5 docs or < 6/8
+AI-offline-mcp	shared	same definition	AI-offline-mcp				names/descriptions match (silo text is a shortened form where different)
+AI-tab-context	shared	same definition	AI-tab-context	no corpus evidence; pattern kept			0 docs; definition probe < 5 docs or < 6/8
+AI-chart-render	shared	same definition	AI-chart-render	no corpus evidence; pattern kept			0 docs; definition probe < 5 docs or < 6/8
+AI-multi-conversation	shared	same definition	AI-multi-conversation	widened			pattern narrower than definition; new pattern sampled >= 6/8
+AI-guardrail-layer	shared	same definition	AI-guardrail-layer	no corpus evidence; pattern kept			0 docs; definition probe < 5 docs or < 6/8
+AI-safety-guards	shared	same definition	AI-safety-guards				names/descriptions match (silo text is a shortened form where different)
+AI-error-fix	shared	same definition	AI-error-fix	no corpus evidence; pattern kept			0 docs; definition probe < 5 docs or < 6/8
+AI-inline-completion	shared	same definition	AI-inline-completion	no corpus evidence; pattern kept			0 docs; definition probe < 5 docs or < 6/8
+AI-voice-query	shared	same definition	AI-voice-query	widened			pattern narrower than definition; new pattern sampled >= 6/8
+AI-prompt-templates	shared	same definition	AI-prompt-templates	no corpus evidence; pattern kept			0 docs; definition probe < 5 docs or < 6/8
+SQL-expressions	shared	same definition	SQL-expressions				names/descriptions match (silo text is a shortened form where different)
+SQL-join-mapping	shared	same definition	SQL-join-mapping	no corpus evidence; pattern kept			0 docs; definition probe < 5 docs or < 6/8
+SQL-migration	shared	same definition	SQL-migration	widened			"pattern narrower than definition; added ""SQL migration"" (the ""SQL to MongoDB"" alternative was dropped at acceptance: 5/8)"
+SQL-reschema	shared	same definition	SQL-reschema				names/descriptions match (silo text is a shortened form where different)
+SQL-code-gen	shared	same definition	SQL-code-gen	no corpus evidence; pattern kept			0 docs; definition probe < 5 docs or < 6/8
+SQL-query-manager	shared	same definition	SQL-query-manager				names/descriptions match (silo text is a shortened form where different)
+SQL-export-field-map	shared	same definition	SQL-export-field-map	no corpus evidence; pattern kept			0 docs; definition probe < 5 docs or < 6/8
+SQL-export-relations	shared	same definition	SQL-export-relations	no corpus evidence; pattern kept			0 docs; definition probe < 5 docs or < 6/8
+SQL-export-targets	shared	same definition	SQL-export-targets				names/descriptions match (silo text is a shortened form where different)
+SQL-federated-query	shared	same definition	SQL-federated-query	no corpus evidence; pattern kept			0 docs; definition probe < 5 docs or < 6/8
+GOV-readonly-mode	shared	same definition	GOV-readonly-mode				names/descriptions match (silo text is a shortened form where different)
+GOV-cred-protection	shared	same definition	GOV-cred-protection				names/descriptions match (silo text is a shortened form where different)
+GOV-network-policy	shared	same definition	GOV-network-policy				names/descriptions match (silo text is a shortened form where different)
+GOV-telemetry	shared	same definition	GOV-telemetry				names/descriptions match (silo text is a shortened form where different)
+GOV-air-gapped	shared	same definition	GOV-air-gapped				names/descriptions match (silo text is a shortened form where different)
+GOV-rbac-users	shared	same definition	GOV-rbac-users	boundary-bug fixed			names/descriptions match (silo text is a shortened form where different)
+GOV-rbac-roles	shared	same definition	GOV-rbac-roles	boundary-bug fixed			names/descriptions match (silo text is a shortened form where different)
+GOV-rbac-inheritance	shared	same definition	GOV-rbac-inheritance				names/descriptions match (silo text is a shortened form where different)
+GOV-rbac-tree	shared	same definition	GOV-rbac-tree				names/descriptions match (silo text is a shortened form where different)
+GOV-audit-log	shared	same definition	GOV-audit-log				names/descriptions match (silo text is a shortened form where different)
+GOV-data-masking	shared	same definition	GOV-data-masking				names/descriptions match (silo text is a shortened form where different)
+GOV-collection-compare	shared	same definition	GOV-collection-compare	widened			pattern narrower than definition; new pattern sampled >= 6/8
+GOV-collection-sync	shared	same definition	GOV-collection-sync	widened			"pattern narrower than definition; added ""sync differences"" / ""compare and sync"" (first attempt 3/8 at acceptance, tightened)"
+GOV-platform-lens	shared	same definition	GOV-platform-lens				names/descriptions match (silo text is a shortened form where different)
+GOV-platform-access	shared	same definition	GOV-platform-access				names/descriptions match (silo text is a shortened form where different)
+GOV-platform-cdc	shared	same definition	GOV-platform-cdc				names/descriptions match (silo text is a shortened form where different)
+GOV-secrets-vault	shared	same definition	GOV-secrets-vault				names/descriptions match (silo text is a shortened form where different)
+GOV-staged-commit	shared	same definition	GOV-staged-commit				names/descriptions match (silo text is a shortened form where different)
+SCHED-types-time	shared	same definition	SCHED-types-time	widened			pattern narrower than definition; new pattern sampled >= 6/8
+SCHED-cron	shared	same definition	SCHED-cron				names/descriptions match (silo text is a shortened form where different)
+SCHED-timezone	shared	same definition	SCHED-timezone				names/descriptions match (silo text is a shortened form where different)
+SCHED-task-types	shared	same definition	SCHED-task-types				names/descriptions match (silo text is a shortened form where different)
+SCHED-exec-config	shared	same definition	SCHED-exec-config				names/descriptions match (silo text is a shortened form where different)
+SCHED-progress	shared	same definition	SCHED-progress	no corpus evidence; pattern kept			0 docs; definition probe < 5 docs or < 6/8
+SCHED-status-states	shared	same definition	SCHED-status-states				names/descriptions match (silo text is a shortened form where different)
+SCHED-notifications	shared	same definition	SCHED-notifications				names/descriptions match (silo text is a shortened form where different)
+SCHED-cli-headless	shared	same definition	SCHED-cli-headless				names/descriptions match (silo text is a shortened form where different)
+PROP-pii-discovery	shared	same definition	PROP-pii-discovery				names/descriptions match (silo text is a shortened form where different)
+PROP-cli-automation	shared	same definition	PROP-cli-automation	no corpus evidence; pattern kept			0 docs; definition probe < 5 docs or < 6/8
+PROP-webhook-notify	shared	same definition	PROP-webhook-notify				names/descriptions match (silo text is a shortened form where different)
+PROP-idx-perf-advisor	shared	same definition	PROP-idx-perf-advisor	widened			pattern narrower than definition; new pattern sampled >= 6/8
+PROP-qe-key-vault-ui	shared	same definition	PROP-qe-key-vault-ui	no corpus evidence; pattern kept			0 docs; definition probe < 5 docs or < 6/8
+PROP-vector-search-tooling	shared	same definition	PROP-vector-search-tooling	no corpus evidence; pattern kept			0 docs; definition probe < 5 docs or < 6/8
+PROP-git-integration	shared	same definition	PROP-git-integration	widened			pattern narrower than definition; new pattern sampled >= 6/8
+PROP-schema-erd-cluster	shared	same definition	PROP-schema-erd-cluster	widened			pattern narrower than definition; new pattern sampled >= 6/8
+PROP-ai-gateway-sso	shared	same definition	PROP-ai-gateway-sso	no corpus evidence; pattern kept			0 docs; definition probe < 5 docs or < 6/8
+PROP-schema-drift	shared	same definition	PROP-schema-drift				names/descriptions match (silo text is a shortened form where different)
+PROP-bi-dashboard	shared	same definition	PROP-bi-dashboard	widened			pattern narrower than definition; new pattern sampled >= 6/8
+PROP-secrets-vault	shared	same definition	PROP-secrets-vault				names/descriptions match (silo text is a shortened form where different)
+PROP-synthetic-test-data	shared	same definition	PROP-synthetic-test-data				names/descriptions match (silo text is a shortened form where different)
+PROP-federated-query	shared	same definition	PROP-federated-query				names/descriptions match (silo text is a shortened form where different)

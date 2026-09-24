@@ -288,7 +288,7 @@ The following requirements come from direct stakeholder/product input, not from 
 - **A direct, named pain point exists in persona research**: [`mongodb-gui-user-personas-research`, L32](../research/google_research/mongodb-gui-user-personas-research/MongoDB%20GUI%20User%20Personas%20Research.md#L63): *"Enterprise teams are frustrated by ungoverned shadow IT tools... and an inability to audit queries executed by internal AI models."*
 - **SSO is already a stated enterprise purchasing criterion generally** ([`mongodb-gui-user-personas`, L64](../research/google_research/mongodb-gui-user-personas/MongoDB%20GUI%20User%20Personas.md#L64): *"Enterprise purchasing criteria mandate verified security certifications... centralized Single Sign-On (SSO/SAML)..."*) — this idea extends that expectation specifically to the AI Helper's backend credentials.
 
-**What it builds on:** `AI-001` (AI Helper's backend selection) and `AI-key-storage` — reconfigures how those already-implemented pieces resolve credentials, rather than replacing them.
+**What it builds on:** `AI-providers` (AI Helper's backend selection) and `AI-key-storage` — reconfigures how those already-implemented pieces resolve credentials, rather than replacing them.
 
 **Who it's for:** Enterprise IT admins and security teams at organizations that already restrict who can hold raw LLM API keys — a governance buyer, distinct from the individual developer using AI Helper day to day.
 
