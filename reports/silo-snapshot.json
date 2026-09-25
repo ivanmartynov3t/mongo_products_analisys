@@ -1,0 +1,578 @@
+{
+  "analysis_folders_without_silo_product": [
+    "products/3t/govern"
+  ],
+  "products": [
+    {
+      "analysis_folder": "products/3t/3t-access",
+      "catalog_entries": 205,
+      "catalog_source_files": 13,
+      "category": "3t",
+      "entry_urls": [],
+      "github_repos": [
+        "https://github.com/3tio/admin-portal",
+        "https://github.com/3tio/connection-manager",
+        "https://github.com/3tio/control-plane",
+        "https://github.com/3tio/docs",
+        "https://github.com/3tio/infra-core",
+        "https://github.com/3tio/infra-release",
+        "https://github.com/3tio/luigi",
+        "https://github.com/3tio/pkce-cli"
+      ],
+      "in_config": true,
+      "name": "3T Access Manager",
+      "repo_docs": 191,
+      "repo_scraped": "2026-09-25",
+      "sitemap_urls": [],
+      "slug": "3t-access",
+      "status": "Shipped",
+      "track": "Foundation",
+      "web_pages": 1,
+      "web_retrieved": "2026-09-15"
+    },
+    {
+      "analysis_folder": "",
+      "catalog_entries": 0,
+      "catalog_source_files": 0,
+      "category": "3t",
+      "entry_urls": [],
+      "github_repos": [
+        "https://github.com/3tio/3t.cognito"
+      ],
+      "in_config": true,
+      "name": "3T Cognito",
+      "repo_docs": 0,
+      "repo_scraped": "2026-09-21",
+      "sitemap_urls": [],
+      "slug": "3t-cognito",
+      "status": "Live",
+      "track": "Foundation",
+      "web_pages": 0,
+      "web_retrieved": ""
+    },
+    {
+      "analysis_folder": "products/3t/3t-explore",
+      "catalog_entries": 46,
+      "catalog_source_files": 0,
+      "category": "3t",
+      "entry_urls": [
+        "https://studio3t.com/3t-explore/"
+      ],
+      "github_repos": [
+        "https://github.com/3tio/ai-agent",
+        "https://github.com/3tio/common-ui",
+        "https://github.com/3tio/mario",
+        "https://github.com/3tio/mario-api-spec",
+        "https://github.com/3tio/super-mario-desktop"
+      ],
+      "in_config": true,
+      "name": "3T Build / Explore",
+      "repo_docs": 45,
+      "repo_scraped": "2026-09-25",
+      "sitemap_urls": [],
+      "slug": "3t-explore",
+      "status": "MVP ready to demo",
+      "track": "Build Track",
+      "web_pages": 1,
+      "web_retrieved": "2026-09-10"
+    },
+    {
+      "analysis_folder": "",
+      "catalog_entries": 41,
+      "catalog_source_files": 0,
+      "category": "3t",
+      "entry_urls": [],
+      "github_repos": [
+        "https://github.com/3tio/confluence_semantic_mcp",
+        "https://github.com/3tio/flightdeck",
+        "https://github.com/3tio/gtm-data-agent",
+        "https://github.com/3tio/knowledge_embeddings",
+        "https://github.com/3tio/quote-generator",
+        "https://github.com/3tio/team-sharing-server"
+      ],
+      "in_config": true,
+      "name": "3T Internal Tools",
+      "repo_docs": 41,
+      "repo_scraped": "2026-09-25",
+      "sitemap_urls": [],
+      "slug": "3t-internal-tools",
+      "status": "Live",
+      "track": "Web & Design",
+      "web_pages": 0,
+      "web_retrieved": ""
+    },
+    {
+      "analysis_folder": "products/3t/3t-lens",
+      "catalog_entries": 533,
+      "catalog_source_files": 420,
+      "category": "3t",
+      "entry_urls": [
+        "https://studio3t.com/3t-lens/"
+      ],
+      "github_repos": [
+        "https://github.com/3tio/tools"
+      ],
+      "in_config": true,
+      "name": "3T Lens",
+      "repo_docs": 113,
+      "repo_scraped": "2026-09-25",
+      "sitemap_urls": [],
+      "slug": "3t-lens",
+      "status": "Active dev",
+      "track": "Govern Track",
+      "web_pages": 0,
+      "web_retrieved": ""
+    },
+    {
+      "analysis_folder": "",
+      "catalog_entries": 10,
+      "catalog_source_files": 2,
+      "category": "3t",
+      "entry_urls": [],
+      "github_repos": [
+        "https://github.com/3tio/3t-keycloak-login-page",
+        "https://github.com/3tio/3t-login-page"
+      ],
+      "in_config": true,
+      "name": "3T Login Page",
+      "repo_docs": 8,
+      "repo_scraped": "2026-09-25",
+      "sitemap_urls": [],
+      "slug": "3t-login-page",
+      "status": "Live",
+      "track": "Foundation",
+      "web_pages": 0,
+      "web_retrieved": ""
+    },
+    {
+      "analysis_folder": "products/3t/3t-mcp",
+      "catalog_entries": 31,
+      "catalog_source_files": 17,
+      "category": "3t",
+      "entry_urls": [
+        "https://studio3t.com/3t-mcp/"
+      ],
+      "github_repos": [
+        "https://github.com/3tio/3t-build-mcp-server",
+        "https://github.com/3tio/3t-cli",
+        "https://github.com/3tio/3t-mcp-releases",
+        "https://github.com/3tio/pii_scanner"
+      ],
+      "in_config": true,
+      "name": "3T MCP",
+      "repo_docs": 13,
+      "repo_scraped": "2026-09-25",
+      "sitemap_urls": [],
+      "slug": "3t-mcp",
+      "status": "Released (experimental)",
+      "track": "Build Track",
+      "web_pages": 1,
+      "web_retrieved": "2026-09-10"
+    },
+    {
+      "analysis_folder": "",
+      "catalog_entries": 217,
+      "catalog_source_files": 0,
+      "category": "3t",
+      "entry_urls": [
+        "https://studio3t.com/"
+      ],
+      "github_repos": [],
+      "in_config": true,
+      "name": "3T Website (Current)",
+      "repo_docs": 0,
+      "repo_scraped": "",
+      "sitemap_urls": [],
+      "slug": "3t-website-2026",
+      "status": "Live",
+      "track": "Web & Design",
+      "web_pages": 217,
+      "web_retrieved": "2026-09-25"
+    },
+    {
+      "analysis_folder": "products/3t/3tl-bridge",
+      "catalog_entries": 1709,
+      "catalog_source_files": 1659,
+      "category": "3t",
+      "entry_urls": [
+        "https://studio3t.com/3tl-bridge/"
+      ],
+      "github_repos": [
+        "https://github.com/3tio/3t-bridge",
+        "https://github.com/3tio/3t.tools"
+      ],
+      "in_config": true,
+      "name": "Studio 3T Bridge (3TL Bridge)",
+      "repo_docs": 49,
+      "repo_scraped": "2026-09-25",
+      "sitemap_urls": [],
+      "slug": "3tl-bridge",
+      "status": "MVP ready to demo",
+      "track": "Pipeline Track",
+      "web_pages": 1,
+      "web_retrieved": "2026-09-10"
+    },
+    {
+      "analysis_folder": "",
+      "catalog_entries": 15,
+      "catalog_source_files": 13,
+      "category": "3t",
+      "entry_urls": [],
+      "github_repos": [
+        "https://github.com/3tio/cassandra-ui"
+      ],
+      "in_config": true,
+      "name": "3T Cassandra UI",
+      "repo_docs": 2,
+      "repo_scraped": "2026-09-22",
+      "sitemap_urls": [],
+      "slug": "cassandra-ui",
+      "status": "PoC",
+      "track": "Govern Track",
+      "web_pages": 0,
+      "web_retrieved": ""
+    },
+    {
+      "analysis_folder": "",
+      "catalog_entries": 0,
+      "catalog_source_files": 0,
+      "category": "3t",
+      "entry_urls": [],
+      "github_repos": [],
+      "in_config": true,
+      "name": "Studio 3T Enterprise Data Suite",
+      "repo_docs": 0,
+      "repo_scraped": "",
+      "sitemap_urls": [],
+      "slug": "enterprise-data-suite",
+      "status": "Planned",
+      "track": "Pipeline Track",
+      "web_pages": 0,
+      "web_retrieved": ""
+    },
+    {
+      "analysis_folder": "",
+      "catalog_entries": 205,
+      "catalog_source_files": 155,
+      "category": "3t",
+      "entry_urls": [],
+      "github_repos": [
+        "https://github.com/3tio/3t.governance-proxy",
+        "https://github.com/3tio/3t.interceptor"
+      ],
+      "in_config": true,
+      "name": "3T Interceptor Proxy",
+      "repo_docs": 50,
+      "repo_scraped": "2026-09-25",
+      "sitemap_urls": [],
+      "slug": "interceptor-proxy",
+      "status": "Working PoC",
+      "track": "Govern Track",
+      "web_pages": 0,
+      "web_retrieved": ""
+    },
+    {
+      "analysis_folder": "",
+      "catalog_entries": 57,
+      "catalog_source_files": 5,
+      "category": "3t",
+      "entry_urls": [],
+      "github_repos": [
+        "https://github.com/3tio/3t.lm",
+        "https://github.com/3tio/common-lic"
+      ],
+      "in_config": true,
+      "name": "License Manager",
+      "repo_docs": 52,
+      "repo_scraped": "2026-09-25",
+      "sitemap_urls": [],
+      "slug": "license-manager",
+      "status": "Live",
+      "track": "Foundation",
+      "web_pages": 0,
+      "web_retrieved": ""
+    },
+    {
+      "analysis_folder": "",
+      "catalog_entries": 23,
+      "catalog_source_files": 9,
+      "category": "3t",
+      "entry_urls": [],
+      "github_repos": [
+        "https://github.com/3tio/3t.pii-scanner",
+        "https://github.com/3tio/pii-scanner-lab",
+        "https://github.com/3tio/pii-scanner-py",
+        "https://github.com/3tio/pii_scanner"
+      ],
+      "in_config": true,
+      "name": "PII Scanner",
+      "repo_docs": 14,
+      "repo_scraped": "2026-09-25",
+      "sitemap_urls": [],
+      "slug": "pii-scanner",
+      "status": "Shipped",
+      "track": "Govern Track",
+      "web_pages": 0,
+      "web_retrieved": ""
+    },
+    {
+      "analysis_folder": "",
+      "catalog_entries": 529,
+      "catalog_source_files": 418,
+      "category": "3t",
+      "entry_urls": [],
+      "github_repos": [
+        "https://github.com/3tio/tools"
+      ],
+      "in_config": true,
+      "name": "Policy Engine",
+      "repo_docs": 113,
+      "repo_scraped": "2026-09-25",
+      "sitemap_urls": [],
+      "slug": "policy-engine",
+      "status": "Shipped",
+      "track": "Govern Track",
+      "web_pages": 0,
+      "web_retrieved": ""
+    },
+    {
+      "analysis_folder": "products/3t/studio-3t",
+      "catalog_entries": 544,
+      "catalog_source_files": 8,
+      "category": "3t",
+      "entry_urls": [
+        "https://studio3t.com/",
+        "https://studio3t.com/download/",
+        "https://studio3t.com/knowledge-base/"
+      ],
+      "github_repos": [
+        "https://github.com/3tio/3t-desktop-automation",
+        "https://github.com/3tio/3t.tools",
+        "https://github.com/3tio/infra-config",
+        "https://github.com/3tio/notification-manager"
+      ],
+      "in_config": true,
+      "name": "Studio 3T",
+      "repo_docs": 44,
+      "repo_scraped": "2026-09-25",
+      "sitemap_urls": [
+        "https://studio3t.com/sitemap_index.xml"
+      ],
+      "slug": "studio-3t",
+      "status": "Live",
+      "track": "Build Track",
+      "web_pages": 492,
+      "web_retrieved": "2026-09-21"
+    },
+    {
+      "analysis_folder": "",
+      "catalog_entries": 38,
+      "catalog_source_files": 24,
+      "category": "3t",
+      "entry_urls": [],
+      "github_repos": [
+        "https://github.com/3tio/chat",
+        "https://github.com/3tio/chat-dashboard"
+      ],
+      "in_config": true,
+      "name": "Studio 3T AI Chat",
+      "repo_docs": 14,
+      "repo_scraped": "2026-09-25",
+      "sitemap_urls": [],
+      "slug": "studio-3t-ai-chat",
+      "status": "Internal demo only",
+      "track": "Build Track",
+      "web_pages": 0,
+      "web_retrieved": ""
+    },
+    {
+      "analysis_folder": "",
+      "catalog_entries": 1753,
+      "catalog_source_files": 1659,
+      "category": "3t",
+      "entry_urls": [
+        "https://studio3t.com/"
+      ],
+      "github_repos": [
+        "https://github.com/3tio/3t.tools"
+      ],
+      "in_config": true,
+      "name": "Studio 3T Desktop EE",
+      "repo_docs": 44,
+      "repo_scraped": "2026-09-25",
+      "sitemap_urls": [],
+      "slug": "studio-3t-ee",
+      "status": "Alpha",
+      "track": "Build Track",
+      "web_pages": 50,
+      "web_retrieved": "2026-09-15"
+    },
+    {
+      "analysis_folder": "products/third-party/datagrip",
+      "catalog_entries": 1033,
+      "catalog_source_files": 0,
+      "category": "third-party",
+      "entry_urls": [
+        "https://www.jetbrains.com/datagrip/",
+        "https://www.jetbrains.com/datagrip/features/",
+        "https://www.jetbrains.com/help/datagrip/"
+      ],
+      "github_repos": [],
+      "in_config": true,
+      "name": "JetBrains DataGrip",
+      "repo_docs": 0,
+      "repo_scraped": "",
+      "sitemap_urls": [],
+      "slug": "datagrip",
+      "status": "",
+      "track": "",
+      "web_pages": 1033,
+      "web_retrieved": "2026-09-25"
+    },
+    {
+      "analysis_folder": "products/third-party/dbeaver",
+      "catalog_entries": 814,
+      "catalog_source_files": 0,
+      "category": "third-party",
+      "entry_urls": [
+        "https://dbeaver.com/",
+        "https://dbeaver.com/docs/",
+        "https://dbeaver.io/"
+      ],
+      "github_repos": [],
+      "in_config": true,
+      "name": "DBeaver",
+      "repo_docs": 0,
+      "repo_scraped": "",
+      "sitemap_urls": [],
+      "slug": "dbeaver",
+      "status": "",
+      "track": "",
+      "web_pages": 814,
+      "web_retrieved": "2026-09-25"
+    },
+    {
+      "analysis_folder": "products/third-party/mongodb-compass",
+      "catalog_entries": 583,
+      "catalog_source_files": 411,
+      "category": "third-party",
+      "entry_urls": [
+        "https://www.mongodb.com/docs/compass/current/",
+        "https://www.mongodb.com/products/tools/compass"
+      ],
+      "github_repos": [
+        "https://github.com/mongodb-js/compass"
+      ],
+      "in_config": true,
+      "name": "MongoDB Compass",
+      "repo_docs": 52,
+      "repo_scraped": "2026-09-25",
+      "sitemap_urls": [],
+      "slug": "mongodb-compass",
+      "status": "",
+      "track": "",
+      "web_pages": 120,
+      "web_retrieved": "2026-09-25"
+    },
+    {
+      "analysis_folder": "products/third-party/navicat",
+      "catalog_entries": 15,
+      "catalog_source_files": 0,
+      "category": "third-party",
+      "entry_urls": [
+        "https://www.navicat.com/en/products/navicat-for-mongodb",
+        "https://www.navicat.com/en/products/navicat-premium"
+      ],
+      "github_repos": [],
+      "in_config": true,
+      "name": "Navicat for MongoDB",
+      "repo_docs": 0,
+      "repo_scraped": "",
+      "sitemap_urls": [],
+      "slug": "navicat",
+      "status": "",
+      "track": "",
+      "web_pages": 15,
+      "web_retrieved": "2026-09-25"
+    },
+    {
+      "analysis_folder": "products/third-party/nosqlbooster",
+      "catalog_entries": 145,
+      "catalog_source_files": 0,
+      "category": "third-party",
+      "entry_urls": [
+        "https://nosqlbooster.com/",
+        "https://nosqlbooster.com/compareEditions",
+        "https://nosqlbooster.com/downloads",
+        "https://nosqlbooster.com/features"
+      ],
+      "github_repos": [],
+      "in_config": true,
+      "name": "NoSQLBooster for MongoDB",
+      "repo_docs": 0,
+      "repo_scraped": "",
+      "sitemap_urls": [],
+      "slug": "nosqlbooster",
+      "status": "",
+      "track": "",
+      "web_pages": 145,
+      "web_retrieved": "2026-09-21"
+    },
+    {
+      "analysis_folder": "products/third-party/tableplus",
+      "catalog_entries": 179,
+      "catalog_source_files": 0,
+      "category": "third-party",
+      "entry_urls": [
+        "https://docs.tableplus.com/",
+        "https://tableplus.com/",
+        "https://tableplus.com/blog"
+      ],
+      "github_repos": [],
+      "in_config": true,
+      "name": "TablePlus",
+      "repo_docs": 0,
+      "repo_scraped": "",
+      "sitemap_urls": [],
+      "slug": "tableplus",
+      "status": "",
+      "track": "",
+      "web_pages": 179,
+      "web_retrieved": "2026-09-25"
+    },
+    {
+      "analysis_folder": "products/third-party/visual-eaf",
+      "catalog_entries": 256,
+      "catalog_source_files": 0,
+      "category": "third-party",
+      "entry_urls": [
+        "https://visualeaf.com/",
+        "https://visualeaf.com/blog/",
+        "https://visualeaf.com/compare/",
+        "https://visualeaf.com/database/",
+        "https://visualeaf.com/docs",
+        "https://visualeaf.com/features/",
+        "https://visualeaf.com/pricing/",
+        "https://visualeaf.com/tools/"
+      ],
+      "github_repos": [],
+      "in_config": true,
+      "name": "VisuaLeaf",
+      "repo_docs": 0,
+      "repo_scraped": "",
+      "sitemap_urls": [
+        "https://visualeaf.com/sitemap.xml"
+      ],
+      "slug": "visual-eaf",
+      "status": "",
+      "track": "",
+      "web_pages": 256,
+      "web_retrieved": "2026-09-25"
+    }
+  ],
+  "silo": {
+    "catalog_total_documents": 4170,
+    "commit": "f1e28e8d8c8310ce87731bb9d01cdc4af98b0076",
+    "commit_date": "2026-09-25"
+  }
+}

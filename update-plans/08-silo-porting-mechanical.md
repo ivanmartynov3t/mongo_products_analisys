@@ -183,15 +183,15 @@ Copy into each PR description and tick there; the plan's *Merge checklist comple
   - [ ] Merged to `main`; branch deleted; issue closed with a result comment
 
 - [ ] **Step 2 — P2** · [#34](https://github.com/ivanmartynov3t/mongo_products_analisys/issues/34) · branch `feat/34-silo-snapshot`
-  - [ ] Branch created from the latest `main`
-  - [ ] Implemented (issue scope only)
-  - [ ] New tests added; full suite passes locally (commands and results in the PR)
-  - [ ] Tool run against the real silo; before/after summary in the PR
+  - [x] Branch created from the latest `main`
+  - [x] Implemented (issue scope only)
+  - [x] New tests added; full suite passes locally (commands and results in the PR)
+  - [x] Tool run against the real silo; before/after summary in the PR
   - [ ] Pull request opened: PR link: —
   - [ ] Code review done; findings recorded on the PR (must fix: — · suggestions: —)
   - [ ] All *must fix* findings fixed; tests re-run
   - [ ] Re-review: no *must fix* left; suggestions fixed or accepted by the owner
-  - [ ] Docs updated (tool README, conventions, this plan)
+  - [x] Docs updated (tool README, conventions, this plan)
   - [ ] Merge checklist complete
   - [ ] Owner approved the merge
   - [ ] Merged to `main`; branch deleted; issue closed with a result comment
@@ -309,3 +309,4 @@ Copy into each PR description and tick there; the plan's *Merge checklist comple
 - 2026-09-25 — implementation plan (section 8) added with per-step checkboxes.
 - 2026-09-26 — Step 1 (P9): PR prod_info_silo#46; review round 1 NOT PASSED (4 must fix), round 2 PASSED; suggestions applied. Owner request: silo pre-commit hook removed (classify + catalog stay in every workflow script).
 - 2026-09-26 — Owner decision: plan scoped to mechanical porting silo → this repository. Steps reordered (P9 → P2 → P1 → P6 → P7 → P3 → P4 → P8 → P5). P5 reduced to the gap report; silo seed URLs moved to [prod_info_silo#47](https://github.com/ivanmartynov3t/prod_info_silo/issues/47). P9 kept as a prerequisite.
+- 2026-09-26 — Step 2 (P2) started before step 1 merged (owner: continue). Snapshot at silo `f1e28e8d` still counts the stale License Manager page under Studio 3T; regenerate after prod_info_silo#46 merges.
