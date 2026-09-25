@@ -27,6 +27,10 @@ A product is **in scope** when it is (a) *shipped* and (b) exposes MongoDB-facin
 | `3t-website-2026` | Live | 216 | **Out of scope as a product** | The marketing site. Its pages remain a *citation source* (studio3t.com) checked by `tools/silo-review` | — |
 | `3t-internal-tools` | Live | 41 | **Out of scope** | Internal utilities, not a product | — |
 
+## Amendment 2026-09-25
+
+By owner decision, the rows these components map to (`GOV-002`–`GOV-009`) moved from 3T Lens to a new [Govern](../products/3t/govern/product-report.md) folder. Reason: studio3t.com/3t-lens/ returned 404 and the public site describes policy checks, drift alerts and governed agent access as the Govern track. Read "inside 3T Lens" below as "inside Govern"; the Govern matrix keeps 3T Lens as an alternative attribution. This is the one new product folder; the "no new product folders" consequence below is superseded for it.
+
 ## Consequences
 
 - **No new product folders now.** The two in-scope components are covered on existing product pages (3T Lens, 3T MCP), so the cost is edits to existing matrices, not new analysis sets.

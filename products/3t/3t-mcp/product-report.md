@@ -20,7 +20,7 @@
 
 ## Product summary
 
-3T MCP is a standalone command-line binary (`stt-cli`) that exposes MongoDB access (read-only by default; writes need an explicit `--allow-writes` opt-in, per internal repo docs — see the [feature matrix](features/ai/feature-matrix.md) S2) to AI coding agents via the Model Context Protocol over stdio transport. It is distributed independently via GitHub releases and requires a free 3T account (browser-based OAuth login). Its capability surface is strictly read-only: collection/database browsing, find query execution and explain, full schema analysis, and a PII scanner that flags fields potentially containing personally identifiable information. It runs entirely locally with no cloud intermediary for MongoDB data.
+3T MCP is a standalone command-line binary (`stt-cli`) that exposes MongoDB access (read-only by default; writes need an explicit `--allow-writes` opt-in, per the public releases README, github.com/3tio/3t-mcp-releases; the product page studio3t.com/3t-mcp still says "always" read-only — see the [feature matrix](features/ai/feature-matrix.md) S1, S2) to AI coding agents via the Model Context Protocol over stdio transport. It is distributed independently via GitHub releases and requires a free 3T account (browser-based OAuth login). Its capability surface is strictly read-only: collection/database browsing, find query execution and explain, full schema analysis, and a PII scanner that flags fields potentially containing personally identifiable information. It runs entirely locally with no cloud intermediary for MongoDB data.
 
 It is architecturally distinct from the Studio 3T Desktop IDE's built-in Local MCP Server (HTTP transport, no auth required for local loopback access) — see [Studio 3T's AI feature matrix](../studio-3t/features/ai/feature-matrix.md) (AI-local-mcp, AI-mcp-tools, AI-mcp-client). Per studio3t.com, 3T MCP is one of three products in the "Build" track, alongside the Studio 3T Desktop IDE and 3T Explore; "Build" is the product track name, not a product name.
 
@@ -44,7 +44,7 @@ Feature IDs and folder names from [feature-dictionary.md](../../../feature-dicti
 ### Strategic risks / gaps
 
 - Requires a 3T account (OAuth login) — an extra credential/dependency versus the Desktop IDE's Local MCP Server, which needs no auth for local loopback access.
-- PII scanner identifies candidate fields using field-name signals plus value patterns with a 0–1 confidence score (documented in internal repo docs; see the [feature matrix](features/ai/feature-matrix.md) S3); results require human review and are not an authoritative compliance determination.
+- PII scanner identifies candidate fields using field-name signals plus value patterns with a 0–1 confidence score (documented in the public releases README, github.com/3tio/3t-mcp-releases; see the [feature matrix](features/ai/feature-matrix.md) S2); results require human review and are not an authoritative compliance determination.
 - stdio-only transport means HTTP-only MCP clients need a bridge adapter.
 
 ### Open questions

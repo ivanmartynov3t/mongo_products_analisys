@@ -9,7 +9,7 @@
 
 ## Scope
 
-This report covers 3T MCP (stt-cli), the standalone CLI binary providing read-only MongoDB access via stdio MCP transport. It is a separate product from the Studio 3T Desktop IDE's built-in Local MCP Server — see [Studio 3T's AI feature report](../../../studio-3t/features/ai/feature-report.md) — though both are part of the "Build" track per studio3t.com.
+This report covers 3T MCP (stt-cli), the standalone CLI binary providing MongoDB access via stdio MCP transport — read-only by default, with writes opt-in through `--allow-writes` (public releases README, github.com/3tio/3t-mcp-releases; the product page studio3t.com/3t-mcp says always read-only). It is a separate product from the Studio 3T Desktop IDE's built-in Local MCP Server — see [Studio 3T's AI feature report](../../../studio-3t/features/ai/feature-report.md) — though both are part of the "Build" track per studio3t.com.
 
 ## Behavioral walkthrough
 
@@ -26,7 +26,7 @@ The 3T MCP standalone binary (stt-cli) is distributed via GitHub releases. Unlik
 
 - Requires a 3T account (OAuth login); credentials stored locally.
 - stdio-only transport; HTTP-only clients need a bridge adapter.
-- PII scanner uses an unspecified heuristic approach (matching mechanism not published by the vendor) — results require human review and are not an authoritative compliance determination.
+- PII scanner classifies fields by name (8 categories) and by value patterns, with a 0–1 confidence score (public releases README, github.com/3tio/3t-mcp-releases) — results require human review and are not an authoritative compliance determination.
 
 ## Interactions and dependencies
 

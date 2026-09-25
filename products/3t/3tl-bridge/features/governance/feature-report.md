@@ -38,7 +38,7 @@ Security and identity are handled separately from the data-plane concerns above:
 ## Interactions and dependencies
 
 - Shares 3T Access as the identity/permission plane for platform-wide auth — see [3T Access product report](../../../3t-access/product-report.md).
-- Complements [3T Lens](../../../3t-lens/product-report.md) within the broader governance tier (3T Lens covers connection governance and compliance policy; 3TL Bridge covers data movement).
+- Complements [3T Lens](../../../3t-lens/product-report.md) within the broader governance tier (3T Lens covers connection governance, [Govern](../../../govern/product-report.md) covers compliance policy; 3TL Bridge covers data movement).
 
 ## Conclusions
 

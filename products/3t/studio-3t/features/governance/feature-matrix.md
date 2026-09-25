@@ -34,7 +34,8 @@ The Desktop IDE's own native governance capabilities are now authored below, bas
 
 | Sub-feature ID | Product | Matrix | Report |
 | --- | --- | --- | --- |
-| GOV-platform-lens, GOV-002, GOV-003, GOV-004, GOV-005, GOV-006, GOV-007 | 3T Lens | [feature-matrix.md](../../../3t-lens/features/governance/feature-matrix.md) | [feature-report.md](../../../3t-lens/features/governance/feature-report.md) |
+| GOV-platform-lens | 3T Lens | [feature-matrix.md](../../../3t-lens/features/governance/feature-matrix.md) | [feature-report.md](../../../3t-lens/features/governance/feature-report.md) |
+| GOV-002, GOV-003, GOV-004, GOV-005, GOV-006, GOV-007, GOV-008, GOV-009 | Govern (moved from 3T Lens 2026-09-25) | [feature-matrix.md](../../../govern/features/governance/feature-matrix.md) | [feature-report.md](../../../govern/features/governance/feature-report.md) |
 | GOV-platform-access | 3T Access | [feature-matrix.md](../../../3t-access/features/governance/feature-matrix.md) | [feature-report.md](../../../3t-access/features/governance/feature-report.md) |
 | GOV-platform-cdc, GOV-010, GOV-011, GOV-012, GOV-013 | 3TL Bridge | [feature-matrix.md](../../../3tl-bridge/features/governance/feature-matrix.md) | [feature-report.md](../../../3tl-bridge/features/governance/feature-report.md) |
 | GOV-platform-explore | 3T Explore | [feature-matrix.md](../../../3t-explore/features/governance/feature-matrix.md) | [feature-report.md](../../../3t-explore/features/governance/feature-report.md) |

@@ -367,12 +367,12 @@ These are icon-only analogs of the detailed comparison tables below. Product col
 | F-QUERY | QUERY-view-gridfs | GridFS viewer | ❓ | ❓ | ✅ | Missing (Compass, Studio 3T) | [VisuaLeaf](../../products/third-party/visual-eaf/features/querying/feature-matrix.md) |
 | F-QUERY | QUERY-view-split | Split panel views | ❓ | ❓ | ✅ | Missing (Compass, Studio 3T) | [VisuaLeaf](../../products/third-party/visual-eaf/features/querying/feature-matrix.md) |
 | F-QUERY | QUERY-charts-dashboards | Charts & dashboards | ❓ | ❓ | ✅ | Missing (Compass, Studio 3T) | [VisuaLeaf](../../products/third-party/visual-eaf/features/querying/feature-matrix.md) |
-| F-GOV | GOV-002 | Lens policy templates | ✅ | ❓ | ❓ | Missing | [3T Lens](../../products/3t/3t-lens/features/governance/feature-matrix.md) |
-| F-GOV | GOV-003 | Lens alert channels | ✅ | ❓ | ❓ | Missing | [3T Lens](../../products/3t/3t-lens/features/governance/feature-matrix.md) |
-| F-GOV | GOV-004 | Lens PII classification | ✅ | ❓ | ❓ | Missing | [3T Lens](../../products/3t/3t-lens/features/governance/feature-matrix.md) |
-| F-GOV | GOV-005 | Lens versioned diffs | ✅ | ❓ | ❓ | Missing | [3T Lens](../../products/3t/3t-lens/features/governance/feature-matrix.md) |
-| F-GOV | GOV-006 | Lens performance suggestions | ✅ | ❓ | ❓ | Missing | [3T Lens](../../products/3t/3t-lens/features/governance/feature-matrix.md) |
-| F-GOV | GOV-007 | Lens MCP integration | ✅ | ❓ | ❓ | Missing | [3T Lens](../../products/3t/3t-lens/features/governance/feature-matrix.md) |
+| F-GOV | GOV-002 | Govern policy templates | ✅ | ❓ | ❓ | Missing | [Govern](../../products/3t/govern/features/governance/feature-matrix.md) |
+| F-GOV | GOV-003 | Govern alert channels | ✅ | ❓ | ❓ | Missing | [Govern](../../products/3t/govern/features/governance/feature-matrix.md) |
+| F-GOV | GOV-004 | Govern PII classification | ✅ | ❓ | ❓ | Missing | [Govern](../../products/3t/govern/features/governance/feature-matrix.md) |
+| F-GOV | GOV-005 | Govern versioned diffs | ✅ | ❓ | ❓ | Missing | [Govern](../../products/3t/govern/features/governance/feature-matrix.md) |
+| F-GOV | GOV-006 | Govern performance suggestions | ✅ | ❓ | ❓ | Missing | [Govern](../../products/3t/govern/features/governance/feature-matrix.md) |
+| F-GOV | GOV-007 | Govern MCP integration | ✅ | ❓ | ❓ | Missing | [Govern](../../products/3t/govern/features/governance/feature-matrix.md) |
 | F-GOV | GOV-010 | Bridge transform studio | ✅ | ❓ | ❓ | Missing | [3TL Bridge](../../products/3t/3tl-bridge/features/governance/feature-matrix.md) |
 | F-GOV | GOV-011 | Bridge PII masking | ✅ | ❓ | ❓ | Missing | [3TL Bridge](../../products/3t/3tl-bridge/features/governance/feature-matrix.md) |
 | F-GOV | GOV-012 | Bridge security identity | ✅ | ❓ | ❓ | Missing | [3TL Bridge](../../products/3t/3tl-bridge/features/governance/feature-matrix.md) |
@@ -704,12 +704,12 @@ Gap types: `Missing` | `Partial` | `Mismatch` | `Constraint` | `Roadmap`
 | F-QUERY | QUERY-view-gridfs | GridFS viewer | Not documented | Not documented | Supported — file browser, preview (images/PDFs/documents), bulk upload/download, metadata editing | Missing (Compass, Studio 3T) | [VisuaLeaf](../../products/third-party/visual-eaf/features/querying/feature-matrix.md) |
 | F-QUERY | QUERY-view-split | Split panel views | Not documented | Not documented | Supported — horizontal/vertical/nested workspace splits; drag-and-drop tab management | Missing (Compass, Studio 3T) | [VisuaLeaf](../../products/third-party/visual-eaf/features/querying/feature-matrix.md) |
 | F-QUERY | QUERY-charts-dashboards | Charts & dashboards | Not documented | Not documented | Supported (existence) — confirmed as Core Feature on homepage; chart types and dashboard composition unknown/unverified (dedicated feature page 404s) | Missing (Compass, Studio 3T) | [VisuaLeaf](../../products/third-party/visual-eaf/features/querying/feature-matrix.md) |
-| F-GOV | GOV-002 | Lens policy templates | Supported | Not documented | Not documented | Missing | [3T Lens](../../products/3t/3t-lens/features/governance/feature-matrix.md) |
-| F-GOV | GOV-003 | Lens alert channels | Supported | Not documented | Not documented | Missing | [3T Lens](../../products/3t/3t-lens/features/governance/feature-matrix.md) |
-| F-GOV | GOV-004 | Lens PII classification | Supported | Not documented | Not documented | Missing | [3T Lens](../../products/3t/3t-lens/features/governance/feature-matrix.md) |
-| F-GOV | GOV-005 | Lens versioned diffs | Supported | Not documented | Not documented | Missing | [3T Lens](../../products/3t/3t-lens/features/governance/feature-matrix.md) |
-| F-GOV | GOV-006 | Lens performance suggestions | Supported | Not documented | Not documented | Missing | [3T Lens](../../products/3t/3t-lens/features/governance/feature-matrix.md) |
-| F-GOV | GOV-007 | Lens MCP integration | Supported | Not documented | Not documented | Missing | [3T Lens](../../products/3t/3t-lens/features/governance/feature-matrix.md) |
+| F-GOV | GOV-002 | Govern policy templates | Supported | Not documented | Not documented | Missing | [Govern](../../products/3t/govern/features/governance/feature-matrix.md) |
+| F-GOV | GOV-003 | Govern alert channels | Supported | Not documented | Not documented | Missing | [Govern](../../products/3t/govern/features/governance/feature-matrix.md) |
+| F-GOV | GOV-004 | Govern PII classification | Supported | Not documented | Not documented | Missing | [Govern](../../products/3t/govern/features/governance/feature-matrix.md) |
+| F-GOV | GOV-005 | Govern versioned diffs | Supported | Not documented | Not documented | Missing | [Govern](../../products/3t/govern/features/governance/feature-matrix.md) |
+| F-GOV | GOV-006 | Govern performance suggestions | Supported | Not documented | Not documented | Missing | [Govern](../../products/3t/govern/features/governance/feature-matrix.md) |
+| F-GOV | GOV-007 | Govern MCP integration | Supported | Not documented | Not documented | Missing | [Govern](../../products/3t/govern/features/governance/feature-matrix.md) |
 | F-GOV | GOV-010 | Bridge transform studio | Supported | Not documented | Not documented | Missing | [3TL Bridge](../../products/3t/3tl-bridge/features/governance/feature-matrix.md) |
 | F-GOV | GOV-011 | Bridge PII masking | Supported | Not documented | Not documented | Missing | [3TL Bridge](../../products/3t/3tl-bridge/features/governance/feature-matrix.md) |
 | F-GOV | GOV-012 | Bridge security identity | Supported | Not documented | Not documented | Missing | [3TL Bridge](../../products/3t/3tl-bridge/features/governance/feature-matrix.md) |

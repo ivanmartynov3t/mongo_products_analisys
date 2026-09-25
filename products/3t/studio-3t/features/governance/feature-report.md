@@ -13,7 +13,8 @@
 
 As of 2026-07-29, this report no longer covers the governance-tier products directly — they have each been split into their own product folder under `products/3t/` with an independent product report and feature report:
 
-- [3T Lens](../../../3t-lens/features/governance/feature-report.md) — governed data workspace (centralized connection management, compliance policy templates, PII classification, versioned field history, MCP integration)
+- [3T Lens](../../../3t-lens/features/governance/feature-report.md) — governed read-only data workspace (centralized connection management)
+- [Govern](../../../govern/features/governance/feature-report.md) — compliance policy templates, alerts, PII classification, versioned field history, MCP integration (moved from 3T Lens 2026-09-25)
 - [3T Access](../../../3t-access/features/governance/feature-report.md) — identity and governance plane (RBAC, audit trail, pre-login access scoping)
 - [3TL Bridge](../../../3tl-bridge/features/governance/feature-report.md) — CDC pipeline engine (Transform Studio, PII masking, security/identity, deployment/scaling)
 - [3T Explore](../../../3t-explore/features/governance/feature-report.md) — the governance-relevant aspects (Workspace Switcher, Access Control) of the browser IDE product

@@ -12,46 +12,38 @@
 
 - Product name: 3T Lens
 - Product group: 3t
-- Website: https://studio3t.com/3t-lens/
+- Website: https://studio3t.com/ (homepage section). The former page https://studio3t.com/3t-lens/ returned **404 on 2026-09-25**.
 - Maker: 3T Software Labs
-- Category: Browser-based governed data workspace (connection management, compliance, PII classification)
-- Analysis date: 2026-06-22
-- Version/release context: Part of the "Governed Access" track (alongside 3T Access). Split out of the Studio 3T product report into its own product folder 2026-07-29 (was previously documented as a sub-section of Studio 3T's Governance & Security).
+- Category: Browser-based governed, read-only data workspace
+- Analysis date: 2026-09-25
+- Version/release context: split out of Studio 3T on 2026-07-29. On 2026-09-25 the governance rows `GOV-002`–`GOV-009` moved to [Govern](../govern/product-report.md) (owner decision), leaving `GOV-platform-lens` here.
 
 ## Product summary
 
-3T Lens is a browser-based governed data workspace. Its primary function is centralizing MongoDB connection management: connections are defined once and shared to all users without distributing passwords. Access scoping happens before login — a user who does not have View permission for a production database cannot see that connection at all, per access scoping enforced through [3T Access](../3t-access/product-report.md).
+The homepage describes 3T Lens as a "Governed Data Workspace": "Safe, governed access to your MongoDB data for everyone who needs to see it but shouldn't change it. Query results automatically inherit your organization's access policies" (studio3t.com homepage, silo copy `data/3t/3t-website-2026/index.md`).
 
-Compliance features are built around configurable policy templates (ACID, Schema, Index, Security, Naming, Operational) with one-click environment-level health checks. Alert channels (Slack, email, webhook) make compliance failures visible in the team's existing notification infrastructure. 3T Lens also provides PII classification (automated scanning with sensitivity grouping and timestamped scan records), versioned field history (schema drift detection before production), and document-level diffs (exact field-by-field comparison between snapshots). Query performance suggestions surface index recommendations within the governance context.
-
-Notably, 3T Lens extends its access control to AI agents: the 59 MCP tools available to AI agents are governed by the same 3T Access role policies as human users — an AI agent cannot exceed the permissions of the access policy it operates under.
-
-3T Lens is a separate deployable product — not a feature of the Studio 3T Desktop IDE. It requires infrastructure provisioning; pricing is unknown/unverified. Integration between 3T Lens centralized connections and the Desktop IDE connection manager is not explicitly documented.
+The removed product page (studio3t.com/3t-lens/, last read 2026-07-29) also described centralized connection management — connections defined once and shared without passwords, access scoped before login through [3T Access](../3t-access/product-report.md) — and the policy, alert, PII, schema-history and MCP features now documented under [Govern](../govern/product-report.md), where 3T Lens is recorded as an alternative attribution.
 
 ## Feature inventory
 
-Feature IDs and folder names from [feature-dictionary.md](../../../feature-dictionary.md).
-
 | Feature ID | Feature | Matrix | Report | Status |
 | --- | --- | --- | --- | --- |
-| F-GOV | Governance & Security | [feature-matrix.md](features/governance/feature-matrix.md) | [feature-report.md](features/governance/feature-report.md) | Completed |
+| F-GOV | Governance & Security | [feature-matrix.md](features/governance/feature-matrix.md) | [feature-report.md](features/governance/feature-report.md) | Completed (`GOV-platform-lens` only) |
 
 ## Product-level conclusions
 
 ### Strategic strengths
 
-- Centralized connection management with no shared passwords and pre-login access scoping eliminates a common credential hygiene failure mode in team MongoDB environments.
-- Versioned field history and document-level diffs provide schema change detection before production — proactive rather than reactive schema governance.
-- AI agent MCP tools governed by the same 3T Access policies as human users — agent permissions are not orthogonal to human permissions.
+- Read-only, policy-inheriting access for analysts and business users (homepage).
+- Centralized connections without shared passwords (removed page, 2026-07-29).
 
 ### Strategic risks / gaps
 
-- Separate deployable product — requires infrastructure provisioning; pricing is unknown/unverified.
-- Integration between 3T Lens centralized connections and the Desktop IDE connection manager is not explicitly documented.
-- Automated PII classification uses heuristics; results require human review and cannot be treated as an authoritative compliance determination.
-- 10 categories and full tool list for the 59 MCP tools are unknown/unverified beyond the total count.
+- No current dedicated public page.
+- Separate deployment; pricing unknown.
 
 ### Open questions
 
-- Does 3T Lens replace or supplement the Desktop IDE connection manager in practice?
-- What is the full breakdown of the 59 MCP tools across their 10 categories?
+- Was the product page removed on purpose, and where is its replacement?
+- Does 3T Lens deliver the Govern capabilities?
+- Does 3T Lens replace or supplement the Desktop IDE connection manager?

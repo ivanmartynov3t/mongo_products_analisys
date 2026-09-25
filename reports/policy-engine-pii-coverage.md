@@ -2,9 +2,11 @@
 
 **Status:** findings from 2026-09-25, silo commit `cde319c742`. Applied to the matrices on 2026-09-25 (#31): the three contradictions are corrected and the gaps added as new detail or rows (`AI-013`, `GOV-008`, `GOV-009`). Everything taken from these internal docs is marked ❓ unverified against a public source.
 
+**Update 2026-09-25:** the 3T Lens rows discussed below (`GOV-002`–`GOV-009`) now live in the [Govern matrix](../products/3t/govern/features/governance/feature-matrix.md), and the 3T MCP rows are re-sourced to the public `3tio/3t-mcp-releases` repository.
+
 ## Navigation
 
-- [Coverage scope decision](../docs/coverage-scope.md) · [3T Lens governance matrix](../products/3t/3t-lens/features/governance/feature-matrix.md) · [3T MCP AI matrix](../products/3t/3t-mcp/features/ai/feature-matrix.md)
+- [Coverage scope decision](../docs/coverage-scope.md) · [Govern matrix](../products/3t/govern/features/governance/feature-matrix.md) · [3T Lens governance matrix](../products/3t/3t-lens/features/governance/feature-matrix.md) · [3T MCP AI matrix](../products/3t/3t-mcp/features/ai/feature-matrix.md)
 
 Scope note (from the files, not inferred beyond them):
 - `policy-engine` silo = the `3tio/tools` monorepo ("3T Tools"): Policy Engine, PII Detector (Go) + PII Scanner (Rust), AI Helper, and a Rust MCP server. The brochure names the PII component "3T Lens PII Scanner", so it is compared with our **3T Lens** pages.

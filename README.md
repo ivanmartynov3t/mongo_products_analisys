@@ -103,13 +103,14 @@ All products follow the same per-product hierarchy: `product-report.md` + `featu
   - Browser-based Explore + Visual Query Builder + IntelliShell + Aggregation Editor + AI Helper
   - Workspace Switcher with 3T Access Manager integration for access control
 - **3T MCP** — Build track, standalone binary — [product-report.md](products/3t/3t-mcp/product-report.md)
-  - `stt-cli`: read-only MongoDB access for AI coding agents over MCP/stdio — distinct from Desktop's built-in local MCP server (HTTP transport)
+  - `stt-cli`: MongoDB access (read-only by default, writes opt-in via `--allow-writes`) for AI coding agents over MCP/stdio — distinct from Desktop's built-in local MCP server (HTTP transport)
 - **3TL Bridge** — Pipeline track, CDC engine — [product-report.md](products/3t/3tl-bridge/product-report.md)
   - Real-time change-data-capture: MongoDB ↔ Kafka / Google Pub-Sub / HTTP
   - In-flight Transform Studio + pipeline-layer PII masking; Kubernetes/Docker Compose deployment
 - **3T Lens** — Governed Access track, governed workspace — [product-report.md](products/3t/3t-lens/product-report.md)
-  - Centralized connection management, compliance policy templates, PII classification, versioned field history
-  - MCP tool access gated by 3T Access role policies
+  - Read-only governed workspace with centralized connection management (product page studio3t.com/3t-lens/ returned 404 on 2026-09-25)
+- **Govern** — platform track, not a separate product — [product-report.md](products/3t/govern/product-report.md)
+  - Compliance policy templates, drift alerts, PII classification, versioned field history, governed MCP tool access (moved from 3T Lens 2026-09-25)
 - **3T Access** — Governed Access track, identity plane — [product-report.md](products/3t/3t-access/product-report.md)
   - Shared identity/role/permission plane and full audit trail (human + AI agent access) spanning the Desktop IDE, 3T Explore, 3T Lens, and 3TL Bridge; whether it also governs 3T MCP is unverified
 

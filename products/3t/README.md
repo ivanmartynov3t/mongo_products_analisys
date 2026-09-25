@@ -22,5 +22,6 @@ All six products are made by 3T Software Labs. Per studio3t.com, they organize i
 | 3T Explore | Build (browser IDE) | [product-report.md](3t-explore/product-report.md) |
 | 3T MCP | Build (standalone MCP binary) | [product-report.md](3t-mcp/product-report.md) |
 | 3TL Bridge | Pipeline (CDC engine) | [product-report.md](3tl-bridge/product-report.md) |
-| 3T Lens | Governed Access (governed workspace) | [product-report.md](3t-lens/product-report.md) |
+| 3T Lens | Governed Access (read-only governed workspace) | [product-report.md](3t-lens/product-report.md) |
 | 3T Access | Governed Access (identity plane) | [product-report.md](3t-access/product-report.md) |
+| Govern | Platform track, not a product — policy, alerts, PII, governed MCP (rows moved from 3T Lens 2026-09-25) | [product-report.md](govern/product-report.md) |

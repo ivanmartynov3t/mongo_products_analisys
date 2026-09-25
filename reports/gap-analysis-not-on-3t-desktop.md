@@ -47,12 +47,12 @@ These are **not gaps for 3T Software Labs as a company** — every one is confir
 | Sub-feature ID | Name | Delivered by |
 | --- | --- | --- |
 | GOV-platform-lens | 3T Lens centralized connection management | [3T Lens](../products/3t/3t-lens/product-report.md) |
-| GOV-002 | 3T Lens compliance policy templates | [3T Lens](../products/3t/3t-lens/product-report.md) |
-| GOV-003 | 3T Lens alert channels | [3T Lens](../products/3t/3t-lens/product-report.md) |
-| GOV-004 | 3T Lens PII classification | [3T Lens](../products/3t/3t-lens/product-report.md) |
-| GOV-005 | 3T Lens versioned field history and document diffs | [3T Lens](../products/3t/3t-lens/product-report.md) |
-| GOV-006 | 3T Lens query performance suggestions | [3T Lens](../products/3t/3t-lens/product-report.md) |
-| GOV-007 | 3T Lens MCP integration (59 tools) | [3T Lens](../products/3t/3t-lens/product-report.md) |
+| GOV-002 | Govern compliance policy templates | [Govern](../products/3t/govern/product-report.md) |
+| GOV-003 | Govern alert channels | [Govern](../products/3t/govern/product-report.md) |
+| GOV-004 | Govern PII classification | [Govern](../products/3t/govern/product-report.md) |
+| GOV-005 | Govern versioned field history and document diffs | [Govern](../products/3t/govern/product-report.md) |
+| GOV-006 | Govern query performance suggestions | [Govern](../products/3t/govern/product-report.md) |
+| GOV-007 | Govern MCP integration (tool count contested: 59 / 60 / 40 / 41) | [Govern](../products/3t/govern/product-report.md) |
 | GOV-platform-access | 3T Access identity and governance plane | [3T Access](../products/3t/3t-access/product-report.md) |
 | GOV-platform-cdc | 3TL Bridge CDC pipeline engine | [3TL Bridge](../products/3t/3tl-bridge/product-report.md) |
 | GOV-010 | 3TL Bridge Transform Studio | [3TL Bridge](../products/3t/3tl-bridge/product-report.md) |
