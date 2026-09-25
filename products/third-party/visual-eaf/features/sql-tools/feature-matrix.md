@@ -14,13 +14,14 @@
 - Product group: third-party
 - Feature ID: F-SQL (see [feature-dictionary.md](../../../../../feature-dictionary.md))
 - Feature folder: `sql-tools`
-- Analysis date: 2026-07-28
+- Analysis date: 2026-09-25
+- Review log: 2026-09-25 — weekly re-check (#17): S2 flagged (silo copy partial). No row cites S2 for a claim; live homepage still shows SQL Mode. Claims hold.
 - Version/release context: —
 
 ## Source index
 
 - S1: https://visualeaf.com/features/sql-mode/
-- S2: https://visualeaf.com/ (homepage — "SQL Mode" listed under Core Features)
+- S2: https://visualeaf.com/ (homepage — "SQL Mode" listed under "Other features included" as of 2026-09-25; earlier "Core Features")
 
 ## Capability matrix
 

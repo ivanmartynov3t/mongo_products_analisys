@@ -13,7 +13,8 @@
 - Product group: third-party
 - Feature ID: F-CONN (see [feature-dictionary.md](../../../../../feature-dictionary.md))
 - Feature folder: `connectivity`
-- Analysis date: 2026-09-04
+- Analysis date: 2026-09-25
+- Review log: 2026-09-25 — weekly re-check (#17): S2 and S3 flagged as emptied in the silo. Both pages render client-side; the silo and a live fetch return only navigation or a cookie banner, which is a capture failure, not evidence of change. The 2026.1 page (S3) still loads its AI/MCP content live. Claims kept.
 - Version/release context: DataGrip 2025.3–2026.2 line
 
 ## Source index

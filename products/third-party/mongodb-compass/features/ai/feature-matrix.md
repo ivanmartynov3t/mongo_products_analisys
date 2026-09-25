@@ -13,7 +13,8 @@
 - Product group: third-party
 - Feature ID: F-AI (see [feature-dictionary.md](../../../../../feature-dictionary.md))
 - Feature folder: `ai`
-- Analysis date: 2026-07-28
+- Analysis date: 2026-09-25
+- Review log: 2026-09-25 — weekly re-check (#17): S1 change is a new AI-agents promo banner. "generate queries using natural language" and "Natural language querying" still present (silo copy 2026-09-25). Claims hold.
 - Version/release context: —
 
 ## Source index

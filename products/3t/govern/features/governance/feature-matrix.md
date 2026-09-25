@@ -24,7 +24,7 @@ Every fact in the matrix carries its own `(S#)`. **Public** sources can be opene
 Public:
 
 - S1: https://studio3t.com/governed-data-access-platform — the "Govern" track description (silo copy `data/3t/3t-website-2026/governed-data-access-platform.md`, captured 2026-09-15)
-- S2: https://studio3t.com/ — homepage product descriptions (silo copy `data/3t/3t-website-2026/index.md`)
+- S2: https://studio3t.com/ — homepage product descriptions (silo copy `data/3t/3t-website-2026/index.md` at silo commit `cde319c7`; at `b142fcc4` that path holds license.studio3t.com by mistake)
 - S3: https://studio3t.com/3t-lens/ — **removed: HTTP 404 on 2026-09-25**; last read for this analysis on 2026-07-29. Claims citing only S3 were public then but have no current public source.
 
 Internal (private `3tio/tools` repository, commit `566d6f2`):

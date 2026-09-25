@@ -13,7 +13,8 @@
 - Product group: third-party
 - Feature ID: F-CONN (see [feature-dictionary.md](../../../../../feature-dictionary.md))
 - Feature folder: `connectivity`
-- Analysis date: 2026-09-04
+- Analysis date: 2026-09-25
+- Review log: 2026-09-25 — weekly re-check (#17): S3 change is the supported-OS list (Debian 10 and Ubuntu 20.04 dropped). No row in this matrix cites S3 for an OS claim. Claims hold.
 - Version/release context: Navicat 17 line
 
 ## Source index

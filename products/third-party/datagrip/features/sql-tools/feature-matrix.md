@@ -13,7 +13,8 @@
 - Product group: third-party
 - Feature ID: F-SQL (see [feature-dictionary.md](../../../../../feature-dictionary.md))
 - Feature folder: `sql-tools`
-- Analysis date: 2026-09-04
+- Analysis date: 2026-09-25
+- Review log: 2026-09-25 — weekly re-check (#17): S4 flagged as emptied in the silo. The page renders client-side, so neither the silo nor a live fetch can read `dg_cross`; not evidence of change. Claim kept on S1.
 - Version/release context: DataGrip 2025.3–2026.2 line
 
 ## Source index

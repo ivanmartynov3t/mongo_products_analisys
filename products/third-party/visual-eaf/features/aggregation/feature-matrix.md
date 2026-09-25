@@ -19,13 +19,14 @@
 - Product group: third-party
 - Feature ID: F-AGG (see [feature-dictionary.md](../../../../../feature-dictionary.md))
 - Feature folder: `aggregation`
-- Analysis date: 2026-07-28
+- Analysis date: 2026-09-25
+- Review log: 2026-09-25 — weekly re-check (#17): S2 flagged (58 of 63 lines lost in the silo copy). Live homepage still lists "Charts & Dashboards" and "Create charts and build dashboards from queries and aggregations"; the silo capture was partial. The homepage no longer uses the label "Core Feature". Claims hold.
 - Version/release context: —
 
 ## Source index
 
 - S1: https://visualeaf.com/docs/aggregation
-- S2: https://visualeaf.com/ (homepage — "Charts & Dashboards" listed as Core Feature)
+- S2: https://visualeaf.com/ (homepage — "Charts & Dashboards" listed among homepage features; label "Core Feature" dropped by 2026-09-25)
 
 ## Capability matrix
 
@@ -44,7 +45,7 @@
 | AGG-js-import-export | Pipeline .js import/export | confirmed | Export pipeline as .js file (mongosh format: db.collection.aggregate([…])). Import pipeline from previously exported .js file. | — | confirmed | S1 |
 | AGG-code-tab | Query Code tab | confirmed | Bidirectional JSON view of the pipeline; Format Code button; Apply Code Changes syncs edits back to visual builder. | — | confirmed | S1 |
 | AGG-export-results | Export pipeline results | confirmed | Export pipeline output in 4 formats: JSON; CSV; BSON; SQL INSERT statements. | — | confirmed | S1 |
-| AGG-chart-builder | Create Chart from pipeline | confirmed | Opens Chart Builder using the pipeline output as data source. Corroborated by the homepage, which lists "Charts & Dashboards" as a standalone Core Feature (see QUERY-charts-dashboards in the Querying matrix for the broader, non-aggregation-specific capability). | — | confirmed | S1, S2 |
+| AGG-chart-builder | Create Chart from pipeline | confirmed | Opens Chart Builder using the pipeline output as data source. Corroborated by the homepage, which lists "Charts & Dashboards" as a standalone feature (labelled "Core Feature" until at least 2026-07-28) (see QUERY-charts-dashboards in the Querying matrix for the broader, non-aggregation-specific capability). | — | confirmed | S1, S2 |
 | AGG-save-load | Save/load pipelines | confirmed | Save with name, folder, description; tagged with connection/DB/collection; quick load by double-click. | — | confirmed | S1 |
 | AGG-code-gen | Export pipeline to driver languages | unknown/unverified | No source found in VisuaLeaf docs for export to driver languages (Java, Python, Node.js, etc.). | — | unknown/unverified | S1 |
 | AGG-create-view | Create view from pipeline output | unknown/unverified | Not documented in VisuaLeaf aggregation docs. | — | unknown/unverified | S1 |

@@ -20,7 +20,7 @@
 
 ## Product summary
 
-The homepage describes 3T Lens as a "Governed Data Workspace": "Safe, governed access to your MongoDB data for everyone who needs to see it but shouldn't change it. Query results automatically inherit your organization's access policies" (studio3t.com homepage, silo copy `data/3t/3t-website-2026/index.md`).
+The homepage describes 3T Lens as a "Governed Data Workspace": "Safe, governed access to your MongoDB data for everyone who needs to see it but shouldn't change it. Query results automatically inherit your organization's access policies" (studio3t.com homepage, silo copy `data/3t/3t-website-2026/index.md` at silo commit `cde319c7`; at `b142fcc4` that path holds license.studio3t.com by mistake).
 
 The removed product page (studio3t.com/3t-lens/, last read 2026-07-29) also described centralized connection management — connections defined once and shared without passwords, access scoped before login through [3T Access](../3t-access/product-report.md) — and the policy, alert, PII, schema-history and MCP features now documented under [Govern](../govern/product-report.md), where 3T Lens is recorded as an alternative attribution.
 

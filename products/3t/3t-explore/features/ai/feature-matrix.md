@@ -13,7 +13,8 @@
 - Product group: 3t
 - Feature ID: F-AI (see [feature-dictionary.md](../../../../../feature-dictionary.md))
 - Feature folder: `ai`
-- Analysis date: 2026-07-29
+- Analysis date: 2026-09-25
+- Review log: 2026-09-25 — weekly re-check (#17): S1 re-read; AI-012 holds.
 - Version/release context: —
 
 ## Source index

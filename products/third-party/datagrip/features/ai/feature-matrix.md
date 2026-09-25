@@ -13,7 +13,8 @@
 - Product group: third-party
 - Feature ID: F-AI (see [feature-dictionary.md](../../../../../feature-dictionary.md))
 - Feature folder: `ai`
-- Analysis date: 2026-09-04
+- Analysis date: 2026-09-25
+- Review log: 2026-09-25 — weekly re-check (#17): S2 flagged as emptied in the silo (cookie banner captured). Live re-read confirms "Claude Agent and Codex are now natively integrated in the AI chat interface" and the extended database MCP server; the 14-tool total was not re-confirmed on the live page and rests on S1. Claims kept.
 - Version/release context: DataGrip 2026.1 (AI Agentic Flow introduced)–2026.2 line
 
 ## Source index
