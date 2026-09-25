@@ -1,0 +1,165 @@
+# Update the README dashboard
+
+You are rebuilding `README.md` as the repository's **dashboard**: a short, human-readable front page that shows what the repository contains, what state it is in, and how to get anywhere in it in one or two clicks.
+
+The README is **regenerated, not hand-patched**. Every run rebuilds it from the current contents of **this repository only**. Nothing in it may be copied forward from the previous README without re-checking.
+
+## Inputs
+
+Read in this order. **This repository is the only source.** Do not open, clone or query `prod_info_silo` or any other repository. Where the README mentions the silo (the evidence commit, the weekly scrape), take the facts from files in this repository that already record them.
+
+1. `feature-dictionary.md`: the 11 Feature IDs, the sub-feature IDs, and the product × feature coverage matrix.
+2. `products/*/*/product-report.md` for every folder. Take the name, maker, track or category, and one-line positioning from each report's metadata and summary.
+3. `products/*/*/features/*/feature-matrix.md`: count them per product, and read each `Analysis date:`.
+4. `reports/**`: every report, with its purpose (from its first heading and intro) and its latest date.
+5. `research/**`: each top-level directory or file, with its status.
+6. `docs/coverage-scope.md`: which 3T products are in scope, out of scope, or revisit-later, and their recorded status.
+7. `tools/*/README.md`, `.github/workflows/*`, `.github/prompts/**` (including `weekly-maintenance/`), `update-plans/*`, `templates/*`, `repository-structure.md`.
+8. `reports/review-queue.md`: the stale-matrix count and the silo commit it records as its evidence snapshot.
+9. `git log -1 --format=%h,%cs`: this repository's latest commit and date.
+10. Open GitHub issues of this repository (`gh issue list --state open`): number and title only.
+
+## Required skeleton
+
+The skeleton below is **fixed**. Reproduce the headings, their numbering and order, the table columns and the fixed links exactly. Fill only the `{{…}}` slots and the table rows. Don't add, rename, reorder or drop sections; if something doesn't fit, report it in the output summary instead.
+
+````markdown
+# Mongo Products Analysis
+
+{{one-sentence purpose}}
+
+> Status as of {{repo_date}} · commit `{{repo_commit}}` · evidence snapshot: silo `{{evidence_commit}}` (as recorded in [review queue](reports/review-queue.md))
+
+## 1. At a glance
+
+| Metric | Value | Source |
+|---|---|---|
+| Products analysed | {{n_3t}} 3T · {{n_3p}} third-party | [`products/`](products/README.md) |
+| Feature areas | 11 | [`feature-dictionary.md`](feature-dictionary.md) |
+| Sub-feature IDs | {{n_ids}} | [`feature-dictionary.md`](feature-dictionary.md) |
+| Feature matrices | {{n_matrices}} | `products/**/feature-matrix.md` |
+| Stale matrices | {{n_stale}} of {{n_matrices}} | [`reports/review-queue.md`](reports/review-queue.md) |
+| Open issues | {{n_issues}} | [GitHub issues]({{issues_url}}) |
+
+## 2. Start here
+
+| I want to… | Go to |
+|---|---|
+| Look up a feature ID | [Feature dictionary](feature-dictionary.md) |
+| Compare products | [High-level](reports/comparisons/high-level-product-comparison.md) · [Low-level](reports/comparisons/low-level-feature-comparison.md) |
+| See what 3T is missing | [Gap: 3T portfolio](reports/gap-analysis-not-on-3t-products.md) · [Gap: Studio 3T Desktop](reports/gap-analysis-not-on-3t-desktop.md) |
+| See what to build next | [Next-feature recommendation](reports/next-feature-recommendation.md) |
+| See what needs re-review | [Review queue](reports/review-queue.md) |
+| Add or update an analysis | [Conventions](#10-conventions) |
+
+## 3. Products
+
+### 3T Software Labs
+
+| Product | Track | What it is | Features | Report |
+|---|---|---|---|---|
+{{one row per folder in products/3t/}}
+
+### Third-party
+
+| Product | Maker | What it is | Features | Report |
+|---|---|---|---|---|
+{{one row per folder in products/third-party/}}
+
+## 4. Coverage grid
+
+| Product | CONN | QUERY | AGG | SCHEMA | IDX | TRANSFER | SHELL | AI | SQL | GOV | SCHED |
+|---|---|---|---|---|---|---|---|---|---|---|---|
+{{one row per product folder, 3T first}}
+
+Legend: ✓ full · ◐ partial · — none. Source: [feature-dictionary.md](feature-dictionary.md) coverage matrix.
+
+## 5. 3T products tracked but not analysed
+
+| Product | Status | Decision | Revisit trigger |
+|---|---|---|---|
+{{one row per product in docs/coverage-scope.md}}
+
+Full record: [docs/coverage-scope.md](docs/coverage-scope.md).
+
+## 6. Reports
+
+| Report | Purpose | Updated |
+|---|---|---|
+{{one row per file in reports/ and reports/comparisons/}}
+
+## 7. Research
+
+| Area | What it holds | Status | Index |
+|---|---|---|---|
+{{one row each: google_research (single row, linking overview.md), studio-3t-desktop-review-2026, feature-decision-2026, methodology docs (single row)}}
+
+## 8. Evidence and maintenance
+
+### Evidence source
+
+{{2–3 lines on the evidence source, taken only from tools/silo-review/README.md and reports/review-queue.md: what it is and which snapshot the analysis was last checked against}}
+
+### Tools
+
+| Tool | What it does | Run |
+|---|---|---|
+{{one row per folder in tools/, plus workflows in .github/workflows/}}
+
+### Weekly procedure
+
+1. Refresh the evidence snapshot — {{one line, as described in this repository's weekly-maintenance prompts or tool READMEs}}
+2. Staleness triage — [#17]({{issue_17_url}}) — {{command, one line}}
+3. Taxonomy triage — [#18]({{issue_18_url}}) — {{command, one line}}
+
+## 9. Open work
+
+| Item | Type | Link |
+|---|---|---|
+{{one row per open issue, then one row per file in update-plans/}}
+
+## 10. Conventions
+
+{{at most 6 bullets: ID discipline, a source on every claim, the ✅ 🧪 🗺️ ❓ ❌ legend, the required workflow}}
+
+More: [copilot-instructions](.github/copilot-instructions.md) · [prompts](.github/prompts/) · [templates](templates/) · [repository-structure.md](repository-structure.md)
+
+## 11. Repository map
+
+```text
+{{top level plus one level down; each line with a short comment}}
+```
+
+Details: [repository-structure.md](repository-structure.md).
+
+<!-- Generated by .github/prompts/update-readme-dashboard.prompt.md. Do not edit by hand; re-run the prompt. -->
+````
+
+### How to fill the slots
+
+- **At a glance:** count from files every run. `{{n_ids}}` is the number of unique sub-feature IDs in the dictionary tables, not a figure quoted by another report.
+- **Products:** take the name, track or maker, and positioning from each `product-report.md` metadata and summary. "Features" is the number of `features/*/` folders. Keep "What it is" under about 12 words.
+- **Coverage grid:** take the values from the dictionary's coverage matrix; if a product's feature folders disagree with it, use the folders and flag the conflict.
+- **Reports:** "Updated" is the latest date stated in the report, or the last commit date if it states none.
+- **Research:** status is one of raw input · executed · archival · published.
+- **Tools:** "Run" is the main command from the tool's README, in backticks.
+- **Evidence snapshot:** `{{evidence_commit}}` is the silo commit that `reports/review-queue.md` states it was built from. If the file states none, write "not recorded".
+
+## Rules
+
+1. **Short.** Aim for one screen per section. Put detail behind a link rather than in the README. No sentence longer than about 25 words.
+2. **Complete.** Every product folder, report, research area, tool and open issue appears exactly once, in the section the skeleton assigns it. Before finishing, list the directories and confirm none were missed.
+3. **Every number is derived.** Count from files, never estimate, and never reuse a number from the old README or from another report without recounting it. Stamp the counts with this repository's commit and date.
+4. **Report conflicts; don't hide them.** If a report states a number that differs from your count (for example, the matrix total in `cumulative-report.md`), show the counted value and add a short "⚠️ stale" note naming the file. Don't fix other files from this prompt.
+5. **Links must resolve.** Use relative paths only; check each one exists. Link issues with full GitHub URLs.
+6. **Keep status labels consistent** with the repository legend (✅ confirmed · 🧪 partial · 🗺️ roadmap · ❓ unverified · ❌ not supported). No marketing language and no claims without a source file.
+7. **Safe content only.** No tokens, credentials, internal hostnames, personal data or copied private-repository text. Private 3T repositories may be named and counted, not quoted.
+8. **Scope of edits:** change only `README.md`. List any stale content found elsewhere in the final summary as follow-ups.
+
+## Output
+
+1. The rewritten `README.md`.
+2. A short summary covering:
+   - the counts used and where each came from;
+   - anything that was added or removed compared with the previous README;
+   - any stale or conflicting content found in other files (as follow-ups, not fixed).
