@@ -110,6 +110,197 @@ No mechanical tool writes a capability status (✅/🧪/🗺️/❓/❌) into a 
 
 Scripts can surface signals (P4, P5, P7). Deciding whether a signal is a real capability, which sub-feature it maps to, what status it gets and how to word it with a source needs judgement. That is part 2, which should start from the P4 candidate queue.
 
+## 8. Implementation plan
+
+Each issue is fixed on its own branch and lands through its own pull request. **Nothing merges to `main` until its code review is done and every finding is either fixed or explicitly accepted by the owner.** This is a required condition, not a best effort.
+
+### Order
+
+Each step starts from an up-to-date `main` that already contains the previous merge.
+
+| Step | Issue | Repo(s) | Branch | Why here |
+|---|---|---|---|---|
+| 1 | P9 | silo | `fix/45-silo-cleanup` | Clean the source before building on it |
+| 2 | P1 | silo, then analysis | `feat/33-repo-doc-checksums` (silo), `feat/33-github-citations` (analysis) | Silo side must merge first; the analysis side reads it |
+| 3 | P2 | analysis | `feat/34-silo-snapshot` | Base for P3 and P8 |
+| 4 | P3 | analysis | `feat/35-scope-triggers` | Needs P2 |
+| 5 | P7 | analysis | `feat/39-queue-reports-research` | Small change to `review.py`; do it before P4 touches the same area |
+| 6 | P4 | analysis | `feat/36-silo-candidates` | Input for the LLM part |
+| 7 | P6 | analysis | `feat/38-silo-pins` | Changes matrices; after the tools that read them are stable |
+| 8 | P5 | analysis (+ silo config proposals) | `feat/37-evidence-gaps` | Independent; late because it only proposes silo config changes |
+| 9 | P8 | analysis | `feat/40-silo-sync` | Chains P2, P3, P4, P7 |
+
+### Per-issue loop
+
+For every step:
+
+1. **Branch** from the latest `main`.
+2. **Implement** only what the issue asks. Follow the existing tool conventions: pinned git-object reads, guarded writes, deterministic output, a `plan` or `--check` mode that writes nothing.
+3. **Test locally**: new tests for the change, and the full suite of the touched tool(s) and of the silo (`pytest`) must pass. CI is unavailable (no credits), so the PR description records the exact commands run and their results.
+4. **Run the tool** against the real silo and attach a summary of its output (counts before and after) to the PR.
+5. **Open the pull request** with: linked issue (`Closes #N`), what changed and why, test evidence, output evidence, and anything deliberately left out.
+6. **Code review** (required):
+   - review the full diff for correctness, edge cases, security (no tokens, credentials or private-repo text in output), OWASP-relevant input handling, and consistency with the repository's conventions and documentation;
+   - check the documentation the change affects (tool README, `.github/copilot-instructions.md`, templates, this plan);
+   - record the findings on the PR as a list, each marked *must fix* or *suggestion*.
+7. **Fix the findings** on the same branch, one commit per finding or group; re-run tests and the tool; mark each finding fixed, or record the owner's decision to accept it.
+8. **Re-review** the changed parts. Repeat 6–7 until no *must fix* finding remains.
+9. **Owner approval**: the owner confirms the merge.
+10. **Merge** to `main` (squash), delete the branch, close the issue with a short result comment.
+11. **Update the state**: tick each finished sub-item in *Progress* below as it is done (not at the end in bulk).
+
+### Merge checklist (every PR)
+
+Copy into each PR description and tick there; the plan's *Merge checklist complete* item is ticked only when all of these are ticked.
+
+- [ ] Only files in the issue's scope changed (`git diff --stat main...`)
+- [ ] New and existing tests pass locally; commands and results are in the PR
+- [ ] Tool run against the real silo; output summary in the PR
+- [ ] Code review done; every *must fix* finding fixed; suggestions fixed or accepted by the owner
+- [ ] Docs updated (tool README, conventions, this plan)
+- [ ] No secrets, tokens, personal data or private-repository text in code, output or PR text
+- [ ] Owner approved the merge
+
+### Progress
+
+**State rule (required).** A checkbox is ticked `[x]` only after that item is actually done and verified. Everything not yet done stays `[ ]`. Update this section in the same commit as the work it records, so the plan always shows the real state. Tick a step's heading box only when all its sub-items are ticked.
+
+- [ ] **Step 1 — P9** · [prod_info_silo#45](https://github.com/ivanmartynov3t/prod_info_silo/issues/45) · branch silo `fix/45-silo-cleanup`
+  - [ ] Branch created from the latest `main`
+  - [ ] Implemented (issue scope only)
+  - [ ] New tests added; full suite passes locally (commands and results in the PR)
+  - [ ] Tool run against the real silo; before/after summary in the PR
+  - [ ] Pull request opened: PR link: —
+  - [ ] Code review done; findings recorded on the PR (must fix: — · suggestions: —)
+  - [ ] All *must fix* findings fixed; tests re-run
+  - [ ] Re-review: no *must fix* left; suggestions fixed or accepted by the owner
+  - [ ] Docs updated (tool README, conventions, this plan)
+  - [ ] Merge checklist complete
+  - [ ] Owner approved the merge
+  - [ ] Merged to `main`; branch deleted; issue closed with a result comment
+
+- [ ] **Step 2 — P1** · [#33](https://github.com/ivanmartynov3t/mongo_products_analisys/issues/33) · branch silo `feat/33-repo-doc-checksums`, then analysis `feat/33-github-citations`
+  - [ ] Branch created from the latest `main`
+  - [ ] Implemented (issue scope only)
+  - [ ] New tests added; full suite passes locally (commands and results in the PR)
+  - [ ] Tool run against the real silo; before/after summary in the PR
+  - [ ] Pull request opened (silo): PR link: —
+  - [ ] Silo PR merged before the analysis PR
+  - [ ] Pull request opened (analysis): PR link: —
+  - [ ] Code review done; findings recorded on the PR (must fix: — · suggestions: —)
+  - [ ] All *must fix* findings fixed; tests re-run
+  - [ ] Re-review: no *must fix* left; suggestions fixed or accepted by the owner
+  - [ ] Docs updated (tool README, conventions, this plan)
+  - [ ] Merge checklist complete
+  - [ ] Owner approved the merge
+  - [ ] Merged to `main`; branch deleted; issue closed with a result comment
+
+- [ ] **Step 3 — P2** · [#34](https://github.com/ivanmartynov3t/mongo_products_analisys/issues/34) · branch `feat/34-silo-snapshot`
+  - [ ] Branch created from the latest `main`
+  - [ ] Implemented (issue scope only)
+  - [ ] New tests added; full suite passes locally (commands and results in the PR)
+  - [ ] Tool run against the real silo; before/after summary in the PR
+  - [ ] Pull request opened: PR link: —
+  - [ ] Code review done; findings recorded on the PR (must fix: — · suggestions: —)
+  - [ ] All *must fix* findings fixed; tests re-run
+  - [ ] Re-review: no *must fix* left; suggestions fixed or accepted by the owner
+  - [ ] Docs updated (tool README, conventions, this plan)
+  - [ ] Merge checklist complete
+  - [ ] Owner approved the merge
+  - [ ] Merged to `main`; branch deleted; issue closed with a result comment
+
+- [ ] **Step 4 — P3** · [#35](https://github.com/ivanmartynov3t/mongo_products_analisys/issues/35) · branch `feat/35-scope-triggers`
+  - [ ] Branch created from the latest `main`
+  - [ ] Implemented (issue scope only)
+  - [ ] New tests added; full suite passes locally (commands and results in the PR)
+  - [ ] Tool run against the real silo; before/after summary in the PR
+  - [ ] Pull request opened: PR link: —
+  - [ ] Code review done; findings recorded on the PR (must fix: — · suggestions: —)
+  - [ ] All *must fix* findings fixed; tests re-run
+  - [ ] Re-review: no *must fix* left; suggestions fixed or accepted by the owner
+  - [ ] Docs updated (tool README, conventions, this plan)
+  - [ ] Merge checklist complete
+  - [ ] Owner approved the merge
+  - [ ] Merged to `main`; branch deleted; issue closed with a result comment
+
+- [ ] **Step 5 — P7** · [#39](https://github.com/ivanmartynov3t/mongo_products_analisys/issues/39) · branch `feat/39-queue-reports-research`
+  - [ ] Branch created from the latest `main`
+  - [ ] Implemented (issue scope only)
+  - [ ] New tests added; full suite passes locally (commands and results in the PR)
+  - [ ] Tool run against the real silo; before/after summary in the PR
+  - [ ] Pull request opened: PR link: —
+  - [ ] Code review done; findings recorded on the PR (must fix: — · suggestions: —)
+  - [ ] All *must fix* findings fixed; tests re-run
+  - [ ] Re-review: no *must fix* left; suggestions fixed or accepted by the owner
+  - [ ] Docs updated (tool README, conventions, this plan)
+  - [ ] Merge checklist complete
+  - [ ] Owner approved the merge
+  - [ ] Merged to `main`; branch deleted; issue closed with a result comment
+
+- [ ] **Step 6 — P4** · [#36](https://github.com/ivanmartynov3t/mongo_products_analisys/issues/36) · branch `feat/36-silo-candidates`
+  - [ ] Branch created from the latest `main`
+  - [ ] Implemented (issue scope only)
+  - [ ] New tests added; full suite passes locally (commands and results in the PR)
+  - [ ] Tool run against the real silo; before/after summary in the PR
+  - [ ] Pull request opened: PR link: —
+  - [ ] Code review done; findings recorded on the PR (must fix: — · suggestions: —)
+  - [ ] All *must fix* findings fixed; tests re-run
+  - [ ] Re-review: no *must fix* left; suggestions fixed or accepted by the owner
+  - [ ] Docs updated (tool README, conventions, this plan)
+  - [ ] Merge checklist complete
+  - [ ] Owner approved the merge
+  - [ ] Merged to `main`; branch deleted; issue closed with a result comment
+
+- [ ] **Step 7 — P6** · [#38](https://github.com/ivanmartynov3t/mongo_products_analisys/issues/38) · branch `feat/38-silo-pins`
+  - [ ] Branch created from the latest `main`
+  - [ ] Implemented (issue scope only)
+  - [ ] New tests added; full suite passes locally (commands and results in the PR)
+  - [ ] Tool run against the real silo; before/after summary in the PR
+  - [ ] Pull request opened: PR link: —
+  - [ ] Code review done; findings recorded on the PR (must fix: — · suggestions: —)
+  - [ ] All *must fix* findings fixed; tests re-run
+  - [ ] Re-review: no *must fix* left; suggestions fixed or accepted by the owner
+  - [ ] Docs updated (tool README, conventions, this plan)
+  - [ ] Merge checklist complete
+  - [ ] Owner approved the merge
+  - [ ] Merged to `main`; branch deleted; issue closed with a result comment
+
+- [ ] **Step 8 — P5** · [#37](https://github.com/ivanmartynov3t/mongo_products_analisys/issues/37) · branch `feat/37-evidence-gaps`
+  - [ ] Branch created from the latest `main`
+  - [ ] Implemented (issue scope only)
+  - [ ] New tests added; full suite passes locally (commands and results in the PR)
+  - [ ] Tool run against the real silo; before/after summary in the PR
+  - [ ] Pull request opened: PR link: —
+  - [ ] Code review done; findings recorded on the PR (must fix: — · suggestions: —)
+  - [ ] All *must fix* findings fixed; tests re-run
+  - [ ] Re-review: no *must fix* left; suggestions fixed or accepted by the owner
+  - [ ] Docs updated (tool README, conventions, this plan)
+  - [ ] Merge checklist complete
+  - [ ] Owner approved the merge
+  - [ ] Merged to `main`; branch deleted; issue closed with a result comment
+
+- [ ] **Step 9 — P8** · [#40](https://github.com/ivanmartynov3t/mongo_products_analisys/issues/40) · branch `feat/40-silo-sync`
+  - [ ] Branch created from the latest `main`
+  - [ ] Implemented (issue scope only)
+  - [ ] New tests added; full suite passes locally (commands and results in the PR)
+  - [ ] Tool run against the real silo; before/after summary in the PR
+  - [ ] Pull request opened: PR link: —
+  - [ ] Code review done; findings recorded on the PR (must fix: — · suggestions: —)
+  - [ ] All *must fix* findings fixed; tests re-run
+  - [ ] Re-review: no *must fix* left; suggestions fixed or accepted by the owner
+  - [ ] Docs updated (tool README, conventions, this plan)
+  - [ ] Merge checklist complete
+  - [ ] Owner approved the merge
+  - [ ] Merged to `main`; branch deleted; issue closed with a result comment
+
+### Risks
+
+- **No CI.** Local test runs are the only gate; the PR must show them. Once billing is fixed, re-run CI on `main`.
+- **Two repositories.** P1 lands in two PRs; the analysis-side PR must not merge before the silo-side one.
+- **Shared files.** P4, P7 and P1 all touch `tools/silo-review/review.py`; the strict order above avoids conflicts.
+- **P6 changes many matrices.** Its review must check that every migrated pin points at the same content as the prose it replaces.
+
 ## Execution log
 
 - 2026-09-25 — research done; plan written; issues #33–#40 and prod_info_silo#45 opened.
+- 2026-09-25 — implementation plan (section 8) added with per-step checkboxes.
