@@ -12,13 +12,16 @@ Measured 2026-09-25 at silo commit `f1e28e8d` and `reports/review-queue.md`.
 | P2 | Silo snapshot report | [#34](https://github.com/ivanmartynov3t/mongo_products_analisys/issues/34) | — |
 | P3 | Automatic scope-trigger check | [#35](https://github.com/ivanmartynov3t/mongo_products_analisys/issues/35) | P2 |
 | P4 | Candidate-signal queue | [#36](https://github.com/ivanmartynov3t/mongo_products_analisys/issues/36) | — |
-| P5 | Evidence-gap report and seed proposals | [#37](https://github.com/ivanmartynov3t/mongo_products_analisys/issues/37) | — |
+| P5 | Evidence-gap report (seed proposals moved to a silo issue) | [#37](https://github.com/ivanmartynov3t/mongo_products_analisys/issues/37) | — |
 | P6 | Machine-readable silo pins | [#38](https://github.com/ivanmartynov3t/mongo_products_analisys/issues/38) | — |
 | P7 | Staleness queue for reports and research | [#39](https://github.com/ivanmartynov3t/mongo_products_analisys/issues/39) | — |
 | P8 | One weekly command | [#40](https://github.com/ivanmartynov3t/mongo_products_analisys/issues/40) | P2, P3, P4 |
-| P9 | Silo clean-up | [prod_info_silo#45](https://github.com/ivanmartynov3t/prod_info_silo/issues/45) | — |
+| P9 | Silo clean-up (prerequisite, not porting) | [prod_info_silo#45](https://github.com/ivanmartynov3t/prod_info_silo/issues/45) | — |
+| — | Silo seed URLs for cited, compliant domains (split from P5; outside this plan) | [prod_info_silo#47](https://github.com/ivanmartynov3t/prod_info_silo/issues/47) | P5 |
 
-Recommended order: P1, P2, P3, P9 first (small, fix the incoming data); then P4 and P6 (prepare the LLM part); then P5, P7, P8.
+**Scope (owner decision, 2026-09-26).** This plan covers only the **mechanical porting of data from the silo into this repository**. Changes that improve the silo itself are out of scope: P9 is finished only because it was nearly done and gives the porting a clean source; the silo seed-URL proposals that used to be part of P5 are a separate silo issue. The LLM part follows after this plan.
+
+Order: P9 (finish, prerequisite) → porting core P2, P1, P6, P7, P3, P4 → P8 (one command) → P5 (gap report only).
 
 ## Rule for every proposal
 
@@ -100,11 +103,11 @@ No mechanical tool writes a capability status (✅/🧪/🗺️/❓/❌) into a 
 | P2 | Generated `reports/silo-snapshot.{md,json}`: silo commit, per-product status, doc counts, last retrieved, seed URLs | one source for the README dashboard and scope decisions | S |
 | P3 | Scope-trigger check on the snapshot | replaces a manual #18 step | S |
 | P4 | Generated `reports/silo-candidates.md`: silo tags per product with no matrix row, filtered by doc count and probability | input queue for the LLM part | M |
-| P5 | Evidence-gap report: no-URL matrices, thin products, compliant domains to add as silo seeds | shrinks the 72% | S + silo config |
+| P5 | Evidence-gap report: no-URL matrices, thin products, cited domains the silo does not crawl (seed changes to the silo are a separate silo issue) | shows where the 72% comes from | S |
 | P6 | `silo: <path>@<commit>` pins in Source index, plus a bulk re-pin tool | re-pinning becomes one command | M |
 | P7 | Staleness queue also covers reports and research | surfaces the 19 hidden changes | S |
 | P8 | `tools/silo-sync/run.sh` chaining the steps above | the Monday procedure becomes one local command | S |
-| P9 | Silo clean-up (items 1–3 above, plus a filename ↔ `source_url` audit test) | a trustworthy source | S |
+| P9 | Silo clean-up (items 1–3 above, plus a filename ↔ `source_url` audit test). Prerequisite, not porting | a trustworthy source | S |
 
 ## 7. Hand-off to the LLM part
 
@@ -120,15 +123,15 @@ Each step starts from an up-to-date `main` that already contains the previous me
 
 | Step | Issue | Repo(s) | Branch | Why here |
 |---|---|---|---|---|
-| 1 | P9 | silo | `fix/45-silo-cleanup` | Clean the source before building on it |
-| 2 | P1 | silo, then analysis | `feat/33-repo-doc-checksums` (silo), `feat/33-github-citations` (analysis) | Silo side must merge first; the analysis side reads it |
-| 3 | P2 | analysis | `feat/34-silo-snapshot` | Base for P3 and P8 |
-| 4 | P3 | analysis | `feat/35-scope-triggers` | Needs P2 |
-| 5 | P7 | analysis | `feat/39-queue-reports-research` | Small change to `review.py`; do it before P4 touches the same area |
-| 6 | P4 | analysis | `feat/36-silo-candidates` | Input for the LLM part |
-| 7 | P6 | analysis | `feat/38-silo-pins` | Changes matrices; after the tools that read them are stable |
-| 8 | P5 | analysis (+ silo config proposals) | `feat/37-evidence-gaps` | Independent; late because it only proposes silo config changes |
-| 9 | P8 | analysis | `feat/40-silo-sync` | Chains P2, P3, P4, P7 |
+| 1 | P9 | silo | `fix/45-silo-cleanup` | Prerequisite: clean source; nearly done |
+| 2 | P2 | analysis | `feat/34-silo-snapshot` | Porting core: imports silo state; base for P3 and P8 |
+| 3 | P1 | silo, then analysis | `feat/33-repo-doc-checksums` (silo), `feat/33-github-citations` (analysis) | Porting core: ~55 more citations checkable; silo side merges first |
+| 4 | P6 | analysis | `feat/38-silo-pins` | Porting core: machine-readable pins that P7 and P4 can read |
+| 5 | P7 | analysis | `feat/39-queue-reports-research` | Porting core: staleness for reports and research; `review.py` after P1 |
+| 6 | P3 | analysis | `feat/35-scope-triggers` | Porting core: needs P2 |
+| 7 | P4 | analysis | `feat/36-silo-candidates` | Porting core: input queue for the LLM part |
+| 8 | P8 | analysis | `feat/40-silo-sync` | Chains P2, P3, P4, P7 into one command |
+| 9 | P5 | analysis | `feat/37-evidence-gaps` | Gap report only; silo seed changes are out of scope |
 
 ### Per-issue loop
 
@@ -179,7 +182,21 @@ Copy into each PR description and tick there; the plan's *Merge checklist comple
   - [ ] Owner approved the merge
   - [ ] Merged to `main`; branch deleted; issue closed with a result comment
 
-- [ ] **Step 2 — P1** · [#33](https://github.com/ivanmartynov3t/mongo_products_analisys/issues/33) · branch silo `feat/33-repo-doc-checksums`, then analysis `feat/33-github-citations`
+- [ ] **Step 2 — P2** · [#34](https://github.com/ivanmartynov3t/mongo_products_analisys/issues/34) · branch `feat/34-silo-snapshot`
+  - [ ] Branch created from the latest `main`
+  - [ ] Implemented (issue scope only)
+  - [ ] New tests added; full suite passes locally (commands and results in the PR)
+  - [ ] Tool run against the real silo; before/after summary in the PR
+  - [ ] Pull request opened: PR link: —
+  - [ ] Code review done; findings recorded on the PR (must fix: — · suggestions: —)
+  - [ ] All *must fix* findings fixed; tests re-run
+  - [ ] Re-review: no *must fix* left; suggestions fixed or accepted by the owner
+  - [ ] Docs updated (tool README, conventions, this plan)
+  - [ ] Merge checklist complete
+  - [ ] Owner approved the merge
+  - [ ] Merged to `main`; branch deleted; issue closed with a result comment
+
+- [ ] **Step 3 — P1** · [#33](https://github.com/ivanmartynov3t/mongo_products_analisys/issues/33) · branch silo `feat/33-repo-doc-checksums`, then analysis `feat/33-github-citations`
   - [ ] Branch created from the latest `main`
   - [ ] Implemented (issue scope only)
   - [ ] New tests added; full suite passes locally (commands and results in the PR)
@@ -195,21 +212,7 @@ Copy into each PR description and tick there; the plan's *Merge checklist comple
   - [ ] Owner approved the merge
   - [ ] Merged to `main`; branch deleted; issue closed with a result comment
 
-- [ ] **Step 3 — P2** · [#34](https://github.com/ivanmartynov3t/mongo_products_analisys/issues/34) · branch `feat/34-silo-snapshot`
-  - [ ] Branch created from the latest `main`
-  - [ ] Implemented (issue scope only)
-  - [ ] New tests added; full suite passes locally (commands and results in the PR)
-  - [ ] Tool run against the real silo; before/after summary in the PR
-  - [ ] Pull request opened: PR link: —
-  - [ ] Code review done; findings recorded on the PR (must fix: — · suggestions: —)
-  - [ ] All *must fix* findings fixed; tests re-run
-  - [ ] Re-review: no *must fix* left; suggestions fixed or accepted by the owner
-  - [ ] Docs updated (tool README, conventions, this plan)
-  - [ ] Merge checklist complete
-  - [ ] Owner approved the merge
-  - [ ] Merged to `main`; branch deleted; issue closed with a result comment
-
-- [ ] **Step 4 — P3** · [#35](https://github.com/ivanmartynov3t/mongo_products_analisys/issues/35) · branch `feat/35-scope-triggers`
+- [ ] **Step 4 — P6** · [#38](https://github.com/ivanmartynov3t/mongo_products_analisys/issues/38) · branch `feat/38-silo-pins`
   - [ ] Branch created from the latest `main`
   - [ ] Implemented (issue scope only)
   - [ ] New tests added; full suite passes locally (commands and results in the PR)
@@ -237,7 +240,7 @@ Copy into each PR description and tick there; the plan's *Merge checklist comple
   - [ ] Owner approved the merge
   - [ ] Merged to `main`; branch deleted; issue closed with a result comment
 
-- [ ] **Step 6 — P4** · [#36](https://github.com/ivanmartynov3t/mongo_products_analisys/issues/36) · branch `feat/36-silo-candidates`
+- [ ] **Step 6 — P3** · [#35](https://github.com/ivanmartynov3t/mongo_products_analisys/issues/35) · branch `feat/35-scope-triggers`
   - [ ] Branch created from the latest `main`
   - [ ] Implemented (issue scope only)
   - [ ] New tests added; full suite passes locally (commands and results in the PR)
@@ -251,7 +254,7 @@ Copy into each PR description and tick there; the plan's *Merge checklist comple
   - [ ] Owner approved the merge
   - [ ] Merged to `main`; branch deleted; issue closed with a result comment
 
-- [ ] **Step 7 — P6** · [#38](https://github.com/ivanmartynov3t/mongo_products_analisys/issues/38) · branch `feat/38-silo-pins`
+- [ ] **Step 7 — P4** · [#36](https://github.com/ivanmartynov3t/mongo_products_analisys/issues/36) · branch `feat/36-silo-candidates`
   - [ ] Branch created from the latest `main`
   - [ ] Implemented (issue scope only)
   - [ ] New tests added; full suite passes locally (commands and results in the PR)
@@ -265,7 +268,7 @@ Copy into each PR description and tick there; the plan's *Merge checklist comple
   - [ ] Owner approved the merge
   - [ ] Merged to `main`; branch deleted; issue closed with a result comment
 
-- [ ] **Step 8 — P5** · [#37](https://github.com/ivanmartynov3t/mongo_products_analisys/issues/37) · branch `feat/37-evidence-gaps`
+- [ ] **Step 8 — P8** · [#40](https://github.com/ivanmartynov3t/mongo_products_analisys/issues/40) · branch `feat/40-silo-sync`
   - [ ] Branch created from the latest `main`
   - [ ] Implemented (issue scope only)
   - [ ] New tests added; full suite passes locally (commands and results in the PR)
@@ -279,7 +282,7 @@ Copy into each PR description and tick there; the plan's *Merge checklist comple
   - [ ] Owner approved the merge
   - [ ] Merged to `main`; branch deleted; issue closed with a result comment
 
-- [ ] **Step 9 — P8** · [#40](https://github.com/ivanmartynov3t/mongo_products_analisys/issues/40) · branch `feat/40-silo-sync`
+- [ ] **Step 9 — P5** · [#37](https://github.com/ivanmartynov3t/mongo_products_analisys/issues/37) · branch `feat/37-evidence-gaps`
   - [ ] Branch created from the latest `main`
   - [ ] Implemented (issue scope only)
   - [ ] New tests added; full suite passes locally (commands and results in the PR)
@@ -297,11 +300,12 @@ Copy into each PR description and tick there; the plan's *Merge checklist comple
 
 - **No CI.** Local test runs are the only gate; the PR must show them. Once billing is fixed, re-run CI on `main`.
 - **Two repositories.** P1 lands in two PRs; the analysis-side PR must not merge before the silo-side one.
-- **Shared files.** P4, P7 and P1 all touch `tools/silo-review/review.py`; the strict order above avoids conflicts.
-- **P6 changes many matrices.** Its review must check that every migrated pin points at the same content as the prose it replaces.
+- **Shared files.** P1, P7 and P4 all touch `tools/silo-review/review.py`; the strict order above (P1 → P7 → P4) avoids conflicts.
+- **P6 changes many matrices.** Its review must check that every migrated pin points at the same content as the prose it replaces. It now runs before P7 and P4, so those tools can read the pins from the start.
 
 ## Execution log
 
 - 2026-09-25 — research done; plan written; issues #33–#40 and prod_info_silo#45 opened.
 - 2026-09-25 — implementation plan (section 8) added with per-step checkboxes.
 - 2026-09-26 — Step 1 (P9): PR prod_info_silo#46; review round 1 NOT PASSED (4 must fix), round 2 PASSED; suggestions applied. Owner request: silo pre-commit hook removed (classify + catalog stay in every workflow script).
+- 2026-09-26 — Owner decision: plan scoped to mechanical porting silo → this repository. Steps reordered (P9 → P2 → P1 → P6 → P7 → P3 → P4 → P8 → P5). P5 reduced to the gap report; silo seed URLs moved to [prod_info_silo#47](https://github.com/ivanmartynov3t/prod_info_silo/issues/47). P9 kept as a prerequisite.
