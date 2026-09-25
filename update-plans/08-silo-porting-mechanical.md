@@ -166,15 +166,15 @@ Copy into each PR description and tick there; the plan's *Merge checklist comple
 **State rule (required).** A checkbox is ticked `[x]` only after that item is actually done and verified. Everything not yet done stays `[ ]`. Update this section in the same commit as the work it records, so the plan always shows the real state. Tick a step's heading box only when all its sub-items are ticked.
 
 - [ ] **Step 1 — P9** · [prod_info_silo#45](https://github.com/ivanmartynov3t/prod_info_silo/issues/45) · branch silo `fix/45-silo-cleanup`
-  - [ ] Branch created from the latest `main`
-  - [ ] Implemented (issue scope only)
-  - [ ] New tests added; full suite passes locally (commands and results in the PR)
-  - [ ] Tool run against the real silo; before/after summary in the PR
-  - [ ] Pull request opened: PR link: —
-  - [ ] Code review done; findings recorded on the PR (must fix: — · suggestions: —)
-  - [ ] All *must fix* findings fixed; tests re-run
+  - [x] Branch created from the latest `main`
+  - [x] Implemented (issue scope only)
+  - [x] New tests added; full suite passes locally (commands and results in the PR)
+  - [x] Tool run against the real silo; before/after summary in the PR
+  - [x] Pull request opened: PR link: [prod_info_silo#46](https://github.com/ivanmartynov3t/prod_info_silo/pull/46)
+  - [x] Code review done; findings recorded on the PR (round 1: 4 must fix · 11 suggestions · 4 docs; round 2: 0 must fix · 8 suggestions, all applied)
+  - [x] All *must fix* findings fixed; tests re-run
   - [ ] Re-review: no *must fix* left; suggestions fixed or accepted by the owner
-  - [ ] Docs updated (tool README, conventions, this plan)
+  - [x] Docs updated (tool README, conventions, this plan)
   - [ ] Merge checklist complete
   - [ ] Owner approved the merge
   - [ ] Merged to `main`; branch deleted; issue closed with a result comment
@@ -304,3 +304,4 @@ Copy into each PR description and tick there; the plan's *Merge checklist comple
 
 - 2026-09-25 — research done; plan written; issues #33–#40 and prod_info_silo#45 opened.
 - 2026-09-25 — implementation plan (section 8) added with per-step checkboxes.
+- 2026-09-26 — Step 1 (P9): PR prod_info_silo#46; review round 1 NOT PASSED (4 must fix), round 2 PASSED; suggestions applied. Owner request: silo pre-commit hook removed (classify + catalog stay in every workflow script).
