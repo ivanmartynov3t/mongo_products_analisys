@@ -7,6 +7,23 @@
 - [Feature dictionary](../../../../../feature-dictionary.md)
 - [Low-level comparison](../../../../../reports/comparisons/low-level-feature-comparison.md)
 
+## Feature metadata
+
+- Product name: Studio 3T
+- Product group: 3t
+- Feature ID: F-GOV (see [feature-dictionary.md](../../../../../feature-dictionary.md))
+- Feature folder: `governance`
+- Analysis date: 2026-07-31
+- Version/release context: source tree `3t.tools`, branch `KONG-11077-No-scroll-bar-on-linux-2`, commit `435d6844a3a`
+
+## Source index
+
+Rows cite the source-code audit by class name rather than by S-number; these are the underlying sources.
+
+- S1: Source-code audit of `product-suite/data-man-mongodb-ent/src/main/java/t3/` (`3t.tools` repository, commit `435d6844a3a`) — internal, not a public URL
+- S2: [Governance research findings](../../../../../research/studio-3t-desktop-review-2026/10-governance-findings.md)
+- S3: `release/studio-3t/changelog.txt` in the `3t.tools` repository — internal
+
 ## Scope note
 
 This file previously documented the Studio 3T platform's governance-tier products (3T Lens, 3T Access, 3TL Bridge) and 3T Explore's governance-relevant aspects as sub-sections of Studio 3T. As of 2026-07-29, each of those products has been split into its own product folder under `products/3t/` with its own `product-report.md` and `features/governance/{feature-matrix.md,feature-report.md}`. See the pointer table below for those platform-tier IDs.

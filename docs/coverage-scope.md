@@ -30,11 +30,11 @@ A product is **in scope** when it is (a) *shipped* and (b) exposes MongoDB-facin
 ## Consequences
 
 - **No new product folders now.** The two in-scope components are covered on existing product pages (3T Lens, 3T MCP), so the cost is edits to existing matrices, not new analysis sets.
-- **Follow-up for the in-scope components:** check the 3T Lens and 3T MCP pages actually cover the Policy Engine and PII Scanner capabilities the silo documents; any new claim enters as ❓ until a human verifies a source.
+- **Follow-up for the in-scope components:** check the 3T Lens and 3T MCP pages actually cover the Policy Engine and PII Scanner capabilities the silo documents; any new claim enters as ❓ until a human verifies a source. Done in #30: [Policy Engine / PII Scanner coverage](../reports/policy-engine-pii-coverage.md) (3 contradictions, 16 gaps to verify).
 - **Weekly triage (#18):** skip every *out of scope* product; for *revisit later*, check only the trigger column.
 
 ## Navigation
 
 - [Products index](../products/README.md) · [3T products](../products/3t/README.md)
 - [Feature dictionary](../feature-dictionary.md)
-- [Taxonomy reconciliation](../reports/taxonomy-reconciliation.md) · [Review queue](../reports/review-queue.md)
+- [Policy Engine / PII coverage](../reports/policy-engine-pii-coverage.md) · [Taxonomy reconciliation](../reports/taxonomy-reconciliation.md) · [Review queue](../reports/review-queue.md)

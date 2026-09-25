@@ -127,7 +127,7 @@ Reviewed 2026-07-31.
 
 ### Matrices this check cannot cover
 
-- [products/3t/studio-3t/features/governance/feature-matrix.md](../products/3t/studio-3t/features/governance/feature-matrix.md) — no `Analysis date` in `## Feature metadata`
+- [products/3t/studio-3t/features/governance/feature-matrix.md](../products/3t/studio-3t/features/governance/feature-matrix.md) — cites no URL (sources are research files or source-code audits)
 - [products/third-party/dbeaver/features/data-transfer/feature-matrix.md](../products/third-party/dbeaver/features/data-transfer/feature-matrix.md) — cites no URL (sources are research files or source-code audits)
 - [products/third-party/navicat/features/data-transfer/feature-matrix.md](../products/third-party/navicat/features/data-transfer/feature-matrix.md) — cites no URL (sources are research files or source-code audits)
 - [products/third-party/navicat/features/governance/feature-matrix.md](../products/third-party/navicat/features/governance/feature-matrix.md) — cites no URL (sources are research files or source-code audits)
