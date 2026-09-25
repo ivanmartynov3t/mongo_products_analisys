@@ -363,3 +363,6 @@ PROP-bi-dashboard	shared	same definition	PROP-bi-dashboard	widened			pattern nar
 PROP-secrets-vault	shared	same definition	PROP-secrets-vault				names/descriptions match (silo text is a shortened form where different)
 PROP-synthetic-test-data	shared	same definition	PROP-synthetic-test-data				names/descriptions match (silo text is a shortened form where different)
 PROP-federated-query	shared	same definition	PROP-federated-query				names/descriptions match (silo text is a shortened form where different)
+AI-013	ours-only	analysis-only					stt-cli connection config/EULA/self-update; internal repo docs only (#31)
+GOV-008	ours-only	analysis-only					Lens violations and compliance score; internal repo docs only (#31)
+GOV-009	ours-only	analysis-only					Lens scheduled POLICY_EVALUATE; internal repo docs only (#31)

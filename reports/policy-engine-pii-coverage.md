@@ -1,6 +1,6 @@
 # Coverage check (issue #30): silo Policy Engine / PII Scanner vs our 3T Lens / 3T MCP pages
 
-**Status:** findings from 2026-09-25, silo commit `cde319c742`. Nothing here has changed a matrix yet. Every gap and contradiction is a ❓ lead until a person verifies it against a public or product source, and only then edits the matrix.
+**Status:** findings from 2026-09-25, silo commit `cde319c742`. Applied to the matrices on 2026-09-25 (#31): the three contradictions are corrected and the gaps added as new detail or rows (`AI-013`, `GOV-008`, `GOV-009`). Everything taken from these internal docs is marked ❓ unverified against a public source.
 
 ## Navigation
 
