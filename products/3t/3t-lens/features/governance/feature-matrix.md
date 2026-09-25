@@ -20,7 +20,7 @@
 ## Source index
 
 - S1: https://studio3t.com/3t-lens/ — **removed: HTTP 404 on 2026-09-25**; last read for this analysis on 2026-07-29. Public source at that time; no replacement page found.
-- S2: https://studio3t.com/ — homepage 3T Lens descriptions (silo copy `data/3t/3t-website-2026/index.md` at silo commit `cde319c7`; at `b142fcc4` that path holds license.studio3t.com by mistake), current public source.
+- S2: https://studio3t.com/ — homepage 3T Lens descriptions (silo copy `data/3t/3t-website-2026/index.md` at silo commit `f1e28e8d`), current public source.
 
 ## Pointer table — rows now documented under Govern
 
