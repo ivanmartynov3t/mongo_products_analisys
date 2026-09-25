@@ -1,0 +1,24 @@
+# silo-review configuration (issue #14). Paths are relative to the repository root.
+
+# The silo is read from git objects at this ref — never checked out, never written, never
+# vendored. The report records the exact commit SHA it was generated from.
+silo_path = "../prod_info_silo"
+silo_ref = "origin/main"
+silo_data_dir = "data"
+
+# The only file this tool is allowed to write.
+output = "reports/review-queue.md"
+
+# Where citations are collected from. Matrices additionally provide the review date
+# ("- Analysis date:" in "## Feature metadata") and the source IDs of "## Source index".
+scan = [
+    "*.md",
+    "products/**/*.md",
+    "reports/**/*.md",
+    "research/**/*.md",
+]
+
+exclude = [
+    "reports/review-queue.md",          # our own output
+    "reports/taxonomy-reconciliation.md",
+]
