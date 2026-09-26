@@ -2,7 +2,7 @@
 
 This is part 2 of the silo porting. [Plan 08](08-silo-porting-mechanical.md) built the scripts that surface signals. This plan adds the judgement: whether a signal is a real capability, which ID it maps to, what status it gets, and which source backs it.
 
-Measured 2026-09-26 at silo `55dbb2cb`. **Status: approved (2026-09-26); step 1 in review.** Issues #52–#57.
+Measured 2026-09-26 at silo `55dbb2cb`. **Status: approved (2026-09-26); step 2 next.** Issues #52–#57.
 
 ## Flow
 
@@ -110,7 +110,7 @@ Each step has one issue and one PR.
 
 **State rule.** A box is ticked only after the item is done and verified. Tick it on the branch, in the same commit as the work. Tick a step's heading box only when all its sub-items are ticked. The merge checklist is Plan 08's, copied into each PR.
 
-- [ ] **Step 1 — L1** · [#52](https://github.com/ivanmartynov3t/mongo_products_analisys/issues/52) · branch `feat/52-candidate-triage-ledger`
+- [x] **Step 1 — L1** · [#52](https://github.com/ivanmartynov3t/mongo_products_analisys/issues/52) · branch `feat/52-candidate-triage-ledger`
   - [x] Branch created from the latest `main`
   - [x] Implemented (issue scope only)
   - [x] New tests added; full suite passes locally
@@ -121,7 +121,7 @@ Each step has one issue and one PR.
   - [x] Docs updated
   - [x] Merge checklist complete
   - [x] Owner approved the merge (standing approval for steps 1–4, see Execution log)
-  - [ ] Merged to `main` (squash); branch deleted; issue closed with a result comment
+  - [x] Merged to `main` (squash `df06bfc`); branch deleted; issue closed with a result comment
 - [ ] **Step 2 — L4** · [#53](https://github.com/ivanmartynov3t/mongo_products_analisys/issues/53)
   - [ ] Branch created from the latest `main`
   - [ ] Implemented (issue scope only)
@@ -176,3 +176,4 @@ Each step has one issue and one PR.
   - `needs-human` decisions stay listed.
   - A malformed ledger exits 2 before the silo is read.
   - The ledger starts empty, so the report's counts are unchanged.
+- 2026-09-26 — Step 1 merged (#58, squash `df06bfc`) after two review rounds (both PASSED).
