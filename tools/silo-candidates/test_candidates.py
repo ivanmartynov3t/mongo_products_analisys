@@ -207,6 +207,14 @@ def test_output_restricted(tmp: Path) -> None:
             pass
 
 
+def test_is_public() -> None:
+    hosts = ["github.com", "atlassian.net"]
+    check("is_public: code hosts and subdomains with ports are not public",
+          [candidates.is_public(u, hosts) for u in ("https://vendor.test/a", "https://github.com/o/r",
+                                                   "https://x.atlassian.net:443/wiki", "")],
+          [True, False, False, False])
+
+
 def test_cell_ids() -> None:
     check("annotation with slashes inside parentheses", review.cell_ids("`A-x` **(X-B/X-C)**"), ["A-x"])
     check("compound cells", (review.cell_ids("A-x / B-y"), review.cell_ids("A-x, B-y")),
@@ -225,6 +233,7 @@ def main() -> int:
         test_all(Path(d))
         test_output_restricted(Path(d))
     test_cell_ids()
+    test_is_public()
     test_single_write_site()
     if failures:
         print(f"FAILED ({len(failures)}):")

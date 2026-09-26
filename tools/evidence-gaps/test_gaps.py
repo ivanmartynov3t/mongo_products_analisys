@@ -134,7 +134,7 @@ def test_all(tmp: Path) -> None:
     ev_rows = [l for l in thin.splitlines() if l.startswith("| `")]
     check("thin rows", ev_rows, ["| `products/g/orphan` | 1 | 0 | no silo product |", "| `products/g/prod` | 3 | 1 | — |"])
     check("tracked URL is not a gap; dropped URL is", "| vendor.test | 1 |" in section(report, "### Crawlable"), True)
-    check("12 untracked or dropped URLs", "13 of 14 distinct cited URLs" in report, True)
+    check("13 untracked or dropped URLs", "13 of 14 distinct cited URLs" in report, True)
     check("crawlable rows (count desc, then domain)", [l for l in section(report, "### Crawlable").splitlines() if l.startswith("| ") and "---" not in l], [
         "| Domain | URLs |", "| github.com | 3 |", "| docs.other.test | 1 |", "| notreddit.com | 1 |", "| vendor.test | 1 |"])
     check("excluded by policy, subdomains included",
