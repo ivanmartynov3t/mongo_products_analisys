@@ -3,3 +3,4 @@
 .env
 tools/confluence-sync/last-run-report.md
 __pycache__/
+.local/

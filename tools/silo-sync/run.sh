@@ -5,7 +5,8 @@
 #   tools/silo-sync/run.sh --no-fetch # use the silo refs already fetched
 #
 # Every tool reads the silo from git objects at origin/main (never its working tree) and
-# writes only through its own guarded write (reports/*). Nothing is committed or pushed.
+# writes only through its own guarded write (reports/*, and the gitignored .local/silo-batches/).
+# Nothing is committed or pushed.
 # Checks never stop the run; exit code: 0 all quiet, 1 something needs a human, 2 a step failed.
 set -uo pipefail
 
@@ -72,6 +73,7 @@ else
 fi
 step "review queue (#17)"    write uv run -q tools/silo-review/review.py apply "${S[@]}"
 step "candidate signals"     write uv run -q tools/silo-candidates/candidates.py apply "${S[@]}"
+step "evidence batches"      write uv run -q tools/silo-candidates/batch.py apply "${S[@]}"   # gitignored, for /silo-port
 step "evidence gaps"         write uv run -q tools/evidence-gaps/gaps.py apply "${S[@]}"
 step "taxonomy (#18)"        check uv run -q tools/taxonomy-reconcile/reconcile.py --check --silo "$TAX"
 step "silo pins"             check uv run -q tools/silo-pins/pins.py check "${S[@]}"

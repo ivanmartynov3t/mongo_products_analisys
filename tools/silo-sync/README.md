@@ -17,11 +17,12 @@ tools/silo-sync/test_run.sh         # offline tests: arguments, inputs, exit cod
 | 2 | silo snapshot | [`silo-snapshot`](../silo-snapshot/README.md) | `reports/silo-snapshot.{md,json}` | #18 |
 | 3 | scope triggers | [`scope-triggers`](../scope-triggers/README.md) (reads the new snapshot; skipped if step 2 failed) | nothing | #18 |
 | 4 | staleness queue | [`silo-review`](../silo-review/README.md) | `reports/review-queue.md` | #17 |
-| 5 | candidate signals | [`silo-candidates`](../silo-candidates/README.md) | `reports/silo-candidates.md` | LLM part |
-| 6 | evidence gaps | [`evidence-gaps`](../evidence-gaps/README.md) (section 2 reads the new snapshot) | `reports/evidence-gaps.md` | prod_info_silo#47 |
-| 7 | taxonomy check | [`taxonomy-reconcile`](../taxonomy-reconcile/README.md) `--check` | nothing | #18 |
-| 8 | pin check | [`silo-pins`](../silo-pins/README.md) `check` | nothing | — |
-| 9 | re-pin plan | [`silo-pins`](../silo-pins/README.md) `repin plan` | nothing: shows which unchanged pins could move; run `repin apply` yourself | — |
+| 5 | candidate signals | [`silo-candidates`](../silo-candidates/README.md) | `reports/silo-candidates.md` | Plan 09 |
+| 6 | evidence batches | [`silo-candidates/batch.py`](../silo-candidates/README.md#evidence-batches) | `.local/silo-batches/` (gitignored; input for `/silo-port`) | Plan 09 |
+| 7 | evidence gaps | [`evidence-gaps`](../evidence-gaps/README.md) (section 2 reads the new snapshot) | `reports/evidence-gaps.md` | prod_info_silo#47 |
+| 8 | taxonomy check | [`taxonomy-reconcile`](../taxonomy-reconcile/README.md) `--check` | nothing | #18 |
+| 9 | pin check | [`silo-pins`](../silo-pins/README.md) `check` | nothing | — |
+| 10 | re-pin plan | [`silo-pins`](../silo-pins/README.md) `repin plan` | nothing: shows which unchanged pins could move; run `repin apply` yourself | — |
 
 Every step reads the silo at `origin/main` from git objects; `SILO` and the ref are passed to each silo tool as `--silo` and `--ref`, so every tool reads the commit the header prints. If `SILO` does not hold `config/taxonomy.yaml` and `data/catalog_index.json` at `origin/main`, the script stops with exit 2 before writing anything. The taxonomy check reads two files from a directory, so the script extracts `config/taxonomy.yaml` and `data/catalog_index.json` at `origin/main` into a temporary directory for it. The silo checkout is never read or changed, so a fetch without a pull is enough.
 
@@ -29,7 +30,7 @@ The order differs from issue #40's list: the snapshot runs first because the tri
 
 ## Result
 
-A summary line per step, the full output of any check that needs attention, and every changed file (anything outside `reports/` is unexpected). Nothing is committed or pushed: review the diff, then commit.
+A summary line per step, the full output of any check that needs attention, and every changed file (anything outside `reports/` is unexpected; `.local/` is gitignored and never listed). Nothing is committed or pushed: review the diff, then commit.
 
 | Exit code | Meaning |
 |---|---|

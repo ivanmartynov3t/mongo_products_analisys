@@ -100,4 +100,27 @@ It compares the working tree with its merge-base with `main`. Committed, staged,
 **Not yet checked:**
 
 - **The access-date window for ✅.** Only the date's presence is checked. Whether a silo capture date counts, and how recent it must be, is owner decision 3 in Plan 09.
-- **The batch checks.** Once `batch.py` exists (#54), check 6 applies to the batch; until then it uses the open candidates.
+- **Batch contents.** Check 6 uses the open web-backed candidates, which are exactly the candidates in the product's evidence batch.
+
+## Evidence batches
+
+`batch.py` writes the Claude stage's input (issue #54, Plan 09 L2). `tools/silo-sync/run.sh` runs it after the candidate report.
+
+```bash
+uv run tools/silo-candidates/batch.py plan     # summary only, writes nothing
+uv run tools/silo-candidates/batch.py apply    # rebuild .local/silo-batches/
+uv run tools/silo-candidates/test_batch.py     # offline tests
+```
+
+**One folder per product that has a silo product.** Each holds:
+- **`README.md`.** For every **open web-backed** candidate (after the triage ledger):
+  - its aliases and dictionary definitions;
+  - every public page carrying the tag, not only the report's top 3: title, URL, probability, retrieval date (`updated_at`), and the citation to use (`` `URL` (silo: `data/…@<sha8>`) ``, pinned at the silo ref);
+  - after the candidates, the product's current matrix rows (ID and status).
+- **`pages/`.** Each cited page's body at the silo ref, frontmatter removed.
+
+**Guarantees:**
+- **Local only.** `.local/` is gitignored. The folder is deleted and rebuilt on every `apply`, so no stale file survives, and nothing is written outside it (guarded and tested).
+- **Public pages only.** Repository documents, source files and pages on `non_public_hosts` are left out entirely, not just unnamed.
+- **Deterministic.** The output is the same for the same silo commit, ledger and matrices.
+- **Errors.** A malformed ledger, like any other error, exits 2.

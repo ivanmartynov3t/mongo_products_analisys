@@ -145,7 +145,7 @@ def load_ledger(path: Path, products: set[str]) -> dict[tuple[str, str], Decisio
 @dataclass
 class Signal:
     tag: str
-    web: list[tuple[float, str, str]] = field(default_factory=list)  # (probability, title, url) — public pages
+    web: list[tuple[float, str, str, str]] = field(default_factory=list)  # (probability, title, url, catalog path) — public pages
     repo_docs: int = 0
     source_files: int = 0
     shared: int = 0   # entries whose page or file is also indexed under another product
@@ -233,7 +233,7 @@ def signals_for(entries: list[dict], urls: dict[str, str], shared: set[str],
                 if norm in seen_web[tag]:
                     continue  # the same page captured twice (…/page and …/page/)
                 seen_web[tag].add(norm)
-                s.web.append((prob, str(e.get("title", "")), url))
+                s.web.append((prob, str(e.get("title", "")), url, path))
             elif len(parts) > 3 and parts[2] == "repo_docs":
                 s.repo_docs += 1
             else:
@@ -251,8 +251,10 @@ def _cell(text: str) -> str:
     return " ".join(str(text).split()).replace("|", "\\|").replace("[", "\\[").replace("]", "\\]")
 
 
-def build(cfg: dict, silo: Path, ref: str, open_web: dict[str, list[str]] | None = None) -> str:
-    """The report. When `open_web` is given, it also receives each product's open web-backed candidate tags."""
+def build(cfg: dict, silo: Path, ref: str, open_web: dict[str, list[str]] | None = None,
+          open_signals: dict[str, list[Signal]] | None = None) -> str:
+    """The report. When `open_web` is given, it also receives each product's open web-backed candidate
+    tags; `open_signals` receives those candidates' signals, pages included."""
     repo = cfg["repo"]
     # The ledger is checked first: a malformed one stops the run before the silo is read.
     folders = {d.name for d in (repo / cfg["products_dir"]).glob("*/*") if d.is_dir()}
@@ -329,6 +331,8 @@ def build(cfg: dict, silo: Path, ref: str, open_web: dict[str, list[str]] | None
         web_backed = sum(bool(s.web) for s in cands)
         if open_web is not None:
             open_web[slug] = [s.tag for s in cands if s.web]
+        if open_signals is not None:
+            open_signals[slug] = [s for s in cands if s.web]
         mostly_shared = sum(s.shared * 2 > s.total for s in cands)
         per_outcome = {o: sum(d.outcome == o for d in decided.values()) for o in OUTCOMES}
         triaged = " · ".join(f"{o} {n}" for o, n in per_outcome.items() if n) or "—"
@@ -340,7 +344,7 @@ def build(cfg: dict, silo: Path, ref: str, open_web: dict[str, list[str]] | None
             S += ["| Silo tag | Also known as | Web | Repo | Source | Shared | Top public pages |", "|---|---|---|---|---|---|---|"]
             for s in cands:
                 aka = ", ".join(f"`{i}`" for i in sorted(tag_to_ids.get(s.tag, set()) - {s.tag})) or "—"
-                pages = " · ".join(f"[{_cell(t) or u}]({u}) ({p:.2f})" for p, t, u in s.web[:top]) or "—"
+                pages = " · ".join(f"[{_cell(t) or u}]({u}) ({p:.2f})" for p, t, u, _ in s.web[:top]) or "—"
                 note = (f" (re-opened: {decided[s.tag].outcome} with {decided[s.tag].web_docs} web)"
                         if s.tag in reopened else "")
                 S.append(f"| `{s.tag}`{note} | {aka} | {len(s.web)} | {s.repo_docs} | {s.source_files} | {s.shared} | {pages} |")
