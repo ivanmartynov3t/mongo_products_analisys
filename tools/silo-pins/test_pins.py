@@ -177,6 +177,10 @@ def test_check(tmp: Path) -> None:
     check("check passes when no pin is broken", pins.run(cfg, "check")[0], 0)
     note.write_text(note.read_text() + "- also prod_info_silo `data/x/a.md` (a repository name, not a pin)\n", encoding="utf-8")
     check("'prod_info_silo' is not 'silo'", pins.run(cfg, "check")[0], 0)
+    note.write_text(note.read_text() + f"- _silo: `data/x/a.md@{c1[:8]}`_ (a valid pin in italics)\n"
+                    f"- prod_info_silo: `data/x/a.md@{c1[:8]}` (not a pin)\n", encoding="utf-8")
+    found, warnings = pins.find_pins(cfg, repo)
+    check("valid italic pin is a pin, prod_info_silo is not; no warnings", ([p.line for p in found], warnings), ([1, 3], []))
     note.write_text(note.read_text() + "- S2: y (Silo: `data/x/a.md@HEAD`)\n"
                     f"- S3: y (silo:`data/x/a.md@{c1[:8]}`)\n"
                     "- S4: y (silo: `data/x/a.md@abc12`)\n"
@@ -186,12 +190,12 @@ def test_check(tmp: Path) -> None:
     code, text = pins.run(cfg, "check")
     check("check fails on a malformed pin", code, 1)
     check("malformed pins are reported (HEAD, no space, short hex, directory)", [l for l in text.splitlines() if l.startswith("warning")], [
-        "warning: docs/note.md:3: malformed pin 'Silo: `data/x/a.md@HEAD`' (expected silo: `data/<path>.md@<commit>`)",
-        f"warning: docs/note.md:4: malformed pin 'silo:`data/x/a.md@{c1[:8]}`' (expected silo: `data/<path>.md@<commit>`)",
-        "warning: docs/note.md:5: malformed pin 'silo: `data/x/a.md@abc12`' (expected silo: `data/<path>.md@<commit>`)",
-        f"warning: docs/note.md:6: malformed pin 'silo: `data/x@{c1[:8]}`' (expected silo: `data/<path>.md@<commit>`)",
-        "warning: docs/note.md:7: malformed pin 'silo `data/x/a.md`' (expected silo: `data/<path>.md@<commit>`)",
-        "warning: docs/note.md:8: malformed pin '_silo: `data/x/a.md@HEAD`' (expected silo: `data/<path>.md@<commit>`)"])
+        "warning: docs/note.md:5: malformed pin 'Silo: `data/x/a.md@HEAD`' (expected silo: `data/<path>.md@<commit>`)",
+        f"warning: docs/note.md:6: malformed pin 'silo:`data/x/a.md@{c1[:8]}`' (expected silo: `data/<path>.md@<commit>`)",
+        "warning: docs/note.md:7: malformed pin 'silo: `data/x/a.md@abc12`' (expected silo: `data/<path>.md@<commit>`)",
+        f"warning: docs/note.md:8: malformed pin 'silo: `data/x@{c1[:8]}`' (expected silo: `data/<path>.md@<commit>`)",
+        "warning: docs/note.md:9: malformed pin 'silo `data/x/a.md`' (expected silo: `data/<path>.md@<commit>`)",
+        "warning: docs/note.md:10: malformed pin 'silo: `data/x/a.md@HEAD`' (expected silo: `data/<path>.md@<commit>`)"])
     for cmd in ("list", "check"):
         try:
             with contextlib.redirect_stderr(io.StringIO()):
