@@ -269,17 +269,17 @@ Copy into each PR description and tick there; the plan's *Merge checklist comple
   - [x] Merged to `main` (`bdb5d6a`); branch deleted; issue closed with a result comment
 
 - [ ] **Step 8 — P8** · [#40](https://github.com/ivanmartynov3t/mongo_products_analisys/issues/40) · branch `feat/40-silo-sync`
-  - [ ] Branch created from the latest `main`
-  - [ ] Implemented (issue scope only)
-  - [ ] New tests added; full suite passes locally (commands and results in the PR)
-  - [ ] Tool run against the real silo; before/after summary in the PR
-  - [ ] Pull request opened: PR link: —
-  - [ ] Code review done; findings recorded on the PR (must fix: — · suggestions: —)
-  - [ ] All *must fix* findings fixed; tests re-run
-  - [ ] Re-review: no *must fix* left; suggestions fixed or accepted by the owner
-  - [ ] Docs updated (tool README, conventions, this plan)
-  - [ ] Merge checklist complete
-  - [ ] Owner approved the merge
+  - [x] Branch created from the latest `main`
+  - [x] Implemented (issue scope only)
+  - [x] New tests added; full suite passes locally (commands and results in the PR)
+  - [x] Tool run against the real silo; before/after summary in the PR
+  - [x] Pull request opened: PR link: [#50](https://github.com/ivanmartynov3t/mongo_products_analisys/pull/50)
+  - [x] Code review done; findings recorded on the PR (round 1: 5 must fix · 3 minors · 3 warnings; round 2: 0 must fix · 2 minors · 4 warnings, all addressed)
+  - [x] All *must fix* findings fixed; tests re-run
+  - [x] Re-review: no *must fix* left (round 2 PASSED); suggestions fixed or accepted by the owner
+  - [x] Docs updated (tool README, this plan; tool READMEs of silo-pins and taxonomy-reconcile for exit 2)
+  - [x] Merge checklist complete
+  - [x] Owner approved the merge (2026-09-26 standing approval: merge after a passing review)
   - [ ] Merged to `main`; branch deleted; issue closed with a result comment
 
 - [ ] **Step 9 — P5** · [#37](https://github.com/ivanmartynov3t/mongo_products_analisys/issues/37) · branch `feat/37-evidence-gaps`
@@ -323,3 +323,5 @@ Copy into each PR description and tick there; the plan's *Merge checklist comple
 - 2026-09-26 — Step 6 (P3) merged: #46 squash `f1298b6`; #35 closed; procedure step added to #18. Design choice in review: the code was changed to match the approved `coverage-scope.md` (fire only on documented triggers), not the reverse. 0 fired at snapshot `2a1ef919`.
 - 2026-09-26 — Step 7 (P4): PR #47; review round 1 NOT PASSED (annotated or compound IDs, Shared keyed by path, step order), round 2 NOT PASSED (rebase onto P3, plan ticks), round 3 NOT PASSED (step 7 ticks not on the branch). Code fixes: shared ID parser `review.matrix_table_ids`, content-keyed Shared, pointer tables. At silo `55dbb2cb`: 239 candidates, 135 web-backed; 3TL Bridge 61 of 61 and 3T Lens 24 of 27 mostly shared.
 - 2026-09-26 — Step 7 (P4): review round 4 PASSED; merged: #47 squash `bdb5d6a`; #36 closed.
+- 2026-09-26 — Step 8 (P8): `tools/silo-sync/run.sh`. Real run at silo `55dbb2cb`: exit 0; all reports regenerated; taxonomy, scope triggers and pins quiet; re-pin plan: 7 pins could move, 0 need a human. The evidence-gap step is added with step 9 (P5), whose tool merges after this one.
+- 2026-09-26 — Step 8 (P8): review round 1 NOT PASSED — `SILO` not passed to the tools, a check crash read as "needs a human", taxonomy check tied to the silo checkout. Fixed: `--silo` on every call; `pins.py` and `reconcile.py` exit 2 on errors; reconcile reads `origin/main` files from a temp directory; triggers skipped when the snapshot fails; stub-`uv` tests.
