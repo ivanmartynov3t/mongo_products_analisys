@@ -9,7 +9,7 @@ snapshot = "reports/silo-snapshot.json"
 # The only file this tool is allowed to write.
 output = "reports/evidence-gaps.md"
 
-# Domain groups (a domain matches itself and its subdomains). Anything not listed and not
+# Domain groups (a domain matches itself and its subdomains; a port is ignored). Anything not listed and not
 # a GitHub non-file page counts as "crawlable and compliant": a candidate silo seed for a
 # human to judge in prod_info_silo#47.
 
@@ -20,6 +20,7 @@ internal_domains = [
     "127.0.0.1",
     "localhost",
     "api.openai.com",
+    "studio.3t.io",         # 3T web app behind a login
 ]
 
 # Excluded by policy: review sites and social media whose terms forbid scraping, and
@@ -49,4 +50,11 @@ excluded_domains = [
     "youtrack.jetbrains.com",
     "uservoice.com",
     "useresponse.com",
+    # software directories and comparison aggregators, the same kind of page as g2 / capterra
+    "sourceforge.net",
+    "stackshare.io",
+    "crozdesk.com",
+    # paywalled
+    "scribd.com",
+    "packtpub.com",
 ]

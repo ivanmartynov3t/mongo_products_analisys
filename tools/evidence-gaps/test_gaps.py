@@ -53,6 +53,13 @@ MATRIX_URLS = """# M
 - S4: https://github.com/org/repo/releases
 - S5: https://docs.other.test/page
 - S6: https://sub.reddit.com/thread
+- S7: http://127.0.0.1:27117/admin
+- S8: https://notreddit.com/page
+- S9: https://github.com/org/repo/issues/12
+- S10: https://github.com/org/repo
+- S11: https://github.com/org
+- S12: https://github.com/org/repo/blob/abc123/docs/guide.md
+- S13: https://vendor.test/deleted
 
 | Sub-feature ID | Capability | Current support | Sources |
 | --- | --- | --- | --- |
@@ -76,18 +83,25 @@ MATRIX_NONE = """# M
 def build(tmp: Path) -> tuple[Path, Path]:
     silo, repo = tmp / "silo", tmp / "repo"
     subprocess.run(["git", "init", "-q", str(silo)], check=True)
-    commit(silo, {"data/vendor/prod/tracked.md":
-                  "---\ntitle: T\nsource_url: https://vendor.test/tracked\nupdated_at: 2026-09-10 10:00:00 UTC\n"
-                  "checksum_sha256: c1\n---\n\nThe tracked page has enough words to count as content.\n"})
+    page = lambda url, ck: (f"---\ntitle: T\nsource_url: {url}\nupdated_at: 2026-09-10 10:00:00 UTC\n"  # noqa: E731
+                            f"checksum_sha256: {ck}\n---\n\nThe page at {url} has enough words to count as content.\n")
+    commit(silo, {"data/vendor/prod/tracked.md": page("https://vendor.test/tracked", "c1"),
+                  "data/vendor/prod/deleted.md": page("https://vendor.test/deleted", "d1")})
+    (silo / "data/vendor/prod/deleted.md").unlink()
+    commit(silo, {})  # the silo dropped this page: a gap, like an untracked one
     subprocess.run(["git", "init", "-q", str(repo)], check=True)
     snapshot = {"silo": {"commit": "b" * 40}, "products": [
         {"slug": "prod", "analysis_folder": "products/g/prod", "web_pages": 1, "repo_docs": 0},
         {"slug": "rich", "analysis_folder": "products/g/rich", "web_pages": 50, "repo_docs": 0},
+        {"slug": "even", "analysis_folder": "products/g/even", "web_pages": 2, "repo_docs": 0},
     ]}
     commit(repo, {
         "products/g/prod/features/querying/feature-matrix.md": MATRIX_URLS,
         "products/g/rich/features/querying/feature-matrix.md": MATRIX_NONE,
         "products/g/orphan/features/querying/feature-matrix.md": MATRIX_NONE,
+        # two matrices, two IDs in total, two silo documents: not thin (IDs of both matrices count)
+        "products/g/even/features/querying/feature-matrix.md": MATRIX_NONE,
+        "products/g/even/features/export/feature-matrix.md": MATRIX_NONE.replace("QUERY-x", "EXPORT-y"),
         "reports/silo-snapshot.json": json.dumps(snapshot),
         "tools/silo-review/silo-review.toml": 'silo_path = "../silo"\nsilo_ref = "HEAD"\nsilo_data_dir = "data"\n'
             'output = "reports/review-queue.md"\nscan = ["products/**/*.md"]\nexclude = []\n',
@@ -109,20 +123,28 @@ def test_all(tmp: Path) -> None:
     cfg = gaps.load_config(gaps.HERE / "evidence-gaps.toml", repo)
     cfg["silo_path"], cfg["silo_ref"] = silo, "HEAD"
     report = gaps.run(cfg, "plan")
-    check("matrices without URLs listed", "2 of 3 feature matrices cite no URL" in report, True)
+    check("matrices without URLs listed", "4 of 5 feature matrices cite no URL" in report, True)
     check("matrix with URLs not listed as no-URL", "products/g/prod/features" in section(report, "## 1."), False)
     thin = section(report, "## 2.")
     check("thin: fewer silo docs than matrix IDs", "| `products/g/prod` | 3 | 1 | — |" in thin, True)
     check("thin: product with no silo product", "| `products/g/orphan` | 1 | 0 | no silo product |" in thin, True)
     check("thin: well-covered product not listed", "products/g/rich" in thin, False)
-    check("tracked URL is not a gap", "vendor.test" in report, False)
-    check("5 untracked URLs", "5 of 6 distinct cited URLs" in report, True)
-    check("crawlable", "| docs.other.test | 1 |" in section(report, "### Crawlable"), True)
+    check("thin: documents equal to IDs is not thin, IDs summed over matrices", "products/g/even" in thin, False)
+    ev_rows = [l for l in thin.splitlines() if l.startswith("| `")]
+    check("thin rows", ev_rows, ["| `products/g/orphan` | 1 | 0 | no silo product |", "| `products/g/prod` | 3 | 1 | — |"])
+    check("tracked URL is not a gap; dropped URL is", "| vendor.test | 1 |" in section(report, "### Crawlable"), True)
+    check("12 untracked or dropped URLs", "12 of 13 distinct cited URLs" in report, True)
+    check("crawlable rows (count desc, then domain)", [l for l in section(report, "### Crawlable").splitlines() if l.startswith("| ") and "---" not in l], [
+        "| Domain | URLs |", "| github.com | 3 |", "| docs.other.test | 1 |", "| notreddit.com | 1 |", "| vendor.test | 1 |"])
     check("excluded by policy, subdomains included",
           ("| reddit.com | 1 |" in section(report, "### Excluded"), "| sub.reddit.com | 1 |" in section(report, "### Excluded")),
           (True, True))
-    check("internal", "| jira.example.atlassian.net | 1 |" in section(report, "### Internal"), True)
-    check("GitHub non-file page", "| github.com | 1 |" in section(report, "### GitHub"), True)
+    check("internal, port ignored", [l for l in section(report, "### Internal").splitlines() if l.startswith("| ") and "---" not in l],
+          ["| Domain | URLs |", "| 127.0.0.1:27117 | 1 |", "| jira.example.atlassian.net | 1 |"])
+    check("GitHub issues are excluded like other trackers", "| github.com | 1 |" in section(report, "### Excluded"), True)
+    check("other GitHub page (organisation)", "| github.com | 1 |" in section(report, "### Other GitHub"), True)
+    check("plural", ("1 URL on 1 domain." in section(report, "### Other GitHub")), True)
+    check("snapshot from another commit is flagged", "**Warning:** the snapshot" in report, True)
     check("no full URLs in the report", re.search(r"https?://(?!github\.com/ivanmartynov3t)", report) is None, True)
     check("deterministic", gaps.run(cfg, "plan"), report)
 
