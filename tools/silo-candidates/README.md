@@ -13,7 +13,7 @@ Needs a clone of `prod_info_silo` next to this repository; `git -C ../prod_info_
 ## How a candidate is found
 
 1. Products: every `products/<category>/<slug>/` folder whose name is a silo product in `data/catalog_index.json`.
-2. Matrix rows: the first-column IDs of every capability table (a table with a `Current support` or `Status` column) in the product's feature matrices. A cell may hold several IDs (`A / B`, `A, B`); annotations in parentheses, such as **(PENDING DICTIONARY ADDITION)**, are ignored. The parser is `review.matrix_table_ids`, shared with `tools/evidence-gaps`.
+2. Matrix rows: the first-column IDs of every capability table (a table with a `Current support` or `Status` column) in the product's feature matrices. A cell may hold several IDs (`A / B`, `A, B`); annotations in parentheses, such as **(PENDING DICTIONARY ADDITION)**, are ignored. The parser is `review.matrix_table_ids`, for reuse by other tools.
 3. A row **covers** a silo tag when its ID is the tag, or when [`reports/taxonomy-reconciliation.tsv`](../../reports/taxonomy-reconciliation.tsv) maps it to that tag (directly or through the ID it is a `child-of` / synonym of).
 4. A silo tag is a **candidate** for the product when at least `min_docs` of the product's catalog entries carry it with probability ≥ `min_probability`, and no row covers it.
 5. IDs in a **pointer table** (an ID table without a status column, e.g. "Moved to") are documented in another product's matrix. Their tags are not candidates; the report lists them per product instead.
@@ -25,7 +25,7 @@ Needs a clone of `prod_info_silo` next to this repository; `git -C ../prod_info_
 |---|---|
 | Web | public web pages carrying the tag; the top `top_docs` are listed by URL with their probability |
 | Repo / Source | repository documents and indexed source files carrying the tag; **counted, never named** |
-| Shared | entries also indexed under another silo product with the same content: the same normalised URL for a top-level page, the same body (frontmatter removed) for other stored files, the same path for source files the silo does not store. Unrelated vendors' `index.md` never count. A mostly shared candidate may belong to another product |
+| Shared | entries also indexed under another silo product with the same content: the same normalised URL for a top-level page, the same body (frontmatter removed) for other stored files, the same path for source files the silo does not store. Unrelated vendors' stored `index.md` never count; for source files the silo does not store, only the path can be compared, so two unrelated products with the same unstored path would count as shared. A mostly shared candidate may belong to another product |
 
 ## Guarantees
 

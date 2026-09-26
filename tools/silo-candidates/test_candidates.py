@@ -21,6 +21,7 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 import candidates  # noqa: E402
+import review  # noqa: E402  (on sys.path via candidates)
 
 failures: list[str] = []
 
@@ -50,11 +51,14 @@ CATALOG = {"by_product": {
         entry("vendor/prod/moved2.md", {"QUERY-moved": 0.9}),
         entry("vendor/prod/annot1.md", {"QUERY-pending": 0.9, "QUERY-b": 0.9}),
         entry("vendor/prod/annot2.md", {"QUERY-pending": 0.9, "QUERY-b": 0.9}),
+        entry("vendor/prod/src/lib/util.py", {"QUERY-unstored": 0.9}),   # not stored: compared by path
+        entry("vendor/prod/src/lib/own.py", {"QUERY-unstored": 0.9}),
     ],
     "other": [
         entry("vendor/other/shared.md", {"QUERY-x": 0.9}),                 # same URL: shared
         entry("vendor/other/repo_docs/lib/guide.md", {"QUERY-x": 0.9}),    # same body: shared
         entry("vendor/other/index.md", {"QUERY-x": 0.9}),                  # same name, another vendor: not shared
+        entry("vendor/other/src/lib/util.py", {"QUERY-x": 0.9}),
     ],
 }}
 
@@ -155,10 +159,11 @@ def test_all(tmp: Path) -> None:
         ["| `QUERY-home`", "—", "2", "0", "0", "0"],     # index.md of another vendor is not shared
         ["| `QUERY-shared`", "—", "1", "1", "0", "2"],   # same URL and same body under another product
         ["| `QUERY-repo`", "—", "0", "1", "1", "0"],
+        ["| `QUERY-unstored`", "—", "0", "0", "2", "1"],  # unstored file: same path under another product
     ])
     check("web pages listed by URL, best first, titles escaped", rows[0].split(" | ")[6],
           "[Page \\[one\\] \\| x](https://vendor.test/one) (0.90) · [Page two](https://vendor.test/two) (0.75) |")
-    check("summary row", next(l for l in report.splitlines() if l.startswith("| [prod]")), "| [prod](#prod) | 8 | 4 | 3 | 1 | 1 | 3 |")
+    check("summary row", next(l for l in report.splitlines() if l.startswith("| [prod]")), "| [prod](#prod) | 8 | 5 | 3 | 2 | 1 | 3 |")
     check("covered directly, via child-of mapping, annotated or compound IDs are not candidates",
           [t for t in ("QUERY-covered", "QUERY-mapped", "QUERY-pending", "QUERY-b") if f"| `{t}`" in prod], [])
     check("pointer-table IDs listed, not candidates",
@@ -191,14 +196,22 @@ def test_all(tmp: Path) -> None:
 
 
 def test_output_restricted(tmp: Path) -> None:
-    bad = tmp / "bad.toml"
-    bad.write_text((candidates.HERE / "silo-candidates.toml").read_text().replace(
-        'output = "reports/silo-candidates.md"', 'output = "products/x.md"'), encoding="utf-8")
-    try:
-        candidates.load_config(bad, tmp)
-        failures.append("output outside reports/ accepted")
-    except candidates.ReadOnlyViolation:
-        pass
+    for out in ("products/x.md", "reports/review-queue.md", "reports/silo-candidates.json"):
+        bad = tmp / "bad.toml"
+        bad.write_text((candidates.HERE / "silo-candidates.toml").read_text().replace(
+            'output = "reports/silo-candidates.md"', f'output = "{out}"'), encoding="utf-8")
+        try:
+            candidates.load_config(bad, tmp)
+            failures.append(f"output {out} accepted")
+        except candidates.ReadOnlyViolation:
+            pass
+
+
+def test_cell_ids() -> None:
+    check("annotation with slashes inside parentheses", review.cell_ids("`A-x` **(X-B/X-C)**"), ["A-x"])
+    check("compound cells", (review.cell_ids("A-x / B-y"), review.cell_ids("A-x, B-y")),
+          (["A-x", "B-y"], ["A-x", "B-y"]))
+    check("not an ID", review.cell_ids("research file"), [])
 
 
 def test_single_write_site() -> None:
@@ -211,6 +224,7 @@ def main() -> int:
     with tempfile.TemporaryDirectory() as d:
         test_all(Path(d))
         test_output_restricted(Path(d))
+    test_cell_ids()
     test_single_write_site()
     if failures:
         print(f"FAILED ({len(failures)}):")

@@ -274,7 +274,8 @@ def load_config(path: Path = HERE / "silo-candidates.toml", repo: Path = REPO) -
     cfg["repo"] = repo
     cfg["silo_path"] = (repo / cfg["silo_path"]).resolve()
     cfg["output_path"] = (repo / cfg["output"]).resolve()
-    if cfg["output_path"].parent != (repo / "reports").resolve() or not cfg["output_path"].name.startswith("silo-candidates"):
+    if cfg["output_path"].parent != (repo / "reports").resolve() or not cfg["output_path"].name.startswith("silo-candidates") \
+            or cfg["output_path"].suffix != ".md":
         raise ReadOnlyViolation(f"{cfg['output_path']} is not reports/silo-candidates*.md (other reports belong to other tools)")
     return cfg
 
