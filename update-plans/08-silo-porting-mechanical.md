@@ -268,7 +268,7 @@ Copy into each PR description and tick there; the plan's *Merge checklist comple
   - [x] Owner approved the merge (2026-09-26 standing approval: merge after a passing review)
   - [x] Merged to `main` (`bdb5d6a`); branch deleted; issue closed with a result comment
 
-- [ ] **Step 8 — P8** · [#40](https://github.com/ivanmartynov3t/mongo_products_analisys/issues/40) · branch `feat/40-silo-sync`
+- [x] **Step 8 — P8** · [#40](https://github.com/ivanmartynov3t/mongo_products_analisys/issues/40) · branch `feat/40-silo-sync`
   - [x] Branch created from the latest `main`
   - [x] Implemented (issue scope only)
   - [x] New tests added; full suite passes locally (commands and results in the PR)
@@ -280,7 +280,7 @@ Copy into each PR description and tick there; the plan's *Merge checklist comple
   - [x] Docs updated (tool README, this plan; tool READMEs of silo-pins and taxonomy-reconcile for exit 2)
   - [x] Merge checklist complete
   - [x] Owner approved the merge (2026-09-26 standing approval: merge after a passing review)
-  - [ ] Merged to `main`; branch deleted; issue closed with a result comment
+  - [x] Merged to `main` (`74e99d5`); branch deleted; issue closed with a result comment
 
 - [ ] **Step 9 — P5** · [#37](https://github.com/ivanmartynov3t/mongo_products_analisys/issues/37) · branch `feat/37-evidence-gaps`
   - [ ] Branch created from the latest `main`
@@ -325,3 +325,4 @@ Copy into each PR description and tick there; the plan's *Merge checklist comple
 - 2026-09-26 — Step 7 (P4): review round 4 PASSED; merged: #47 squash `bdb5d6a`; #36 closed.
 - 2026-09-26 — Step 8 (P8): `tools/silo-sync/run.sh`. Real run at silo `55dbb2cb`: exit 0; all reports regenerated; taxonomy, scope triggers and pins quiet; re-pin plan: 7 pins could move, 0 need a human. The evidence-gap step is added with step 9 (P5), whose tool merges after this one.
 - 2026-09-26 — Step 8 (P8): review round 1 NOT PASSED — `SILO` not passed to the tools, a check crash read as "needs a human", taxonomy check tied to the silo checkout. Fixed: `--silo` on every call; `pins.py` and `reconcile.py` exit 2 on errors; reconcile reads `origin/main` files from a temp directory; triggers skipped when the snapshot fails; stub-`uv` tests.
+- 2026-09-26 — Step 8 (P8): review round 2 PASSED; merged: #50 squash `74e99d5`; #40 closed; weekly procedure posted on #17 and #18.
