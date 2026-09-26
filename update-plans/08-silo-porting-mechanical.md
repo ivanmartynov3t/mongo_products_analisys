@@ -283,17 +283,17 @@ Copy into each PR description and tick there; the plan's *Merge checklist comple
   - [x] Merged to `main` (`74e99d5`); branch deleted; issue closed with a result comment
 
 - [ ] **Step 9 — P5** · [#37](https://github.com/ivanmartynov3t/mongo_products_analisys/issues/37) · branch `feat/37-evidence-gaps`
-  - [ ] Branch created from the latest `main`
-  - [ ] Implemented (issue scope only)
-  - [ ] New tests added; full suite passes locally (commands and results in the PR)
-  - [ ] Tool run against the real silo; before/after summary in the PR
-  - [ ] Pull request opened: PR link: —
-  - [ ] Code review done; findings recorded on the PR (must fix: — · suggestions: —)
-  - [ ] All *must fix* findings fixed; tests re-run
-  - [ ] Re-review: no *must fix* left; suggestions fixed or accepted by the owner
-  - [ ] Docs updated (tool README, conventions, this plan)
-  - [ ] Merge checklist complete
-  - [ ] Owner approved the merge
+  - [x] Branch created from the latest `main`
+  - [x] Implemented (issue scope only)
+  - [x] New tests added; full suite passes locally (commands and results in the PR)
+  - [x] Tool run against the real silo; before/after summary in the PR
+  - [x] Pull request opened: PR link: [#48](https://github.com/ivanmartynov3t/mongo_products_analisys/pull/48)
+  - [x] Code review done; findings recorded on the PR (round 1: 2 must fix · 7 suggestions; round 2: 1 must fix, duplicated host matching · 3 minors · 1 warning; round 3 PASSED; all fixed; recorded in PR comments)
+  - [x] All *must fix* findings fixed; tests re-run
+  - [x] Re-review: no *must fix* left (round 3 PASSED); suggestions fixed or accepted by the owner
+  - [x] Docs updated (tool README, silo-sync README, this plan)
+  - [x] Merge checklist complete
+  - [x] Owner approved the merge (2026-09-26 standing approval: merge after a passing review)
   - [ ] Merged to `main`; branch deleted; issue closed with a result comment
 
 ### Risks
@@ -326,3 +326,4 @@ Copy into each PR description and tick there; the plan's *Merge checklist comple
 - 2026-09-26 — Step 8 (P8): `tools/silo-sync/run.sh`. Real run at silo `55dbb2cb`: exit 0; all reports regenerated; taxonomy, scope triggers and pins quiet; re-pin plan: 7 pins could move, 0 need a human. The evidence-gap step is added with step 9 (P5), whose tool merges after this one.
 - 2026-09-26 — Step 8 (P8): review round 1 NOT PASSED — `SILO` not passed to the tools, a check crash read as "needs a human", taxonomy check tied to the silo checkout. Fixed: `--silo` on every call; `pins.py` and `reconcile.py` exit 2 on errors; reconcile reads `origin/main` files from a temp directory; triggers skipped when the snapshot fails; stub-`uv` tests.
 - 2026-09-26 — Step 8 (P8): review round 2 PASSED; merged: #50 squash `74e99d5`; #40 closed; weekly procedure posted on #17 and #18.
+- 2026-09-26 — Step 9 (P5): PR #48; review round 1 NOT PASSED (ports kept local addresses out of *internal*; GitHub releases not crawlable, against #37). Fixed; the ID parser now comes from `review.matrix_table_ids`; the step is added to `tools/silo-sync/run.sh`. At silo `55dbb2cb`: 22 of 73 matrices cite no URL; 488 of 677 cited URLs untracked (278 crawlable on 124 domains, 160 excluded, 47 internal, 3 other GitHub pages); thin coverage: Navicat (95 IDs, 15 docs) and Govern (no silo product).

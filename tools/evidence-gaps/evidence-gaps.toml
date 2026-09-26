@@ -1,0 +1,60 @@
+# evidence-gaps configuration (issue #37). Paths are relative to the repository root.
+
+silo_path = "../prod_info_silo"
+silo_ref = "origin/main"
+# Citation parsing, silo reading and classification are tools/silo-review's.
+review_config = "tools/silo-review/silo-review.toml"
+snapshot = "reports/silo-snapshot.json"
+
+# The only file this tool is allowed to write.
+output = "reports/evidence-gaps.md"
+
+# Domain groups (a domain matches itself and its subdomains; a port is ignored). Anything not listed and not
+# a GitHub non-file page counts as "crawlable and compliant": a candidate silo seed for a
+# human to judge in prod_info_silo#47.
+
+# Internal systems and non-public addresses: not crawlable by design.
+internal_domains = [
+    "atlassian.net",
+    "docs.google.com",
+    "127.0.0.1",
+    "localhost",
+    "api.openai.com",
+    "studio.3t.io",         # 3T web app behind a login
+]
+
+# Excluded by policy: review sites and social media whose terms forbid scraping, and
+# community / feedback forums (the silo already blocks community.studio3t.com).
+excluded_domains = [
+    "reddit.com",
+    "g2.com",
+    "capterra.com",
+    "capterra.com.de",
+    "trustpilot.com",
+    "trustradius.com",
+    "softwareadvice.com",
+    "gartner.com",
+    "news.ycombinator.com",
+    "slashdot.org",
+    "stackoverflow.com",
+    "stackexchange.com",
+    "twitter.com",
+    "x.com",
+    "youtube.com",
+    "upwork.com",
+    "freelancermap.de",
+    "community.studio3t.com",
+    "forum.studio3t.com",
+    "groups.google.com",
+    "feedback.mongodb.com",
+    "youtrack.jetbrains.com",
+    "uservoice.com",
+    "useresponse.com",
+    # software directories and comparison aggregators, the same kind of page as g2 / capterra
+    "sourceforge.net",
+    "stackshare.io",
+    "crozdesk.com",
+    # paywalled
+    "scribd.com",
+    "packtpub.com",
+]

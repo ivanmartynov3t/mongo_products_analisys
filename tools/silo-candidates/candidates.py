@@ -33,8 +33,8 @@ HERE = Path(__file__).resolve().parent
 REPO = HERE.parent.parent
 
 sys.path.insert(0, str(HERE.parent / "silo-review"))
-from review import (FM_RE, SILO_GENERATED, ReadOnlyViolation, cat_batch, domain, frontmatter, git,  # noqa: E402
-                    guarded_write, matrix_table_ids, normalize_url)
+from review import (FM_RE, SILO_GENERATED, ReadOnlyViolation, cat_batch, frontmatter, git,  # noqa: E402
+                    guarded_write, host_matches, host_of, matrix_table_ids, normalize_url)
 
 
 class CandidatesError(RuntimeError):
@@ -105,8 +105,8 @@ def web_urls(silo: Path, sha: str, data_dir: str, paths: list[str]) -> dict[str,
 
 def is_public(url: str, non_public_hosts: list[str]) -> bool:
     """A page that may be named in this public report: not on a code host or internal system."""
-    host = domain(normalize_url(url)).split(":", 1)[0] if url else ""
-    return bool(host) and not any(host == h or host.endswith("." + h) for h in non_public_hosts)
+    norm = normalize_url(url) if url else ""
+    return bool(host_of(norm)) and not host_matches(norm, non_public_hosts)
 
 
 def shared_paths(silo: Path, sha: str, data_dir: str, by_product: dict[str, list[dict]]) -> set[str]:

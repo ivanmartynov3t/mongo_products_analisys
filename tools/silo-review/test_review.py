@@ -239,6 +239,8 @@ def test_end_to_end(tmp: Path) -> None:
     check("unchanged citations in reports are not queued", "README.md" in other, False)
     check("matrices are not repeated in the reports section", "feature-matrix.md" in other, False)
     check("reports section counts files that cite a URL", "3 of 5 other files that cite a URL" in other, True)
+    check("host_matches: subdomain, port, look-alike", [review.host_matches(n, ["vendor.test"]) for n in
+          ("vendor.test/a", "docs.vendor.test/a", "vendor.test:8080/a", "notvendor.test/a")], [True, True, True, False])
     check("link targets are URL-encoded", review._link("research/a b/c.md"), "[research/a b/c.md](../research/a%20b/c.md)")
 
     # deterministic: same silo commit, same output
