@@ -131,6 +131,8 @@ def build_repo(root: Path) -> None:
     (root / "products/g/vendor/features/data-transfer/feature-matrix.md").write_text(MATRIX, encoding="utf-8")
     (root / "reports").mkdir()
     (root / "README.md").write_text("See https://vendor.test/stable for details.\n", encoding="utf-8")
+    (root / "reports/summary.md").write_text("Export formats: https://vendor.test/export and https://vendor.test/stable\n", encoding="utf-8")
+    (root / "reports/dated.md").write_text("- Analysis date: 2026-09-09\n\nSee https://vendor.test/export\n", encoding="utf-8")
     (root / "tools/silo-review").mkdir(parents=True)
     (root / "tools/silo-review/silo-review.toml").write_text(
         'silo_path = "../silo"\nsilo_ref = "HEAD"\nsilo_data_dir = "data"\noutput = "reports/review-queue.md"\n'
@@ -211,6 +213,15 @@ def test_end_to_end(tmp: Path) -> None:
           k("https://github.com/o/r/blob/abc/a.md?plain=1"), k("https://github.com/o/r/tree/abc/docs"),
           k("https://github.com/o/r/blob/abc"), k("https://gitlab.com/o/r/blob/abc/a.md")],
           ["github.com/o/r/blob/*/a.md", "github.com/o/r/blob/*/a.md", "github.com/o/r/blob/*/a.md", None, None, None])
+
+    other = report.split("## 1b. Reports and research")[1].split("\n## ")[0]
+    check("reports citing a changed page are queued (review date = last commit)",
+          "| [reports/summary.md](../reports/summary.md) | 2026-09-02 | 1 | 0 |" in other, True)
+    check("a report's own Analysis date is its review date", "reports/dated.md" in other, False)
+    check("unchanged citations in reports are not queued", "README.md" in other, False)
+    check("matrices are not repeated in the reports section", "feature-matrix.md" in other, False)
+    check("reports section counts files", "1 of 3 other files" in other, True)
+    check("link targets are URL-encoded", review._link("research/a b/c.md"), "[research/a b/c.md](../research/a%20b/c.md)")
 
     # deterministic: same silo commit, same output
     check("deterministic output", review.run(cfg, "plan"), report)

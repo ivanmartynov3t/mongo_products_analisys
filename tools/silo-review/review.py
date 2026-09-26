@@ -28,6 +28,7 @@ from collections import defaultdict
 from dataclasses import dataclass, field
 from datetime import date, datetime, timedelta
 from pathlib import Path, PurePosixPath
+from urllib.parse import quote
 
 HERE = Path(__file__).resolve().parent
 REPO = HERE.parent.parent
@@ -447,7 +448,7 @@ def _classify(norm: str, review_date: str | None, silo: Silo, hist_cache: dict) 
 
 
 def _link(file: str) -> str:
-    return f"[{file}](../{file})"
+    return f"[{file}](../{quote(file)})"  # research file names contain spaces
 
 
 def build_report(cfg: dict, silo: Silo, matrices: list[Matrix], cites: dict[str, list[Citation]], dates: dict[str, str]) -> str:
@@ -510,6 +511,40 @@ def build_report(cfg: dict, silo: Silo, matrices: list[Matrix], cites: dict[str,
                 via = ", same file at the silo's commit" if v.by_repo_path else ""
                 L.append(f"- {sid}<{c.url}> — {what} (silo: `{v.docs[0].path}`{via})")
             L.append("")
+    # 1b. reports and research (issue #39): other files that cite a page that moved.
+    # Review date = the file's own "Analysis date", else its last commit date (as in section 2).
+    matrix_files = {m.file for m in matrices}
+    per_file: dict[str, list[Citation]] = defaultdict(list)
+    for cl in cites.values():
+        for c in cl:
+            if c.file not in matrix_files and all(c.norm != x.norm for x in per_file[c.file]):
+                per_file[c.file].append(c)
+    other_rows = []
+    for f in sorted(per_file):
+        flagged = [(c, v) for c in per_file[f]
+                   if (v := classify(c.norm, dates.get(f), silo, cache)).status in NEEDS_REVIEW]
+        if flagged:
+            other_rows.append((f, flagged))
+    other_rows.sort(key=lambda r: (-sum(v.status == TRACKED_CHANGED for _, v in r[1]), -len(r[1]), r[0]))
+    L += ["## 1b. Reports and research", "",
+          f"{len(other_rows)} of {len(per_file)} other files (reports, research, docs) cite at least one page that moved "
+          "after the file's review date (its `Analysis date`, otherwise its last commit date).", ""]
+    if other_rows:
+        L += ["| File | Reviewed | Changed since review | Server reports newer |", "|---|---|---|---|"]
+        for f, flagged in other_rows:
+            n = sum(v.status == TRACKED_CHANGED for _, v in flagged)
+            L.append(f"| {_link(f)} | {dates.get(f) or '—'} | {n} | {len(flagged) - n} |")
+        L.append("")
+        for f, flagged in other_rows:
+            L += [f"### {f}", "", f"Reviewed {dates.get(f) or '—'}.", ""]
+            for c, v in sorted(flagged, key=lambda cv: (ORDER.index(cv[1].status), cv[0].norm)):
+                if v.status == TRACKED_CHANGED:
+                    what = f"content changed ({', '.join(v.changes)})"
+                else:
+                    what = f"server `Last-Modified` {v.last_modified}"
+                L.append(f"- <{c.url}> — {what} (silo: `{v.docs[0].path}`)")
+            L.append("")
+
     no_date = [r[0].file for r in rows if not r[0].review_date]
     no_src = [r[0].file for r in rows if r[0].review_date and not r[0].citations]
     if no_date or no_src:

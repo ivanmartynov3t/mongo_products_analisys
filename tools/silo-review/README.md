@@ -16,6 +16,7 @@ Needs a full (not shallow) clone of `prod_info_silo` next to this repository; `g
 [`reports/review-queue.md`](../../reports/review-queue.md), regenerated on each run and committed, so every change to the queue is reviewable in a PR.
 
 1. **Staleness queue** — per feature matrix, the cited pages that moved after its `Analysis date`, most-changed first, with source ID, change dates, the new text and the silo file.
+1b. **Reports and research** — the same check for every other scanned file (reports, research, docs, product reports), with the file's `Analysis date` as its review date, otherwise its last commit date (issue #39). Research files are dated by their last commit, so a page that changed before a later unrelated edit is not flagged.
 2. **Citation health** — every distinct URL cited anywhere in the repository, classified:
 
 | Status | Meaning |
