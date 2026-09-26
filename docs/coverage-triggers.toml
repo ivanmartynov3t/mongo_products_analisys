@@ -2,14 +2,15 @@
 # Checked by tools/scope-triggers against reports/silo-snapshot.json.
 #
 # Per product (silo slug):
-#   decision              the decision recorded in coverage-scope.md (for the report only)
-#   recorded_status       silo status when the decision was taken; any other status fires
-#   status_in             fires when the silo status is one of these
-#   min_catalog_entries   fires when the silo's catalog holds at least this many entries
-#   manual                a trigger no script can check; listed for the human, never fires
+#   decision              the decision in coverage-scope.md, as amended 2026-09-25 (for the report only)
+#   recorded_status       the table's *Silo status*; another status that is not a trigger is only noted
+#   status_in             the *Revisit trigger*: fires when the silo status is one of these
+#   min_catalog_entries   the *Revisit trigger*: fires when the silo's catalog holds at least this many entries
+#   manual                a *Revisit trigger* no script can check; listed for the human, never fires
 #
-# A 3T product in the snapshot with no analysis folder and no entry here also fires
-# ("untracked"), and so does an entry here that is missing from the snapshot.
+# Also fires: a 3T product in the snapshot with no analysis folder and no entry here ("untracked"),
+# an entry here that is missing from the snapshot, and an entry for a product that is now analysed.
+# Out-of-scope rows have no trigger, so they never fire (coverage-scope.md: skip them).
 
 [products.policy-engine]
 decision = "In scope — inside Govern"
@@ -34,7 +35,7 @@ status_in = ["Shipped", "Live", "GA"]
 [products.studio-3t-ai-chat]
 decision = "Revisit later"
 recorded_status = "Internal demo only"
-# "Released": any change from the recorded status fires via recorded_status.
+status_in = ["Released", "Live", "Shipped", "GA"]
 
 [products.enterprise-data-suite]
 decision = "Revisit later"

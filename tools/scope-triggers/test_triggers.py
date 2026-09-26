@@ -34,7 +34,19 @@ recorded_status = "PoC"
 recorded_status = "PoC"
 status_in = ["Shipped"]
 
+[products.drifted]
+recorded_status = "PoC"
+status_in = ["Shipped"]
+
+[products.out]
+decision = "Out of scope"
+recorded_status = "Live"
+
 [products.big]
+recorded_status = "Planned"
+min_catalog_entries = 20
+
+[products.edge]
 recorded_status = "Planned"
 min_catalog_entries = 20
 
@@ -47,6 +59,9 @@ recorded_status = "Live"
 manual = "It ships standalone"
 
 [products.vanished]
+recorded_status = "Live"
+
+[products.moved]
 recorded_status = "Live"
 
 [products.analysed]
@@ -63,9 +78,13 @@ SNAPSHOT = {
     "products": [
         row("same", "PoC"),
         row("shipped", "Shipped"),
+        row("drifted", "Beta"),
+        row("out", "Deprecated"),
         row("big", "Planned", 25),
-        row("small", "Planned", 3),
+        row("edge", "Planned", 20),
+        row("small", "Planned", 19),
         row("manual", "Live"),
+        row("moved", "Live", category="third-party"),
         row("analysed", "Beta", folder="products/3t/analysed"),
         row("newcomer", "Alpha"),
         row("competitor", "", category="third-party"),
@@ -77,30 +96,47 @@ def test_check(tmp: Path) -> None:
     tpath, spath = tmp / "t.toml", tmp / "s.json"
     tpath.write_text(TOML, encoding="utf-8")
     spath.write_text(json.dumps(SNAPSHOT), encoding="utf-8")
-    fired, manual = triggers.check(triggers.load_triggers(tpath), SNAPSHOT)
-    got = sorted((f.slug, f.reason.split(":")[0].split(" (")[0]) for f in fired)
-    check("fired triggers", got, [
-        ("big", "silo holds 25 catalog entries"),
-        ("newcomer", "untracked"),
-        ("shipped", "status changed"),
-        ("shipped", "status is Shipped"),
-        ("vanished", "in coverage-triggers.toml but not in the silo snapshot"),
-    ])
-    check("manual triggers listed, never fired", [(m.slug, m.reason) for m in manual], [("manual", "It ships standalone")])
     code, text = triggers.run(tpath, spath)
+    check("report (sorted by slug; noted changes never fire)", text, "\n".join([
+        "Coverage triggers at silo aaaaaaaaaa (2026-09-26): 7 fired",
+        "",
+        "FIRED   analysed: entry obsolete: now analysed in products/3t/analysed; "
+        "remove it from coverage-triggers.toml and coverage-scope.md",
+        "FIRED   big: silo holds 25 catalog entries (trigger: ≥ 20)",
+        "FIRED   edge: silo holds 20 catalog entries (trigger: ≥ 20)",
+        "FIRED   moved: no longer a 3T product in the silo snapshot (category third-party)",
+        "FIRED   newcomer: untracked: silo product (status Alpha) with no analysis folder and no coverage decision",
+        "FIRED   shipped: status is Shipped (was PoC)",
+        "FIRED   vanished: in coverage-triggers.toml but not in the silo snapshot",
+        "",
+        "Check by hand (not machine-checkable):",
+        "        manual: It ships standalone",
+        "",
+        "Noted, no action (status changes that are not revisit triggers):",
+        "        drifted: status changed: PoC → Beta (not a revisit trigger)",
+        "        out: status changed: Live → Deprecated (not a revisit trigger)",
+    ]))
     check("exit 1 when fired", code, 1)
-    check("report names the silo commit", "aaaaaaaaaa" in text, True)
     check("deterministic", triggers.run(tpath, spath), (code, text))
 
-    quiet = {"silo": SNAPSHOT["silo"], "products": [row("same", "PoC")]}
+    quiet = {"silo": SNAPSHOT["silo"], "products": [row("same", "PoC"), row("out", "Deprecated")]}
     spath.write_text(json.dumps(quiet), encoding="utf-8")
-    tpath.write_text('[products.same]\nrecorded_status = "PoC"\n', encoding="utf-8")
-    check("exit 0 when nothing fired", triggers.run(tpath, spath)[0], 0)
+    tpath.write_text('[products.same]\nrecorded_status = "PoC"\n[products.out]\nrecorded_status = "Live"\n', encoding="utf-8")
+    check("exit 0 when only noted changes", triggers.run(tpath, spath)[0], 0)
 
 
 def test_config_errors(tmp: Path) -> None:
-    for name, text in {"empty": "", "unknown key": '[products.x]\nrecorded_status = "A"\nstatus = "B"\n',
-                       "no recorded_status": '[products.x]\nstatus_in = ["A"]\n'}.items():
+    cases = {
+        "empty": "",
+        "empty products": "[products]\n",
+        "unknown key": '[products.x]\nrecorded_status = "A"\nstatus = "B"\n',
+        "no recorded_status": '[products.x]\nstatus_in = ["A"]\n',
+        "recorded_status not a string": "[products.x]\nrecorded_status = 5\n",
+        "status_in a string": '[products.x]\nrecorded_status = "A"\nstatus_in = "Shipped"\n',
+        "min_catalog_entries a string": '[products.x]\nrecorded_status = "A"\nmin_catalog_entries = "20"\n',
+        "min_catalog_entries negative": '[products.x]\nrecorded_status = "A"\nmin_catalog_entries = -1\n',
+    }
+    for name, text in cases.items():
         p = tmp / f"{name}.toml"
         p.write_text(text, encoding="utf-8")
         try:
@@ -108,11 +144,25 @@ def test_config_errors(tmp: Path) -> None:
             failures.append(f"{name}: accepted")
         except triggers.TriggerConfigError:
             pass
+    ok = tmp / "ok.toml"
+    ok.write_text('[products.x]\nrecorded_status = "A"\n', encoding="utf-8")
+    for name, text in {"no products": '{"silo": {"commit": "a"}}', "not json": "{", "no commit": '{"products": []}'}.items():
+        sp = tmp / f"{name}.json"
+        sp.write_text(text, encoding="utf-8")
+        check(f"exit 2 on a bad snapshot: {name}", triggers.main(["--triggers", str(ok), "--snapshot", str(sp)]), 2)
+    check("exit 2 on a missing snapshot", triggers.main(["--triggers", str(ok), "--snapshot", str(tmp / "none.json")]), 2)
 
 
-def test_real_config_is_valid() -> None:
+def test_real_config_matches_coverage_scope() -> None:
     t = triggers.load_triggers(triggers.TRIGGERS)
-    check("every coverage-scope product has a trigger entry", len(t), 12)
+    table = {}
+    for line in (triggers.REPO / "docs" / "coverage-scope.md").read_text(encoding="utf-8").splitlines():
+        m = re.match(r"^\| `([a-z0-9-]+)` \| ([^|]+?) \|", line)
+        if m:
+            table[m.group(1)] = m.group(2)
+    check("coverage-scope.md table and TOML list the same products", sorted(t), sorted(table))
+    check("recorded_status equals the table's Silo status",
+          {s: v["recorded_status"] for s, v in t.items()}, table)
 
 
 def test_writes_nothing() -> None:
@@ -124,7 +174,7 @@ def main() -> int:
     with tempfile.TemporaryDirectory() as d:
         test_check(Path(d))
         test_config_errors(Path(d))
-    test_real_config_is_valid()
+    test_real_config_matches_coverage_scope()
     test_writes_nothing()
     if failures:
         print(f"FAILED ({len(failures)}):")

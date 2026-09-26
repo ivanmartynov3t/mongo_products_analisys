@@ -8,7 +8,7 @@ Evidence per product: release status, track and description from `prod_info_silo
 
 The *Docs* column records the silo's catalog count at the decision (silo `cde319c742`). Current counts: [silo snapshot](../reports/silo-snapshot.md).
 
-**Revisit triggers are machine-checked.** The *Revisit trigger* column is encoded in [`coverage-triggers.toml`](coverage-triggers.toml) and checked by [`tools/scope-triggers`](../tools/scope-triggers/README.md) (`uv run tools/scope-triggers/triggers.py`, exit 1 if any fired). Change both together.
+**Revisit triggers are machine-checked.** The *Revisit trigger* column is encoded in [`coverage-triggers.toml`](coverage-triggers.toml) and checked by [`tools/scope-triggers`](../tools/scope-triggers/README.md) (`uv run tools/scope-triggers/triggers.py`, exit 1 if any fired). Out-of-scope rows have no trigger and never fire; a status change that is not a trigger is listed as *noted, no action*. A new 3T silo product with no decision also fires. Change the table and the TOML together; a test checks they match.
 
 ## Decision rule
 
