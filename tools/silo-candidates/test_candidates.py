@@ -235,6 +235,11 @@ def test_ledger(cfg: dict, repo: Path, silo: Path, untriaged: str) -> None:
         "bad count": ledger_row("QUERY-new", "noise", 2).replace("\t2\t", "\ttwo\t"),
         "bad sha": ledger_row("QUERY-new", "noise", 2).replace("abcdef1", "HEAD"),
         "empty ref": ledger_row("QUERY-new", "noise", 2, ref=""),
+        "impossible date": ledger_row("QUERY-new", "noise", 2).replace("2026-09-26", "2026-02-30"),
+        "empty tag": ledger_row("", "noise", 2),
+        "tag with markdown": ledger_row("QUERY-new`x", "noise", 2),
+        "non-ASCII count": ledger_row("QUERY-new", "noise", 2).replace("\t2\t", "\t\u00b2\t"),
+        "folder without a silo product": ledger_row("QUERY-new", "noise", 2, product="unmatched"),
         "column count": "prod\tQUERY-new\tnoise\n",
     }
     for name, rows in bad_rows.items():
@@ -244,6 +249,17 @@ def test_ledger(cfg: dict, repo: Path, silo: Path, untriaged: str) -> None:
             failures.append(f"ledger {name} accepted")
         except candidates.CandidatesError:
             pass
+    # needs-human drops out of the waiting list once it is re-opened, or once it is no longer a lead
+    ledger.write_text(HEADER + ledger_row("QUERY-repo", "needs-human", 0) + ledger_row("QUERY-weak", "needs-human", 0),
+                      encoding="utf-8")
+    prod = candidates.run(cfg, "plan").split("## prod")[1]
+    check("needs-human for a tag that is not a lead is not listed", "`QUERY-weak`" in prod, False)
+    check("needs-human still a lead is listed", "(`needs-human` in the ledger): `QUERY-repo`" in prod, True)
+    ledger.write_text(HEADER + ledger_row("QUERY-new", "needs-human", 1), encoding="utf-8")
+    prod = candidates.run(cfg, "plan").split("## prod")[1]
+    check("re-opened needs-human is in the table, not the waiting list",
+          ("| `QUERY-new` (re-opened: needs-human with 1 web)" in prod, "Waiting for a human" in prod), (True, False))
+
     ledger.write_text("product\ttag\n", encoding="utf-8")
     try:
         candidates.run(cfg, "plan")

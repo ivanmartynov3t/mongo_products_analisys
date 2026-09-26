@@ -31,6 +31,7 @@ import sys
 import tomllib
 from collections import defaultdict
 from dataclasses import dataclass, field
+from datetime import date
 from pathlib import Path, PurePosixPath
 
 HERE = Path(__file__).resolve().parent
@@ -76,8 +77,16 @@ def load_mapping(tsv: Path) -> dict[str, str]:
 
 OUTCOMES = ("add-row", "existing-row", "other-product", "noise", "needs-human")
 LEDGER_COLUMNS = ["product", "tag", "outcome", "date", "silo_commit", "web_docs", "ref"]
-_DATE_RE = re.compile(r"\d{4}-\d{2}-\d{2}")
 _SHA_RE = re.compile(r"[0-9a-f]{7,40}")
+_TAG_RE = re.compile(r"[A-Z]+-[A-Za-z0-9-]+")   # every silo tag; the tag is the one ledger field the report shows
+_COUNT_RE = re.compile(r"[0-9]+")
+
+
+def _is_date(text: str) -> bool:
+    try:
+        return bool(re.fullmatch(r"[0-9]{4}-[0-9]{2}-[0-9]{2}", text)) and bool(date.fromisoformat(text))
+    except ValueError:
+        return False
 
 
 @dataclass(frozen=True)
@@ -106,15 +115,15 @@ def load_ledger(path: Path, products: set[str]) -> dict[tuple[str, str], Decisio
         problems = []
         if r["product"] not in products:
             problems.append(f"unknown product {r['product']!r}")
-        if not r["tag"]:
-            problems.append("empty tag")
+        if not _TAG_RE.fullmatch(r["tag"]):
+            problems.append(f"tag {r['tag']!r} is not a silo tag (e.g. QUERY-projection)")
         if r["outcome"] not in OUTCOMES:
             problems.append(f"outcome {r['outcome']!r} is not one of {', '.join(OUTCOMES)}")
-        if not _DATE_RE.fullmatch(r["date"]):
-            problems.append(f"date {r['date']!r} is not YYYY-MM-DD")
+        if not _is_date(r["date"]):
+            problems.append(f"date {r['date']!r} is not a YYYY-MM-DD date")
         if not _SHA_RE.fullmatch(r["silo_commit"]):
             problems.append(f"silo_commit {r['silo_commit']!r} is not 7-40 lowercase hex")
-        if not r["web_docs"].isdigit():
+        if not _COUNT_RE.fullmatch(r["web_docs"]):
             problems.append(f"web_docs {r['web_docs']!r} is not a count")
         if not r["ref"]:
             problems.append("empty ref (a PR or a one-line reason)")
@@ -245,6 +254,10 @@ def build(cfg: dict, silo: Path, ref: str) -> str:
     folders = {d.name for d in (repo / cfg["products_dir"]).glob("*/*") if d.is_dir()}
     ledger = load_ledger(repo / cfg["triage_ledger"], folders)
     sha, cdate, by_product = load_catalog(silo, ref, cfg["silo_catalog"], cfg["silo_data_dir"])
+    no_silo = sorted({p for p, _ in ledger if p not in by_product})
+    if no_silo:
+        raise CandidatesError(f"{PurePosixPath(cfg['triage_ledger']).name}: no silo product for "
+                              + ", ".join(no_silo) + " (such rows would have no effect)")
     mapping = load_mapping(repo / cfg["reconciliation_tsv"])
     tag_to_ids: dict[str, set[str]] = defaultdict(set)
     for i, tag in mapping.items():
@@ -301,7 +314,7 @@ def build(cfg: dict, silo: Path, ref: str) -> str:
         pointer_tags = {mapping.get(i, i) for i in pointer_ids} - covered_tags
         sig = signals_for(by_product[slug], urls, shared, min_prob, hosts)
         leads = [s for t, s in sig.items() if s.total >= min_docs and t not in covered_tags]
-        decided = {t: d for (p, t), d in ledger.items() if p == slug}
+        decided = {t: dec for (p, t), dec in ledger.items() if p == slug}
         reopened = {s.tag for s in leads if s.tag in decided and len(s.web) > decided[s.tag].web_docs}
         cands = sorted((s for s in leads if s.tag not in pointer_tags and (s.tag not in decided or s.tag in reopened)),
                        key=lambda s: (-len(s.web), -s.total, s.tag))
@@ -326,7 +339,9 @@ def build(cfg: dict, silo: Path, ref: str) -> str:
                         if s.tag in reopened else "")
                 S.append(f"| `{s.tag}`{note} | {aka} | {len(s.web)} | {s.repo_docs} | {s.source_files} | {s.shared} | {pages} |")
             S.append("")
-        waiting = sorted(t for t, d in decided.items() if d.outcome == "needs-human" and t not in reopened)
+        lead_tags = {s.tag for s in leads}
+        waiting = sorted(t for t, dec in decided.items()
+                         if dec.outcome == "needs-human" and t in lead_tags and t not in reopened)
         if waiting:
             S += ["Waiting for a human (`needs-human` in the ledger): " + ", ".join(f"`{t}`" for t in waiting), ""]
         if elsewhere:

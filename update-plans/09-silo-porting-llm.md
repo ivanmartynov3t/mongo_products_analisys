@@ -73,7 +73,7 @@ Each step has one issue and one PR.
 
 | # | Step | Issue | What |
 |---|---|---|---|
-| 1 | L1 Triage ledger | [#52](https://github.com/ivanmartynov3t/mongo_products_analisys/issues/52) | Add `tools/silo-candidates/triage.tsv`: product, tag, outcome, date, silo commit, PR or reason. `candidates.py` hides decided candidates and re-opens one if its web-document count grows. |
+| 1 | L1 Triage ledger | [#52](https://github.com/ivanmartynov3t/mongo_products_analisys/issues/52) | Add `tools/silo-candidates/triage.tsv`: product, tag, outcome, date, silo commit, `web_docs` (the candidate's Web count when decided), PR or reason. `candidates.py` hides decided candidates and re-opens one when its Web count rises above `web_docs`. |
 | 2 | L4 Validator | [#53](https://github.com/ivanmartynov3t/mongo_products_analisys/issues/53) | Add `tools/silo-candidates/validate.py`. It checks that each ID exists, each status is legal and carries its required fields, and pins resolve. It also checks that quotes appear word for word in the pinned page, that no private host or repository is named, that every batch candidate has one ledger row, and that the diff stays in scope. Exit codes: 0 clean, 1 needs a human, 2 error. |
 | 3 | L2 Evidence batches | [#54](https://github.com/ivanmartynov3t/mongo_products_analisys/issues/54) | Add `tools/silo-candidates/batch.py`, run by `run.sh`. It writes every public silo page per open candidate to a gitignored `.local/silo-batches/` folder. Private documents are left out. |
 | 4 | L3 `/silo-port` | [#55](https://github.com/ivanmartynov3t/mongo_products_analisys/issues/55) | Add `.claude/commands/silo-port.md`. It implements the loop above and reuses weekly prompts 01 and 03 and the README prompt. Re-running it resumes at the first unticked item. |
@@ -105,6 +105,57 @@ Each step has one issue and one PR.
 2. **The 104 private-source candidates.** Recommendation: a separate plan. That plan needs a rule for how private-source findings may be worded publicly, and no such rule exists yet.
 3. **Access date for ✅.** Recommendation: accept the silo's retrieval date within a window the owner sets (for example 30 days); otherwise re-fetch the page live.
 4. **Merging in the loop.** Recommendation: during the pilot, the loop waits for the owner to merge each PR. After the gate, the owner may grant standing approval once a review passes.
+
+## Progress
+
+**State rule.** A box is ticked only after the item is done and verified. Tick it on the branch, in the same commit as the work. Tick a step's heading box only when all its sub-items are ticked. The merge checklist is Plan 08's, copied into each PR.
+
+- [ ] **Step 1 — L1** · [#52](https://github.com/ivanmartynov3t/mongo_products_analisys/issues/52) · branch `feat/52-candidate-triage-ledger`
+  - [x] Branch created from the latest `main`
+  - [x] Implemented (issue scope only)
+  - [x] New tests added; full suite passes locally
+  - [x] Tool run against the real silo; summary in the PR
+  - [x] Pull request opened: [#58](https://github.com/ivanmartynov3t/mongo_products_analisys/pull/58)
+  - [x] Code review done; findings recorded on the PR (round 1: PASSED, 0 must fix · 5 should-fix · 8 nits)
+  - [ ] Findings fixed or accepted by the owner; re-review has no *must fix* left
+  - [x] Docs updated
+  - [ ] Merge checklist complete
+  - [ ] Merged to `main` (squash); branch deleted; issue closed with a result comment
+- [ ] **Step 2 — L4** · [#53](https://github.com/ivanmartynov3t/mongo_products_analisys/issues/53)
+  - [ ] Branch created from the latest `main`
+  - [ ] Implemented (issue scope only)
+  - [ ] New tests added; full suite passes locally
+  - [ ] Tool run against the real silo; summary in the PR
+  - [ ] Pull request opened
+  - [ ] Code review done; findings recorded on the PR
+  - [ ] Findings fixed or accepted by the owner; re-review has no *must fix* left
+  - [ ] Docs updated
+  - [ ] Merge checklist complete
+  - [ ] Merged to `main` (squash); branch deleted; issue closed with a result comment
+- [ ] **Step 3 — L2** · [#54](https://github.com/ivanmartynov3t/mongo_products_analisys/issues/54)
+  - [ ] Branch created from the latest `main`
+  - [ ] Implemented (issue scope only)
+  - [ ] New tests added; full suite passes locally
+  - [ ] Tool run against the real silo; summary in the PR
+  - [ ] Pull request opened
+  - [ ] Code review done; findings recorded on the PR
+  - [ ] Findings fixed or accepted by the owner; re-review has no *must fix* left
+  - [ ] Docs updated
+  - [ ] Merge checklist complete
+  - [ ] Merged to `main` (squash); branch deleted; issue closed with a result comment
+- [ ] **Step 4 — L3** · [#55](https://github.com/ivanmartynov3t/mongo_products_analisys/issues/55)
+  - [ ] Branch created from the latest `main`
+  - [ ] Implemented (issue scope only)
+  - [ ] New tests added; full suite passes locally
+  - [ ] Tool run against the real silo; summary in the PR
+  - [ ] Pull request opened
+  - [ ] Code review done; findings recorded on the PR
+  - [ ] Findings fixed or accepted by the owner; re-review has no *must fix* left
+  - [ ] Docs updated
+  - [ ] Merge checklist complete
+  - [ ] Merged to `main` (squash); branch deleted; issue closed with a result comment
+- [ ] **Step 5 — L5 pilot** · [#56](https://github.com/ivanmartynov3t/mongo_products_analisys/issues/56) · items in [`09-product-loop.md`](09-product-loop.md); stops at the owner's go/no-go gate
+- [ ] **Step 6 — L6 rollout** · [#57](https://github.com/ivanmartynov3t/mongo_products_analisys/issues/57) · items in [`09-product-loop.md`](09-product-loop.md)
 
 ## Execution log
 
