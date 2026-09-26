@@ -33,10 +33,11 @@ sys.path.insert(0, str(HERE.parent / "silo-review"))
 from review import (FM_RE, SOURCE_LINE_RE, ReadOnlyViolation, cat_batch, frontmatter, git,  # noqa: E402
                     repo_files)
 
-PIN_RE = re.compile(r"silo: `(data/[^`@\s]+)@([0-9a-fA-F]{7,40})`")
+_NOT_A_NAME = r"(?<![A-Za-z0-9])(?<![A-Za-z0-9]_)"  # not prod_info_silo; _italics_ are fine
+PIN_RE = re.compile(_NOT_A_NAME + r"silo: `(data/[^`@\s]+/[^`@\s/]+\.md)@([0-9a-fA-F]{7,40})`")  # one file, never a directory
 # Text that looks like a pin but does not match PIN_RE (`Silo:`, no space, short or symbolic commit).
 # A silo directory mention ("silo `data/3t/pii-scanner`") names no file and is not a near miss.
-NEAR_PIN_RE = re.compile(r"silo:?\s*`data/[^`]*(?:@|\.md)[^`]*`", re.I)
+NEAR_PIN_RE = re.compile(_NOT_A_NAME + r"silo:?\s*`data/[^`]*(?:@|\.md)[^`]*`", re.I)
 
 CURRENT = "current"            # pinned at the silo ref already
 UNCHANGED = "unchanged"        # same content at the silo ref: safe to re-pin
@@ -74,7 +75,7 @@ def find_pins(cfg: dict, repo: Path) -> tuple[list[Pin], list[str]]:
                 pins.append(Pin(rel, i, sid.group(1) if sid else "", m.group(1), m.group(2)))
             for m in NEAR_PIN_RE.finditer(line):
                 if not PIN_RE.fullmatch(m.group(0)):
-                    warnings.append(f"{rel}:{i}: malformed pin {m.group(0)!r} (expected silo: `data/<path>@<commit>`)")
+                    warnings.append(f"{rel}:{i}: malformed pin {m.group(0)!r} (expected silo: `data/<category>/<product>/<file>.md@<commit>`)")
     return pins, warnings
 
 

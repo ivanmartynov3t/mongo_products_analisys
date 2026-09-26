@@ -10,7 +10,9 @@ Runs on a throwaway silo and a throwaway analysis repository in a temp directory
 
 from __future__ import annotations
 
+import contextlib
 import hashlib
+import io
 import re
 import subprocess
 import sys
@@ -131,6 +133,11 @@ def test_all(tmp: Path) -> None:
         pins.CHANGED, pins.UNCHANGED, pins.CHANGED, pins.UNCHANGED, pins.UNCHANGED, pins.BROKEN,
         pins.UNCHANGED])
 
+    ahead, _ = pins.find_pins(cfg, repo)
+    pins.evaluate(ahead, silo, c1)
+    check("a pin ahead of the ref is broken (repin would move it backwards)",
+          next(p.status for p in ahead if p.source_id == "S7"), pins.BROKEN)
+
     matrix = repo / "products/p/features/f/feature-matrix.md"
     before, silo_before = hashes(repo), hashes(silo)
     code, text = pins.run(cfg, "list")
@@ -168,11 +175,34 @@ def test_check(tmp: Path) -> None:
     note.write_text(f"- S1: x (silo: `data/x/a.md@{c1[:8]}`; folder silo `data/x`)\n", encoding="utf-8")
     cfg = config(repo, silo)
     check("check passes when no pin is broken", pins.run(cfg, "check")[0], 0)
-    note.write_text(note.read_text() + "- S2: y (Silo: `data/x/a.md@HEAD`)\n", encoding="utf-8")
+    note.write_text(note.read_text() + "- also prod_info_silo `data/x/a.md` (a repository name, not a pin)\n", encoding="utf-8")
+    check("'prod_info_silo' is not 'silo'", pins.run(cfg, "check")[0], 0)
+    note.write_text(note.read_text() + f"- _silo: `data/x/a.md@{c1[:8]}`_ (a valid pin in italics)\n"
+                    f"- prod_info_silo: `data/x/a.md@{c1[:8]}` (not a pin)\n", encoding="utf-8")
+    found, warnings = pins.find_pins(cfg, repo)
+    check("valid italic pin is a pin, prod_info_silo is not; no warnings", ([p.line for p in found], warnings), ([1, 3], []))
+    note.write_text(note.read_text() + "- S2: y (Silo: `data/x/a.md@HEAD`)\n"
+                    f"- S3: y (silo:`data/x/a.md@{c1[:8]}`)\n"
+                    "- S4: y (silo: `data/x/a.md@abc12`)\n"
+                    f"- S5: y (silo: `data/x@{c1[:8]}`)\n"
+                    "- S6: y (silo `data/x/a.md`)\n"
+                    "- S7: y _silo: `data/x/a.md@HEAD`_\n", encoding="utf-8")
     code, text = pins.run(cfg, "check")
     check("check fails on a malformed pin", code, 1)
-    check("malformed pin is reported", text.splitlines()[-1],
-          "warning: docs/note.md:2: malformed pin 'Silo: `data/x/a.md@HEAD`' (expected silo: `data/<path>@<commit>`)")
+    check("malformed pins are reported (HEAD, no space, short hex, directory)", [l for l in text.splitlines() if l.startswith("warning")], [
+        "warning: docs/note.md:5: malformed pin 'Silo: `data/x/a.md@HEAD`' (expected silo: `data/<category>/<product>/<file>.md@<commit>`)",
+        f"warning: docs/note.md:6: malformed pin 'silo:`data/x/a.md@{c1[:8]}`' (expected silo: `data/<category>/<product>/<file>.md@<commit>`)",
+        "warning: docs/note.md:7: malformed pin 'silo: `data/x/a.md@abc12`' (expected silo: `data/<category>/<product>/<file>.md@<commit>`)",
+        f"warning: docs/note.md:8: malformed pin 'silo: `data/x@{c1[:8]}`' (expected silo: `data/<category>/<product>/<file>.md@<commit>`)",
+        "warning: docs/note.md:9: malformed pin 'silo `data/x/a.md`' (expected silo: `data/<category>/<product>/<file>.md@<commit>`)",
+        "warning: docs/note.md:10: malformed pin 'silo: `data/x/a.md@HEAD`' (expected silo: `data/<category>/<product>/<file>.md@<commit>`)"])
+    for cmd in ("list", "check"):
+        try:
+            with contextlib.redirect_stderr(io.StringIO()):
+                pins.main([cmd, "apply"])
+            failures.append(f"{cmd} apply accepted")
+        except SystemExit as e:
+            check(f"a mode is for repin only ({cmd})", e.code, 2)
 
 
 def test_repin_text_guard() -> None:
