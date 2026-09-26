@@ -55,3 +55,49 @@ Needs a clone of `prod_info_silo` next to this repository; `git -C ../prod_info_
 - **No private content.** This repository is public: repository documents and source files are counted, never named or quoted; a page on a host in `non_public_hosts` (GitHub, GitLab, Bitbucket, Atlassian), or whose file the silo does not store, is counted in **Source**. The same page captured under two URL forms is counted once.
 - **Deliberate omission.** Candidates backed only by repository documents or source files show "—" under top public pages: naming them would expose private repositories. The LLM-assisted step ([Plan 09](../../update-plans/09-silo-porting-llm.md)) needs a local-only view for those.
 - **Leads, not facts.** A candidate never becomes a ✅ or ❌; a claim needs a human-checked source.
+
+## Porting validator
+
+`validate.py` checks one `/silo-port` checklist item before its PR (issue #53, Plan 09 L4). Configuration: [`validate.toml`](validate.toml).
+
+```bash
+uv run tools/silo-candidates/validate.py --item datagrip          # a product folder name
+uv run tools/silo-candidates/validate.py --item scope-triggers    # or cross-product, readme
+uv run tools/silo-candidates/test_validate.py                     # offline tests
+```
+
+It compares the working tree with its merge-base with `main`. Committed, staged, unstaged and untracked changes all count. A rename counts as a deletion plus an addition, so moving another product's file is still out of scope.
+
+**Per touched capability row.** A row counts as touched when its line is new or edited, or when a Source index entry it cites changed or was removed. Untouched rows are never judged.
+
+1. **IDs.** Every ID is in `feature-dictionary.md` and is not retired.
+2. **Status.** The status cell holds a legal label from `[status]`. A compound cell gets the requirements of every class it holds:
+   - *confirmed* needs a cited source with a URL and a `YYYY-MM-DD` date on its Source index line;
+   - *unverified* needs `Checked <URL> on <YYYY-MM-DD>`;
+   - *not supported* needs a quoted exclusion found in a cited silo page or repository file; a dictionary quote does not count.
+3. **Pins.** Every silo pin on a cited source is *current* or *unchanged* at the silo ref (from `tools/silo-pins`).
+4. **Quotes.** Every quoted passage of at least `min_quote_words` words is found in one of:
+   - a cited source's pinned silo page;
+   - a repository file named in the Source index, read **at the base**, so evidence added in the same change cannot verify itself (paths outside the repository are ignored);
+   - the dictionary.
+
+   The comparison is split at ellipses (`...`, `…`, `[…]`), and ignores case, markdown, quote style, dashes and whitespace. A quote whose sources are only live URLs cannot be checked and is a finding.
+
+**Across the diff:**
+
+5. **Private names.** Every changed file is scanned, whatever its suffix; binary files are flagged for a human. Two things are flagged:
+   - an added line that links a code host or internal system with a repository the base does not already cite;
+   - an added line or new file path that names a silo repository folder the base never mentions, even inside a word such as `name-docs`.
+
+   Every finding is redacted before it is printed, so it can be pasted into a PR. Unexpected errors print only their type; `--debug` shows the traceback.
+
+   **Limit:** a silo repository name that the base already mentions anywhere is treated as public.
+6. **Ledger.** For a product item, no open web-backed candidate is left without a ledger row, and added ledger rows belong to that product.
+7. **Scope.** Only files in the item's `[scope]` changed. For a product item, `reports/silo-candidates.md` must equal a fresh run, whether or not it changed. Any other tool-owned report in the diff needs a human to confirm it is unchanged tool output.
+
+**Exit codes:** 0 clean, 1 findings for a human, 2 for any error (for example a malformed ledger, an unknown item or base, or no silo). It writes nothing. A malformed-ledger error quotes the offending cell, so check it before pasting it anywhere.
+
+**Not yet checked:**
+
+- **The access-date window for ✅.** Only the date's presence is checked. Whether a silo capture date counts, and how recent it must be, is owner decision 3 in Plan 09.
+- **The batch checks.** Once `batch.py` exists (#54), check 6 applies to the batch; until then it uses the open candidates.

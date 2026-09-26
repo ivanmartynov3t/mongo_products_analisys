@@ -251,7 +251,8 @@ def _cell(text: str) -> str:
     return " ".join(str(text).split()).replace("|", "\\|").replace("[", "\\[").replace("]", "\\]")
 
 
-def build(cfg: dict, silo: Path, ref: str) -> str:
+def build(cfg: dict, silo: Path, ref: str, open_web: dict[str, list[str]] | None = None) -> str:
+    """The report. When `open_web` is given, it also receives each product's open web-backed candidate tags."""
     repo = cfg["repo"]
     # The ledger is checked first: a malformed one stops the run before the silo is read.
     folders = {d.name for d in (repo / cfg["products_dir"]).glob("*/*") if d.is_dir()}
@@ -326,6 +327,8 @@ def build(cfg: dict, silo: Path, ref: str) -> str:
         seen_tags = {t for e in by_product[slug] for t in (e.get("sub_feature_tags") or [])}
         unseen = sorted(i for i in ids if mapping.get(i, i) not in seen_tags)
         web_backed = sum(bool(s.web) for s in cands)
+        if open_web is not None:
+            open_web[slug] = [s.tag for s in cands if s.web]
         mostly_shared = sum(s.shared * 2 > s.total for s in cands)
         per_outcome = {o: sum(d.outcome == o for d in decided.values()) for o in OUTCOMES}
         triaged = " · ".join(f"{o} {n}" for o, n in per_outcome.items() if n) or "—"
