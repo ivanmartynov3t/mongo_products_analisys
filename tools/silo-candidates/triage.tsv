@@ -1,8 +1,8 @@
 product	tag	outcome	date	silo_commit	web_docs	ref
-datagrip	CONN-test-steps	add-row	2026-09-26	55dbb2cbb2	127	row added in connectivity (Partial)
+datagrip	CONN-test-steps	add-row	2026-09-26	55dbb2cbb2	127	row added in connectivity (step-by-step unverified)
 datagrip	CONN-auth-std	add-row	2026-09-26	55dbb2cbb2	90	row added in connectivity
 datagrip	QUERY-filter-bar	needs-human	2026-09-26	55dbb2cbb2	76	generic data-editor docs do not say they apply to MongoDB; product report omits F-QUERY (no native document workspace)
-datagrip	CONN-auth-enterprise	add-row	2026-09-26	55dbb2cbb2	36	row added in connectivity (Partial: no OIDC)
+datagrip	CONN-auth-enterprise	add-row	2026-09-26	55dbb2cbb2	36	row added in connectivity (OIDC unverified)
 datagrip	SHELL-autocomplete	needs-human	2026-09-26	55dbb2cbb2	35	completion docs cover SQL only; product report omits F-SHELL
 datagrip	CONN-ssh	add-row	2026-09-26	55dbb2cbb2	23	row added in connectivity
 datagrip	QUERY-skip-limit	needs-human	2026-09-26	55dbb2cbb2	20	generic data-editor docs do not say they apply to MongoDB; product report omits F-QUERY (no native document workspace)
