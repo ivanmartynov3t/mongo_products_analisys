@@ -75,7 +75,7 @@ def find_pins(cfg: dict, repo: Path) -> tuple[list[Pin], list[str]]:
                 pins.append(Pin(rel, i, sid.group(1) if sid else "", m.group(1), m.group(2)))
             for m in NEAR_PIN_RE.finditer(line):
                 if not PIN_RE.fullmatch(m.group(0)):
-                    warnings.append(f"{rel}:{i}: malformed pin {m.group(0)!r} (expected silo: `data/<path>.md@<commit>`)")
+                    warnings.append(f"{rel}:{i}: malformed pin {m.group(0)!r} (expected silo: `data/<category>/<product>/<file>.md@<commit>`)")
     return pins, warnings
 
 

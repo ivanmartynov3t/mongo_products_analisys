@@ -190,12 +190,12 @@ def test_check(tmp: Path) -> None:
     code, text = pins.run(cfg, "check")
     check("check fails on a malformed pin", code, 1)
     check("malformed pins are reported (HEAD, no space, short hex, directory)", [l for l in text.splitlines() if l.startswith("warning")], [
-        "warning: docs/note.md:5: malformed pin 'Silo: `data/x/a.md@HEAD`' (expected silo: `data/<path>.md@<commit>`)",
-        f"warning: docs/note.md:6: malformed pin 'silo:`data/x/a.md@{c1[:8]}`' (expected silo: `data/<path>.md@<commit>`)",
-        "warning: docs/note.md:7: malformed pin 'silo: `data/x/a.md@abc12`' (expected silo: `data/<path>.md@<commit>`)",
-        f"warning: docs/note.md:8: malformed pin 'silo: `data/x@{c1[:8]}`' (expected silo: `data/<path>.md@<commit>`)",
-        "warning: docs/note.md:9: malformed pin 'silo `data/x/a.md`' (expected silo: `data/<path>.md@<commit>`)",
-        "warning: docs/note.md:10: malformed pin 'silo: `data/x/a.md@HEAD`' (expected silo: `data/<path>.md@<commit>`)"])
+        "warning: docs/note.md:5: malformed pin 'Silo: `data/x/a.md@HEAD`' (expected silo: `data/<category>/<product>/<file>.md@<commit>`)",
+        f"warning: docs/note.md:6: malformed pin 'silo:`data/x/a.md@{c1[:8]}`' (expected silo: `data/<category>/<product>/<file>.md@<commit>`)",
+        "warning: docs/note.md:7: malformed pin 'silo: `data/x/a.md@abc12`' (expected silo: `data/<category>/<product>/<file>.md@<commit>`)",
+        f"warning: docs/note.md:8: malformed pin 'silo: `data/x@{c1[:8]}`' (expected silo: `data/<category>/<product>/<file>.md@<commit>`)",
+        "warning: docs/note.md:9: malformed pin 'silo `data/x/a.md`' (expected silo: `data/<category>/<product>/<file>.md@<commit>`)",
+        "warning: docs/note.md:10: malformed pin 'silo: `data/x/a.md@HEAD`' (expected silo: `data/<category>/<product>/<file>.md@<commit>`)"])
     for cmd in ("list", "check"):
         try:
             with contextlib.redirect_stderr(io.StringIO()):
