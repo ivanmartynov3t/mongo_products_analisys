@@ -56,13 +56,22 @@ def build(tmp: Path) -> tuple[Path, Path, str, str]:
         "data/x/b.md": page("B", "Beta body.", "bbb1"),
         "data/x/c.md": page("C", "Gamma body.", None),
         "data/x/d.md": page("D", "Delta body.", "ddd"),
+        "data/x/f.md": page("F", "Phi body.", None),
+        "data/x/g.md": page("G", "Gimel body.", "ggg"),
+        "data/x/h.md": page("H", "Heth body.", "hhh1"),
     }, "c1")
     c2 = commit(silo, {
         "data/x/a.md": page("A retitled", "Alpha body.", "aaa"),   # frontmatter only
         "data/x/b.md": page("B", "Beta body, now longer.", "bbb2"),  # real change
         "data/x/c.md": page("C retitled", "Gamma body.", None),    # no checksum, same body
         "data/x/d.md": None,                                        # removed
+        "data/x/f.md": page("F", "Phi body, edited.", None),       # no checksum, body changed
+        "data/x/g.md": page("G", "Gimel body, reflowed.", "ggg"),  # same checksum wins over body
+        "data/x/h.md": page("H", "Heth body.", "hhh2"),            # checksum changed, same body
     }, "c2")
+    subprocess.run(["git", "-C", str(silo), "checkout", "-qb", "side"], check=True)
+    side = commit(silo, {"data/x/a.md": page("A side", "Alpha body.", "aaa")}, "side")  # not on the ref
+    subprocess.run(["git", "-C", str(silo), "checkout", "-q", "-"], check=True)
     (repo / "products/p/features/f").mkdir(parents=True)
     (repo / "products/p/features/f/feature-matrix.md").write_text(f"""# M
 
@@ -75,8 +84,17 @@ def build(tmp: Path) -> tuple[Path, Path, str, str]:
 - S5: https://e.test/ (silo: `data/x/e.md@{c1[:8]}`)
 - S6: https://a.test/ (silo: `data/x/a.md@deadbeef`)
 - S7: https://a.test/ (silo: `data/x/a.md@{c2[:10]}`)
+- S8: https://f.test/ (silo: `data/x/f.md@{c1[:8]}`)
+- S9: https://g.test/ (silo: `data/x/g.md@{c1[:8]}`)
+- S10: https://h.test/ (silo: `data/x/h.md@{c1[:8]}`)
+- S11: two copies (silo: `data/x/a.md@{c1[:8]}`; silo: `data/x/c.md@{c1[:8]}`)
+- S12: https://a.test/ (silo: `data/x/a.md@{side[:10]}`)
 
 Prose mention of silo commit `{c1[:8]}` is not a pin.
+
+## Notes
+
+- A — a list line outside the Source index (silo: `data/x/a.md@{c1[:8]}`)
 """, encoding="utf-8")
     (repo / "reports").mkdir()
     (repo / "reports/review-queue.md").write_text(f"silo: `data/x/a.md@{c1[:8]}` (generated, excluded)\n", encoding="utf-8")
@@ -99,13 +117,19 @@ def hashes(root: Path) -> dict[str, str]:
 def test_all(tmp: Path) -> None:
     silo, repo, c1, c2 = build(tmp)
     cfg = config(repo, silo)
-    found = pins.find_pins(cfg, repo)
-    check("pins found (generated reports excluded, prose ignored)", [p.source_id for p in found],
-          ["S1", "S2", "S3", "S4", "S5", "S6", "S7"])
+    found, warnings = pins.find_pins(cfg, repo)
+    check("pins found (generated reports excluded, prose ignored, ids only in the Source index)",
+          [(p.source_id, p.path) for p in found],
+          [("S1", "data/x/a.md"), ("S2", "data/x/b.md"), ("S3", "data/x/c.md"), ("S4", "data/x/d.md"),
+           ("S5", "data/x/e.md"), ("S6", "data/x/a.md"), ("S7", "data/x/a.md"), ("S8", "data/x/f.md"),
+           ("S9", "data/x/g.md"), ("S10", "data/x/h.md"), ("S11", "data/x/a.md"), ("S11", "data/x/c.md"),
+           ("S12", "data/x/a.md"), ("", "data/x/a.md")])
+    check("no malformed pins", warnings, [])
     pins.evaluate(found, silo, c2)
-    check("statuses", {p.source_id: p.status for p in found}, {
-        "S1": pins.UNCHANGED, "S2": pins.CHANGED, "S3": pins.UNCHANGED, "S4": pins.GONE,
-        "S5": pins.BROKEN, "S6": pins.BROKEN, "S7": pins.CURRENT})
+    check("statuses", [p.status for p in found], [
+        pins.UNCHANGED, pins.CHANGED, pins.UNCHANGED, pins.GONE, pins.BROKEN, pins.BROKEN, pins.CURRENT,
+        pins.CHANGED, pins.UNCHANGED, pins.CHANGED, pins.UNCHANGED, pins.UNCHANGED, pins.BROKEN,
+        pins.UNCHANGED])
 
     matrix = repo / "products/p/features/f/feature-matrix.md"
     before, silo_before = hashes(repo), hashes(silo)
@@ -115,7 +139,7 @@ def test_all(tmp: Path) -> None:
     check("check fails on broken pins", pins.run(cfg, "check")[0], 1)
     code, text = pins.run(cfg, "repin", "plan")
     check("repin plan summary", text.splitlines()[-1],
-          f"2 pins move to {c2[:10]} in 1 files; 1 changed pins need a human re-check first")
+          f"6 pins move to {c2[:10]} in 1 files; need a human first: 3 changed, 1 gone at ref, 3 broken")
     check("list and plan write nothing", hashes(repo), before)
 
     old = matrix.read_text(encoding="utf-8")
@@ -124,13 +148,31 @@ def test_all(tmp: Path) -> None:
     changed = [(a, b) for a, b in zip(old.splitlines(), new.splitlines()) if a != b]
     check("only the unchanged pins moved", [b for _, b in changed], [
         f"- S1: https://a.test/ — page (silo: `data/x/a.md@{c2[:10]}`, captured 2026-09-01)",
-        f"- S3: https://c.test/ (silo: `data/x/c.md@{c2[:10]}`)"])
+        f"- S3: https://c.test/ (silo: `data/x/c.md@{c2[:10]}`)",
+        f"- S9: https://g.test/ (silo: `data/x/g.md@{c2[:10]}`)",
+        f"- S11: two copies (silo: `data/x/a.md@{c2[:10]}`; silo: `data/x/c.md@{c2[:10]}`)",
+        f"- A — a list line outside the Source index (silo: `data/x/a.md@{c2[:10]}`)"])
     after = hashes(repo)
     check("apply writes only the matrix", sorted(k for k in after if after[k] != before.get(k)),
           ["products/p/features/f/feature-matrix.md"])
     check("silo untouched", hashes(silo), silo_before)
     pins.run(cfg, "repin", "apply")
     check("second apply is a no-op", hashes(repo), after)
+
+
+def test_check(tmp: Path) -> None:
+    silo, _, c1, c2 = build(tmp / "b")
+    repo = tmp / "ok"
+    (repo / "docs").mkdir(parents=True)
+    note = repo / "docs/note.md"
+    note.write_text(f"- S1: x (silo: `data/x/a.md@{c1[:8]}`; folder silo `data/x`)\n", encoding="utf-8")
+    cfg = config(repo, silo)
+    check("check passes when no pin is broken", pins.run(cfg, "check")[0], 0)
+    note.write_text(note.read_text() + "- S2: y (Silo: `data/x/a.md@HEAD`)\n", encoding="utf-8")
+    code, text = pins.run(cfg, "check")
+    check("check fails on a malformed pin", code, 1)
+    check("malformed pin is reported", text.splitlines()[-1],
+          "warning: docs/note.md:2: malformed pin 'Silo: `data/x/a.md@HEAD`' (expected silo: `data/<path>@<commit>`)")
 
 
 def test_repin_text_guard() -> None:
@@ -163,6 +205,7 @@ def main() -> int:
         tmp = Path(d)
         test_all(tmp)
         test_write_guard(tmp)
+        test_check(tmp)
     test_repin_text_guard()
     test_single_write_site()
     if failures:
