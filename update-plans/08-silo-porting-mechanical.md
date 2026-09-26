@@ -196,21 +196,21 @@ Copy into each PR description and tick there; the plan's *Merge checklist comple
   - [x] Owner approved the merge
   - [x] Merged to `main` (squash `0b6710b`); branch deleted; issue closed with a result comment
 
-- [ ] **Step 3 — P1** · [#33](https://github.com/ivanmartynov3t/mongo_products_analisys/issues/33) · branch silo `feat/33-repo-doc-checksums`, then analysis `feat/33-github-citations`
-  - [ ] Branch created from the latest `main`
-  - [ ] Implemented (issue scope only)
-  - [ ] New tests added; full suite passes locally (commands and results in the PR)
-  - [ ] Tool run against the real silo; before/after summary in the PR
-  - [ ] Pull request opened (silo): PR link: —
-  - [ ] Silo PR merged before the analysis PR
-  - [ ] Pull request opened (analysis): PR link: —
-  - [ ] Code review done; findings recorded on the PR (must fix: — · suggestions: —)
-  - [ ] All *must fix* findings fixed; tests re-run
-  - [ ] Re-review: no *must fix* left; suggestions fixed or accepted by the owner
-  - [ ] Docs updated (tool README, conventions, this plan)
-  - [ ] Merge checklist complete
-  - [ ] Owner approved the merge
-  - [ ] Merged to `main`; branch deleted; issue closed with a result comment
+- [x] **Step 3 — P1** · [#33](https://github.com/ivanmartynov3t/mongo_products_analisys/issues/33) · branch silo `feat/33-repo-doc-checksums`, then analysis `feat/33-github-citations`
+  - [x] Branch created from the latest `main`
+  - [x] Implemented (issue scope only)
+  - [x] New tests added; full suite passes locally (commands and results in the PR)
+  - [x] Tool run against the real silo; before/after summary in the PR
+  - [x] Pull request opened (silo): PR link: [prod_info_silo#51](https://github.com/ivanmartynov3t/prod_info_silo/pull/51)
+  - [x] Silo PR merged before the analysis PR
+  - [x] Pull request opened (analysis): PR link: [#43](https://github.com/ivanmartynov3t/mongo_products_analisys/pull/43)
+  - [x] Code review done; findings recorded on the PR (silo: PASSED, 0 must fix · 6 suggestions; analysis: PASSED, 0 must fix · 9 suggestions; all fixed or documented)
+  - [x] All *must fix* findings fixed; tests re-run
+  - [x] Re-review: no *must fix* left; suggestions fixed or accepted by the owner
+  - [x] Docs updated (tool README, conventions, this plan)
+  - [x] Merge checklist complete
+  - [x] Owner approved the merge
+  - [x] Merged to `main` (silo `55dbb2cb`, analysis `b64bdd4`); branches deleted; issue closed with a result comment
 
 - [ ] **Step 4 — P6** · [#38](https://github.com/ivanmartynov3t/mongo_products_analisys/issues/38) · branch `feat/38-silo-pins`
   - [ ] Branch created from the latest `main`
@@ -315,3 +315,5 @@ Copy into each PR description and tick there; the plan's *Merge checklist comple
 - 2026-09-26 — Step 2 (P2): review round 1 NOT PASSED (M1 wrong source-file count, M2 silent zeros on missing input, M3 private repository names in a public repository). Fixed; PR #41 closed and its branch deleted, replaced by clean-history PR #42. **Residual exposure:** GitHub keeps `refs/pull/41/head`, so the closed PR #41 still shows the names; only GitHub Support can purge it (owner action). Snapshot regenerated at silo `2a1ef919`.
 - 2026-09-26 — Step 2 (P2): review round 2 PASSED; S-B–S-E fixed; owner approved the merge.
 - 2026-09-26 — Step 2 (P2) merged: #42 squash `0b6710b`; #34 closed.
+- 2026-09-26 — Owner: "non-stop till the end" — merge approval for each remaining PR once its review passes.
+- 2026-09-26 — Step 3 (P1) merged: prod_info_silo#51 (`55dbb2cb`), #43 (`b64bdd4`); #33 closed. GitHub citations checkable: 0 → 12 of 55 (all file permalinks).
