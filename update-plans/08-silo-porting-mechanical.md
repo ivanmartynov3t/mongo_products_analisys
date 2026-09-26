@@ -182,7 +182,7 @@ Copy into each PR description and tick there; the plan's *Merge checklist comple
   - [x] Owner approved the merge
   - [x] Merged to `main` (squash `2a1ef919`); branch deleted; issue closed with a result comment
 
-- [ ] **Step 2 — P2** · [#34](https://github.com/ivanmartynov3t/mongo_products_analisys/issues/34) · branch `feat/34-silo-snapshot-v2`
+- [x] **Step 2 — P2** · [#34](https://github.com/ivanmartynov3t/mongo_products_analisys/issues/34) · branch `feat/34-silo-snapshot-v2`
   - [x] Branch created from the latest `main`
   - [x] Implemented (issue scope only)
   - [x] New tests added; full suite passes locally (commands and results in the PR)
@@ -194,7 +194,7 @@ Copy into each PR description and tick there; the plan's *Merge checklist comple
   - [x] Docs updated (tool README, conventions, this plan)
   - [x] Merge checklist complete
   - [x] Owner approved the merge
-  - [ ] Merged to `main`; branch deleted; issue closed with a result comment
+  - [x] Merged to `main` (squash `0b6710b`); branch deleted; issue closed with a result comment
 
 - [ ] **Step 3 — P1** · [#33](https://github.com/ivanmartynov3t/mongo_products_analisys/issues/33) · branch silo `feat/33-repo-doc-checksums`, then analysis `feat/33-github-citations`
   - [ ] Branch created from the latest `main`
@@ -314,3 +314,4 @@ Copy into each PR description and tick there; the plan's *Merge checklist comple
 - 2026-09-26 — Step 1 (P9) merged: prod_info_silo#46 squash `2a1ef919`; #45 closed; follow-ups #48–#50.
 - 2026-09-26 — Step 2 (P2): review round 1 NOT PASSED (M1 wrong source-file count, M2 silent zeros on missing input, M3 private repository names in a public repository). Fixed; PR #41 closed and its branch deleted, replaced by clean-history PR #42. **Residual exposure:** GitHub keeps `refs/pull/41/head`, so the closed PR #41 still shows the names; only GitHub Support can purge it (owner action). Snapshot regenerated at silo `2a1ef919`.
 - 2026-09-26 — Step 2 (P2): review round 2 PASSED; S-B–S-E fixed; owner approved the merge.
+- 2026-09-26 — Step 2 (P2) merged: #42 squash `0b6710b`; #34 closed.
