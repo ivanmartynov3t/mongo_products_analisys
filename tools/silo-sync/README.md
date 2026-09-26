@@ -28,6 +28,14 @@ Every step reads the silo at `origin/main` from git objects; `SILO` and the ref 
 
 The order differs from issue #40's list: the snapshot runs first because the trigger check reads it, and the two pin steps (P6) were added.
 
+## After the run: the Claude stage
+
+Commit the regenerated reports, then run `/silo-port` in Claude Code ([Plan 09](../../update-plans/09-silo-porting-llm.md), [command](../../.claude/commands/silo-port.md)). It works through [`update-plans/09-product-loop.md`](../../update-plans/09-product-loop.md) one item at a time:
+- it reads the evidence batches written by step 6;
+- it opens one PR per item, checked by `tools/silo-candidates/validate.py`.
+
+The Claude stage is not part of this script, because it is not deterministic.
+
 ## Result
 
 A summary line per step, the full output of any check that needs attention, and every changed file (anything outside `reports/` is unexpected; `.local/` is gitignored and never listed). Nothing is committed or pushed: review the diff, then commit.
