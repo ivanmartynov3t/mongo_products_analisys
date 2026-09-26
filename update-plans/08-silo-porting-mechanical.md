@@ -4,6 +4,8 @@ Research record and improvement plan for the **mechanical** (scripted) part of m
 
 Measured 2026-09-25 at silo commit `f1e28e8d` and `reports/review-queue.md`.
 
+**Status: done (2026-09-26).** All 9 steps merged; the weekly command is `tools/silo-sync/run.sh`. Part 2 (LLM-assisted) is a separate plan; its input queue is `reports/silo-candidates.md`.
+
 ## Issues
 
 | # | Proposal | Issue | Depends on |
@@ -282,7 +284,7 @@ Copy into each PR description and tick there; the plan's *Merge checklist comple
   - [x] Owner approved the merge (2026-09-26 standing approval: merge after a passing review)
   - [x] Merged to `main` (`74e99d5`); branch deleted; issue closed with a result comment
 
-- [ ] **Step 9 — P5** · [#37](https://github.com/ivanmartynov3t/mongo_products_analisys/issues/37) · branch `feat/37-evidence-gaps`
+- [x] **Step 9 — P5** · [#37](https://github.com/ivanmartynov3t/mongo_products_analisys/issues/37) · branch `feat/37-evidence-gaps`
   - [x] Branch created from the latest `main`
   - [x] Implemented (issue scope only)
   - [x] New tests added; full suite passes locally (commands and results in the PR)
@@ -294,7 +296,7 @@ Copy into each PR description and tick there; the plan's *Merge checklist comple
   - [x] Docs updated (tool README, silo-sync README, this plan)
   - [x] Merge checklist complete
   - [x] Owner approved the merge (2026-09-26 standing approval: merge after a passing review)
-  - [ ] Merged to `main`; branch deleted; issue closed with a result comment
+  - [x] Merged to `main` (`4b7be11`); branch deleted; issue closed with a result comment
 
 ### Risks
 
@@ -327,3 +329,4 @@ Copy into each PR description and tick there; the plan's *Merge checklist comple
 - 2026-09-26 — Step 8 (P8): review round 1 NOT PASSED — `SILO` not passed to the tools, a check crash read as "needs a human", taxonomy check tied to the silo checkout. Fixed: `--silo` on every call; `pins.py` and `reconcile.py` exit 2 on errors; reconcile reads `origin/main` files from a temp directory; triggers skipped when the snapshot fails; stub-`uv` tests.
 - 2026-09-26 — Step 8 (P8): review round 2 PASSED; merged: #50 squash `74e99d5`; #40 closed; weekly procedure posted on #17 and #18.
 - 2026-09-26 — Step 9 (P5): PR #48; review round 1 NOT PASSED (ports kept local addresses out of *internal*; GitHub releases not crawlable, against #37). Fixed; the ID parser now comes from `review.matrix_table_ids`; the step is added to `tools/silo-sync/run.sh`. At silo `55dbb2cb`: 22 of 73 matrices cite no URL; 488 of 677 cited URLs untracked (278 crawlable on 124 domains, 160 excluded, 47 internal, 3 other GitHub pages); thin coverage: Navicat (95 IDs, 15 docs) and Govern (no silo product).
+- 2026-09-26 — Step 9 (P5): review round 3 PASSED; merged: #48 squash `4b7be11`; #37 closed. **Plan 08 done.** Open owner actions: GitHub Support purge of `refs/pull/41/head`; revoke the token embedded in the silo clone's remote URL and switch to SSH; fix billing so CI runs again.
