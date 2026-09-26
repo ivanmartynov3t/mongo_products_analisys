@@ -21,7 +21,10 @@ cat > "$TMP/bin/uv" <<'STUB'
 #!/usr/bin/env bash
 echo "$*" >> "$STUB_LOG"
 case "$*" in *"${STUB_MATCH:-<none>}"*) exit "${STUB_CODE:-0}" ;; esac
-echo "ok"
+case "$*" in
+    *"repin plan"*) echo "${STUB_REPIN:-7 pins move to x in 6 files; need a human first: 0 changed, 0 gone at ref, 0 broken}" ;;
+    *) echo "ok" ;;
+esac
 STUB
 chmod +x "$TMP/bin/uv"
 
@@ -60,5 +63,16 @@ expect "snapshot fails"         2 run env STUB_MATCH="snapshot.py" STUB_CODE=1
 grep -q "triggers.py" "$TMP/log" && fail "triggers are skipped when the snapshot failed"
 grep -q "skipped scope triggers" "$TMP/out" || fail "skipped triggers are reported"
 
+# SILO inside some other repository: stop before any write
+other="$TMP/other"; git init -q "$other"; mkdir -p "$other/sub"
+git -C "$other" -c user.name=t -c user.email=t@t -c commit.gpgsign=false commit -q --allow-empty -m init
+git -C "$other" update-ref refs/remotes/origin/main HEAD
+: > "$TMP/log"
+expect "SILO in another repository" 2 env PATH="$TMP/bin:$PATH" SILO="$other/sub" STUB_LOG="$TMP/log" "$RUN" --no-fetch
+[ -s "$TMP/log" ] && fail "no tool runs when SILO is not the silo"
+: > "$TMP/log"
+expect "all tools get --ref"    0 run env
+grep -v -- "--ref origin/main" "$TMP/log" | grep -v -e scope-triggers -e reconcile.py | grep -q . && fail "every silo tool gets --ref"
+expect "a changed pin needs a human" 1 run env STUB_REPIN="0 pins move to x in 0 files; need a human first: 1 changed, 0 gone at ref, 0 broken"
 if [ "$fails" -ne 0 ]; then echo "FAILED ($fails)"; exit 1; fi
 echo "ok: all silo-sync tests passed"

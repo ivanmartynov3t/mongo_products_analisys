@@ -33,12 +33,14 @@ echo "silo $REF: ${SHA:0:10}"
 
 # taxonomy-reconcile reads two files from a silo directory: give it exactly those files at
 # $REF in a temp directory, so no step depends on the silo checkout.
+# Both files exist in every prod_info_silo commit, so a missing one also means SILO points at
+# some other repository: stop before any report is written.
 TAX="$(mktemp -d)"
 trap 'rm -rf "$TAX"' EXIT
-tax_ok=1
 for f in config/taxonomy.yaml data/catalog_index.json; do
     mkdir -p "$TAX/$(dirname "$f")"
-    git -C "$SILO" show "$SHA:$f" > "$TAX/$f" 2>/dev/null || tax_ok=0
+    git -C "$SILO" show "$SHA:$f" > "$TAX/$f" 2>/dev/null \
+        || { echo "error: $f missing at $REF in $SILO (is SILO a prod_info_silo clone?)" >&2; exit 2; }
 done
 
 failed=0
@@ -61,7 +63,7 @@ step() {  # step <name> <kind: write|check> <command...>
     fi
 }
 
-S=(--silo "$SILO")
+S=(--silo "$SILO" --ref "$REF")  # every tool reads the same commit the header prints
 # Order matters: the scope-trigger check reads the snapshot.
 if step "silo snapshot"      write uv run -q tools/silo-snapshot/snapshot.py apply "${S[@]}"; then
     step "scope triggers (#18)" check uv run -q tools/scope-triggers/triggers.py
@@ -70,14 +72,13 @@ else
 fi
 step "review queue (#17)"    write uv run -q tools/silo-review/review.py apply "${S[@]}"
 step "candidate signals"     write uv run -q tools/silo-candidates/candidates.py apply "${S[@]}"
-if [ $tax_ok = 1 ]; then
-    step "taxonomy (#18)"    check uv run -q tools/taxonomy-reconcile/reconcile.py --check --silo "$TAX"
-else
-    failed=1; summary+=("FAILED  taxonomy (#18): config/taxonomy.yaml or data/catalog_index.json missing at $REF")
-fi
+step "taxonomy (#18)"        check uv run -q tools/taxonomy-reconcile/reconcile.py --check --silo "$TAX"
 step "silo pins"             check uv run -q tools/silo-pins/pins.py check "${S[@]}"
 # Re-pinning edits matrices, so the script only shows the plan; `pins.py repin apply` is a human step.
-step "silo pins re-pin plan" write uv run -q tools/silo-pins/pins.py repin plan "${S[@]}"
+if step "silo pins re-pin plan" write uv run -q tools/silo-pins/pins.py repin plan "${S[@]}" \
+   && ! printf '%s\n' "${summary[@]}" | grep -q "need a human first: 0 changed, 0 gone at ref"; then
+    attention=1; summary+=("ATTEND  silo pins: a pinned page changed or is gone; re-check the claim, then re-pin by hand")
+fi
 
 echo
 echo "Summary"
