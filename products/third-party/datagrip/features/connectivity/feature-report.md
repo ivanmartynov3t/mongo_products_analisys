@@ -13,7 +13,7 @@
 - Feature ID: F-CONN (see [feature-dictionary.md](../../../../../feature-dictionary.md))
 - Product: DataGrip
 - Product group: third-party
-- Analysis date: 2026-09-04
+- Analysis date: 2026-09-26
 
 ## Behavioral walkthrough
 
@@ -28,6 +28,10 @@ What is distinctive about DataGrip's connectivity model — described genericall
 | CONN-topology | MongoDB connection type/driver existence is confirmed via a primary source (DataGrip's own "MongoDB IDE" product page); topology-mode granularity is not itemized. | Establishes the floor of DataGrip's MongoDB connectivity claim without overstating its depth. | JetBrains "DataGrip: MongoDB IDE" product page (S1 Works Cited #2); "What's New in DataGrip 2026.2" (S1 Works Cited #5) |
 | CONN-git-repo-sharing | Closest existing ID for DataGrip's Git-committable XML connection/query files, but an imperfect fit — no in-app Git actions are described. | Prevents overstating DataGrip's Git integration as equivalent to Studio 3T's dedicated push/pull/fetch/reset connection-sharing UI. | Research file narrative |
 | CONN-portability | JetBrains Account cloud sync of Data Source Templates across a developer's own machines, credentials stripped. | A convenience feature for individual developers working across multiple machines, distinct from team-level connection sharing. | Research file narrative |
+| CONN-auth-std, CONN-auth-enterprise | The MongoDB connection page lists SCRAM-SHA-1/256, x.509, no-auth, AWS IAM, Kerberos (GSSAPI) and LDAP (Plain); MongoDB OIDC is not listed. | Enterprise auth is Partial only because of OIDC. | JetBrains "MongoDB" documentation page (matrix S5) |
+| CONN-ssh, CONN-tls, CONN-proxy, CONN-readonly-lock | Documented as settings of every data source, not MongoDB-specific. A database proxy is a driver property; the read-only lock holds only in the data editor unless the driver supports it. | Solid generic coverage; MongoDB-specific behaviour is not documented. | Matrix S6, S8, S11 |
+| CONN-uri-paste, CONN-read-pref, CONN-cred-storage, CONN-test-steps | URL paste populates the connection fields; read preference is a MongoDB connection option; passwords live in the OS keychain or KeePass; the connection test is a single pass/fail check. | Test is Partial: no step-by-step diagnosis. | Matrix S5, S7 |
+| CONN-compat-docdb, CONN-compat-redis | Amazon DocumentDB and Redis (versions 5–8, no data editing) are supported data sources. | Beyond MongoDB proper. | Matrix S9, S10 |
 
 ## Constraints and risks
 
@@ -48,10 +52,10 @@ What is distinctive about DataGrip's connectivity model — described genericall
 
 ### Limitations
 
-- No MongoDB-specific detail on authentication, TLS, SSH tunneling, or topology modes anywhere in the source.
+- SSH, TLS and proxy settings are documented only for data sources in general, not for MongoDB specifically; MongoDB OIDC is not listed among the authentication options.
 - No in-app Git panel or push/pull/fetch/reset UI is described for the XML connection files, unlike Studio 3T's dedicated git-backed connection-sharing feature.
 
 ### Unknowns
 
 - Whether cloud-provider auto-discovery (confirmed only for relational engines: Amazon RDS, Redshift, Azure SQL, GCP Cloud SQL) extends to MongoDB Atlas.
-- Full MongoDB authentication-mechanism and topology-mode support list.
+- Whether MongoDB OIDC is supported, and whether the MongoDB driver honours the data source's read-only status.

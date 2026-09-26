@@ -15,7 +15,7 @@
 - Product group: third-party
 - Website: https://www.jetbrains.com/datagrip/
 - Category: Polyglot (multi-database) SQL/NoSQL IDE, built on the IntelliJ platform
-- Analysis date: 2026-09-04
+- Analysis date: 2026-09-26 (connectivity rows added in the Plan 09 pilot; other areas 2026-09-04)
 - Version/release context: DataGrip 2025.3–2026.2 line; MongoDB driver 1.21 bundled as of 2026.2
 
 ## Product summary
