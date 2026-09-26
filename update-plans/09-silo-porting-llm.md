@@ -2,7 +2,7 @@
 
 This is part 2 of the silo porting. [Plan 08](08-silo-porting-mechanical.md) built the scripts that surface signals. This plan adds the judgement: whether a signal is a real capability, which ID it maps to, what status it gets, and which source backs it.
 
-Measured 2026-09-26 at silo `55dbb2cb`. **Status: approved (2026-09-26); step 4 in review.** Issues #52–#57.
+Measured 2026-09-26 at silo `55dbb2cb`. **Status: approved (2026-09-26); steps 1–4 done; step 5 (pilot) next.** Issues #52–#57.
 
 ## Flow
 
@@ -149,7 +149,7 @@ Each step has one issue and one PR.
   - [x] Merge checklist complete
   - [x] Owner approved the merge (standing approval for steps 1–4, see Execution log)
   - [x] Merged to `main` (squash `518eb96`); branch deleted; issue closed with a result comment
-- [ ] **Step 4 — L3** · [#55](https://github.com/ivanmartynov3t/mongo_products_analisys/issues/55) · branch `feat/55-silo-port-command`
+- [x] **Step 4 — L3** · [#55](https://github.com/ivanmartynov3t/mongo_products_analisys/issues/55) · branch `feat/55-silo-port-command`
   - [x] Branch created from the latest `main`
   - [x] Implemented (issue scope only)
   - [x] New tests added; full suite passes locally (a prompt has no unit tests; dry run instead)
@@ -160,7 +160,7 @@ Each step has one issue and one PR.
   - [x] Docs updated
   - [x] Merge checklist complete
   - [x] Owner approved the merge (standing approval for steps 1–4, see Execution log)
-  - [ ] Merged to `main` (squash); branch deleted; issue closed with a result comment
+  - [x] Merged to `main` (squash `33d5598`); branch deleted; issue closed with a result comment
 - [ ] **Step 5 — L5 pilot** · [#56](https://github.com/ivanmartynov3t/mongo_products_analisys/issues/56) · items in [`09-product-loop.md`](09-product-loop.md); stops at the owner's go/no-go gate
 - [ ] **Step 6 — L6 rollout** · [#57](https://github.com/ivanmartynov3t/mongo_products_analisys/issues/57) · items in [`09-product-loop.md`](09-product-loop.md)
 
@@ -190,3 +190,4 @@ Each step has one issue and one PR.
 - 2026-09-26 — Step 4 (#55): `.claude/commands/silo-port.md` added.
   - **Dry run** on the scope-triggers item in a throwaway worktree: 0 triggers fired, and the validator exited 0 with no findings. The branch was deleted and nothing was pushed.
   - **Merging.** The command stops after each PR's review unless this log records the owner's standing approval for the loop after the pilot gate.
+- 2026-09-26 — Step 4 merged (#61, squash `33d5598`) after two review rounds (NOT PASSED, PASSED). The tools are complete. The pilot (step 5) runs `/silo-port` and stops at each PR for the owner to merge.
