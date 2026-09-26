@@ -6,6 +6,7 @@ One local command for the weekly silo → analysis refresh (issue #40, Plan 08 P
 tools/silo-sync/run.sh              # fetch the silo, regenerate every report, print a summary
 tools/silo-sync/run.sh --no-fetch   # use the silo refs already fetched
 SILO=/path/to/prod_info_silo tools/silo-sync/run.sh
+tools/silo-sync/test_run.sh         # offline checks of arguments and inputs
 ```
 
 ## Steps
