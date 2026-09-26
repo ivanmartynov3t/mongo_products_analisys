@@ -2,6 +2,11 @@
 
 Part 2 of the silo porting. [Plan 08](08-silo-porting-mechanical.md) built the mechanical part: scripts that surface signals. This plan covers the part that needs judgement. It decides whether a signal is a real capability, which sub-feature it maps to, what status it gets, and how to word it with a source.
 
+**The flow (owner decision, 2026-09-26):**
+
+1. **Mechanical stage.** Run `tools/silo-sync/run.sh`. It is deterministic and refreshes the reports and the local evidence batches.
+2. **Claude stage.** Run `/silo-port` in Claude Code, not through the API. It loops over the products in [`09-product-loop.md`](09-product-loop.md), **one product at a time**. For each product it polishes the files from the reports, runs the validator, opens one PR, and ticks that product's checkbox.
+
 Measured 2026-09-26 at silo commit `55dbb2cb` and `reports/silo-candidates.md`.
 
 **Status: draft, awaiting owner review.** No issues are created yet.
@@ -12,15 +17,28 @@ Measured 2026-09-26 at silo commit `55dbb2cb` and `reports/silo-candidates.md`.
 |---|---|---|---|
 | L1 | Triage ledger: decided candidates leave the queue | TBD | — |
 | L2 | Evidence batches: all silo documents per candidate, local only | TBD | — |
-| L3 | Porting prompt | TBD | L1, L2 |
+| L3 | `/silo-port` command: the product loop | TBD | L1, L2, L4 |
 | L4 | Row validator, run before every PR | TBD | — |
 | L5 | Pilot on one product, with a go/no-go gate | TBD | L1–L4 |
-| L6 | Rollout, product by product (web-backed candidates only) | TBD | L5 |
+| L6 | Rollout: the loop runs over the remaining products | TBD | L5 |
 
-**Scope.** The input is the P4 queue, `reports/silo-candidates.md`, as Plan 08 §7 set it. Only its **135 web-backed candidates** are in scope. The other signals stay where they are:
-- P5 evidence gaps go to prod_info_silo#47.
-- P7 stale sources go to weekly prompt 01.
-- The 104 candidates backed only by repository or source documents are an owner decision (§6).
+**Scope.** The input is everything `run.sh` produces, per product:
+
+| Report | What the Claude stage does for the product |
+|---|---|
+| `silo-candidates.md` (P4) | triage the **web-backed** candidates (§2) |
+| `review-queue.md` (P7) | re-check rows and reports whose cited page changed since review |
+| `silo-pins` re-pin plan (P6) | apply unchanged pins; re-check the rows behind changed ones |
+| `evidence-gaps.md` (P5) | add a public URL source to a matrix that cites none, where the silo holds one |
+| downstream | cascade the product's feature and product reports (prompt 03) |
+
+Two items are repository-wide, not per product, so the loop handles each once:
+- **First item: scope triggers.** A fired trigger may add or drop a product.
+- **Last item: the cross-product reports.** These are the low-level comparison, gap analysis and README dashboard. They are cascaded once, after every product is merged.
+
+Out of scope:
+- **Private-source candidates.** The 104 candidates backed only by repository or source documents are an owner decision (§6).
+- **Silo seed URLs.** They stay with prod_info_silo#47.
 
 ## Rule for every proposal
 
@@ -100,7 +118,7 @@ Each candidate gets exactly one outcome, recorded in the ledger (L1):
 
 ### L2 — Evidence batches
 
-- **Command.** `tools/silo-candidates/batch.py <product>`.
+- **Command.** `tools/silo-candidates/batch.py`, run by `run.sh` for every product. It is deterministic, so it belongs in the mechanical stage.
 - **What it collects.** For each open candidate of the product:
   - every public silo document carrying the tag (not only the top 3 the report lists);
   - its URL, probability, retrieval date and `path@sha` pin;
@@ -108,23 +126,43 @@ Each candidate gets exactly one outcome, recorded in the ledger (L1):
 - **Where it writes.** Only a gitignored directory, `.local/silo-batches/`. Batches can be large and are working files, not reports.
 - **Private documents.** Batches contain public pages only. Repository and source documents are left out, not just unnamed, so a batch is safe to paste into a session.
 
-### L3 — Porting prompt
+### L3 — `/silo-port` command (the product loop)
 
-- **File.** `.github/prompts/silo-porting/porting.prompt.md`, in the style of the weekly-maintenance prompts.
-- **Input.** One batch (L2) per session.
-- **Output.**
-  - matrix edits for `add-row`;
-  - `decisions.tsv` entries for `existing-row`;
-  - ledger rows for every candidate in the batch.
-- **Rules the prompt states.**
+- **Files.**
+  - `.claude/commands/silo-port.md`, a Claude Code slash command;
+  - the checklist [`09-product-loop.md`](09-product-loop.md).
+
+  The command reuses the rules of the existing `.github/prompts/weekly-maintenance/` prompts (01 verify, 03 cascade) rather than copying them.
+- **Loop.**
+  1. Stop with a message if `run.sh` did not finish cleanly, or its reports are older than the silo ref.
+  2. Take the first unticked product in the checklist.
+  3. Create `port/<product>-<date>` from an up-to-date `main`.
+  4. Work through the product's items in the checklist (the scope table above). Use only that product's batch and report sections.
+  5. Run the validator (L4). Fix its findings or record them as `needs-human`.
+  6. Tick the product's sub-items on the branch, only for items done and verified.
+  7. Commit, push, and open one PR for the product.
+  8. Review and merge, per owner decision 5.
+  9. Tick the product and move on to the next one.
+
+  The loop ends when every product is ticked. A product with nothing to do is ticked with "no changes" and gets no PR.
+- **Why products run one after another.** Every product branch starts from a `main` that already holds the previous product's merge. That avoids conflicts in the checklist, the dictionary and the shared reports.
+- **Outputs.**
+  - **Matrix edits.** Rows added for `add-row`; rows re-checked from the review queue.
+  - **Mapping decisions.** `decisions.tsv` entries for `existing-row`.
+  - **Ledger.** One ledger row for every triaged candidate.
+  - **Downstream cascade.** The product's feature and product reports.
+- **Rules the command states.**
   - **Outcomes.** Use only the outcomes in §2.
   - **Statuses.** Use only the status rules above.
   - **IDs.** Prefer an existing dictionary ID; new IDs follow the dictionary's naming rules.
   - **Citations.** Cite the live URL in the Source index, plus the P6 pin: `` silo: `data/…/x.md@<sha>` ``.
   - **Quotes.** Quote the source verbatim in "Detailed behavior", as current matrices do.
   - **Bad captures.** A page captured as navigation or a cookie banner is `needs-human`, never ❌.
-  - **Cascade.** Run prompt 03 for the downstream reports afterwards, or state in the PR that the cascade is deferred.
-- **What the prompt may not do.** Edit rows outside the batch's candidates, or change the status of an existing row.
+- **What the command may not do.**
+  - Edit another product's files.
+  - Change an existing row's status without a changed or new cited source.
+  - Edit a generated file in `reports/` that a tool owns.
+- **Resuming.** Re-running `/silo-port` continues from the first unticked product. A new cycle starts when the owner resets the checklist, for example after a weekly `run.sh` shows new work.
 
 ### L4 — Row validator
 
@@ -136,13 +174,14 @@ Each candidate gets exactly one outcome, recorded in the ledger (L1):
   4. Every quoted passage appears verbatim, whitespace-normalised, in the pinned document body. This catches invented quotes and badly captured pages.
   5. The diff names no host in `non_public_hosts` and no repository that is not public.
   6. Every candidate in the batch has exactly one ledger row.
+  7. The diff touches only the current product's files, plus the ledger, `decisions.tsv` and the checklist.
 - **Exit codes.** Same contract as Plan 08: 0 clean, 1 needs a human, 2 error.
 - **Tests.** Offline tests with throwaway git repositories.
 
 ### L5 — Pilot
 
 - **Product.** DataGrip: 33 web-backed candidates, none shared, 16 matrix IDs today. The alternative is DBeaver (34, none shared).
-- **Process.** Run L2 → L3 → L4 end to end. One PR with human review, like every step.
+- **Process.** Run the loop for two items only: the scope-trigger item, then DataGrip. Each gets its own PR, with human review.
 - **What to record in the execution log:**
   - outcomes per type;
   - the share of candidates that became rows;
@@ -153,9 +192,8 @@ Each candidate gets exactly one outcome, recorded in the ledger (L1):
 
 ### L6 — Rollout
 
-- **Pace.** One product per branch and PR, in queue order: DBeaver, MongoDB Compass, NoSQLBooster, Studio 3T, TablePlus, VisuaLeaf, Navicat, then the web-backed 3T candidates.
-- **Scope of each PR.** The matrix edits, the ledger rows and the downstream cascade, or an explicit deferral.
-- **Weekly command.** The LLM step stays **out of `tools/silo-sync/run.sh`**, because it is not deterministic. The weekly command only runs the ledger-aware `candidates.py`, so new candidates show up and decided ones stay hidden.
+- **What runs.** `/silo-port` continues the loop over the remaining products in checklist order.
+- **Weekly command.** The Claude stage stays **out of `tools/silo-sync/run.sh`**, because it is not deterministic. `run.sh` only refreshes the reports and batches, including the ledger-aware `candidates.py`.
 
 ## 4. Order
 
@@ -163,18 +201,18 @@ Each candidate gets exactly one outcome, recorded in the ledger (L1):
 |---|---|---|---|
 | 1 | L1 | `feat/<n>-candidate-triage-ledger` | The queue must be able to shrink before anyone works it |
 | 2 | L4 | `feat/<n>-porting-validator` | The guardrail exists before the first LLM edit |
-| 3 | L2 | `feat/<n>-evidence-batches` | Input for the prompt |
-| 4 | L3 | `feat/<n>-porting-prompt` | Needs L1, L2 and L4 to test against |
-| 5 | L5 | `feat/<n>-pilot-datagrip` | Go/no-go |
-| 6+ | L6 | `feat/<n>-port-<product>` | One per product, after the gate |
+| 3 | L2 | `feat/<n>-evidence-batches` | Input for the Claude stage; added to `run.sh` |
+| 4 | L3 | `feat/<n>-silo-port-command` | Needs L1, L2 and L4 to test against |
+| 5 | L5 | `port/<item>-<date>` | Go/no-go: scope triggers and DataGrip |
+| 6+ | L6 | `port/<product>-<date>` | One per product, created by the loop |
 
-The per-issue loop is Plan 08's:
+The per-issue loop for L1–L4 is Plan 08's:
 - one branch and one PR per issue;
 - code review before every merge, with every finding fixed or explicitly accepted by the owner;
 - re-review until nothing must be fixed;
 - plan checkboxes ticked on the branch as work is done and verified.
 
-For L5 and L6 the review also covers the **content**: every new row is checked against its cited source.
+For L5 and L6 the review also covers the **content**: every new or changed row is checked against its cited source.
 
 ## 5. Risks
 
@@ -189,10 +227,7 @@ For L5 and L6 the review also covers the **content**: every new row is checked a
 
 ## 6. Owner decisions needed
 
-1. **Runtime.**
-   - **Recommendation:** a Claude Code session driven by the L3 prompt, with L2 and L4 as scripted checks before and after.
-   - **Why:** it needs no API key and matches how this repository is maintained today.
-   - **Alternative:** an API-driven script. It is more reproducible, but brings key handling, cost control and a new dependency.
+1. **Runtime.** Decided (2026-09-26): a Claude Code session running `/silo-port`, no API.
 2. **Access date for ✅.**
    - **The question:** does the silo's retrieval date count as the access date, or must the page be re-fetched live before a ✅?
    - **Recommendation:** accept the silo date when the page was retrieved within a window the owner sets (for example 30 days), and re-fetch otherwise. This decides whether the LLM can work from silo copies alone.
@@ -201,7 +236,15 @@ For L5 and L6 the review also covers the **content**: every new row is checked a
    - **Do not invent that rule here.** No such rule exists yet.
 4. **Feedback to the silo classifier.** `noise` decisions could improve the silo's classifier. Plan 08 put silo improvements out of scope, so this plan only records them in the ledger.
    - **Recommendation:** keep feeding them back out of scope. Offer the ledger to the silo as a separate issue if wanted.
+5. **Who merges a product PR inside the loop.**
+   - **Recommendation:** during the pilot, the loop stops after opening each PR and waits for the owner to merge it.
+   - **After the gate:** the owner may give standing approval to merge after the review passes, as in Plan 08.
 
 ## 7. Execution log
 
 - 2026-09-26 — Draft written from `reports/silo-candidates.md` at silo `55dbb2cb`.
+- 2026-09-26 — Owner decisions:
+  - **Flow.** Two stages: `run.sh`, then a Claude Code command.
+  - **Runtime.** No API.
+  - **Pace.** One product at a time.
+  - **Checklist.** A checkbox file lists the products, and the command loops over all of them.
