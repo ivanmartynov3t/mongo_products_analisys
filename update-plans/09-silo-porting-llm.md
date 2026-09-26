@@ -117,9 +117,10 @@ Each step has one issue and one PR.
   - [x] Tool run against the real silo; summary in the PR
   - [x] Pull request opened: [#58](https://github.com/ivanmartynov3t/mongo_products_analisys/pull/58)
   - [x] Code review done; findings recorded on the PR (round 1: PASSED, 0 must fix · 5 should-fix · 8 nits)
-  - [ ] Findings fixed or accepted by the owner; re-review has no *must fix* left
+  - [x] Findings fixed or accepted by the owner; re-review has no *must fix* left (round 2: PASSED, 0 must fix · 2 nits, fixed)
   - [x] Docs updated
-  - [ ] Merge checklist complete
+  - [x] Merge checklist complete
+  - [x] Owner approved the merge (standing approval for steps 1–4, see Execution log)
   - [ ] Merged to `main` (squash); branch deleted; issue closed with a result comment
 - [ ] **Step 2 — L4** · [#53](https://github.com/ivanmartynov3t/mongo_products_analisys/issues/53)
   - [ ] Branch created from the latest `main`
@@ -131,6 +132,7 @@ Each step has one issue and one PR.
   - [ ] Findings fixed or accepted by the owner; re-review has no *must fix* left
   - [ ] Docs updated
   - [ ] Merge checklist complete
+  - [ ] Owner approved the merge (standing approval for steps 1–4, see Execution log)
   - [ ] Merged to `main` (squash); branch deleted; issue closed with a result comment
 - [ ] **Step 3 — L2** · [#54](https://github.com/ivanmartynov3t/mongo_products_analisys/issues/54)
   - [ ] Branch created from the latest `main`
@@ -142,6 +144,7 @@ Each step has one issue and one PR.
   - [ ] Findings fixed or accepted by the owner; re-review has no *must fix* left
   - [ ] Docs updated
   - [ ] Merge checklist complete
+  - [ ] Owner approved the merge (standing approval for steps 1–4, see Execution log)
   - [ ] Merged to `main` (squash); branch deleted; issue closed with a result comment
 - [ ] **Step 4 — L3** · [#55](https://github.com/ivanmartynov3t/mongo_products_analisys/issues/55)
   - [ ] Branch created from the latest `main`
@@ -153,6 +156,7 @@ Each step has one issue and one PR.
   - [ ] Findings fixed or accepted by the owner; re-review has no *must fix* left
   - [ ] Docs updated
   - [ ] Merge checklist complete
+  - [ ] Owner approved the merge (standing approval for steps 1–4, see Execution log)
   - [ ] Merged to `main` (squash); branch deleted; issue closed with a result comment
 - [ ] **Step 5 — L5 pilot** · [#56](https://github.com/ivanmartynov3t/mongo_products_analisys/issues/56) · items in [`09-product-loop.md`](09-product-loop.md); stops at the owner's go/no-go gate
 - [ ] **Step 6 — L6 rollout** · [#57](https://github.com/ivanmartynov3t/mongo_products_analisys/issues/57) · items in [`09-product-loop.md`](09-product-loop.md)

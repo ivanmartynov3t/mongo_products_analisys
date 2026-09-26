@@ -84,7 +84,10 @@ _COUNT_RE = re.compile(r"[0-9]+")
 
 def _is_date(text: str) -> bool:
     try:
-        return bool(re.fullmatch(r"[0-9]{4}-[0-9]{2}-[0-9]{2}", text)) and bool(date.fromisoformat(text))
+        if not re.fullmatch(r"[0-9]{4}-[0-9]{2}-[0-9]{2}", text):
+            return False
+        date.fromisoformat(text)   # raises on an impossible date such as 2026-02-30
+        return True
     except ValueError:
         return False
 
