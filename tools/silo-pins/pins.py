@@ -33,10 +33,10 @@ sys.path.insert(0, str(HERE.parent / "silo-review"))
 from review import (FM_RE, SOURCE_LINE_RE, ReadOnlyViolation, cat_batch, frontmatter, git,  # noqa: E402
                     repo_files)
 
-PIN_RE = re.compile(r"silo: `(data/[^`@\s]+)@([0-9a-fA-F]{7,40})`")
+PIN_RE = re.compile(r"silo: `(data/[^`@\s]+\.md)@([0-9a-fA-F]{7,40})`")  # one file, never a directory
 # Text that looks like a pin but does not match PIN_RE (`Silo:`, no space, short or symbolic commit).
 # A silo directory mention ("silo `data/3t/pii-scanner`") names no file and is not a near miss.
-NEAR_PIN_RE = re.compile(r"silo:?\s*`data/[^`]*(?:@|\.md)[^`]*`", re.I)
+NEAR_PIN_RE = re.compile(r"\bsilo:?\s*`data/[^`]*(?:@|\.md)[^`]*`", re.I)
 
 CURRENT = "current"            # pinned at the silo ref already
 UNCHANGED = "unchanged"        # same content at the silo ref: safe to re-pin

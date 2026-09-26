@@ -131,6 +131,10 @@ def test_all(tmp: Path) -> None:
         pins.CHANGED, pins.UNCHANGED, pins.CHANGED, pins.UNCHANGED, pins.UNCHANGED, pins.BROKEN,
         pins.UNCHANGED])
 
+    ahead, _ = pins.find_pins(cfg, repo)
+    pins.evaluate(ahead, silo, c1)
+    check("a pin ahead of the ref is broken (repin would move it backwards)", ahead[6].status, pins.BROKEN)
+
     matrix = repo / "products/p/features/f/feature-matrix.md"
     before, silo_before = hashes(repo), hashes(silo)
     code, text = pins.run(cfg, "list")
@@ -168,11 +172,24 @@ def test_check(tmp: Path) -> None:
     note.write_text(f"- S1: x (silo: `data/x/a.md@{c1[:8]}`; folder silo `data/x`)\n", encoding="utf-8")
     cfg = config(repo, silo)
     check("check passes when no pin is broken", pins.run(cfg, "check")[0], 0)
-    note.write_text(note.read_text() + "- S2: y (Silo: `data/x/a.md@HEAD`)\n", encoding="utf-8")
+    note.write_text(note.read_text() + "- also prod_info_silo `data/x/a.md` (a repository name, not a pin)\n", encoding="utf-8")
+    check("'prod_info_silo' is not 'silo'", pins.run(cfg, "check")[0], 0)
+    note.write_text(note.read_text() + "- S2: y (Silo: `data/x/a.md@HEAD`)\n"
+                    f"- S3: y (silo:`data/x/a.md@{c1[:8]}`)\n"
+                    "- S4: y (silo: `data/x/a.md@abc12`)\n"
+                    f"- S5: y (silo: `data/x@{c1[:8]}`)\n", encoding="utf-8")
     code, text = pins.run(cfg, "check")
     check("check fails on a malformed pin", code, 1)
-    check("malformed pin is reported", text.splitlines()[-1],
-          "warning: docs/note.md:2: malformed pin 'Silo: `data/x/a.md@HEAD`' (expected silo: `data/<path>@<commit>`)")
+    check("malformed pins are reported (HEAD, no space, short hex, directory)", [l for l in text.splitlines() if l.startswith("warning")], [
+        "warning: docs/note.md:3: malformed pin 'Silo: `data/x/a.md@HEAD`' (expected silo: `data/<path>@<commit>`)",
+        f"warning: docs/note.md:4: malformed pin 'silo:`data/x/a.md@{c1[:8]}`' (expected silo: `data/<path>@<commit>`)",
+        "warning: docs/note.md:5: malformed pin 'silo: `data/x/a.md@abc12`' (expected silo: `data/<path>@<commit>`)",
+        f"warning: docs/note.md:6: malformed pin 'silo: `data/x@{c1[:8]}`' (expected silo: `data/<path>@<commit>`)"])
+    try:
+        pins.main(["list", "apply"])
+        failures.append("list apply accepted")
+    except SystemExit as e:
+        check("a mode is for repin only", e.code, 2)
 
 
 def test_repin_text_guard() -> None:
