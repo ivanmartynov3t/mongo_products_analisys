@@ -195,7 +195,7 @@ For L5 and L6 the review also covers the **content**: every new row is checked a
    - **Alternative:** an API-driven script. It is more reproducible, but brings key handling, cost control and a new dependency.
 2. **Access date for ✅.**
    - **The question:** does the silo's retrieval date count as the access date, or must the page be re-fetched live before a ✅?
-   - **Recommendation:** accept the silo date when the page was retrieved within the last 30 days, and re-fetch otherwise. This decides whether the LLM can work from silo copies alone.
+   - **Recommendation:** accept the silo date when the page was retrieved within a window the owner sets (for example 30 days), and re-fetch otherwise. This decides whether the LLM can work from silo copies alone.
 3. **The 104 repository/source-only candidates.**
    - **Recommendation:** defer them to a separate plan. Porting them needs a local-only view of private documents and a rule for how private-source findings may be worded in this public repository.
    - **Do not invent that rule here.** No such rule exists yet.
