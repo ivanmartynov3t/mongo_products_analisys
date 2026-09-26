@@ -274,7 +274,7 @@ Copy into each PR description and tick there; the plan's *Merge checklist comple
   - [x] New tests added; full suite passes locally (commands and results in the PR)
   - [x] Tool run against the real silo; before/after summary in the PR
   - [x] Pull request opened: PR link: [#50](https://github.com/ivanmartynov3t/mongo_products_analisys/pull/50)
-  - [x] Code review done; findings recorded on the PR (round 1: 5 must fix · 3 minors · 3 warnings; round 2: 0 must fix · 2 minors · 4 warnings, all fixed but one warning left to follow-up)
+  - [x] Code review done; findings recorded on the PR (round 1: 5 must fix · 3 minors · 3 warnings; round 2: 0 must fix · 2 minors · 4 warnings, all addressed)
   - [x] All *must fix* findings fixed; tests re-run
   - [x] Re-review: no *must fix* left (round 2 PASSED); suggestions fixed or accepted by the owner
   - [x] Docs updated (tool README, this plan; tool READMEs of silo-pins and taxonomy-reconcile for exit 2)
