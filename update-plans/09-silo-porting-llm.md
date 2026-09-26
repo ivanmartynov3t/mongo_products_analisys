@@ -2,7 +2,7 @@
 
 This is part 2 of the silo porting. [Plan 08](08-silo-porting-mechanical.md) built the scripts that surface signals. This plan adds the judgement: whether a signal is a real capability, which ID it maps to, what status it gets, and which source backs it.
 
-Measured 2026-09-26 at silo `55dbb2cb`. **Status: draft, awaiting owner review.** No issues are created yet.
+Measured 2026-09-26 at silo `55dbb2cb`. **Status: approved (2026-09-26); step 1 next.** Issues #52–#57.
 
 ## Flow
 
@@ -73,12 +73,12 @@ Each step has one issue and one PR.
 
 | # | Step | Issue | What |
 |---|---|---|---|
-| 1 | L1 Triage ledger | TBD | Add `tools/silo-candidates/triage.tsv`: product, tag, outcome, date, silo commit, PR or reason. `candidates.py` hides decided candidates and re-opens one if its web-document count grows. |
-| 2 | L4 Validator | TBD | Add `tools/silo-candidates/validate.py`. It checks that each ID exists, each status is legal and carries its required fields, and pins resolve. It also checks that quotes appear word for word in the pinned page, that no private host or repository is named, that every batch candidate has one ledger row, and that the diff stays in scope. Exit codes: 0 clean, 1 needs a human, 2 error. |
-| 3 | L2 Evidence batches | TBD | Add `tools/silo-candidates/batch.py`, run by `run.sh`. It writes every public silo page per open candidate to a gitignored `.local/silo-batches/` folder. Private documents are left out. |
-| 4 | L3 `/silo-port` | TBD | Add `.claude/commands/silo-port.md`. It implements the loop above and reuses weekly prompts 01 and 03 and the README prompt. Re-running it resumes at the first unticked item. |
-| 5 | L5 Pilot | TBD | Run the loop for scope triggers and DataGrip (33 web-backed candidates, none shared). Record the outcomes, the share of candidates that became rows, and the review corrections. The owner then decides: go, retune the thresholds, or stop. |
-| 6 | L6 Rollout | TBD | The loop runs the remaining products, the cross-product reports and the README. The LLM stays out of `run.sh`. |
+| 1 | L1 Triage ledger | [#52](https://github.com/ivanmartynov3t/mongo_products_analisys/issues/52) | Add `tools/silo-candidates/triage.tsv`: product, tag, outcome, date, silo commit, PR or reason. `candidates.py` hides decided candidates and re-opens one if its web-document count grows. |
+| 2 | L4 Validator | [#53](https://github.com/ivanmartynov3t/mongo_products_analisys/issues/53) | Add `tools/silo-candidates/validate.py`. It checks that each ID exists, each status is legal and carries its required fields, and pins resolve. It also checks that quotes appear word for word in the pinned page, that no private host or repository is named, that every batch candidate has one ledger row, and that the diff stays in scope. Exit codes: 0 clean, 1 needs a human, 2 error. |
+| 3 | L2 Evidence batches | [#54](https://github.com/ivanmartynov3t/mongo_products_analisys/issues/54) | Add `tools/silo-candidates/batch.py`, run by `run.sh`. It writes every public silo page per open candidate to a gitignored `.local/silo-batches/` folder. Private documents are left out. |
+| 4 | L3 `/silo-port` | [#55](https://github.com/ivanmartynov3t/mongo_products_analisys/issues/55) | Add `.claude/commands/silo-port.md`. It implements the loop above and reuses weekly prompts 01 and 03 and the README prompt. Re-running it resumes at the first unticked item. |
+| 5 | L5 Pilot | [#56](https://github.com/ivanmartynov3t/mongo_products_analisys/issues/56) | Run the loop for scope triggers and DataGrip (33 web-backed candidates, none shared). Record the outcomes, the share of candidates that became rows, and the review corrections. The owner then decides: go, retune the thresholds, or stop. |
+| 6 | L6 Rollout | [#57](https://github.com/ivanmartynov3t/mongo_products_analisys/issues/57) | The loop runs the remaining products, the cross-product reports and the README. The LLM stays out of `run.sh`. |
 
 - **Steps 1–4 (tools)** follow Plan 08's loop:
   - a code review before each merge;
@@ -108,7 +108,7 @@ Each step has one issue and one PR.
 
 ## Execution log
 
-- 2026-09-26 — Draft written.
+- 2026-09-26 — Draft written; approved and merged (#51); issues #52–#57 created.
 - 2026-09-26 — Owner decisions:
   - two stages (`run.sh`, then a Claude Code command);
   - no API;
