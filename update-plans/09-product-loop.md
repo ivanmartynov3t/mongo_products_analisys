@@ -1,6 +1,6 @@
 # Plan 09 — product loop
 
-Checklist for [`/silo-port`](09-silo-porting-llm.md#l3--silo-port-command-the-product-loop). The command takes the first unticked item, works it on its own branch, opens one PR, and ticks it. Sub-items are ticked on the branch, only when done and verified.
+Checklist for [`/silo-port`](09-silo-porting-llm.md#flow). The command takes the first unticked item, works it on its own branch, opens one PR, and ticks it. Sub-items are ticked on the branch, only when done and verified.
 
 Cycle started: 2026-09-26 · silo ref: `55dbb2cb` · counts from `reports/silo-candidates.md` (web-backed / all candidates).
 
