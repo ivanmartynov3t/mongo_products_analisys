@@ -5,7 +5,7 @@
 """List, check and re-pin `silo: <path>@<commit>` references to prod_info_silo (issue #38).
 
     uv run tools/silo-pins/pins.py list            # every pin and its state at the silo ref
-    uv run tools/silo-pins/pins.py check           # exit 1 if a pin is broken or malformed
+    uv run tools/silo-pins/pins.py check           # exit 1 if a pin is broken or malformed, 2 on error
     uv run tools/silo-pins/pins.py repin plan      # show which pins would move to the silo ref
     uv run tools/silo-pins/pins.py repin apply     # move them: only pins whose content is unchanged
 
@@ -199,7 +199,11 @@ def main(argv: list[str] | None = None) -> int:
     a = ap.parse_args(argv)
     if a.mode and a.command != "repin":
         ap.error(f"{a.command} takes no mode; plan/apply is for repin only")
-    code, text = run(load_config(), a.command, a.mode or "plan", a.silo.resolve() if a.silo else None, a.ref)
+    try:
+        code, text = run(load_config(), a.command, a.mode or "plan", a.silo.resolve() if a.silo else None, a.ref)
+    except Exception as e:  # noqa: BLE001 — exit 2 on any error, so 1 always means "a pin needs a human"
+        print(f"error: {type(e).__name__}: {e}", file=sys.stderr)
+        return 2
     print(text)
     return code
 

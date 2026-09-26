@@ -69,6 +69,14 @@ def main() -> int:
     ap.add_argument("--silo", type=Path, default=REPO.parent / "prod_info_silo")
     ap.add_argument("--check", action="store_true", help="only report problems, write nothing")
     args = ap.parse_args()
+    try:
+        return reconcile(args)
+    except Exception as e:  # noqa: BLE001 — exit 2 on any error, so 1 always means "a problem to review"
+        print(f"error: {type(e).__name__}: {e}", file=sys.stderr)
+        return 2
+
+
+def reconcile(args: argparse.Namespace) -> int:
 
     ours = load_dictionary()
     silo, docs = load_silo(args.silo)

@@ -13,7 +13,7 @@ Keeps [`feature-dictionary.md`](../../feature-dictionary.md) and the `prod_info_
 ## Usage
 
 ```bash
-# weekly triage (#18): list new or unmapped IDs, write nothing; exit code 1 if any
+# weekly triage (#18): list new or unmapped IDs, write nothing; exit code 1 if any, 2 on error
 uv run tools/taxonomy-reconcile/reconcile.py --check
 
 # after changing decisions.tsv or the silo: regenerate the TSV and the report table

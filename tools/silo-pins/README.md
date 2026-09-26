@@ -4,7 +4,7 @@ Keeps the references to `prod_info_silo` copies machine-readable (issue #38, Pla
 
 ```bash
 uv run tools/silo-pins/pins.py list            # every pin and its state at the silo ref
-uv run tools/silo-pins/pins.py check           # exit 1 if a pin is broken or malformed
+uv run tools/silo-pins/pins.py check           # exit 1 if a pin is broken or malformed, 2 on error
 uv run tools/silo-pins/pins.py repin plan      # which pins would move to the silo ref (writes nothing)
 uv run tools/silo-pins/pins.py repin apply     # move them
 uv run tools/silo-pins/test_pins.py            # offline tests
