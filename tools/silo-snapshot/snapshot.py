@@ -30,11 +30,10 @@ HERE = Path(__file__).resolve().parent
 REPO = HERE.parent.parent
 
 sys.path.insert(0, str(HERE.parent / "silo-review"))
-from review import ReadOnlyViolation, cat_batch, frontmatter, git  # noqa: E402
+from review import SILO_GENERATED as GENERATED, ReadOnlyViolation, cat_batch, frontmatter, git  # noqa: E402
 
 # Generated files in a product folder that are not documents (same rule as the silo's
 # TaxonomyClassifier.is_generated_dashboard_or_strings).
-GENERATED = {"README.md", "DIFF.md", "repo_source_strings.md"}
 REPO_SYMBOLS = "repo_symbols_and_strings.json"
 
 
