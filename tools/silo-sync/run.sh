@@ -72,6 +72,7 @@ else
 fi
 step "review queue (#17)"    write uv run -q tools/silo-review/review.py apply "${S[@]}"
 step "candidate signals"     write uv run -q tools/silo-candidates/candidates.py apply "${S[@]}"
+step "evidence gaps"         write uv run -q tools/evidence-gaps/gaps.py apply "${S[@]}"
 step "taxonomy (#18)"        check uv run -q tools/taxonomy-reconcile/reconcile.py --check --silo "$TAX"
 step "silo pins"             check uv run -q tools/silo-pins/pins.py check "${S[@]}"
 # Re-pinning edits matrices, so the script only shows the plan; `pins.py repin apply` is a human step.

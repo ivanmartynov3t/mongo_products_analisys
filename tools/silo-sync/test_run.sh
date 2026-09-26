@@ -53,6 +53,7 @@ expect "all quiet"              0 run env
 # every tool that reads the silo gets --silo (scope-triggers reads only the snapshot)
 grep -v -- "--silo" "$TMP/log" | grep -v "scope-triggers" | grep -q . && fail "every silo tool gets --silo: $(grep -v -- --silo "$TMP/log" | grep -v scope-triggers | head -1)"
 grep -q -- "silo-snapshot/snapshot.py apply --silo $silo" "$TMP/log" || fail "SILO forwarded to the snapshot"
+grep -q -- "evidence-gaps/gaps.py apply --silo $silo" "$TMP/log" || fail "evidence gaps run with SILO"
 grep -q -- "reconcile.py --check --silo " "$TMP/log" || fail "reconcile gets a silo directory"
 grep -q -- "reconcile.py --check --silo $silo" "$TMP/log" && fail "reconcile reads a temp copy at origin/main, not the checkout"
 expect "a check needs a human"  1 run env STUB_MATCH="pins.py check" STUB_CODE=1

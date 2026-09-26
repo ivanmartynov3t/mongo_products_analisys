@@ -18,13 +18,14 @@ tools/silo-sync/test_run.sh         # offline tests: arguments, inputs, exit cod
 | 3 | scope triggers | [`scope-triggers`](../scope-triggers/README.md) (reads the new snapshot; skipped if step 2 failed) | nothing | #18 |
 | 4 | staleness queue | [`silo-review`](../silo-review/README.md) | `reports/review-queue.md` | #17 |
 | 5 | candidate signals | [`silo-candidates`](../silo-candidates/README.md) | `reports/silo-candidates.md` | LLM part |
-| 6 | taxonomy check | [`taxonomy-reconcile`](../taxonomy-reconcile/README.md) `--check` | nothing | #18 |
-| 7 | pin check | [`silo-pins`](../silo-pins/README.md) `check` | nothing | — |
-| 8 | re-pin plan | [`silo-pins`](../silo-pins/README.md) `repin plan` | nothing: shows which unchanged pins could move; run `repin apply` yourself | — |
+| 6 | evidence gaps | [`evidence-gaps`](../evidence-gaps/README.md) (section 2 reads the new snapshot) | `reports/evidence-gaps.md` | prod_info_silo#47 |
+| 7 | taxonomy check | [`taxonomy-reconcile`](../taxonomy-reconcile/README.md) `--check` | nothing | #18 |
+| 8 | pin check | [`silo-pins`](../silo-pins/README.md) `check` | nothing | — |
+| 9 | re-pin plan | [`silo-pins`](../silo-pins/README.md) `repin plan` | nothing: shows which unchanged pins could move; run `repin apply` yourself | — |
 
 Every step reads the silo at `origin/main` from git objects; `SILO` and the ref are passed to each silo tool as `--silo` and `--ref`, so every tool reads the commit the header prints. If `SILO` does not hold `config/taxonomy.yaml` and `data/catalog_index.json` at `origin/main`, the script stops with exit 2 before writing anything. The taxonomy check reads two files from a directory, so the script extracts `config/taxonomy.yaml` and `data/catalog_index.json` at `origin/main` into a temporary directory for it. The silo checkout is never read or changed, so a fetch without a pull is enough.
 
-The order differs from issue #40's list: the snapshot runs first because the trigger check reads it, and the two pin steps (P6) were added. The evidence-gap report (P5, #37) is added as a step when that tool merges.
+The order differs from issue #40's list: the snapshot runs first because the trigger check reads it, and the two pin steps (P6) were added.
 
 ## Result
 
