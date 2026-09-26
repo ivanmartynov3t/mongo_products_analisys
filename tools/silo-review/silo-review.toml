@@ -21,4 +21,5 @@ scan = [
 exclude = [
     "reports/review-queue.md",          # our own output
     "reports/taxonomy-reconciliation.md",
+    "reports/silo-snapshot.md",         # silo seed URLs, not citations
 ]

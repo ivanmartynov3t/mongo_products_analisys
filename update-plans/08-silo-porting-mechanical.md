@@ -124,7 +124,7 @@ Each step starts from an up-to-date `main` that already contains the previous me
 | Step | Issue | Repo(s) | Branch | Why here |
 |---|---|---|---|---|
 | 1 | P9 | silo | `fix/45-silo-cleanup` | Prerequisite: clean source; nearly done |
-| 2 | P2 | analysis | `feat/34-silo-snapshot` | Porting core: imports silo state; base for P3 and P8 |
+| 2 | P2 | analysis | `feat/34-silo-snapshot-v2` | Porting core: imports silo state; base for P3 and P8 |
 | 3 | P1 | silo, then analysis | `feat/33-repo-doc-checksums` (silo), `feat/33-github-citations` (analysis) | Porting core: ~55 more citations checkable; silo side merges first |
 | 4 | P6 | analysis | `feat/38-silo-pins` | Porting core: machine-readable pins that P7 and P4 can read |
 | 5 | P7 | analysis | `feat/39-queue-reports-research` | Porting core: staleness for reports and research; `review.py` after P1 |
@@ -168,32 +168,32 @@ Copy into each PR description and tick there; the plan's *Merge checklist comple
 
 **State rule (required).** A checkbox is ticked `[x]` only after that item is actually done and verified. Everything not yet done stays `[ ]`. Update this section in the same commit as the work it records, so the plan always shows the real state. Tick a step's heading box only when all its sub-items are ticked.
 
-- [ ] **Step 1 — P9** · [prod_info_silo#45](https://github.com/ivanmartynov3t/prod_info_silo/issues/45) · branch silo `fix/45-silo-cleanup`
+- [x] **Step 1 — P9** · [prod_info_silo#45](https://github.com/ivanmartynov3t/prod_info_silo/issues/45) · branch silo `fix/45-silo-cleanup`
   - [x] Branch created from the latest `main`
   - [x] Implemented (issue scope only)
   - [x] New tests added; full suite passes locally (commands and results in the PR)
   - [x] Tool run against the real silo; before/after summary in the PR
   - [x] Pull request opened: PR link: [prod_info_silo#46](https://github.com/ivanmartynov3t/prod_info_silo/pull/46)
-  - [x] Code review done; findings recorded on the PR (round 1: 4 must fix · 11 suggestions · 4 docs; round 2: 0 must fix · 8 suggestions, all applied)
+  - [x] Code review done; findings recorded on the PR (round 1: 4 must fix · 11 suggestions · 4 docs; round 2: 0 must fix · 8 suggestions, all applied; round 3: PASSED, 0 must fix · 10 suggestions, 7 fixed in `c950c1a4`, 3 accepted by the owner as follow-ups prod_info_silo#48, #49, #50)
   - [x] All *must fix* findings fixed; tests re-run
-  - [ ] Re-review: no *must fix* left; suggestions fixed or accepted by the owner
+  - [x] Re-review: no *must fix* left; suggestions fixed or accepted by the owner
   - [x] Docs updated (tool README, conventions, this plan)
-  - [ ] Merge checklist complete
-  - [ ] Owner approved the merge
-  - [ ] Merged to `main`; branch deleted; issue closed with a result comment
+  - [x] Merge checklist complete
+  - [x] Owner approved the merge
+  - [x] Merged to `main` (squash `2a1ef919`); branch deleted; issue closed with a result comment
 
-- [ ] **Step 2 — P2** · [#34](https://github.com/ivanmartynov3t/mongo_products_analisys/issues/34) · branch `feat/34-silo-snapshot`
-  - [ ] Branch created from the latest `main`
-  - [ ] Implemented (issue scope only)
-  - [ ] New tests added; full suite passes locally (commands and results in the PR)
-  - [ ] Tool run against the real silo; before/after summary in the PR
-  - [ ] Pull request opened: PR link: —
-  - [ ] Code review done; findings recorded on the PR (must fix: — · suggestions: —)
-  - [ ] All *must fix* findings fixed; tests re-run
-  - [ ] Re-review: no *must fix* left; suggestions fixed or accepted by the owner
-  - [ ] Docs updated (tool README, conventions, this plan)
-  - [ ] Merge checklist complete
-  - [ ] Owner approved the merge
+- [ ] **Step 2 — P2** · [#34](https://github.com/ivanmartynov3t/mongo_products_analisys/issues/34) · branch `feat/34-silo-snapshot-v2`
+  - [x] Branch created from the latest `main`
+  - [x] Implemented (issue scope only)
+  - [x] New tests added; full suite passes locally (commands and results in the PR)
+  - [x] Tool run against the real silo; before/after summary in the PR
+  - [x] Pull request opened: PR link: [#42](https://github.com/ivanmartynov3t/mongo_products_analisys/pull/42) (replaces #41, closed: it exposed private repository names)
+  - [x] Code review done; findings recorded on the PR (round 1: NOT PASSED, 3 must fix · 10 suggestions; round 2: PASSED, 0 must fix · 5 suggestions, 4 fixed, S-A is an owner action)
+  - [x] All *must fix* findings fixed; tests re-run
+  - [x] Re-review: no *must fix* left; suggestions fixed or accepted by the owner
+  - [x] Docs updated (tool README, conventions, this plan)
+  - [x] Merge checklist complete
+  - [x] Owner approved the merge
   - [ ] Merged to `main`; branch deleted; issue closed with a result comment
 
 - [ ] **Step 3 — P1** · [#33](https://github.com/ivanmartynov3t/mongo_products_analisys/issues/33) · branch silo `feat/33-repo-doc-checksums`, then analysis `feat/33-github-citations`
@@ -309,3 +309,8 @@ Copy into each PR description and tick there; the plan's *Merge checklist comple
 - 2026-09-25 — implementation plan (section 8) added with per-step checkboxes.
 - 2026-09-26 — Step 1 (P9): PR prod_info_silo#46; review round 1 NOT PASSED (4 must fix), round 2 PASSED; suggestions applied. Owner request: silo pre-commit hook removed (classify + catalog stay in every workflow script).
 - 2026-09-26 — Owner decision: plan scoped to mechanical porting silo → this repository. Steps reordered (P9 → P2 → P1 → P6 → P7 → P3 → P4 → P8 → P5). P5 reduced to the gap report; silo seed URLs moved to [prod_info_silo#47](https://github.com/ivanmartynov3t/prod_info_silo/issues/47). P9 kept as a prerequisite.
+- 2026-09-26 — Step 2 (P2) started before step 1 merged (owner: continue). Snapshot at silo `f1e28e8d` still counts the stale License Manager page under Studio 3T; regenerate after prod_info_silo#46 merges.
+- 2026-09-26 — Step 1 (P9): review round 3 PASSED (0 must fix). Docs/test suggestions fixed in `c950c1a4`; S1 code part, S3, S8 (pre-existing pipeline behaviour) await owner decision.
+- 2026-09-26 — Step 1 (P9) merged: prod_info_silo#46 squash `2a1ef919`; #45 closed; follow-ups #48–#50.
+- 2026-09-26 — Step 2 (P2): review round 1 NOT PASSED (M1 wrong source-file count, M2 silent zeros on missing input, M3 private repository names in a public repository). Fixed; PR #41 closed and its branch deleted, replaced by clean-history PR #42. **Residual exposure:** GitHub keeps `refs/pull/41/head`, so the closed PR #41 still shows the names; only GitHub Support can purge it (owner action). Snapshot regenerated at silo `2a1ef919`.
+- 2026-09-26 — Step 2 (P2): review round 2 PASSED; S-B–S-E fixed; owner approved the merge.

@@ -75,7 +75,7 @@ def domain(norm: str) -> str:
 
 
 def git(silo: Path, *args: str) -> str:
-    return subprocess.run(["git", "-C", str(silo), *args], check=True, capture_output=True, text=True).stdout
+    return subprocess.run(["git", "-C", str(silo), *args], check=True, capture_output=True, text=True, encoding="utf-8").stdout
 
 
 def cat_batch(silo: Path, specs: list[str]) -> dict[str, str]:
