@@ -2,7 +2,7 @@
 
 This is part 2 of the silo porting. [Plan 08](08-silo-porting-mechanical.md) built the scripts that surface signals. This plan adds the judgement: whether a signal is a real capability, which ID it maps to, what status it gets, and which source backs it.
 
-Measured 2026-09-26 at silo `55dbb2cb`. **Status: approved (2026-09-26); step 3 next.** Issues #52–#57.
+Measured 2026-09-26 at silo `55dbb2cb`. **Status: approved (2026-09-26); step 3 in review.** Issues #52–#57.
 
 ## Flow
 
@@ -137,17 +137,17 @@ Each step has one issue and one PR.
   - [x] Merge checklist complete
   - [x] Owner approved the merge (standing approval for steps 1–4, see Execution log)
   - [x] Merged to `main` (squash `2e10f8e`); branch deleted; issue closed with a result comment
-- [ ] **Step 3 — L2** · [#54](https://github.com/ivanmartynov3t/mongo_products_analisys/issues/54)
-  - [ ] Branch created from the latest `main`
-  - [ ] Implemented (issue scope only)
-  - [ ] New tests added; full suite passes locally
-  - [ ] Tool run against the real silo; summary in the PR
-  - [ ] Pull request opened
-  - [ ] Code review done; findings recorded on the PR
-  - [ ] Findings fixed or accepted by the owner; re-review has no *must fix* left
-  - [ ] Docs updated
-  - [ ] Merge checklist complete
-  - [ ] Owner approved the merge (standing approval for steps 1–4, see Execution log)
+- [ ] **Step 3 — L2** · [#54](https://github.com/ivanmartynov3t/mongo_products_analisys/issues/54) · branch `feat/54-evidence-batches`
+  - [x] Branch created from the latest `main`
+  - [x] Implemented (issue scope only)
+  - [x] New tests added; full suite passes locally
+  - [x] Tool run against the real silo; summary in the PR
+  - [x] Pull request opened: [#60](https://github.com/ivanmartynov3t/mongo_products_analisys/pull/60)
+  - [x] Code review done; findings recorded on the PR (round 1: PASSED, 0 must fix · 2 should-fix · 5 nits)
+  - [x] Findings fixed or accepted by the owner; re-review has no *must fix* left (round 2: PASSED, 2 nits, fixed)
+  - [x] Docs updated
+  - [x] Merge checklist complete
+  - [x] Owner approved the merge (standing approval for steps 1–4, see Execution log)
   - [ ] Merged to `main` (squash); branch deleted; issue closed with a result comment
 - [ ] **Step 4 — L3** · [#55](https://github.com/ivanmartynov3t/mongo_products_analisys/issues/55)
   - [ ] Branch created from the latest `main`
@@ -185,3 +185,4 @@ Each step has one issue and one PR.
   - **Quote check.** A dry run treating every row as touched gave 32 quotes not found in their cited repository sources. The ones inspected were paraphrases or quotes of the dictionary; the dictionary is now accepted as a source.
   - **Access date.** Only its presence is checked; the window waits on owner decision 3.
 - 2026-09-26 — Step 2 merged (#59, squash `2e10f8e`) after three review rounds (NOT PASSED, NOT PASSED, PASSED). Owner question: 47 of 86 silo repository and source folder names are treated as public because this repository already mentions them.
+- 2026-09-26 — Step 3 (#54): `batch.py` added and run by `run.sh`. The real run wrote 13 batches with 135 candidates and 681 public pages (about 10 MB, gitignored).
