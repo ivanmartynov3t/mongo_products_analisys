@@ -74,6 +74,11 @@ def build_silo(root: Path) -> None:
         P + "other2.md": doc("https://vendor.test/o2", "Unrelated page two with enough words here.", checksum="o2", banner=True),
         # repository document: SHA-pinned permalink, re-scraped at a new commit later (issue #33)
         P + "repo_docs/docs/guide.md": doc("https://github.com/org/tool/blob/aaa111/docs/guide.md", BODY_V1, checksum="g1"),
+        # the same repository copied under a second product
+        "data/vendor/prod2/repo_docs/docs/guide.md": doc("https://github.com/org/tool/blob/aaa111/docs/guide.md", BODY_V1, checksum="g1"),
+        P + "repo_docs/docs/old.md": doc("https://github.com/org/tool/blob/aaa111/docs/old.md", "An old guide page that the repository later deleted entirely.", checksum="h1"),
+        # before the silo recorded repo-doc checksums: must never count as a change
+        P + "repo_docs/docs/legacy.md": doc("https://github.com/org/tool/blob/aaa111/docs/legacy.md", "A legacy page captured before checksums were recorded here.", checksum=""),
     }, "chore(silo): scrape")
     # 09-05: taxonomy-style commit — frontmatter rewritten, no content change
     commit(root, "2026-09-05", {
@@ -85,6 +90,9 @@ def build_silo(root: Path) -> None:
         P + "rerender.md": doc("https://vendor.test/rerender", BODY_V1, checksum="b2"),
         P + "gone.md": None,
         P + "repo_docs/docs/guide.md": doc("https://github.com/org/tool/blob/bbb222/docs/guide.md", BODY_V2, checksum="g2"),
+        "data/vendor/prod2/repo_docs/docs/guide.md": doc("https://github.com/org/tool/blob/bbb222/docs/guide.md", BODY_V2, checksum="g2"),
+        P + "repo_docs/docs/old.md": None,
+        P + "repo_docs/docs/legacy.md": doc("https://github.com/org/tool/blob/bbb222/docs/legacy.md", "A legacy page rewritten with completely different words since then.", checksum="l2"),
         # first captured after the review: only the server's Last-Modified can speak for the gap
         P + "lastmod.md": doc("https://vendor.test/lastmod", BODY_V1, checksum="d1",
                               lm="Mon, 07 Sep 2026 10:00:00 GMT", fetched="2026-09-10"),
@@ -109,6 +117,8 @@ MATRIX = """# Feature Matrix — Vendor / Data Transfer
 - S7: https://forum.example.org/thread/1
 - S8: https://github.com/org/tool/blob/ccc333/docs/guide.md
 - S9: https://github.com/org/tool/blob/ccc333/docs/missing.md
+- S10: https://github.com/org/tool/blob/ccc333/docs/old.md
+- S11: https://github.com/org/tool/blob/ccc333/docs/legacy.md
 
 | Sub-feature ID | Status |
 |---|---|
@@ -185,12 +195,22 @@ def test_end_to_end(tmp: Path) -> None:
     check("GitHub permalink at another commit matches the same file", bool(s8) and "same file at the silo's commit" in s8[0], True)
     check("GitHub permalink change date", bool(s8) and "2026-09-08" in s8[0], True)
     check("repository documents are never quoted", bool(s8) and "new text" not in s8[0], True)
-    check("permalink match counted in citation health", "1 GitHub file permalinks are matched" in health, True)
+    check("a file held under two products is counted once", bool(s8) and "+1 / −0 of 2 lines" in s8[0], True)
+    check("deleted repo doc cited at another commit is dropped",
+          "https://github.com/org/tool/blob/ccc333/docs/old.md" in report.split("### Dropped by the silo")[-1], True)
+    check("version without checksum is an unknown baseline, not a change",
+          re.search(r"docs/legacy\.md.*content changed", report) is None, True)
+    check("permalink match counted in citation health", "2 GitHub file permalinks are matched" in health, True)
     check("unknown file in a known repo stays not checkable",
-          re.search(r"\| github\.com \| 1 \| 0 \| 0 \| 0 \| 0 \| 1 \|", health) is not None, True)
+          re.search(r"\| github\.com \| 1 \| 0 \| 0 \| 1 \| 1 \| 1 \|", health) is not None, True)
     check("repo_path_key ignores the commit", (review.repo_path_key("github.com/Org/Tool/blob/abc/a/b.md"),
           review.repo_path_key("github.com/org/tool/blob/main/a/b.md"), review.repo_path_key("github.com/org/tool/issues/1")),
           ("github.com/org/tool/blob/*/a/b.md", "github.com/org/tool/blob/*/a/b.md", None))
+    k = lambda u: review.repo_path_key(review.normalize_url(u))  # noqa: E731
+    check("repo_path_key edge cases", [k("https://github.com/o/r/blob/abc/a.md/"), k("https://github.com/o/r/blob/abc/a.md#L10"),
+          k("https://github.com/o/r/blob/abc/a.md?plain=1"), k("https://github.com/o/r/tree/abc/docs"),
+          k("https://github.com/o/r/blob/abc"), k("https://gitlab.com/o/r/blob/abc/a.md")],
+          ["github.com/o/r/blob/*/a.md", "github.com/o/r/blob/*/a.md", "github.com/o/r/blob/*/a.md", None, None, None])
 
     # deterministic: same silo commit, same output
     check("deterministic output", review.run(cfg, "plan"), report)
@@ -205,8 +225,8 @@ def test_end_to_end(tmp: Path) -> None:
     check("silo not modified", tree_hashes(silo, silo / "__none__"), silo_before)
 
     churn = review.run(cfg, "churn")
-    check("churn: frontmatter-only week", "| 2026-W36 | 5 | 0 | 0 |" in churn, True)
-    check("churn separates checksum noise from real change", "| 2026-W37 | 4 | 3 | 2 |" in churn, True)
+    check("churn: frontmatter-only week", "| 2026-W36 | 6 | 0 | 0 |" in churn, True)
+    check("churn separates checksum noise from real change", "| 2026-W37 | 5 | 3 | 2 |" in churn, True)
 
 
 def test_write_guard(tmp: Path) -> None:

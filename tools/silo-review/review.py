@@ -78,8 +78,9 @@ def repo_path_key(norm: str) -> str | None:
     """A GitHub file permalink without its commit: `github.com/org/repo/blob/*/path` (issue #33).
 
     Matrices cite repository documents at the commit they were read at; the silo re-scrapes
-    them at newer commits. The same file at another commit is the same source."""
-    m = GITHUB_BLOB_RE.match(norm)
+    them at newer commits. The same file at another commit is the same source. Supported for
+    commit-SHA (or slash-free branch) permalinks; a query string (`?plain=1`) is ignored."""
+    m = GITHUB_BLOB_RE.match(norm.split("?", 1)[0])
     return f"{m.group(1).lower()}/blob/*/{m.group(2)}" if m else None
 
 
@@ -242,15 +243,18 @@ class Silo:
         return self._chrome[key]
 
     def docs_for(self, norm: str) -> tuple[list[SiloDoc], bool]:
-        """Silo copies of a cited URL: exact match first, else the same GitHub file at any commit.
+        """Silo copies of a cited URL. A GitHub file permalink gets every copy of that file at
+        any commit (so a newer re-scrape is never hidden by an exact match); anything else,
+        the exact URL.
 
-        Returns (docs, matched_by_repo_path)."""
-        if norm in self.by_url:
-            return self.by_url[norm], False
+        Returns (docs, matched_by_repo_path): the flag is set when a copy is at another commit."""
+        exact = self.by_url.get(norm, [])
         key = repo_path_key(norm)
         if key and key in self.by_repo_path:
-            return self.by_repo_path[key], True
-        return [], False
+            docs = self.by_repo_path[key]
+            exact_paths = {d.path for d in exact}
+            return docs, any(d.path not in exact_paths for d in docs)
+        return exact, False
 
     def first_seen(self, path: str) -> str:
         c = self._commits_of.get(path)
@@ -405,12 +409,18 @@ def _classify(norm: str, review_date: str | None, silo: Silo, hist_cache: dict) 
     if not review_date:
         return Verdict(UNCHANGED_SINCE_CAPTURE, [], docs, first, lastmod)
     changed_days, added_lines, baseline_seen, delta = set(), [], False, [0, 0, 0]
+    histories_seen: set[tuple[tuple[str, str], ...]] = set()
     for d in docs:
         if d.path not in hist_cache:
             hist_cache[d.path] = silo.history(d.path)
-        versions = [v for v in hist_cache[d.path] if v[1]]
+        versions = [v for v in hist_cache[d.path] if v[1]]  # versions without a checksum: unknown baseline
         if not versions:
             continue
+        # The same file copied under several products has the same history: count it once.
+        history = tuple((v[0], v[1]) for v in versions)
+        if history in histories_seen:
+            continue
+        histories_seen.add(history)
         before = [v for v in versions if v[0] <= review_date]
         baseline_seen |= bool(before)
         base = before[-1] if before else versions[0]
