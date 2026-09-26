@@ -262,9 +262,9 @@ Copy into each PR description and tick there; the plan's *Merge checklist comple
   - [x] Pull request opened: PR link: [#47](https://github.com/ivanmartynov3t/mongo_products_analisys/pull/47)
   - [x] Code review done; findings recorded on the PR (round 1: 3 must fix · 8 suggestions; round 2: 2 must fix, process · 4 minors; round 3: 1 must fix, this plan's step 7 ticks; all fixed)
   - [x] All *must fix* findings fixed; tests re-run
-  - [ ] Re-review: no *must fix* left; suggestions fixed or accepted by the owner
+  - [x] Re-review: no *must fix* left (round 4 PASSED); suggestions fixed or accepted by the owner
   - [x] Docs updated (tool README, conventions, this plan)
-  - [ ] Merge checklist complete
+  - [x] Merge checklist complete
   - [x] Owner approved the merge (2026-09-26 standing approval: merge after a passing review)
   - [ ] Merged to `main`; branch deleted; issue closed with a result comment
 
