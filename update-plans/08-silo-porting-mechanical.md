@@ -265,7 +265,7 @@ Copy into each PR description and tick there; the plan's *Merge checklist comple
   - [ ] Re-review: no *must fix* left; suggestions fixed or accepted by the owner
   - [x] Docs updated (tool README, conventions, this plan)
   - [ ] Merge checklist complete
-  - [ ] Owner approved the merge
+  - [x] Owner approved the merge (2026-09-26 standing approval: merge after a passing review)
   - [ ] Merged to `main`; branch deleted; issue closed with a result comment
 
 - [ ] **Step 8 — P8** · [#40](https://github.com/ivanmartynov3t/mongo_products_analisys/issues/40) · branch `feat/40-silo-sync`
