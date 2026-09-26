@@ -30,7 +30,8 @@ REPO = HERE.parent.parent
 
 sys.path.insert(0, str(HERE.parent / "silo-review"))
 import review  # noqa: E402
-from review import NOT_CHECKABLE, DROPPED, ReadOnlyViolation, domain, guarded_write, repo_path_key  # noqa: E402
+from review import (NOT_CHECKABLE, DROPPED, ReadOnlyViolation, domain, guarded_write, host_matches,  # noqa: E402
+                    host_of, repo_path_key)
 
 GROUPS = [
     ("crawlable", "Crawlable and compliant — candidate silo seeds (prod_info_silo#47)"),
@@ -44,19 +45,18 @@ GROUPS = [
 # issue trackers are excluded, like youtrack.jetbrains.com.
 GITHUB_CRAWLABLE = {"", "releases", "tags", "wiki"}
 GITHUB_EXCLUDED = {"issues", "pull", "pulls", "discussions"}
+# First path segments that are GitHub pages, not owners (github.com/orgs/x is not a repository).
+GITHUB_RESERVED = {"orgs", "topics", "sponsors", "marketplace", "features", "collections", "settings", "search"}
 
 
 def group_of(norm: str, cfg: dict) -> str:
-    dom = domain(norm)
-    host = dom.split(":", 1)[0]  # 127.0.0.1:27117 is 127.0.0.1
-    matches = lambda pats: any(host == p or host.endswith("." + p) for p in pats)  # noqa: E731
-    if matches(cfg["internal_domains"]):
+    if host_matches(norm, cfg["internal_domains"]):
         return "internal"
-    if matches(cfg["excluded_domains"]):
+    if host_matches(norm, cfg["excluded_domains"]):
         return "excluded"
-    if host == "github.com" and not repo_path_key(norm):
+    if host_of(norm) == "github.com" and not repo_path_key(norm):
         parts = norm.split("?", 1)[0].split("/")[1:]
-        if len(parts) >= 2:
+        if len(parts) >= 2 and parts[0].lower() not in GITHUB_RESERVED:
             kind = parts[2] if len(parts) > 2 else ""
             if kind in GITHUB_CRAWLABLE:
                 return "crawlable"
@@ -161,7 +161,8 @@ def load_config(path: Path = HERE / "evidence-gaps.toml", repo: Path = REPO) -> 
     cfg["repo"] = repo
     cfg["silo_path"] = (repo / cfg["silo_path"]).resolve()
     cfg["output_path"] = (repo / cfg["output"]).resolve()
-    if cfg["output_path"].parent != (repo / "reports").resolve() or not cfg["output_path"].name.startswith("evidence-gaps"):
+    if cfg["output_path"].parent != (repo / "reports").resolve() or not cfg["output_path"].name.startswith("evidence-gaps") \
+            or cfg["output_path"].suffix != ".md":
         raise ReadOnlyViolation(f"{cfg['output_path']} is not reports/evidence-gaps*.md (other reports belong to other tools)")
     return cfg
 

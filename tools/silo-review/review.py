@@ -110,6 +110,17 @@ def domain(norm: str) -> str:
     return norm.split("/", 1)[0]
 
 
+def host_of(norm: str) -> str:
+    """Host without port: 127.0.0.1:27117 is 127.0.0.1."""
+    return domain(norm).split(":", 1)[0]
+
+
+def host_matches(norm: str, patterns: list[str]) -> bool:
+    """True when the URL's host is one of `patterns` or a subdomain of one (any port)."""
+    host = host_of(norm)
+    return bool(host) and any(host == p or host.endswith("." + p) for p in patterns)
+
+
 GITHUB_BLOB_RE = re.compile(r"^(github\.com/[^/]+/[^/]+)/blob/[^/]+/(.+)$", re.I)
 
 

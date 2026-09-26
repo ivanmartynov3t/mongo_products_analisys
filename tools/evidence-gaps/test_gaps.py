@@ -60,6 +60,7 @@ MATRIX_URLS = """# M
 - S11: https://github.com/org
 - S12: https://github.com/org/repo/blob/abc123/docs/guide.md
 - S13: https://vendor.test/deleted
+- S14: https://github.com/orgs/org/repositories
 
 | Sub-feature ID | Capability | Current support | Sources |
 | --- | --- | --- | --- |
@@ -133,7 +134,7 @@ def test_all(tmp: Path) -> None:
     ev_rows = [l for l in thin.splitlines() if l.startswith("| `")]
     check("thin rows", ev_rows, ["| `products/g/orphan` | 1 | 0 | no silo product |", "| `products/g/prod` | 3 | 1 | — |"])
     check("tracked URL is not a gap; dropped URL is", "| vendor.test | 1 |" in section(report, "### Crawlable"), True)
-    check("12 untracked or dropped URLs", "12 of 13 distinct cited URLs" in report, True)
+    check("12 untracked or dropped URLs", "13 of 14 distinct cited URLs" in report, True)
     check("crawlable rows (count desc, then domain)", [l for l in section(report, "### Crawlable").splitlines() if l.startswith("| ") and "---" not in l], [
         "| Domain | URLs |", "| github.com | 3 |", "| docs.other.test | 1 |", "| notreddit.com | 1 |", "| vendor.test | 1 |"])
     check("excluded by policy, subdomains included",
@@ -142,8 +143,13 @@ def test_all(tmp: Path) -> None:
     check("internal, port ignored", [l for l in section(report, "### Internal").splitlines() if l.startswith("| ") and "---" not in l],
           ["| Domain | URLs |", "| 127.0.0.1:27117 | 1 |", "| jira.example.atlassian.net | 1 |"])
     check("GitHub issues are excluded like other trackers", "| github.com | 1 |" in section(report, "### Excluded"), True)
-    check("other GitHub page (organisation)", "| github.com | 1 |" in section(report, "### Other GitHub"), True)
-    check("plural", ("1 URL on 1 domain." in section(report, "### Other GitHub")), True)
+    check("other GitHub pages (organisation, /orgs/)", "| github.com | 2 |" in section(report, "### Other GitHub"), True)
+    check("plural", ("2 URLs on 1 domain." in section(report, "### Other GitHub"),
+                     "2 URLs on 2 domains." in section(report, "### Internal")), (True, True))
+    check("host_matches: subdomains and ports, not look-alikes",
+          [gaps.review.host_matches(n, ["reddit.com", "127.0.0.1"]) for n in
+           ("reddit.com/x", "old.reddit.com/x", "notreddit.com/x", "127.0.0.1:27117/a", "")],
+          [True, True, False, True, False])
     check("snapshot from another commit is flagged", "**Warning:** the snapshot" in report, True)
     check("no full URLs in the report", re.search(r"https?://(?!github\.com/ivanmartynov3t)", report) is None, True)
     check("deterministic", gaps.run(cfg, "plan"), report)
@@ -156,14 +162,15 @@ def test_all(tmp: Path) -> None:
 
 
 def test_output_restricted(tmp: Path) -> None:
-    bad = tmp / "bad.toml"
-    bad.write_text((gaps.HERE / "evidence-gaps.toml").read_text().replace(
-        'output = "reports/evidence-gaps.md"', 'output = "products/x.md"'), encoding="utf-8")
-    try:
-        gaps.load_config(bad, tmp)
-        failures.append("output outside reports/ accepted")
-    except gaps.ReadOnlyViolation:
-        pass
+    for out in ("products/x.md", "reports/review-queue.md", "reports/evidence-gaps.json"):
+        bad = tmp / "bad.toml"
+        bad.write_text((gaps.HERE / "evidence-gaps.toml").read_text().replace(
+            'output = "reports/evidence-gaps.md"', f'output = "{out}"'), encoding="utf-8")
+        try:
+            gaps.load_config(bad, tmp)
+            failures.append(f"output {out} accepted")
+        except gaps.ReadOnlyViolation:
+            pass
 
 
 def test_no_direct_writes() -> None:
