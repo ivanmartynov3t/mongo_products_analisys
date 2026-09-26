@@ -1,6 +1,6 @@
 # Plan 09 — product loop
 
-Checklist for [`/silo-port`](09-silo-porting-llm.md#flow). The command takes the first unticked item, works it on its own branch, opens one PR, and ticks it. Sub-items are ticked on the branch, only when done and verified.
+Checklist for [`/silo-port`](../.claude/commands/silo-port.md) ([Plan 09](09-silo-porting-llm.md#flow)). The command takes the first unticked item, works it on its own branch, opens one PR, and ticks it. Sub-items are ticked on the branch, only when done and verified.
 
 Cycle started: 2026-09-26 · silo ref: `55dbb2cb` · counts from `reports/silo-candidates.md` (web-backed / all candidates).
 
@@ -11,13 +11,13 @@ For each product the sub-items are:
 - **evidence gaps** — add a public source to matrices that cite no URL, where the silo has one;
 - **cascade** — update the product's feature and product reports;
 - **validator** — `validate.py` exits 0, or the remaining findings are listed in the PR;
-- **PR** — opened, reviewed, merged.
+- **PR** — opened and reviewed. The merge lands the item's ticks on `main`, so an item with an open PR is not started again.
 
-A product with nothing to do in the reports is ticked with "no changes" and gets no PR.
+An item with nothing to do is ticked "no changes" on the next item's branch and gets no PR of its own.
 
 ## First
 
-- [ ] **Scope triggers** — `reports/scope-triggers.md`; update `docs/coverage-scope.md` when a trigger fires
+- [ ] **Scope triggers** — `uv run tools/scope-triggers/triggers.py`; update `docs/coverage-scope.md` when a trigger fires
   - [ ] validator · [ ] PR
 
 ## Third-party products
