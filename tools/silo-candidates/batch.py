@@ -61,8 +61,8 @@ def _md(text: str) -> str:
     return " ".join(str(text).split()).replace("\\|", "|").replace("|", "\\|")
 
 
-def build(ccfg: dict, silo: Path, ref: str) -> tuple[str, dict[str, dict[str, str]]]:
-    """(silo sha, {product: {relative file: content}})."""
+def build(ccfg: dict, silo: Path, ref: str) -> tuple[str, dict[str, dict[str, str]], int]:
+    """(silo sha, {product: {relative file: content}}, number of candidates)."""
     repo = ccfg["repo"]
     signals: dict[str, list[candidates.Signal]] = {}
     candidates.build(ccfg, silo, ref, open_signals=signals)   # checks the ledger too
@@ -99,8 +99,8 @@ def build(ccfg: dict, silo: Path, ref: str) -> tuple[str, dict[str, dict[str, st
             if not any(i in defs for i in ids):
                 L.append("- Dictionary: no entry for this tag or its aliases")
             L += ["", "| # | Page | Probability | Retrieved | Cite as | Body |", "|---|---|---|---|---|---|"]
-            for n, (prob, title, url, path) in enumerate(s.web, 1):
-                body = blobs.get(f"{sha}:{data}/{path}", "")
+            for n, (prob, title, url, path) in enumerate((w for w in s.web if blobs.get(f"{sha}:{data}/{w[3]}")), 1):
+                body = blobs[f"{sha}:{data}/{path}"]
                 fm = frontmatter(body)
                 pf = page_file(path)
                 files[f"pages/{pf}"] = FM_RE.sub("", body, count=1).strip() + "\n"
@@ -121,33 +121,39 @@ def build(ccfg: dict, silo: Path, ref: str) -> tuple[str, dict[str, dict[str, st
             L.append("")
         files["README.md"] = "\n".join(L)
         out[slug] = files
-    return sha, out
+    return sha, out, sum(len(v) for v in signals.values())
 
 
-def write(root: Path, batches: dict[str, dict[str, str]]) -> None:
-    """Rebuild the batch folder. Refuses any path that is not under it."""
-    root = root.resolve()
-    if root.parent.name != ".local" or root.name != "silo-batches":
-        raise ReadOnlyViolation(f"{root} is not .local/silo-batches")
-    if root.exists():
-        shutil.rmtree(root)
+def write(repo: Path, root: Path, batches: dict[str, dict[str, str]]) -> None:
+    """Rebuild <repo>/.local/silo-batches atomically: build a sibling folder, then swap it in.
+    Refuses any other folder and any path that escapes it."""
+    repo, root = repo.resolve(), root.resolve()
+    if root != (repo / OUT_DIR).resolve():
+        raise ReadOnlyViolation(f"{root} is not {OUT_DIR} of this repository")
+    tmp = root.with_name(root.name + ".new")
+    if tmp.exists():
+        shutil.rmtree(tmp)
     for slug, files in batches.items():
         for rel, text in files.items():
-            p = (root / slug / rel).resolve()
-            if root not in p.parents:
-                raise ReadOnlyViolation(f"{p} is outside {root}")
+            p = (tmp / slug / rel).resolve()
+            if tmp.resolve() not in p.parents:
+                shutil.rmtree(tmp, ignore_errors=True)
+                raise ReadOnlyViolation(f"{p} is outside {OUT_DIR}")
             p.parent.mkdir(parents=True, exist_ok=True)
             p.write_text(text, encoding="utf-8")
+    tmp.mkdir(parents=True, exist_ok=True)
+    if root.exists():
+        shutil.rmtree(root)
+    tmp.rename(root)
 
 
 def run(ccfg: dict, command: str, silo: Path | None = None, ref: str | None = None) -> str:
-    sha, batches = build(ccfg, silo or ccfg["silo_path"], ref or ccfg["silo_ref"])
-    n_cands = sum(f["README.md"].count("\n## `") for f in batches.values())
+    sha, batches, n_cands = build(ccfg, silo or ccfg["silo_path"], ref or ccfg["silo_ref"])
     n_pages = sum(sum(k.startswith("pages/") for k in f) for f in batches.values())
     summary = f"{len(batches)} batches, {n_cands} candidates, {n_pages} pages at silo {sha[:10]}"
     if command == "plan":
         return "would write " + summary
-    write(ccfg["repo"] / OUT_DIR, batches)
+    write(ccfg["repo"], ccfg["repo"] / OUT_DIR, batches)
     return f"wrote {OUT_DIR}: {summary}"
 
 

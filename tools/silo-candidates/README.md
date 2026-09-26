@@ -120,7 +120,9 @@ uv run tools/silo-candidates/test_batch.py     # offline tests
 - **`pages/`.** Each cited page's body at the silo ref, frontmatter removed.
 
 **Guarantees:**
-- **Local only.** `.local/` is gitignored. The folder is deleted and rebuilt on every `apply`, so no stale file survives, and nothing is written outside it (guarded and tested).
+- **Local only.** `.local/` is gitignored. Every `apply` builds a new folder and swaps it in, so no stale file survives, and a failed run keeps the previous batches. Check the commit in each README header. Nothing is written outside the folder (guarded and tested).
 - **Public pages only.** Repository documents, source files and pages on `non_public_hosts` are left out entirely, not just unnamed.
+  - Page bodies are copied verbatim, so they may still link code hosts or mention repository names. `validate.py` is the gate before anything is committed.
+  - A catalog page the silo does not store at the ref has no URL, so it is never a web page; `candidates.py` counts it as a source file.
 - **Deterministic.** The output is the same for the same silo commit, ledger and matrices.
 - **Errors.** A malformed ledger, like any other error, exits 2.

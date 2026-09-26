@@ -124,6 +124,15 @@ def test_all(tmp: Path) -> None:
     batch.run(ccfg, "apply")
     check("rebuilt from scratch and deterministic", tree(out), first)
 
+    # a catalog page the silo does not store has no URL, so it is never a web page (candidates counts it as source)
+    cat = json.loads(json.dumps(CATALOG))
+    cat["by_product"]["prod"].append(entry("vendor/prod/p3.md", {"QUERY-new": 0.85}))
+    (silo / "data/catalog_index.json").write_text(json.dumps(cat))
+    commit(silo)
+    batch.run(ccfg, "apply")
+    readme = (out / "README.md").read_text()
+    check("unstored page never listed", "vendor/prod/p3.md" in readme, False)
+
     (repo / "tools/silo-candidates/triage.tsv").write_text("wrong\n")
     try:
         batch.run(ccfg, "plan")
@@ -133,18 +142,23 @@ def test_all(tmp: Path) -> None:
 
 
 def test_write_guard(tmp: Path) -> None:
-    for bad in (tmp / "reports", tmp / ".local" / "other", tmp / "silo-batches"):
+    repo = tmp / "guard"
+    for bad in (repo / "reports", repo / ".local" / "other", tmp / "elsewhere" / ".local" / "silo-batches"):
         try:
-            batch.write(bad, {"p": {"README.md": "x"}})
-            failures.append(f"write to {bad.name} accepted")
+            batch.write(repo, bad, {"p": {"README.md": "x"}})
+            failures.append(f"write to {bad} accepted")
         except batch.ReadOnlyViolation:
             pass
+    root = repo / ".local" / "silo-batches"
+    batch.write(repo, root, {"p": {"README.md": "old"}})
     try:
-        batch.write(tmp / ".local" / "silo-batches", {"p": {"../../escape.md": "x"}})
+        batch.write(repo, root, {"p": {"../../escape.md": "x"}})
         failures.append("path escape accepted")
     except batch.ReadOnlyViolation:
         pass
-    check("escape not written", (tmp / "escape.md").exists(), False)
+    check("escape not written; previous batches kept on a failed write",
+          ((repo / "escape.md").exists(), (root / "p/README.md").read_text(), (repo / ".local/silo-batches.new").exists()),
+          (False, "old", False))
 
 
 def main() -> int:
