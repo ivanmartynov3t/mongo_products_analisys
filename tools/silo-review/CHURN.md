@@ -40,6 +40,6 @@ Used only where the silo has no copy from before the review date. Measured per d
 ## Known limits
 
 - The silo's history starts 2026-09-08; every matrix reviewed earlier is compared against the silo's first copy, so edits between the review and 2026-09-08 are invisible unless `Last-Modified` reports them.
-- 472 of 660 cited URLs (forums, issue trackers, Reddit, GitHub) are not tracked by the silo and are reported as *not checkable* — never as unchanged.
+- 472 of 660 cited URLs (forums, issue trackers, Reddit, GitHub) were not tracked by the silo on 2026-09-25 and are reported as *not checkable* — never as unchanged. Since #33, GitHub file permalinks are matched by repository and path (12 of 55 cited GitHub URLs at silo `55dbb2cb`); GitHub issue, release, wiki and repository pages remain not checkable.
 - Marketing banners unique to one page (e.g. a MongoDB promo line) still register as change; a reviewer dismisses them in seconds.
 - A full run takes ~2–4 minutes (history of every cited page is read from git objects).

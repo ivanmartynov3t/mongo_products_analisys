@@ -71,6 +71,19 @@ def domain(norm: str) -> str:
     return norm.split("/", 1)[0]
 
 
+GITHUB_BLOB_RE = re.compile(r"^(github\.com/[^/]+/[^/]+)/blob/[^/]+/(.+)$", re.I)
+
+
+def repo_path_key(norm: str) -> str | None:
+    """A GitHub file permalink without its commit: `github.com/org/repo/blob/*/path` (issue #33).
+
+    Matrices cite repository documents at the commit they were read at; the silo re-scrapes
+    them at newer commits. The same file at another commit is the same source. Supported for
+    commit-SHA (or slash-free branch) permalinks; a query string (`?plain=1`) is ignored."""
+    m = GITHUB_BLOB_RE.match(norm.split("?", 1)[0])
+    return f"{m.group(1).lower()}/blob/*/{m.group(2)}" if m else None
+
+
 # ---------------------------------------------------------------- git (silo)
 
 
@@ -151,6 +164,7 @@ class Silo:
     sha: str
     commit_date: str
     by_url: dict[str, list[SiloDoc]] = field(default_factory=dict)
+    by_repo_path: dict[str, list[SiloDoc]] = field(default_factory=dict)  # GitHub permalinks, commit ignored
     ever_tracked: set[str] = field(default_factory=set)
     boilerplate: dict[str, set[str]] = field(default_factory=dict)
     _chrome: dict[tuple[str, str], set[str]] = field(default_factory=dict)
@@ -171,9 +185,12 @@ class Silo:
         for p in paths:
             fm = frontmatter(texts[f"{sha}:{p}"])
             if fm.get("source_url") and fm.get("checksum_sha256"):
-                silo.by_url.setdefault(normalize_url(fm["source_url"]), []).append(
-                    SiloDoc(p, fm["checksum_sha256"], fm.get("http_last_modified", ""), fm.get("updated_at", "")[:10]))
-        for docs in silo.by_url.values():
+                norm = normalize_url(fm["source_url"])
+                doc = SiloDoc(p, fm["checksum_sha256"], fm.get("http_last_modified", ""), fm.get("updated_at", "")[:10])
+                silo.by_url.setdefault(norm, []).append(doc)
+                if key := repo_path_key(norm):
+                    silo.by_repo_path.setdefault(key, []).append(doc)
+        for docs in (*silo.by_url.values(), *silo.by_repo_path.values()):
             docs.sort(key=lambda d: d.path)
         per_dom: dict[str, dict[str, int]] = defaultdict(lambda: defaultdict(int))
         for norm, docs in silo.by_url.items():
@@ -225,6 +242,20 @@ class Silo:
             self._chrome[key] = {l for l, n in freq.items() if n >= BOILERPLATE_PAGES}
         return self._chrome[key]
 
+    def docs_for(self, norm: str) -> tuple[list[SiloDoc], bool]:
+        """Silo copies of a cited URL. A GitHub file permalink gets every copy of that file at
+        any commit (so a newer re-scrape is never hidden by an exact match); anything else,
+        the exact URL.
+
+        Returns (docs, matched_by_repo_path): the flag is set when a copy is at another commit."""
+        exact = self.by_url.get(norm, [])
+        key = repo_path_key(norm)
+        if key and key in self.by_repo_path:
+            docs = self.by_repo_path[key]
+            exact_paths = {d.path for d in exact}
+            return docs, any(d.path not in exact_paths for d in docs)
+        return exact, False
+
     def first_seen(self, path: str) -> str:
         c = self._commits_of.get(path)
         return c[-1][1] if c else ""
@@ -232,10 +263,21 @@ class Silo:
     def load_dropped(self, wanted: set[str]) -> None:
         """URLs the silo tracked at some point but no longer does (candidate dead or moved pages)."""
         texts = cat_batch(self.root, [f"{c}^:{p}" for c, p in self._deleted])
+        wanted_by_key: dict[str, list[str]] = defaultdict(list)
+        for w in wanted:
+            if key := repo_path_key(w):
+                wanted_by_key[key].append(w)
         for text in texts.values():
             u = frontmatter(text).get("source_url")
-            if u and normalize_url(u) in wanted and normalize_url(u) not in self.by_url:
-                self.ever_tracked.add(normalize_url(u))
+            if not u:
+                continue
+            n = normalize_url(u)
+            if n in wanted and not self.docs_for(n)[0]:
+                self.ever_tracked.add(n)
+            key = repo_path_key(n)
+            for w in wanted_by_key.get(key, ()) if key else ():
+                if not self.docs_for(w)[0]:
+                    self.ever_tracked.add(w)
 
 
 # ---------------------------------------------------------------- analysis repo
@@ -325,6 +367,7 @@ class Verdict:
     last_modified: str = ""  # ISO date of the latest server Last-Modified among the silo copies
     sample: list[str] = field(default_factory=list)  # up to two added lines, for the reviewer
     delta: tuple[int, int, int] = (0, 0, 0)          # (lines added, lines removed, baseline lines)
+    by_repo_path: bool = False  # matched to the same GitHub file at another commit
 
 
 def http_date(value: str) -> str:
@@ -351,7 +394,13 @@ def content_change(old: str, new: str, chrome: set[str]) -> tuple[bool, list[str
 
 
 def classify(norm: str, review_date: str | None, silo: Silo, hist_cache: dict) -> Verdict:
-    docs = silo.by_url.get(norm)
+    v = _classify(norm, review_date, silo, hist_cache)
+    v.by_repo_path = silo.docs_for(norm)[1]
+    return v
+
+
+def _classify(norm: str, review_date: str | None, silo: Silo, hist_cache: dict) -> Verdict:
+    docs = silo.docs_for(norm)[0]
     if not docs:
         return Verdict(DROPPED if norm in silo.ever_tracked else NOT_CHECKABLE, [], [])
     first = min((silo.first_seen(d.path) for d in docs if silo.first_seen(d.path)), default="")
@@ -360,12 +409,18 @@ def classify(norm: str, review_date: str | None, silo: Silo, hist_cache: dict) -
     if not review_date:
         return Verdict(UNCHANGED_SINCE_CAPTURE, [], docs, first, lastmod)
     changed_days, added_lines, baseline_seen, delta = set(), [], False, [0, 0, 0]
+    histories_seen: set[tuple[tuple[str, str], ...]] = set()
     for d in docs:
         if d.path not in hist_cache:
             hist_cache[d.path] = silo.history(d.path)
-        versions = [v for v in hist_cache[d.path] if v[1]]
+        versions = [v for v in hist_cache[d.path] if v[1]]  # versions without a checksum: unknown baseline
         if not versions:
             continue
+        # The same file copied under several products has the same history: count it once.
+        history = tuple((v[0], v[1]) for v in versions)
+        if history in histories_seen:
+            continue
+        histories_seen.add(history)
         before = [v for v in versions if v[0] <= review_date]
         baseline_seen |= bool(before)
         base = before[-1] if before else versions[0]
@@ -446,11 +501,14 @@ def build_report(cfg: dict, silo: Silo, matrices: list[Matrix], cites: dict[str,
                     what = f"content changed ({', '.join(v.changes)}; +{a} / −{rm} of {tot} lines)"
                     if tot and rm == tot and not a:
                         what += " — all text gone: page emptied, moved or failed to render"
-                    if v.sample:
+                    # Never quote repository documents: many silo repositories are private, and
+                    # this report is published.
+                    if v.sample and not any("/repo_docs/" in d.path for d in v.docs):
                         what += "; new text: " + " / ".join(f"“{x[:120]}”" for x in v.sample)
                 else:
                     what = f"server `Last-Modified` {v.last_modified}; silo first captured it {v.first_seen}"
-                L.append(f"- {sid}<{c.url}> — {what} (silo: `{v.docs[0].path}`)")
+                via = ", same file at the silo's commit" if v.by_repo_path else ""
+                L.append(f"- {sid}<{c.url}> — {what} (silo: `{v.docs[0].path}`{via})")
             L.append("")
     no_date = [r[0].file for r in rows if not r[0].review_date]
     no_src = [r[0].file for r in rows if r[0].review_date and not r[0].citations]
@@ -462,10 +520,13 @@ def build_report(cfg: dict, silo: Silo, matrices: list[Matrix], cites: dict[str,
 
     # 2. citation health
     status_of: dict[str, str] = {}
+    n_by_path = 0
     for norm, cl in cites.items():
         # a URL cited in several files is judged against the oldest review date that cites it
         rds = [dates[c.file] for c in cl if dates.get(c.file)]
-        status_of[norm] = classify(norm, min(rds) if rds else None, silo, cache).status
+        v = classify(norm, min(rds) if rds else None, silo, cache)
+        status_of[norm] = v.status
+        n_by_path += v.by_repo_path
     counts = defaultdict(int)
     by_dom = defaultdict(lambda: defaultdict(int))
     for norm, st in status_of.items():
@@ -477,7 +538,8 @@ def build_report(cfg: dict, silo: Silo, matrices: list[Matrix], cites: dict[str,
           "(a matrix's `Analysis date`, otherwise the file's last commit date).", "",
           "| Status | URLs |", "|---|---|"]
     L += [f"| {st} | {counts.get(st, 0)} |" for st in ORDER]
-    L += ["", "*Not checkable* means the silo has never tracked the page (forums, issue trackers, sites it does not crawl). It is never reported as unchanged.", "",
+    L += ["", f"{n_by_path} GitHub file permalinks are matched to the same file at the commit the silo holds (the commit in the URL is ignored; issue #33).", ""]
+    L += ["*Not checkable* means the silo has never tracked the page (forums, issue trackers, sites it does not crawl). It is never reported as unchanged.", "",
           "### By domain", "", "| Domain | " + " | ".join(ORDER) + " |", "|---|" + "---|" * len(ORDER)]
     for d in sorted(by_dom, key=lambda d: (-sum(by_dom[d].values()), d)):
         L.append(f"| {d} | " + " | ".join(str(by_dom[d].get(st, 0)) for st in ORDER) + " |")
@@ -498,10 +560,10 @@ def churn(cfg: dict, silo: Silo, cites: dict[str, list[Citation]]) -> str:
     touched: dict[str, set[str]] = defaultdict(set)
     checksum: dict[str, set[str]] = defaultdict(set)
     real: dict[str, set[str]] = defaultdict(set)
-    tracked = sorted(n for n in cites if n in silo.by_url)
+    tracked = sorted(n for n in cites if silo.docs_for(n)[0])
     cache: dict = {}
     for n in tracked:
-        for d in silo.by_url[n]:
+        for d in silo.docs_for(n)[0]:
             product = str(PurePosixPath(d.path).parent)
             prev = None
             for day, ck, text, commit in cache.setdefault(d.path, silo.history(d.path)):

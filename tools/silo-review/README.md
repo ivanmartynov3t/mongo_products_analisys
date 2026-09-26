@@ -27,6 +27,8 @@ Needs a full (not shallow) clone of `prod_info_silo` next to this repository; `g
 | dropped by silo | tracked once, no longer (removed, moved, or out of the silo's scope) |
 | not checkable | never tracked by the silo — never reported as unchanged |
 
+**GitHub file permalinks** (`github.com/<org>/<repo>/blob/<commit>/<path>`) are matched to the same file at whatever commit the silo last scraped: the commit in the URL is ignored (issue #33). The silo stores a `checksum_sha256` for repository documents from prod_info_silo#51 on, so changes are measured from the first silo commit that has one; earlier versions count as an unknown baseline, never as a change. The queue marks such matches "same file at the silo's commit". Only commit-SHA (or slash-free branch) permalinks are supported. Release, issue, wiki and repository pages — including `/blob/<commit>/` links with no file path — are not files and stay *not checkable*. When the silo holds the same file under several products, its change is counted once. Changed repository documents are never quoted in the queue (many silo repositories are private).
+
 How "changed" is decided, and why it is not the silo's checksum: [CHURN.md](CHURN.md).
 
 ## Guarantees
