@@ -25,7 +25,7 @@ Products whose silo holds fewer documents (web pages + repo docs) than their mat
 | Product | Matrix IDs | Silo documents | Note |
 |---|---|---|---|
 | `products/3t/govern` | 8 | 0 | no silo product |
-| `products/third-party/navicat` | 94 | 15 | — |
+| `products/third-party/navicat` | 95 | 15 | — |
 
 ## 3. Cited URLs the silo does not track
 

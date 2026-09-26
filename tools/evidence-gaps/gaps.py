@@ -92,7 +92,7 @@ def build(cfg: dict, silo_root: Path, ref: str) -> str:
         ids = set()
         for m in matrices:
             if m.file.startswith(folder + "/"):
-                ids |= _ids((repo / m.file).read_text(encoding="utf-8"))
+                ids |= review.matrix_table_ids((repo / m.file).read_text(encoding="utf-8"))[0]
         r = rows.get(folder)
         docs = (r["web_pages"] + r["repo_docs"]) if r else 0
         if not r or docs < len(ids):
@@ -154,20 +154,6 @@ def build(cfg: dict, silo_root: Path, ref: str) -> str:
     L.append("Domain groups are set in [`evidence-gaps.toml`](../tools/evidence-gaps/evidence-gaps.toml).")
     L.append("")
     return "\n".join(L)
-
-
-def _ids(text: str) -> set[str]:
-    """First-column IDs of capability tables (same rule as tools/silo-candidates)."""
-    ids, in_table = set(), False
-    for line in text.splitlines():
-        cells = [c.strip() for c in line.strip().strip("|").split("|")] if line.startswith("|") else []
-        if not cells:
-            in_table = False
-        elif cells[0].startswith(("Sub-feature ID", "Capability ID")):
-            in_table = "Current support" in cells or "Status" in cells
-        elif in_table and not set(cells[0]) <= set("-: "):
-            ids.add(cells[0].strip("`* "))
-    return ids
 
 
 def load_config(path: Path = HERE / "evidence-gaps.toml", repo: Path = REPO) -> dict:
