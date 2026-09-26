@@ -55,7 +55,6 @@ step() {  # step <name> <kind: write|check> <command...>
 step "silo snapshot"         write uv run -q tools/silo-snapshot/snapshot.py apply
 step "review queue (#17)"    write uv run -q tools/silo-review/review.py apply
 step "candidate signals"     write uv run -q tools/silo-candidates/candidates.py apply
-step "evidence gaps"         write uv run -q tools/evidence-gaps/gaps.py apply
 # reconcile.py reads the silo's working tree, not git objects: only run it when the
 # checkout is exactly origin/main and clean (this script never changes the silo checkout).
 if [ "$(git -C "$SILO" rev-parse HEAD)" = "$(git -C "$SILO" rev-parse origin/main)" ] \
@@ -67,6 +66,8 @@ else
 fi
 step "scope triggers (#18)"  check uv run -q tools/scope-triggers/triggers.py
 step "silo pins"             check uv run -q tools/silo-pins/pins.py check
+# Re-pinning edits matrices, so the script only shows the plan; `pins.py repin apply` is a human step.
+step "silo pins re-pin plan" write uv run -q tools/silo-pins/pins.py repin plan
 
 echo
 echo "Summary"
