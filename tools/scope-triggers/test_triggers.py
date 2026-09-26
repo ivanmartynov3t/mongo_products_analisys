@@ -88,6 +88,8 @@ SNAPSHOT = {
         row("analysed", "Beta", folder="products/3t/analysed"),
         row("newcomer", "Alpha"),
         row("competitor", "", category="third-party"),
+        row("same", "", category="third-party"),  # same slug in another category: must not hide the 3T row
+        row("newcomer", "", category="third-party"),
     ],
 }
 
@@ -135,6 +137,9 @@ def test_config_errors(tmp: Path) -> None:
         "status_in a string": '[products.x]\nrecorded_status = "A"\nstatus_in = "Shipped"\n',
         "min_catalog_entries a string": '[products.x]\nrecorded_status = "A"\nmin_catalog_entries = "20"\n',
         "min_catalog_entries negative": '[products.x]\nrecorded_status = "A"\nmin_catalog_entries = -1\n',
+        "entry not a table": "[products]\nx = 1\n",
+        "empty decision": '[products.x]\nrecorded_status = "A"\ndecision = ""\n',
+        "empty manual": '[products.x]\nrecorded_status = "A"\nmanual = ""\n',
     }
     for name, text in cases.items():
         p = tmp / f"{name}.toml"
@@ -146,10 +151,18 @@ def test_config_errors(tmp: Path) -> None:
             pass
     ok = tmp / "ok.toml"
     ok.write_text('[products.x]\nrecorded_status = "A"\n', encoding="utf-8")
-    for name, text in {"no products": '{"silo": {"commit": "a"}}', "not json": "{", "no commit": '{"products": []}'}.items():
+    snaps = {"no products": '{"silo": {"commit": "a"}}', "not json": "{", "no commit": '{"products": []}',
+             "a list": "[1]", "silo a string": '{"silo": "x", "products": []}',
+             "row without slug": '{"silo": {"commit": "a"}, "products": [{"category": "3t"}]}'}
+    for name, text in snaps.items():
         sp = tmp / f"{name}.json"
         sp.write_text(text, encoding="utf-8")
         check(f"exit 2 on a bad snapshot: {name}", triggers.main(["--triggers", str(ok), "--snapshot", str(sp)]), 2)
+    bad = tmp / "bad.toml"
+    bad.write_text("[products\n", encoding="utf-8")
+    good = tmp / "good.json"
+    good.write_text('{"silo": {"commit": "a"}, "products": []}', encoding="utf-8")
+    check("exit 2 on a TOML syntax error", triggers.main(["--triggers", str(bad), "--snapshot", str(good)]), 2)
     check("exit 2 on a missing snapshot", triggers.main(["--triggers", str(ok), "--snapshot", str(tmp / "none.json")]), 2)
 
 

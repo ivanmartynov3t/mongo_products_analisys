@@ -48,6 +48,8 @@ def load_triggers(path: Path) -> dict[str, dict]:
     if not isinstance(products, dict) or not products:
         raise TriggerConfigError(f"{path}: no [products.<slug>] tables")
     for slug, t in products.items():
+        if not isinstance(t, dict):
+            raise TriggerConfigError(f"{path}: {slug}: must be a [products.{slug}] table")
         unknown = set(t) - KNOWN_KEYS
         if unknown:
             raise TriggerConfigError(f"{path}: {slug}: unknown keys {sorted(unknown)}")
@@ -64,9 +66,12 @@ def load_triggers(path: Path) -> dict[str, dict]:
     return products
 
 
-def validate_snapshot(snapshot: dict, path: Path) -> None:
-    if not isinstance(snapshot.get("products"), list) or not isinstance(snapshot.get("silo", {}).get("commit"), str):
-        raise TriggerConfigError(f"{path}: not a silo snapshot (needs `products` and `silo.commit`); "
+def validate_snapshot(snapshot, path: Path) -> None:
+    ok = (isinstance(snapshot, dict) and isinstance(snapshot.get("silo"), dict)
+          and isinstance(snapshot["silo"].get("commit"), str) and isinstance(snapshot.get("products"), list)
+          and all(isinstance(r, dict) and isinstance(r.get("slug"), str) for r in snapshot["products"]))
+    if not ok:
+        raise TriggerConfigError(f"{path}: not a silo snapshot (needs `silo.commit` and `products` rows with a `slug`); "
                                  "regenerate it with tools/silo-snapshot")
 
 
@@ -79,8 +84,10 @@ def check(triggers: dict[str, dict], snapshot: dict) -> tuple[list[Finding], lis
     noted:  a status change that is not a documented trigger (e.g. an out-of-scope product
             changing status). coverage-scope.md says to skip these, so they never fire.
     """
-    all_rows = {r["slug"]: r for r in snapshot["products"]}
-    rows = {s: r for s, r in all_rows.items() if r.get("category") == "3t"}
+    # The snapshot keys products by (category, slug): filter to 3T first, so a third-party row
+    # with the same slug never hides the 3T one.
+    rows = {r["slug"]: r for r in snapshot["products"] if r.get("category") == "3t"}
+    other_category = {r["slug"]: r.get("category") for r in snapshot["products"] if r.get("category") != "3t"}
     fired, manual, noted = [], [], []
     for slug in sorted(set(rows) | set(triggers)):
         row, t = rows.get(slug), triggers.get(slug)
@@ -90,9 +97,8 @@ def check(triggers: dict[str, dict], snapshot: dict) -> tuple[list[Finding], lis
                                            "remove it from coverage-triggers.toml and coverage-scope.md"))
             continue
         if row is None:
-            other = all_rows.get(slug)
-            fired.append(Finding(slug, f"no longer a 3T product in the silo snapshot (category {other.get('category')})"
-                                 if other else "in coverage-triggers.toml but not in the silo snapshot"))
+            fired.append(Finding(slug, f"no longer a 3T product in the silo snapshot (category {other_category[slug]})"
+                                 if slug in other_category else "in coverage-triggers.toml but not in the silo snapshot"))
             continue
         if t is None:
             fired.append(Finding(slug, f"untracked: silo product (status {row.get('status') or '—'}) "

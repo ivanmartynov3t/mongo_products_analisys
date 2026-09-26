@@ -10,7 +10,7 @@
 #
 # Also fires: a 3T product in the snapshot with no analysis folder and no entry here ("untracked"),
 # an entry here that is missing from the snapshot, and an entry for a product that is now analysed.
-# Out-of-scope rows have no trigger, so they never fire (coverage-scope.md: skip them).
+# Out-of-scope rows fire only when the entry itself goes stale (as above); a status change is only noted.
 
 [products.policy-engine]
 decision = "In scope — inside Govern"
