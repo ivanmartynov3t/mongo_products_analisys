@@ -44,11 +44,12 @@ Arguments: `$ARGUMENTS`
 - **Mechanical stage is clean.** Run `tools/silo-sync/run.sh --no-fetch`.
   - Stop if it exits 2 (a step failed).
   - Stop if `git status --short` is no longer empty afterwards: the committed reports were not the current tool output, so the owner reviews and commits them first.
-  - Exit 1 (a check needs a human) does not stop you. Copy its ATTEND lines under *Needs a human* in the next PR.
+  - Exit 1 (a check needs a human) does not stop you. Copy only its `ATTEND <step>` summary lines under *Needs a human* in the next PR, never the step output, which can hold local or silo paths.
+  - `--no-fetch` is deliberate: the owner's last `run.sh` fetch defines the cycle's silo ref.
 - **Fresh reports.** The commit in the header of `reports/silo-candidates.md` equals the first 10 characters of `git -C ../prod_info_silo rev-parse origin/main`. If it differs, the owner runs `tools/silo-sync/run.sh`, reviews and commits the reports, then restarts you.
 - **Fresh batches.** `.local/silo-batches/<product>/README.md` names the same commit. If not, run `uv run tools/silo-candidates/batch.py apply`.
 - **Checklist.** `update-plans/09-product-loop.md` is on `main`, and the item exists and is unticked.
-- **No open PR for the item.** Check with `gh pr list --state open --search "head:port/<item>-"`. If one exists, stop and report its link: its ticks land on `main` only when it is merged, so starting the item again would duplicate it.
+- **No open PR for the item.** Check with `gh pr list --state open --json headRefName,url -q '.[] | select(.headRefName | startswith("port/<item>-"))'`. If one exists, stop and report its link: its ticks land on `main` only when it is merged, so starting the item again would duplicate it.
 
 ## 1. Per item
 

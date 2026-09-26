@@ -154,12 +154,12 @@ Each step has one issue and one PR.
   - [x] Implemented (issue scope only)
   - [x] New tests added; full suite passes locally (a prompt has no unit tests; dry run instead)
   - [x] Tool run against the real silo; summary in the PR (dry run of the scope-triggers item)
-  - [ ] Pull request opened
-  - [ ] Code review done; findings recorded on the PR
-  - [ ] Findings fixed or accepted by the owner; re-review has no *must fix* left
-  - [ ] Docs updated
-  - [ ] Merge checklist complete
-  - [ ] Owner approved the merge (standing approval for steps 1–4, see Execution log)
+  - [x] Pull request opened: [#61](https://github.com/ivanmartynov3t/mongo_products_analisys/pull/61)
+  - [x] Code review done; findings recorded on the PR (round 1: NOT PASSED, 2 must fix · 4 should-fix · 3 nits)
+  - [x] Findings fixed or accepted by the owner; re-review has no *must fix* left (round 2: PASSED, 3 minor points, fixed)
+  - [x] Docs updated
+  - [x] Merge checklist complete
+  - [x] Owner approved the merge (standing approval for steps 1–4, see Execution log)
   - [ ] Merged to `main` (squash); branch deleted; issue closed with a result comment
 - [ ] **Step 5 — L5 pilot** · [#56](https://github.com/ivanmartynov3t/mongo_products_analisys/issues/56) · items in [`09-product-loop.md`](09-product-loop.md); stops at the owner's go/no-go gate
 - [ ] **Step 6 — L6 rollout** · [#57](https://github.com/ivanmartynov3t/mongo_products_analisys/issues/57) · items in [`09-product-loop.md`](09-product-loop.md)
