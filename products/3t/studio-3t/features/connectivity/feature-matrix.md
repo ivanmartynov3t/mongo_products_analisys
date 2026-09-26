@@ -21,7 +21,7 @@
 
 - S1: https://studio3t.com/knowledge-base/articles/connect-to-mongodb/
 - S2: https://studio3t.com/knowledge-base/articles/mongodb-password-encryption/
-- S3: https://studio3t.com/ (homepage — "Compatible with" logo strip; checked 2026-09-25 against silo commit `c7586f03`, because the silo's current homepage copy holds a different page)
+- S3: https://studio3t.com/ (homepage — "Compatible with" logo strip; checked 2026-09-25 against silo: `data/3t/3t-website-2026/index.md@c7586f03`, because the silo's current homepage copy holds a different page)
 - S4: https://blog.ferretdb.io/using-ferretdb-with-studio-3t/ (third-party corroboration)
 - S5: Source-code audit — [research/studio-3t-desktop-review-2026/01-connectivity-findings.md](../../../../../research/studio-3t-desktop-review-2026/01-connectivity-findings.md) (source root: `product-suite/data-man-mongodb-ent/src/main/java/t3/` in the Studio 3T Desktop source repo)
 

@@ -1,0 +1,22 @@
+# silo-pins configuration (issue #38). Paths are relative to the repository root.
+
+# The silo is read from git objects only — never checked out, never written.
+silo_path = "../prod_info_silo"
+silo_ref = "origin/main"
+
+# Files whose `silo: <path>@<commit>` pins are listed, checked and re-pinned.
+scan = [
+    "*.md",
+    "docs/**/*.md",
+    "products/**/*.md",
+    "reports/**/*.md",
+    "research/**/*.md",
+]
+
+exclude = [
+    "reports/review-queue.md",   # generated
+    "reports/silo-snapshot.md",  # generated
+]
+
+# Length of the commit SHA written by `repin apply`.
+sha_length = 10

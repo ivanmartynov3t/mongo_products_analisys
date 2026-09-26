@@ -18,6 +18,8 @@
 
 ## Source index
 
+<!-- Format: - S1: <url> — <what it is> (silo: `data/<category>/<product>/<file>.md@<commit>`) when the source was read from prod_info_silo -->
+
 - S1:
 - S2:
 - S3:

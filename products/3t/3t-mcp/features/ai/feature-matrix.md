@@ -22,7 +22,7 @@ Every fact in the matrix carries its own `(S#)`. **Public** sources can be opene
 
 Public:
 
-- S1: https://studio3t.com/3t-mcp/ — product page (silo copy `data/3t/3t-mcp/3t-mcp.md`, captured 2026-09-10)
+- S1: https://studio3t.com/3t-mcp/ — product page (silo: `data/3t/3t-mcp/3t-mcp.md@6f6e0f57`, captured 2026-09-10)
 - S2: https://github.com/3tio/3t-mcp-releases — public releases repository, README (read 2026-09-25)
 - S3: https://github.com/3tio/3t-mcp-releases/releases — release notes: v0.2.1 (2026-05-27), 0.2.2 (2026-05-29), 0.2.3 (2026-07-17)
 
