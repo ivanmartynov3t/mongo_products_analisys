@@ -16,6 +16,7 @@ Needs a full (not shallow) clone of `prod_info_silo` next to this repository; `g
 [`reports/review-queue.md`](../../reports/review-queue.md), regenerated on each run and committed, so every change to the queue is reviewable in a PR.
 
 1. **Staleness queue** — per feature matrix, the cited pages that moved after its `Analysis date`, most-changed first, with source ID, change dates, the new text and the silo file.
+   - **Reports and research** (section 1b) — the same check for every other scanned file that cites a URL (reports, research, docs, product reports), with the file's `Analysis date` as its review date, otherwise its last commit date (issue #39). It shows change dates and the silo file only: no source IDs and no page text. Research files are dated by their last commit, so a page that changed before a later unrelated edit is not flagged.
 2. **Citation health** — every distinct URL cited anywhere in the repository, classified:
 
 | Status | Meaning |
@@ -34,5 +35,5 @@ How "changed" is decided, and why it is not the silo's checksum: [CHURN.md](CHUR
 ## Guarantees
 
 - **Read-only.** The silo is read from git objects at the pinned `silo_ref` — never checked out or written — and the report records the commit SHA. The only file the tool can write is the configured output; `guarded_write` refuses anything else and the tests check both that and that no other file in either tree changes.
-- **Deterministic.** Same silo commit and same repository content, same bytes out (tested).
+- **Deterministic.** Same silo commit and same repository content and history, same bytes out (tested). Review dates come from commit dates, so a rebase or squash that touches a file can change its row.
 - **Not evidence.** A flag is a prompt for a human to re-check a source. It never becomes a ✅ or ❌ in a matrix.
