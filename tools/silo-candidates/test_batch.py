@@ -157,7 +157,7 @@ def test_write_guard(tmp: Path) -> None:
     except batch.ReadOnlyViolation:
         pass
     check("escape not written; previous batches kept on a failed write",
-          ((repo / "escape.md").exists(), (root / "p/README.md").read_text(), (repo / ".local/silo-batches.new").exists()),
+          ((repo / ".local/escape.md").exists(), (root / "p/README.md").read_text(), (repo / ".local/silo-batches.new").exists()),
           (False, "old", False))
 
 

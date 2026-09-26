@@ -142,9 +142,14 @@ def write(repo: Path, root: Path, batches: dict[str, dict[str, str]]) -> None:
             p.parent.mkdir(parents=True, exist_ok=True)
             p.write_text(text, encoding="utf-8")
     tmp.mkdir(parents=True, exist_ok=True)
+    old = root.with_name(root.name + ".old")
+    if old.exists():
+        shutil.rmtree(old)
     if root.exists():
-        shutil.rmtree(root)
+        root.rename(old)       # rename aside, swap in, then delete: never a moment without batches
     tmp.rename(root)
+    if old.exists():
+        shutil.rmtree(old)
 
 
 def run(ccfg: dict, command: str, silo: Path | None = None, ref: str | None = None) -> str:
