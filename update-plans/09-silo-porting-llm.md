@@ -54,7 +54,10 @@ Repository-wide items run once:
 - **This is a public repository.** No private repository name, path or content may appear in any file, commit, issue or PR.
 - **Scope of each run.**
   - The silo is read only at a pinned ref.
-  - A product run edits only that product's files, plus the ledger, `decisions.tsv` and the checklist.
+  - A product run edits only that product's files, plus:
+    - the ledger, `decisions.tsv` and the checklist;
+    - a new sub-feature ID in `feature-dictionary.md`;
+    - the regenerated `reports/silo-candidates.md` and `reports/taxonomy-reconciliation.*`.
   - `README.md` changes only in its own item, through its prompt.
 
 ## Candidate outcomes
@@ -127,10 +130,10 @@ Each step has one issue and one PR.
   - [x] Implemented (issue scope only)
   - [x] New tests added; full suite passes locally
   - [x] Tool run against the real silo; summary in the PR
-  - [ ] Pull request opened
-  - [ ] Code review done; findings recorded on the PR
+  - [x] Pull request opened: [#59](https://github.com/ivanmartynov3t/mongo_products_analisys/pull/59)
+  - [x] Code review done; findings recorded on the PR (round 1: NOT PASSED, 5 must fix · 11 should-fix · 7 nits)
   - [ ] Findings fixed or accepted by the owner; re-review has no *must fix* left
-  - [ ] Docs updated
+  - [x] Docs updated
   - [ ] Merge checklist complete
   - [ ] Owner approved the merge (standing approval for steps 1–4, see Execution log)
   - [ ] Merged to `main` (squash); branch deleted; issue closed with a result comment

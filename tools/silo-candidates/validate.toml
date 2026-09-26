@@ -15,16 +15,17 @@ tool_owned = ["reports/review-queue.md", "reports/silo-candidates.md", "reports/
               "reports/silo-snapshot.md", "reports/silo-snapshot.json",
               "reports/taxonomy-reconciliation.md", "reports/taxonomy-reconciliation.tsv"]
 
-# Files scanned for private names are every changed text file with one of these suffixes.
+# The base-tree files read to learn which names and repositories this repository already names.
+# Every changed file is scanned, whatever its suffix.
 text_suffixes = [".md", ".tsv", ".toml", ".json", ".py", ".sh", ".yml", ".yaml", ".txt", ""]
 
 # Status labels, by class. A status cell may hold several ("Confirmed (…); Unverified (…)"): every
 # class found applies. Matching ignores case; a phrase is removed once matched, so "not supported"
 # never also counts as "supported". Classes are matched in this order.
 [status]
-absent = ["not supported", "not implemented", "not available", "not present", "not found", "absent", "❌"]
+absent = ["confirmed absent", "not supported", "not implemented", "not available", "not present", "absent", "❌"]
 unverified = ["unverified", "unknown", "❓"]
-partial = ["partially", "partial", "limited", "🧪"]
+partial = ["partially supported", "partially", "partial", "limited", "🧪"]
 roadmap = ["roadmap", "planned", "🗺️"]
 confirmed = ["confirmed", "supported", "✅"]
 

@@ -101,7 +101,7 @@ def build(tmp: Path) -> tuple[Path, Path, str]:
     w = {"feature-dictionary.md": DICTIONARY,
          "products/g/prod/features/querying/feature-matrix.md": matrix(pin),
          "products/g/other/features/q/feature-matrix.md": "# M\n",
-         "research/notes.md": "Notes: the export wizard writes CSV files with a header row.\n",
+         "research/notes.md": 'Notes: the export wizard writes "CSV" files with a header row.\n',
          "reports/taxonomy-reconciliation.tsv": "id\tname\tin_silo\tverdict\tmaps_to\tsilo_detects_via\n"
                                                 "QUERY-covered\tc\tyes\tsame definition\tQUERY-covered\tQUERY-covered\n",
          "tools/silo-candidates/triage.tsv": "\t".join(candidates.LEDGER_COLUMNS) + "\n",
@@ -175,10 +175,10 @@ def test_all(tmp: Path) -> None:
         "no legal status": ('| QUERY-new | F | Maybe | x | S1 | — |\n', "has no legal label"),
         "unverified without note": ('| QUERY-new | F | Unverified | x | S1 | — |\n', 'needs a note "Checked <URL> on <YYYY-MM-DD>"'),
         "confirmed without dated URL source": ('| QUERY-new | F | Supported | x | S3 | — |\n', "needs a cited source with a URL and a YYYY-MM-DD date"),
-        "quote with no checkable source": ('| QUERY-new | F | Confirmed | "supports saved filter bars for every collection" | S1 / S3 | — |\n'.replace("S1 / S3", "S3"),
+        "quote with no checkable source": ('| QUERY-new | F | Confirmed | "supports saved filter bars for every collection" | S3 | — |\n',
                                            "no cited source has a silo pin or a repository file"),
-        "absent without a quote": ('| QUERY-plugins | P | Not supported | none | S1 | — |\n', "needs a quoted, checkable exclusion"),
-        "no sources": ('| QUERY-new | F | Confirmed | x | — | — |\n', "cites no Source index entry"),
+        "absent without a quote": ('| QUERY-plugins | P | Not supported | none | S1 | — |\n', "needs a quoted exclusion found in a cited silo page or repository file"),
+        "no sources": ('| QUERY-new | F | Confirmed | x | — | — |\n', "the Sources cell names no Source index entry"),
     }
     for name, (row, expect) in cases.items():
         fresh(repo)
@@ -189,7 +189,9 @@ def test_all(tmp: Path) -> None:
     ok_rows = {
         "unverified with a Checked note": '| QUERY-new | F | Unverified | Checked https://vendor.test/one on 2026-09-26; no documentation of capability found. | S1 | — |\n',
         "absent with a checked exclusion": '| QUERY-plugins | P | Not supported | "It does not offer any plugin marketplace today." | S1 | — |\n',
-        "quote from a repository file, nested quotes re-quoted": "| QUERY-new | F | Partial | \"the export wizard writes 'CSV' files\" | S2 | — |\n".replace("'CSV'", "CSV"),
+        "quote from a repository file, nested quotes re-quoted": "| QUERY-new | F | Partial | \"the export wizard writes 'CSV' files\" | S2 | — |\n",
+        "quote split at a bracketed ellipsis": '| QUERY-new | F | Confirmed | "The tool supports saved filter bars […] every collection view." | S1 | — |\n',
+        "confirmed absent is one class": '| QUERY-plugins | P | Not supported (confirmed absent) | "It does not offer any plugin marketplace today." | S1 | — |\n',
         "quote split at an ellipsis; dictionary quote": '| QUERY-new | F | Confirmed | "The tool supports saved filter bars ... for every collection view"; the dictionary says "A saved filter bar per collection view" | S1 | — |\n',
     }
     for name, row in ok_rows.items():
@@ -246,6 +248,69 @@ def test_all(tmp: Path) -> None:
     (repo / "reports/review-queue.md").write_text("# hand edit\n")
     check("other tool-owned report needs a human", "tool-owned report changed" in run("cross-product")[1], True)
 
+    # review round 1: evidence rules
+    fresh(repo)
+    add_rows(repo, pin, '| QUERY-plugins | P | Not supported | "A saved filter bar per collection view" | S1 | — |\n')
+    check("not supported: a dictionary quote is no exclusion", "needs a quoted exclusion found" in run()[1], True)
+    fresh(repo)
+    (repo / "products/g/prod/evidence.md").write_text("It has no plugin marketplace at all, none.\n")
+    add_rows(repo, pin, '| QUERY-plugins | P | Not supported | "It has no plugin marketplace at all" | S4 | — |\n')
+    mp = repo / "products/g/prod/features/querying/feature-matrix.md"
+    mp.write_text(mp.read_text().replace("- S3: Vendor docs", "- S4: Own notes, `products/g/prod/evidence.md`\n- S3: Vendor docs"))
+    check("evidence added in the same change cannot verify itself", "needs a quoted exclusion found" in run()[1], True)
+    fresh(repo)
+    add_rows(repo, pin, '| QUERY-plugins | P | Not supported | "Private." | S4 | — |\n')
+    mp.write_text(mp.read_text().replace("- S3: Vendor docs", f"- S4: Outside, `../silo/data/vendor/prod/repo_docs/{SECRET}/README.md`\n- S3: Vendor docs"))
+    rc, out = run()
+    check("a path outside the repository is never read", "needs a quoted exclusion found" in out, True)
+    check("  ... and its private name is withheld", SECRET in out, False)
+
+    # review round 1: private names never printed, in any column
+    fresh(repo)
+    add_rows(repo, pin, f'| QUERY-{SECRET} | F | {SECRET} maybe | "no such {SECRET} text anywhere here" | S1 {SECRET} | — |\n')
+    rc, out = run()
+    check("secret in ID, status, quote and Sources cells never printed", (rc, SECRET in out, SECRET.upper() in out), (1, False, False))
+    fresh(repo)
+    add_rows(repo, pin, GOOD.replace("| — |\n", f"| {SECRET}-docs, https://github.com/acme/tool and https://x.atlassian.net/wiki/y |\n"))
+    rc, out = run()
+    check("name followed by a hyphen is still a name", "names a silo repository" in out, True)
+    check("non-public host printed as its policy entry only", ("(atlassian.net)" in out, "x.atlassian.net" in out), (True, False))
+    fresh(repo)
+    (repo / "products/g/prod/features/querying/feature-matrix.md").write_text(
+        (repo / "products/g/prod/features/querying/feature-matrix.md").read_text() + "\nSee https://github.com/acme/tool-public.\n")
+    commit(repo, "base cites a public repo")
+    sh(repo, "branch", "-f", "main", "HEAD")
+    fresh(repo)
+    add_rows(repo, pin, GOOD.replace("| — |\n", "| https://github.com/acme/tool/blob/main/a.md |\n"))
+    mp.write_text(mp.read_text() + "\nSee https://github.com/acme/tool-public.\n")
+    check("a repository prefix is matched exactly, not as a substring", "links a non-public host (github.com)" in run()[1], True)
+    fresh(repo)
+    (repo / f"products/g/prod/{SECRET}-notes.html").write_text("<p>nothing</p>\n")
+    rc, out = run()
+    check("a new path naming a private repository is flagged, any suffix", ("names a silo repository" in out, SECRET in out), (True, False))
+
+    # review round 1: scope and ledger
+    fresh(repo)
+    sh(repo, "mv", "products/g/other/features/q/feature-matrix.md", "products/g/prod/moved.md")
+    check("a rename out of another product is out of scope", "products/g/other/features/q/feature-matrix.md: outside" in run()[1], True)
+    fresh(repo)
+    ledger_add(repo, ("other", "QUERY-o", "noise", 2))
+    regen(ccfg)
+    commit(repo, "other product decided")
+    sh(repo, "branch", "-f", "main", "HEAD")
+    fresh(repo)
+    lp = repo / "tools/silo-candidates/triage.tsv"
+    lp.write_text("\t".join(candidates.LEDGER_COLUMNS) + "\n\n")
+    regen(ccfg)
+    rc, out = run()
+    check("removing another product's ledger row is flagged", "ledger row for another product than 'prod'" in out, True)
+    check("a blank ledger line is not a row", out.count("ledger row for another product") == 1, True)
+
+    # review round 1: dangling citation
+    fresh(repo)
+    mp.write_text(mp.read_text().replace("- S3: Vendor docs, https://vendor.test/docs\n", ""))
+    check("a row citing a removed Source index entry is judged", "cites S3, which is no longer in the Source index" in run()[1], True)
+
     # errors
     fresh(repo)
     (repo / "tools/silo-candidates/triage.tsv").write_text("wrong\n")
@@ -269,6 +334,8 @@ def test_status_classes() -> None:
     check("compound cell: every class", validate.status_classes("Confirmed (x); Unverified (y)", vocab), ["unverified", "confirmed"])
     check("icons", validate.status_classes("✅ / 🗺️", vocab), ["roadmap", "confirmed"])
     check("unsupported words", validate.status_classes("Corrected — x", vocab), [])
+    check("partially supported is partial only", validate.status_classes("Partially supported", vocab), ["partial"])
+    check("unverified, not found: unverified only", validate.status_classes("Unverified — not found", vocab), ["unverified"])
 
 
 def test_quotes() -> None:
@@ -279,11 +346,29 @@ def test_quotes() -> None:
           validate.normalise("**The** [tool](http://x) — “says” `this`"), "the tool - 'says' this")
 
 
+def test_main_exit_codes() -> None:
+    import contextlib
+    import io
+    orig = validate.validate
+    for exc, name in ((UnicodeDecodeError("utf-8", b"x", 0, 1, "bad"), "unexpected UnicodeDecodeError"),
+                      (KeyError(SECRET), "unexpected KeyError"), (validate.ValidationError("bad base"), "bad base")):
+        def boom(*a, _e=exc, **k):
+            raise _e
+        validate.validate = boom
+        try:
+            with contextlib.redirect_stderr(io.StringIO()) as err:
+                rc = validate.main(["--item", "x"])
+            check(f"main: {name} exits 2, secret not echoed", (rc, name in err.getvalue(), SECRET in err.getvalue()), (2, True, False))
+        finally:
+            validate.validate = orig
+
+
 def main() -> int:
     with tempfile.TemporaryDirectory() as d:
         test_all(Path(d))
     test_status_classes()
     test_quotes()
+    test_main_exit_codes()
     if failures:
         print(f"FAILED ({len(failures)}):")
         for f in failures:

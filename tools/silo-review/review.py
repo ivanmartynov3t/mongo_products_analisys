@@ -78,6 +78,39 @@ def matrix_table_ids(text: str) -> tuple[set[str], set[str]]:
     return caps, pointers - caps
 
 
+CELL_SPLIT_RE = re.compile(r"(?<!\\)\|")   # a cell may hold an escaped \|
+
+
+def split_cells(line: str) -> list[str]:
+    return [c.strip() for c in CELL_SPLIT_RE.split(line.strip().strip("|"))]
+
+
+def capability_rows(text: str):
+    """Yield (line number, raw line, {header: cell}) for every row of every capability table
+    (an ID header plus a "Current support" or "Status" column), splitting on unescaped pipes."""
+    header = None
+    for i, line in enumerate(text.splitlines(), 1):
+        cells = split_cells(line) if line.startswith("|") else []
+        if not cells:
+            header = None
+        elif cells[0].startswith(ID_HEADERS):
+            header = cells if ("Current support" in cells or "Status" in cells) else None
+        elif header and not set(cells[0]) <= set("-: "):
+            yield i, line, dict(zip(header, cells))
+
+
+def source_index_lines(text: str):
+    """Yield (line number, source id, raw line) for every entry of a `## Source index` section."""
+    in_index = False
+    for i, line in enumerate(text.splitlines(), 1):
+        if line.startswith("## "):
+            in_index = line.rstrip() == "## Source index"
+            continue
+        m = SOURCE_LINE_RE.match(line.strip()) if in_index else None
+        if m:
+            yield i, m.group(1), line
+
+
 # ---------------------------------------------------------------- write guard
 
 
