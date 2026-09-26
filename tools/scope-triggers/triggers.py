@@ -44,7 +44,10 @@ def _is_str_list(v) -> bool:
 
 
 def load_triggers(path: Path) -> dict[str, dict]:
-    products = tomllib.loads(path.read_text(encoding="utf-8")).get("products")
+    try:
+        products = tomllib.loads(path.read_text(encoding="utf-8")).get("products")
+    except ValueError as e:
+        raise TriggerConfigError(f"{path}: {e}") from e
     if not isinstance(products, dict) or not products:
         raise TriggerConfigError(f"{path}: no [products.<slug>] tables")
     for slug, t in products.items():
@@ -80,7 +83,8 @@ def validate_snapshot(snapshot, path: Path) -> None:
           and isinstance(snapshot["silo"].get("commit"), str) and isinstance(snapshot.get("products"), list)
           and all(_valid_row(r) for r in snapshot["products"]))
     if not ok:
-        raise TriggerConfigError(f"{path}: not a silo snapshot (needs `silo.commit` and `products` rows with a `slug`); "
+        raise TriggerConfigError(f"{path}: not a silo snapshot (needs `silo.commit` and `products` rows with string `slug`/`category`/`status`/"
+                                 "`analysis_folder` and integer `catalog_entries`); "
                                  "regenerate it with tools/silo-snapshot")
 
 
@@ -142,7 +146,10 @@ def render(fired: list[Finding], manual: list[Finding], noted: list[Finding], sn
 
 def run(triggers_path: Path = TRIGGERS, snapshot_path: Path = SNAPSHOT) -> tuple[int, str]:
     triggers = load_triggers(triggers_path)
-    snapshot = json.loads(snapshot_path.read_text(encoding="utf-8"))
+    try:
+        snapshot = json.loads(snapshot_path.read_text(encoding="utf-8"))
+    except ValueError as e:
+        raise TriggerConfigError(f"{snapshot_path}: {e}") from e
     validate_snapshot(snapshot, snapshot_path)
     fired, manual, noted = check(triggers, snapshot)
     return (1 if fired else 0), render(fired, manual, noted, snapshot)
