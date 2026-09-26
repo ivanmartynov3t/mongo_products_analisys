@@ -2,7 +2,7 @@
 # /// script
 # requires-python = ">=3.11"
 # ///
-"""Candidate-signal queue: silo sub-feature tags with no matrix row (issue #36).
+"""Candidate-signal queue: silo sub-feature tags with no matrix row (issues #36, #52).
 
     uv run tools/silo-candidates/candidates.py plan      # print the report, write nothing
     uv run tools/silo-candidates/candidates.py apply     # write reports/silo-candidates.md
@@ -10,7 +10,10 @@
 For every analysed product that has a silo product of the same name, lists the silo's
 sub-feature tags (from `data/catalog_index.json`) that no row of the product's matrices
 covers, and the matrix IDs the silo never tags for that product. The silo classifier is
-noisy: a candidate is a lead for the LLM part (Plan 08 part 2) and a human, never a fact.
+noisy: a candidate is a lead for the LLM part (Plan 09) and a human, never a fact.
+
+Candidates already decided in the triage ledger (`triage.tsv`) leave the tables; one comes
+back when the silo holds more public pages for it than when it was decided.
 
 Read-only by construction: the silo is read from git objects at a pinned ref; the only
 file this tool may write is the configured output. Documents from repositories are only
@@ -23,6 +26,7 @@ import argparse
 import csv
 import hashlib
 import json
+import re
 import sys
 import tomllib
 from collections import defaultdict
@@ -65,6 +69,61 @@ def load_mapping(tsv: Path) -> dict[str, str]:
         tag = r.get("silo_detects_via") or rows.get(r.get("maps_to") or "", {}).get("silo_detects_via", "")
         if tag:
             out[i] = tag
+    return out
+
+
+# ---------------------------------------------------------------- triage ledger
+
+OUTCOMES = ("add-row", "existing-row", "other-product", "noise", "needs-human")
+LEDGER_COLUMNS = ["product", "tag", "outcome", "date", "silo_commit", "web_docs", "ref"]
+_DATE_RE = re.compile(r"\d{4}-\d{2}-\d{2}")
+_SHA_RE = re.compile(r"[0-9a-f]{7,40}")
+
+
+@dataclass(frozen=True)
+class Decision:
+    product: str
+    tag: str
+    outcome: str
+    web_docs: int   # public pages the silo held for the candidate when it was decided
+
+
+def load_ledger(path: Path, products: set[str]) -> dict[tuple[str, str], Decision]:
+    """(product, tag) -> decision. Any malformed row stops the run: a typo must not hide a candidate."""
+    if not path.exists():
+        return {}
+    lines = path.read_text(encoding="utf-8").splitlines()
+    if not lines or lines[0].split("\t") != LEDGER_COLUMNS:
+        raise CandidatesError(f"{path.name}: the header must be {chr(9).join(LEDGER_COLUMNS)!r}")
+    out: dict[tuple[str, str], Decision] = {}
+    for n, line in enumerate(lines[1:], start=2):
+        if not line.strip():
+            continue
+        cells = line.split("\t")
+        if len(cells) != len(LEDGER_COLUMNS):
+            raise CandidatesError(f"{path.name}:{n}: {len(cells)} columns, expected {len(LEDGER_COLUMNS)}")
+        r = dict(zip(LEDGER_COLUMNS, (c.strip() for c in cells)))
+        problems = []
+        if r["product"] not in products:
+            problems.append(f"unknown product {r['product']!r}")
+        if not r["tag"]:
+            problems.append("empty tag")
+        if r["outcome"] not in OUTCOMES:
+            problems.append(f"outcome {r['outcome']!r} is not one of {', '.join(OUTCOMES)}")
+        if not _DATE_RE.fullmatch(r["date"]):
+            problems.append(f"date {r['date']!r} is not YYYY-MM-DD")
+        if not _SHA_RE.fullmatch(r["silo_commit"]):
+            problems.append(f"silo_commit {r['silo_commit']!r} is not 7-40 lowercase hex")
+        if not r["web_docs"].isdigit():
+            problems.append(f"web_docs {r['web_docs']!r} is not a count")
+        if not r["ref"]:
+            problems.append("empty ref (a PR or a one-line reason)")
+        if problems:
+            raise CandidatesError(f"{path.name}:{n}: " + "; ".join(problems))
+        key = (r["product"], r["tag"])
+        if key in out:
+            raise CandidatesError(f"{path.name}:{n}: {r['product']} / {r['tag']} is already decided on an earlier line")
+        out[key] = Decision(r["product"], r["tag"], r["outcome"], int(r["web_docs"]))
     return out
 
 
@@ -182,6 +241,9 @@ def _cell(text: str) -> str:
 
 def build(cfg: dict, silo: Path, ref: str) -> str:
     repo = cfg["repo"]
+    # The ledger is checked first: a malformed one stops the run before the silo is read.
+    folders = {d.name for d in (repo / cfg["products_dir"]).glob("*/*") if d.is_dir()}
+    ledger = load_ledger(repo / cfg["triage_ledger"], folders)
     sha, cdate, by_product = load_catalog(silo, ref, cfg["silo_catalog"], cfg["silo_data_dir"])
     mapping = load_mapping(repo / cfg["reconciliation_tsv"])
     tag_to_ids: dict[str, set[str]] = defaultdict(set)
@@ -207,7 +269,7 @@ def build(cfg: dict, silo: Path, ref: str) -> str:
         "",
         "**Leads, not facts.** The silo's classifier tags documents by keyword and probability. A candidate means "
         "the silo sees a sub-feature for a product that no matrix row covers. It is input for the LLM-assisted step "
-        "(Plan 08 part 2) and for a human; it never becomes a ✅ or ❌ without a checked source.",
+        "(Plan 09) and for a human; it never becomes a ✅ or ❌ without a checked source.",
         "",
         f"- A tag counts for a document when its probability is ≥ {min_prob:.2f}; a candidate needs ≥ {min_docs} such documents.",
         "- A matrix row covers a tag when its ID is the tag, or maps to it in "
@@ -220,11 +282,17 @@ def build(cfg: dict, silo: Path, ref: str) -> str:
         "may belong to another product.",
         "- IDs in a matrix's pointer table (rows documented in another product's matrix) are not candidates; "
         "they are listed per product instead.",
+        "- Candidates decided in the triage ledger "
+        f"([`{PurePosixPath(cfg['triage_ledger']).name}`](../{cfg['triage_ledger']})) leave the tables. One is "
+        "**re-opened** when the silo now holds more public pages for it than when it was decided. "
+        "`needs-human` decisions stay listed per product until someone resolves them.",
         "",
         "## Summary",
         "",
-        "| Product | Matrix IDs | Candidates | Web-backed | Only repo/source | Mostly shared | Matrix IDs the silo never tags |",
-        "|---|---|---|---|---|---|---|",
+        "Candidates, Web-backed, Only repo/source and Mostly shared count open candidates only.",
+        "",
+        "| Product | Matrix IDs | Candidates | Web-backed | Only repo/source | Mostly shared | Triaged | Matrix IDs the silo never tags |",
+        "|---|---|---|---|---|---|---|---|",
     ]
     sections = []
     for cat, slug, d in products:
@@ -233,15 +301,20 @@ def build(cfg: dict, silo: Path, ref: str) -> str:
         pointer_tags = {mapping.get(i, i) for i in pointer_ids} - covered_tags
         sig = signals_for(by_product[slug], urls, shared, min_prob, hosts)
         leads = [s for t, s in sig.items() if s.total >= min_docs and t not in covered_tags]
-        cands = sorted((s for s in leads if s.tag not in pointer_tags), key=lambda s: (-len(s.web), -s.total, s.tag))
+        decided = {t: d for (p, t), d in ledger.items() if p == slug}
+        reopened = {s.tag for s in leads if s.tag in decided and len(s.web) > decided[s.tag].web_docs}
+        cands = sorted((s for s in leads if s.tag not in pointer_tags and (s.tag not in decided or s.tag in reopened)),
+                       key=lambda s: (-len(s.web), -s.total, s.tag))
         elsewhere = sorted(s.tag for s in leads if s.tag in pointer_tags)
         # "never tags" looks at every probability: a weak tag is still a tag
         seen_tags = {t for e in by_product[slug] for t in (e.get("sub_feature_tags") or [])}
         unseen = sorted(i for i in ids if mapping.get(i, i) not in seen_tags)
         web_backed = sum(bool(s.web) for s in cands)
         mostly_shared = sum(s.shared * 2 > s.total for s in cands)
+        per_outcome = {o: sum(d.outcome == o for d in decided.values()) for o in OUTCOMES}
+        triaged = " · ".join(f"{o} {n}" for o, n in per_outcome.items() if n) or "—"
         L.append(f"| [{slug}](#{slug}) | {len(ids)} | {len(cands)} | {web_backed} | {len(cands) - web_backed} | "
-                 f"{mostly_shared} | {len(unseen)} |")
+                 f"{mostly_shared} | {triaged} | {len(unseen)} |")
         S = [f"## {slug}", "", f"Matrices: [`{cat}/{slug}`](../products/{cat}/{slug}/product-report.md) · "
              f"{len(ids)} matrix IDs · {len(cands)} candidates", ""]
         if cands:
@@ -249,8 +322,13 @@ def build(cfg: dict, silo: Path, ref: str) -> str:
             for s in cands:
                 aka = ", ".join(f"`{i}`" for i in sorted(tag_to_ids.get(s.tag, set()) - {s.tag})) or "—"
                 pages = " · ".join(f"[{_cell(t) or u}]({u}) ({p:.2f})" for p, t, u in s.web[:top]) or "—"
-                S.append(f"| `{s.tag}` | {aka} | {len(s.web)} | {s.repo_docs} | {s.source_files} | {s.shared} | {pages} |")
+                note = (f" (re-opened: {decided[s.tag].outcome} with {decided[s.tag].web_docs} web)"
+                        if s.tag in reopened else "")
+                S.append(f"| `{s.tag}`{note} | {aka} | {len(s.web)} | {s.repo_docs} | {s.source_files} | {s.shared} | {pages} |")
             S.append("")
+        waiting = sorted(t for t, d in decided.items() if d.outcome == "needs-human" and t not in reopened)
+        if waiting:
+            S += ["Waiting for a human (`needs-human` in the ledger): " + ", ".join(f"`{t}`" for t in waiting), ""]
         if elsewhere:
             S += ["Silo tags for rows this product's pointer table documents in another product's matrix: "
                   + ", ".join(f"`{t}`" for t in elsewhere), ""]
@@ -294,7 +372,11 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument("--silo", type=Path, help="override silo_path from the config")
     ap.add_argument("--ref", help="override silo_ref from the config")
     a = ap.parse_args(argv)
-    print(run(load_config(), a.command, a.silo.resolve() if a.silo else None, a.ref))
+    try:
+        print(run(load_config(), a.command, a.silo.resolve() if a.silo else None, a.ref))
+    except (CandidatesError, ReadOnlyViolation) as e:
+        print(f"error: {e}", file=sys.stderr)
+        return 2
     return 0
 
 

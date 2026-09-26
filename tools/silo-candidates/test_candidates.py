@@ -163,7 +163,7 @@ def test_all(tmp: Path) -> None:
     ])
     check("web pages listed by URL, best first, titles escaped", rows[0].split(" | ")[6],
           "[Page \\[one\\] \\| x](https://vendor.test/one) (0.90) · [Page two](https://vendor.test/two) (0.75) |")
-    check("summary row", next(l for l in report.splitlines() if l.startswith("| [prod]")), "| [prod](#prod) | 8 | 5 | 3 | 2 | 1 | 3 |")
+    check("summary row", next(l for l in report.splitlines() if l.startswith("| [prod]")), "| [prod](#prod) | 8 | 5 | 3 | 2 | 1 | — | 3 |")
     check("covered directly, via child-of mapping, annotated or compound IDs are not candidates",
           [t for t in ("QUERY-covered", "QUERY-mapped", "QUERY-pending", "QUERY-b") if f"| `{t}`" in prod], [])
     check("pointer-table IDs listed, not candidates",
@@ -186,6 +186,8 @@ def test_all(tmp: Path) -> None:
     check("apply writes only the output", sorted(k for k in after if after[k] != before.get(k)), ["reports/silo-candidates.md"])
     check("silo untouched", hashes(silo), silo_before)
 
+    test_ledger(cfg, repo, silo, report)
+
     (silo / "data/catalog_index.json").unlink()
     git_commit(silo)
     try:
@@ -193,6 +195,77 @@ def test_all(tmp: Path) -> None:
         failures.append("missing catalog did not raise")
     except candidates.CandidatesError:
         pass
+
+
+HEADER = "\t".join(candidates.LEDGER_COLUMNS) + "\n"
+
+
+def ledger_row(tag: str, outcome: str, web: int, product: str = "prod", ref: str = "#1") -> str:
+    return "\t".join([product, tag, outcome, "2026-09-26", "abcdef1", str(web), ref]) + "\n"
+
+
+def test_ledger(cfg: dict, repo: Path, silo: Path, untriaged: str) -> None:
+    ledger = repo / cfg["triage_ledger"]
+    ledger.parent.mkdir(parents=True, exist_ok=True)
+    check("no ledger file: same report as before", candidates.run(cfg, "plan"), untriaged)
+
+    ledger.write_text(HEADER, encoding="utf-8")
+    check("empty ledger: same report", candidates.run(cfg, "plan"), untriaged)
+
+    # QUERY-new has 2 web pages: decided with 2 -> hidden; QUERY-home decided with 1 -> re-opened
+    ledger.write_text(HEADER + ledger_row("QUERY-new", "noise", 2) + ledger_row("QUERY-home", "add-row", 1)
+                      + ledger_row("QUERY-repo", "needs-human", 0, ref="private source needed")
+                      + ledger_row("QUERY-gone-tag", "existing-row", 0), encoding="utf-8")
+    report = candidates.run(cfg, "plan")
+    prod = report.split("## prod")[1]
+    tags = [l.split(" | ")[0] for l in prod.splitlines() if l.startswith("| `")]
+    check("decided candidates leave the table; a grown one re-opens with a note", tags, [
+        "| `QUERY-home` (re-opened: add-row with 1 web)", "| `QUERY-shared`", "| `QUERY-unstored`"])
+    check("summary counts open candidates and triage per outcome",
+          next(l for l in report.splitlines() if l.startswith("| [prod]")),
+          "| [prod](#prod) | 8 | 3 | 2 | 1 | 1 | add-row 1 · existing-row 1 · noise 1 · needs-human 1 | 3 |")
+    check("needs-human stays listed", "Waiting for a human (`needs-human` in the ledger): `QUERY-repo`" in prod, True)
+    check("ledger reason text is not copied into the report", "private source needed" in report, False)
+    check("deterministic with a ledger", candidates.run(cfg, "plan"), report)
+
+    bad_rows = {
+        "unknown product": ledger_row("QUERY-new", "noise", 2, product="nope"),
+        "bad outcome": ledger_row("QUERY-new", "maybe", 2),
+        "duplicate": ledger_row("QUERY-new", "noise", 2) + ledger_row("QUERY-new", "add-row", 2),
+        "bad count": ledger_row("QUERY-new", "noise", 2).replace("\t2\t", "\ttwo\t"),
+        "bad sha": ledger_row("QUERY-new", "noise", 2).replace("abcdef1", "HEAD"),
+        "empty ref": ledger_row("QUERY-new", "noise", 2, ref=""),
+        "column count": "prod\tQUERY-new\tnoise\n",
+    }
+    for name, rows in bad_rows.items():
+        ledger.write_text(HEADER + rows, encoding="utf-8")
+        try:
+            candidates.run(cfg, "plan")
+            failures.append(f"ledger {name} accepted")
+        except candidates.CandidatesError:
+            pass
+    ledger.write_text("product\ttag\n", encoding="utf-8")
+    try:
+        candidates.run(cfg, "plan")
+        failures.append("ledger with a wrong header accepted")
+    except candidates.CandidatesError:
+        pass
+    ledger.unlink()
+
+
+def test_cli_error_exit(tmp: Path) -> None:
+    """A malformed ledger is a handled error: exit 2 with a message, not a traceback."""
+    bad = tmp / "led.tsv"
+    bad.write_text("wrong\n", encoding="utf-8")
+    orig = candidates.load_config
+    candidates.load_config = lambda: {**orig(), "triage_ledger": str(bad), "silo_path": tmp / "no-silo"}
+    try:
+        import contextlib, io
+        with contextlib.redirect_stderr(io.StringIO()) as err:
+            rc = candidates.main(["plan"])
+        check("malformed ledger exits 2 before the silo is read", (rc, "the header must be" in err.getvalue()), (2, True))
+    finally:
+        candidates.load_config = orig
 
 
 def test_output_restricted(tmp: Path) -> None:
@@ -232,6 +305,7 @@ def main() -> int:
     with tempfile.TemporaryDirectory() as d:
         test_all(Path(d))
         test_output_restricted(Path(d))
+        test_cli_error_exit(Path(d))
     test_cell_ids()
     test_is_public()
     test_single_write_site()

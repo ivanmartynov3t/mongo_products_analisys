@@ -2,7 +2,7 @@
 
 This is part 2 of the silo porting. [Plan 08](08-silo-porting-mechanical.md) built the scripts that surface signals. This plan adds the judgement: whether a signal is a real capability, which ID it maps to, what status it gets, and which source backs it.
 
-Measured 2026-09-26 at silo `55dbb2cb`. **Status: approved (2026-09-26); step 1 next.** Issues #52–#57.
+Measured 2026-09-26 at silo `55dbb2cb`. **Status: approved (2026-09-26); step 1 in review.** Issues #52–#57.
 
 ## Flow
 
@@ -115,3 +115,9 @@ Each step has one issue and one PR.
   - one product at a time;
   - a checklist file that the command loops over;
   - the loop ends with the README dashboard prompt.
+- 2026-09-26 — Owner: "start step 1, non-stop till the end". Recorded as standing merge approval after each passing review for steps 1–4. The pilot (step 5) still stops at its go/no-go gate.
+- 2026-09-26 — Step 1 (#52): `triage.tsv` ledger added and read by `candidates.py`.
+  - Decided candidates are hidden; one re-opens when its Web count grows.
+  - `needs-human` decisions stay listed.
+  - A malformed ledger exits 2 before the silo is read.
+  - The ledger starts empty, so the report's counts are unchanged.

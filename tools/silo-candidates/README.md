@@ -1,6 +1,6 @@
 # silo-candidates
 
-Answers one question: **which capabilities does the silo see for a product that no matrix row covers?** (issue #36, Plan 08 P4). The output is the input queue for the LLM-assisted step (Plan 08 part 2).
+Answers one question: **which capabilities does the silo see for a product that no matrix row covers?** (issue #36, Plan 08 P4). The output is the input queue for the LLM-assisted step ([Plan 09](../../update-plans/09-silo-porting-llm.md)).
 
 ```bash
 uv run tools/silo-candidates/candidates.py plan      # print the report, write nothing
@@ -18,6 +18,26 @@ Needs a clone of `prod_info_silo` next to this repository; `git -C ../prod_info_
 4. A silo tag is a **candidate** for the product when at least `min_docs` of the product's catalog entries carry it with probability ≥ `min_probability`, and no row covers it.
 5. IDs in a **pointer table** (an ID table without a status column, e.g. "Moved to") are documented in another product's matrix. Their tags are not candidates; the report lists them per product instead.
 6. The report also lists matrix IDs the silo never tags for that product, at any probability.
+7. Candidates decided in the triage ledger leave the tables (below).
+
+## Triage ledger
+
+[`triage.tsv`](triage.tsv) records decided candidates (issue #52, Plan 09 L1). It is edited by hand or by `/silo-port`; this tool only reads it. One tab-separated row per candidate:
+
+| Column | Meaning |
+|---|---|
+| `product` | the product folder name, e.g. `datagrip` |
+| `tag` | the silo tag |
+| `outcome` | `add-row`, `existing-row`, `other-product`, `noise` or `needs-human` |
+| `date` | decision date, `YYYY-MM-DD` |
+| `silo_commit` | silo commit the decision was made at (7–40 hex) |
+| `web_docs` | the candidate's **Web** count when it was decided |
+| `ref` | the PR, or a one-line reason. This repository is public: never name a private repository or document |
+
+- **Decided candidates.** They leave the tables. The summary's **Triaged** column counts ledger rows per outcome.
+- **Re-opening.** A decided candidate comes back, marked *re-opened*, when its **Web** count is now above `web_docs`.
+- **`needs-human` decisions.** They stay listed per product until someone resolves them. To resolve one, change its outcome.
+- **Malformed ledgers.** A malformed ledger stops the run with exit 2 before the silo is read, so a typo never silently hides a candidate. Examples: an unknown product, a duplicate row, a bad outcome.
 
 ## Columns
 
