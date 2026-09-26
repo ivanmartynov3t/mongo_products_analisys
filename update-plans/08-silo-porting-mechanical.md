@@ -187,7 +187,7 @@ Copy into each PR description and tick there; the plan's *Merge checklist comple
   - [x] Implemented (issue scope only)
   - [x] New tests added; full suite passes locally (commands and results in the PR)
   - [x] Tool run against the real silo; before/after summary in the PR
-  - [x] Pull request opened: PR link: PR_NEW (replaces #41, closed: it exposed private repository names)
+  - [x] Pull request opened: PR link: [#42](https://github.com/ivanmartynov3t/mongo_products_analisys/pull/42) (replaces #41, closed: it exposed private repository names)
   - [x] Code review done; findings recorded on the PR (round 1: NOT PASSED, 3 must fix · 10 suggestions)
   - [x] All *must fix* findings fixed; tests re-run
   - [ ] Re-review: no *must fix* left; suggestions fixed or accepted by the owner
