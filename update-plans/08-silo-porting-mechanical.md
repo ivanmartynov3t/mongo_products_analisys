@@ -254,7 +254,7 @@ Copy into each PR description and tick there; the plan's *Merge checklist comple
   - [x] Owner approved the merge
   - [x] Merged to `main` (`f1298b6`); branch deleted; issue closed with a result comment
 
-- [ ] **Step 7 — P4** · [#36](https://github.com/ivanmartynov3t/mongo_products_analisys/issues/36) · branch `feat/36-silo-candidates`
+- [x] **Step 7 — P4** · [#36](https://github.com/ivanmartynov3t/mongo_products_analisys/issues/36) · branch `feat/36-silo-candidates`
   - [x] Branch created from the latest `main`
   - [x] Implemented (issue scope only)
   - [x] New tests added; full suite passes locally (commands and results in the PR)
@@ -266,7 +266,7 @@ Copy into each PR description and tick there; the plan's *Merge checklist comple
   - [x] Docs updated (tool README, conventions, this plan)
   - [x] Merge checklist complete
   - [x] Owner approved the merge (2026-09-26 standing approval: merge after a passing review)
-  - [ ] Merged to `main`; branch deleted; issue closed with a result comment
+  - [x] Merged to `main` (`bdb5d6a`); branch deleted; issue closed with a result comment
 
 - [ ] **Step 8 — P8** · [#40](https://github.com/ivanmartynov3t/mongo_products_analisys/issues/40) · branch `feat/40-silo-sync`
   - [ ] Branch created from the latest `main`
@@ -322,3 +322,4 @@ Copy into each PR description and tick there; the plan's *Merge checklist comple
 - 2026-09-26 — Step 5 (P7) merged: #45 squash `699da90`; #39 closed. 29 of 52 non-matrix files that cite a URL cite a page that moved.
 - 2026-09-26 — Step 6 (P3) merged: #46 squash `f1298b6`; #35 closed; procedure step added to #18. Design choice in review: the code was changed to match the approved `coverage-scope.md` (fire only on documented triggers), not the reverse. 0 fired at snapshot `2a1ef919`.
 - 2026-09-26 — Step 7 (P4): PR #47; review round 1 NOT PASSED (annotated or compound IDs, Shared keyed by path, step order), round 2 NOT PASSED (rebase onto P3, plan ticks), round 3 NOT PASSED (step 7 ticks not on the branch). Code fixes: shared ID parser `review.matrix_table_ids`, content-keyed Shared, pointer tables. At silo `55dbb2cb`: 239 candidates, 135 web-backed; 3TL Bridge 61 of 61 and 3T Lens 24 of 27 mostly shared.
+- 2026-09-26 — Step 7 (P4): review round 4 PASSED; merged: #47 squash `bdb5d6a`; #36 closed.
