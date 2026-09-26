@@ -491,7 +491,9 @@ def build_report(cfg: dict, silo: Silo, matrices: list[Matrix], cites: dict[str,
                     what = f"content changed ({', '.join(v.changes)}; +{a} / −{rm} of {tot} lines)"
                     if tot and rm == tot and not a:
                         what += " — all text gone: page emptied, moved or failed to render"
-                    if v.sample:
+                    # Never quote repository documents: many silo repositories are private, and
+                    # this report is published.
+                    if v.sample and not any("/repo_docs/" in d.path for d in v.docs):
                         what += "; new text: " + " / ".join(f"“{x[:120]}”" for x in v.sample)
                 else:
                     what = f"server `Last-Modified` {v.last_modified}; silo first captured it {v.first_seen}"

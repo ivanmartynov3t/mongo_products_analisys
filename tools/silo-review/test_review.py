@@ -184,6 +184,7 @@ def test_end_to_end(tmp: Path) -> None:
     s8 = [l for l in report.splitlines() if "org/tool/blob/ccc333/docs/guide.md" in l and "content changed" in l]
     check("GitHub permalink at another commit matches the same file", bool(s8) and "same file at the silo's commit" in s8[0], True)
     check("GitHub permalink change date", bool(s8) and "2026-09-08" in s8[0], True)
+    check("repository documents are never quoted", bool(s8) and "new text" not in s8[0], True)
     check("permalink match counted in citation health", "1 GitHub file permalinks are matched" in health, True)
     check("unknown file in a known repo stays not checkable",
           re.search(r"\| github\.com \| 1 \| 0 \| 0 \| 0 \| 0 \| 1 \|", health) is not None, True)
