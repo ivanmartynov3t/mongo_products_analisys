@@ -15,7 +15,7 @@
 - Product group: third-party
 - Website: https://www.jetbrains.com/datagrip/
 - Category: Polyglot (multi-database) SQL/NoSQL IDE, built on the IntelliJ platform
-- Analysis date: 2026-09-04
+- Analysis date: 2026-09-26 (connectivity rows added in the Plan 09 pilot; other areas 2026-09-04)
 - Version/release context: DataGrip 2025.3–2026.2 line; MongoDB driver 1.21 bundled as of 2026.2
 
 ## Product summary
@@ -24,6 +24,7 @@
 - **Target users:** Polyglot developers and full-stack engineers already inside the JetBrains IDE ecosystem (IntelliJ IDEA, PyCharm, WebStorm) who want one client for all their databases, trading MongoDB-specific depth for breadth and code intelligence (AST-based refactoring, autocompletion, cross-file reference tracking).
 - **Notable strengths:** A native agentic AI chat backed by Anthropic's Claude Agent and OpenAI Codex, driving a 14-tool database-specific MCP server behind a granular 4-category consent gate (Schema Access / Data Access / Schema Modification / Data Modification); a DuckDB-backed cross-database federated JOIN engine (`dg_cross`); Data Source Templates stored as human-readable, Git-committable XML; a free non-commercial license tier (introduced late 2025) and a materially lower-cost individual commercial tier than Studio 3T ($109/yr year 1, down to $65/yr by year 3, vs. Studio 3T Professional's flat $499/yr).
 - **Notable constraints:** MongoDB access is explicitly SQL-to-JS translation with **no native document workspace** — there is no MongoDB-native filter bar, tree view, or visual query builder. The SQL engine supports only SELECT-family syntax (WHERE, GROUP BY, HAVING, ORDER BY, LIMIT, OFFSET, single-equality INNER/LEFT JOIN); **INSERT, UPDATE, and DELETE are not supported via SQL** and must be authored in native MongoDB shell syntax or edited cell-by-cell in the data grid. There is **no visual, stage-by-stage aggregation pipeline builder** (multi-stage pipelines are hand-coded as JSON in a text console) and **no code generation to application languages** (Java, Python, C#, Node.js, PHP) comparable to Studio 3T's Aggregations-to-Code. Document schema profiling is limited to basic tabular/tree rendering — no field-probability, type-probability, or histogram analytics.
+- **Connectivity (Plan 09 pilot, 2026-09-26):** JetBrains' MongoDB connection page documents SCRAM, x.509, AWS IAM, Kerberos and LDAP authentication, read preference, URL paste and a connection test; SSH, TLS, proxy and a read-only lock are generic data-source settings. See the [connectivity matrix](features/connectivity/feature-matrix.md).
 
 ## Feature inventory
 

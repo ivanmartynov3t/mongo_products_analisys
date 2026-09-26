@@ -17,13 +17,13 @@ An item with nothing to do is ticked "no changes" on the next item's branch and 
 
 ## First
 
-- [ ] **Scope triggers** — `uv run tools/scope-triggers/triggers.py`; update `docs/coverage-scope.md` when a trigger fires
+- [x] **Scope triggers** — `uv run tools/scope-triggers/triggers.py`; update `docs/coverage-scope.md` when a trigger fires — no changes (2026-09-26: 0 fired at silo `55dbb2cbb2`; ticked on the DataGrip branch)
   - [ ] validator · [ ] PR
 
 ## Third-party products
 
 - [ ] **DataGrip** (`third-party/datagrip`) — 33 / 33 · pilot, go/no-go gate after this item
-  - [ ] candidates · [ ] review queue · [ ] pins · [ ] evidence gaps · [ ] cascade · [ ] validator · [ ] PR
+  - [x] candidates · [x] review queue (none) · [x] pins (none) · [x] evidence gaps (none) · [x] cascade · [x] validator · [ ] PR
 - [ ] **DBeaver** (`third-party/dbeaver`) — 34 / 34
   - [ ] candidates · [ ] review queue · [ ] pins · [ ] evidence gaps · [ ] cascade · [ ] validator · [ ] PR
 - [ ] **MongoDB Compass** (`third-party/mongodb-compass`) — 14 / 18

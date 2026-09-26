@@ -1,1 +1,34 @@
 product	tag	outcome	date	silo_commit	web_docs	ref
+datagrip	CONN-test-steps	add-row	2026-09-26	55dbb2cbb2	127	row added in connectivity (step-by-step unverified)
+datagrip	CONN-auth-std	add-row	2026-09-26	55dbb2cbb2	90	row added in connectivity
+datagrip	QUERY-filter-bar	needs-human	2026-09-26	55dbb2cbb2	76	generic data-editor docs do not say they apply to MongoDB; product report omits F-QUERY (no native document workspace)
+datagrip	CONN-auth-enterprise	add-row	2026-09-26	55dbb2cbb2	36	row added in connectivity (OIDC unverified)
+datagrip	SHELL-autocomplete	needs-human	2026-09-26	55dbb2cbb2	35	completion docs cover SQL only; product report omits F-SHELL
+datagrip	CONN-ssh	add-row	2026-09-26	55dbb2cbb2	23	row added in connectivity
+datagrip	QUERY-skip-limit	needs-human	2026-09-26	55dbb2cbb2	20	generic data-editor docs do not say they apply to MongoDB; product report omits F-QUERY (no native document workspace)
+datagrip	QUERY-view-table	needs-human	2026-09-26	55dbb2cbb2	20	generic data-editor docs do not say they apply to MongoDB; product report omits F-QUERY (no native document workspace)
+datagrip	CONN-tls	add-row	2026-09-26	55dbb2cbb2	19	row added in connectivity
+datagrip	GOV-staged-commit	noise	2026-09-26	55dbb2cbb2	15	pages are about Git commits of files, not pending data changes
+datagrip	QUERY-history	needs-human	2026-09-26	55dbb2cbb2	12	query history is a generic console feature; no DataGrip querying matrix to hold it (F-QUERY omitted)
+datagrip	SCHEMA-bson-types	noise	2026-09-26	55dbb2cbb2	12	pages cover generic cell types, not BSON coverage in a schema definition
+datagrip	QUERY-pagination	needs-human	2026-09-26	55dbb2cbb2	11	generic data-editor docs do not say they apply to MongoDB; product report omits F-QUERY (no native document workspace)
+datagrip	QUERY-sort	needs-human	2026-09-26	55dbb2cbb2	10	generic data-editor docs do not say they apply to MongoDB; product report omits F-QUERY (no native document workspace)
+datagrip	CONN-readonly-lock	add-row	2026-09-26	55dbb2cbb2	9	row added in connectivity (Partial)
+datagrip	QUERY-view-tree	needs-human	2026-09-26	55dbb2cbb2	9	generic data-editor docs do not say they apply to MongoDB; product report omits F-QUERY (no native document workspace)
+datagrip	CONN-compat-redis	add-row	2026-09-26	55dbb2cbb2	8	row added in connectivity
+datagrip	SCHEMA-designer-canvas	needs-human	2026-09-26	55dbb2cbb2	8	database diagrams are generic; MongoDB applicability not stated; product report omits F-SCHEMA
+datagrip	IDX-explain-brief	needs-human	2026-09-26	55dbb2cbb2	7	EXPLAIN docs are SQL-generic; product report found no MongoDB explain target
+datagrip	CONN-uri-paste	add-row	2026-09-26	55dbb2cbb2	6	row added in connectivity
+datagrip	CONN-compat-docdb	add-row	2026-09-26	55dbb2cbb2	5	row added in connectivity
+datagrip	CONN-cred-storage	add-row	2026-09-26	55dbb2cbb2	4	row added in connectivity
+datagrip	CONN-proxy	add-row	2026-09-26	55dbb2cbb2	4	row added in connectivity (Partial)
+datagrip	QUERY-collation	noise	2026-09-26	55dbb2cbb2	4	page lists Collation only as a Database Explorer object icon
+datagrip	QUERY-multi-update	noise	2026-09-26	55dbb2cbb2	4	pages are about Git and task management
+datagrip	QUERY-projection	noise	2026-09-26	55dbb2cbb2	4	page lists Projection only as a Database Explorer object icon
+datagrip	QUERY-view-json	needs-human	2026-09-26	55dbb2cbb2	4	pages show MongoDB Extended JSON export, not a result view; fits a TRANSFER export ID instead
+datagrip	TRANSFER-import-csv	needs-human	2026-09-26	55dbb2cbb2	3	CSV import is generic; MongoDB applicability not stated; product report omits F-TRANSFER
+datagrip	CONN-multi-active	noise	2026-09-26	55dbb2cbb2	2	pages are about MCP batch connection configuration
+datagrip	CONN-read-pref	add-row	2026-09-26	55dbb2cbb2	2	row added in connectivity
+datagrip	GOV-air-gapped	needs-human	2026-09-26	55dbb2cbb2	2	offline activation code documented; product report deliberately has no F-GOV folder for one data point
+datagrip	SCHEMA-designer-portability	needs-human	2026-09-26	55dbb2cbb2	2	diagram export is generic; MongoDB applicability not stated; product report omits F-SCHEMA
+datagrip	SCHEMA-validation-ui	noise	2026-09-26	55dbb2cbb2	2	pages are about Kubernetes schema validation

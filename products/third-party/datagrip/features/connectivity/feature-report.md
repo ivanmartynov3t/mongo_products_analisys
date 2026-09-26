@@ -13,11 +13,11 @@
 - Feature ID: F-CONN (see [feature-dictionary.md](../../../../../feature-dictionary.md))
 - Product: DataGrip
 - Product group: third-party
-- Analysis date: 2026-09-04
+- Analysis date: 2026-09-26
 
 ## Behavioral walkthrough
 
-DataGrip's MongoDB connectivity is one instance of its generic, engine-agnostic Data Source and Drivers architecture, shared with every relational engine it supports (PostgreSQL, MySQL, SQL Server, Oracle, ClickHouse, Snowflake, and others). A bundled MongoDB JDBC driver (version 1.21 as of the 2026.2 release) provides the underlying connection, and DataGrip markets MongoDB support directly on its own product pages — confirming the connection type exists, even though the source material never itemizes MongoDB-specific topology modes (standalone/replica set/sharded/SRV) or authentication mechanisms the way it does for some relational engines.
+DataGrip's MongoDB connectivity is one instance of its generic, engine-agnostic Data Source and Drivers architecture, shared with every relational engine it supports (PostgreSQL, MySQL, SQL Server, Oracle, ClickHouse, Snowflake, and others). A bundled MongoDB JDBC driver (version 1.21 as of the 2026.2 release) provides the underlying connection, and DataGrip markets MongoDB support directly on its own product pages — confirming the connection type exists. JetBrains' MongoDB connection page lists the authentication mechanisms (SCRAM, x.509, AWS IAM, Kerberos, LDAP, none) and offers SRV ("MongoDB Atlas (SRV protocol)") and Replica set options; the CONN-topology row has not yet been re-checked against it.
 
 What is distinctive about DataGrip's connectivity model — described generically, not as a MongoDB-specific capability — is how connection and query configuration is stored and shared. Rather than an opaque binary connection store, DataGrip serializes connection structures, folder groupings, and query files into human-readable XML project files (for example, `.idea/db-forest-config.xml`). Because these are plain text files inside a project directory, a team can commit them to its own Git repository using its existing Git workflow — DataGrip does not appear (per the source) to provide a dedicated in-app Git panel with push/pull/fetch/reset actions for this specific artifact, unlike Studio 3T's dedicated git-backed connection-sharing feature. Separately, DataGrip also offers automatic cloud sync of Data Source Templates through a developer's own JetBrains Account: templates (with personal credentials stripped out) follow the developer automatically to any machine where they sign into a JetBrains IDE.
 
@@ -28,10 +28,14 @@ What is distinctive about DataGrip's connectivity model — described genericall
 | CONN-topology | MongoDB connection type/driver existence is confirmed via a primary source (DataGrip's own "MongoDB IDE" product page); topology-mode granularity is not itemized. | Establishes the floor of DataGrip's MongoDB connectivity claim without overstating its depth. | JetBrains "DataGrip: MongoDB IDE" product page (S1 Works Cited #2); "What's New in DataGrip 2026.2" (S1 Works Cited #5) |
 | CONN-git-repo-sharing | Closest existing ID for DataGrip's Git-committable XML connection/query files, but an imperfect fit — no in-app Git actions are described. | Prevents overstating DataGrip's Git integration as equivalent to Studio 3T's dedicated push/pull/fetch/reset connection-sharing UI. | Research file narrative |
 | CONN-portability | JetBrains Account cloud sync of Data Source Templates across a developer's own machines, credentials stripped. | A convenience feature for individual developers working across multiple machines, distinct from team-level connection sharing. | Research file narrative |
+| CONN-auth-std, CONN-auth-enterprise | The MongoDB connection page lists SCRAM-SHA-1/256, x.509, no-auth, AWS IAM, Kerberos (GSSAPI) and LDAP (Plain); MongoDB OIDC is not listed. | OIDC is recorded as Unverified (not documented), not as absent. | JetBrains "MongoDB" documentation page (matrix S5) |
+| CONN-ssh, CONN-tls, CONN-proxy, CONN-readonly-lock | Documented as settings of every data source, not MongoDB-specific. A database proxy is a driver property; the read-only lock holds only in the data editor unless the driver supports it. | Solid generic coverage; MongoDB-specific behaviour is not documented. | Matrix S6, S8, S11 |
+| CONN-uri-paste, CONN-read-pref, CONN-cred-storage, CONN-test-steps | URL paste populates the connection fields; read preference is a MongoDB connection option; passwords live in the OS keychain or KeePass; the connection test is a single pass/fail check. | The step-by-step part of the test is Unverified (not documented). | Matrix S5, S7 |
+| CONN-compat-docdb, CONN-compat-redis | Amazon DocumentDB and Redis (versions 5–8, no data editing) are supported data sources. | Beyond MongoDB proper. | Matrix S9, S10 |
 
 ## Constraints and risks
 
-- Every connectivity claim traced in this matrix describes DataGrip's general, engine-agnostic architecture rather than a MongoDB-specific mechanism — treat any inference that these behaviors are MongoDB-tuned as unverified.
+- The SSH, TLS, proxy, credential-storage and read-only rows (matrix S6, S7, S8, S11) describe DataGrip's general data-source settings rather than a MongoDB-specific mechanism; treat any inference that they are MongoDB-tuned as unverified. The authentication, URL-paste, read-preference and connection-test rows come from the MongoDB connection page (S5).
 - No primary source in the research file's own Works Cited list documents the Git-file-sharing or JetBrains Account template-sync mechanisms in detail; both remain Unverified despite reading as confident claims in the source narrative.
 
 ## Interactions and dependencies
@@ -48,10 +52,10 @@ What is distinctive about DataGrip's connectivity model — described genericall
 
 ### Limitations
 
-- No MongoDB-specific detail on authentication, TLS, SSH tunneling, or topology modes anywhere in the source.
+- A database proxy is a driver property rather than a first-class mode, and the read-only lock is guaranteed only in the data editor.
 - No in-app Git panel or push/pull/fetch/reset UI is described for the XML connection files, unlike Studio 3T's dedicated git-backed connection-sharing feature.
 
 ### Unknowns
 
 - Whether cloud-provider auto-discovery (confirmed only for relational engines: Amazon RDS, Redshift, Azure SQL, GCP Cloud SQL) extends to MongoDB Atlas.
-- Full MongoDB authentication-mechanism and topology-mode support list.
+- Whether SSH/TLS settings behave the same for MongoDB data sources. Whether MongoDB OIDC is supported, and whether the MongoDB driver honours the data source's read-only status.
