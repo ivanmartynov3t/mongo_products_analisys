@@ -15,6 +15,9 @@ min_probability = 0.75
 min_docs = 2
 # Public pages listed per candidate.
 top_docs = 3
+# Pages on these hosts (and their subdomains) are never named: code hosts may hold private
+# repositories, and internal systems are not public. They are counted as source files.
+non_public_hosts = ["github.com", "githubusercontent.com", "github.io", "gitlab.com", "bitbucket.org", "atlassian.net"]
 
 # The only file this tool is allowed to write.
 output = "reports/silo-candidates.md"

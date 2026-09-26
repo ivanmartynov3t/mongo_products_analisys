@@ -21,8 +21,8 @@ from __future__ import annotations
 
 import argparse
 import csv
+import hashlib
 import json
-import re
 import sys
 import tomllib
 from collections import defaultdict
@@ -33,10 +33,8 @@ HERE = Path(__file__).resolve().parent
 REPO = HERE.parent.parent
 
 sys.path.insert(0, str(HERE.parent / "silo-review"))
-from review import ReadOnlyViolation, cat_batch, frontmatter, git, guarded_write  # noqa: E402
-
-ID_HEADERS = ("Sub-feature ID", "Capability ID")
-GENERATED = {"README.md", "DIFF.md", "repo_source_strings.md"}
+from review import (FM_RE, SILO_GENERATED, ReadOnlyViolation, cat_batch, domain, frontmatter, git,  # noqa: E402
+                    guarded_write, matrix_table_ids, normalize_url)
 
 
 class CandidatesError(RuntimeError):
@@ -46,21 +44,15 @@ class CandidatesError(RuntimeError):
 # ---------------------------------------------------------------- analysis repo
 
 
-def matrix_ids(product_dir: Path) -> set[str]:
-    """First-column IDs of every capability table (one with a status column) in the product's matrices."""
-    ids: set[str] = set()
+def matrix_ids(product_dir: Path) -> tuple[set[str], set[str]]:
+    """(capability IDs, pointer IDs) over all of the product's matrices (rules in review.matrix_table_ids)."""
+    caps: set[str] = set()
+    pointers: set[str] = set()
     for m in sorted(product_dir.glob("features/*/feature-matrix.md")):
-        in_table = False
-        for line in m.read_text(encoding="utf-8").splitlines():
-            cells = [c.strip() for c in line.strip().strip("|").split("|")] if line.startswith("|") else []
-            if not cells:
-                in_table = False
-            elif cells[0].startswith(ID_HEADERS):
-                # capability tables only (they have a status column), not "Moved to" or index tables
-                in_table = "Current support" in cells or "Status" in cells
-            elif in_table and not set(cells[0]) <= set("-: "):
-                ids.add(cells[0].strip("`* "))
-    return ids
+        c, p = matrix_table_ids(m.read_text(encoding="utf-8"))
+        caps |= c
+        pointers |= p
+    return caps, pointers - caps
 
 
 def load_mapping(tsv: Path) -> dict[str, str]:
@@ -85,7 +77,7 @@ class Signal:
     web: list[tuple[float, str, str]] = field(default_factory=list)  # (probability, title, url) — public pages
     repo_docs: int = 0
     source_files: int = 0
-    shared: int = 0   # entries whose file is also indexed under another product
+    shared: int = 0   # entries whose page or file is also indexed under another product
 
     @property
     def total(self) -> int:
@@ -111,25 +103,71 @@ def web_urls(silo: Path, sha: str, data_dir: str, paths: list[str]) -> dict[str,
     return {p: frontmatter(blobs[s]).get("source_url", "") for p, s in specs.items() if blobs.get(s)}
 
 
-def signals_for(entries: list[dict], urls: dict[str, str], shared_suffixes: set[str],
-                min_probability: float) -> dict[str, Signal]:
+def is_public(url: str, non_public_hosts: list[str]) -> bool:
+    """A page that may be named in this public report: not on a code host or internal system."""
+    host = domain(normalize_url(url)).split(":", 1)[0] if url else ""
+    return bool(host) and not any(host == h or host.endswith("." + h) for h in non_public_hosts)
+
+
+def shared_paths(silo: Path, sha: str, data_dir: str, by_product: dict[str, list[dict]]) -> set[str]:
+    """Catalog paths whose page or file is also indexed under another silo product.
+
+    Two entries are the same when their path below the product folder matches and so does
+    their content: the normalised source_url for a top-level page, the body (frontmatter
+    removed) for any other stored file, and the path alone for a source file the silo does
+    not store. Unrelated products' index.md or blog.md therefore never count as shared.
+    """
+    groups: dict[str, list[tuple[str, str]]] = defaultdict(list)
+    for slug, entries in by_product.items():
+        for e in entries:
+            path = e.get("path", "")
+            groups["/".join(PurePosixPath(path).parts[2:])].append((slug, path))
+    groups = {k: v for k, v in groups.items() if len({s for s, _ in v}) > 1}
+    specs = sorted({f"{sha}:{data_dir}/{p}" for v in groups.values() for _, p in v})
+    blobs = cat_batch(silo, specs)
+
+    def key(path: str, suffix: str) -> str:
+        text = blobs.get(f"{sha}:{data_dir}/{path}", "")
+        if not text:
+            return "path:" + suffix
+        if len(PurePosixPath(path).parts) == 3:
+            return "url:" + normalize_url(frontmatter(text).get("source_url", "") or suffix)
+        return "body:" + hashlib.sha256(FM_RE.sub("", text, count=1).encode("utf-8")).hexdigest()
+
+    out: set[str] = set()
+    for suffix, members in groups.items():
+        keyed = [(slug, path, key(path, suffix)) for slug, path in members]
+        slugs_by_key: dict[str, set[str]] = defaultdict(set)
+        for slug, _, k in keyed:
+            slugs_by_key[k].add(slug)
+        out |= {path for _, path, k in keyed if len(slugs_by_key[k]) > 1}
+    return out
+
+
+def signals_for(entries: list[dict], urls: dict[str, str], shared: set[str],
+                min_probability: float, non_public_hosts: list[str]) -> dict[str, Signal]:
     out: dict[str, Signal] = {}
+    seen_web: dict[str, set[str]] = defaultdict(set)
     for e in entries:
         path = e.get("path", "")
         parts = PurePosixPath(path).parts
-        suffix = "/".join(parts[2:])
         for tag in e.get("sub_feature_tags") or []:
             prob = float((e.get("sub_feature_probabilities") or {}).get(tag, 0))
             if prob < min_probability:
                 continue
             s = out.setdefault(tag, Signal(tag))
-            if len(parts) == 3 and path in urls and urls[path] and "github.com" not in urls[path]:
-                s.web.append((prob, str(e.get("title", "")), urls[path]))
+            url = urls.get(path, "") if len(parts) == 3 else ""
+            if url and is_public(url, non_public_hosts):
+                norm = normalize_url(url)
+                if norm in seen_web[tag]:
+                    continue  # the same page captured twice (…/page and …/page/)
+                seen_web[tag].add(norm)
+                s.web.append((prob, str(e.get("title", "")), url))
             elif len(parts) > 3 and parts[2] == "repo_docs":
                 s.repo_docs += 1
             else:
                 s.source_files += 1
-            s.shared += suffix in shared_suffixes
+            s.shared += path in shared
     for s in out.values():
         s.web.sort(key=lambda w: (-w[0], w[2]))
     return out
@@ -154,14 +192,11 @@ def build(cfg: dict, silo: Path, ref: str) -> str:
     for d in sorted((repo / cfg["products_dir"]).glob("*/*")):
         if d.is_dir() and d.name in by_product:
             products.append((d.parent.name, d.name, d))
-    suffix_products: dict[str, set[str]] = defaultdict(set)
-    for slug, entries in by_product.items():
-        for e in entries:
-            suffix_products["/".join(PurePosixPath(e.get("path", "")).parts[2:])].add(slug)
-    shared = {s for s, ps in suffix_products.items() if len(ps) > 1}
+    shared = shared_paths(silo, sha, cfg["silo_data_dir"], by_product)
     top_paths = [e["path"] for _, slug, _ in products for e in by_product[slug]
-                 if len(PurePosixPath(e.get("path", "")).parts) == 3 and PurePosixPath(e["path"]).name not in GENERATED]
+                 if len(PurePosixPath(e.get("path", "")).parts) == 3 and PurePosixPath(e["path"]).name not in SILO_GENERATED]
     urls = web_urls(silo, sha, cfg["silo_data_dir"], top_paths)
+    hosts = list(cfg.get("non_public_hosts", []))
 
     min_docs, min_prob, top = int(cfg["min_docs"]), float(cfg["min_probability"]), int(cfg["top_docs"])
     L = [
@@ -178,9 +213,13 @@ def build(cfg: dict, silo: Path, ref: str) -> str:
         "- A matrix row covers a tag when its ID is the tag, or maps to it in "
         "[`taxonomy-reconciliation.tsv`](taxonomy-reconciliation.tsv).",
         "- **Web** documents are public pages, listed by URL. **Repo** documents and **source** files come from "
-        "GitHub repositories, many private: they are counted, never named.",
-        "- **Shared**: entries whose file is indexed under more than one silo product (the same repository copied "
-        "into several products). A candidate that is mostly shared may belong to another product.",
+        "GitHub repositories, many private: they are counted, never named. A page whose URL is on a code host, "
+        "or whose file the silo does not store, counts as **source**.",
+        "- **Shared**: entries whose page (same URL) or file (same content) is indexed under more than one silo "
+        "product, for example the same repository copied into several products. A candidate that is mostly shared "
+        "may belong to another product.",
+        "- IDs in a matrix's pointer table (rows documented in another product's matrix) are not candidates; "
+        "they are listed per product instead.",
         "",
         "## Summary",
         "",
@@ -189,12 +228,15 @@ def build(cfg: dict, silo: Path, ref: str) -> str:
     ]
     sections = []
     for cat, slug, d in products:
-        ids = matrix_ids(d)
+        ids, pointer_ids = matrix_ids(d)
         covered_tags = {mapping.get(i, i) for i in ids}
-        sig = signals_for(by_product[slug], urls, shared, min_prob)
-        cands = sorted((s for t, s in sig.items() if s.total >= min_docs and t not in covered_tags),
-                       key=lambda s: (-len(s.web), -s.total, s.tag))
-        seen_tags = {t for t, s in sig.items()}
+        pointer_tags = {mapping.get(i, i) for i in pointer_ids} - covered_tags
+        sig = signals_for(by_product[slug], urls, shared, min_prob, hosts)
+        leads = [s for t, s in sig.items() if s.total >= min_docs and t not in covered_tags]
+        cands = sorted((s for s in leads if s.tag not in pointer_tags), key=lambda s: (-len(s.web), -s.total, s.tag))
+        elsewhere = sorted(s.tag for s in leads if s.tag in pointer_tags)
+        # "never tags" looks at every probability: a weak tag is still a tag
+        seen_tags = {t for e in by_product[slug] for t in (e.get("sub_feature_tags") or [])}
         unseen = sorted(i for i in ids if mapping.get(i, i) not in seen_tags)
         web_backed = sum(bool(s.web) for s in cands)
         mostly_shared = sum(s.shared * 2 > s.total for s in cands)
@@ -209,8 +251,12 @@ def build(cfg: dict, silo: Path, ref: str) -> str:
                 pages = " · ".join(f"[{_cell(t) or u}]({u}) ({p:.2f})" for p, t, u in s.web[:top]) or "—"
                 S.append(f"| `{s.tag}` | {aka} | {len(s.web)} | {s.repo_docs} | {s.source_files} | {s.shared} | {pages} |")
             S.append("")
+        if elsewhere:
+            S += ["Silo tags for rows this product's pointer table documents in another product's matrix: "
+                  + ", ".join(f"`{t}`" for t in elsewhere), ""]
         if unseen:
-            S += ["Matrix IDs the silo never tags for this product: " + ", ".join(f"`{i}`" for i in unseen), ""]
+            S += ["Matrix IDs the silo never tags for this product (at any probability): "
+                  + ", ".join(f"`{i}`" for i in unseen), ""]
         sections += S
     unmatched = sorted(f"{d.parent.name}/{d.name}" for d in (repo / cfg["products_dir"]).glob("*/*")
                        if d.is_dir() and d.name not in by_product)
@@ -228,8 +274,8 @@ def load_config(path: Path = HERE / "silo-candidates.toml", repo: Path = REPO) -
     cfg["repo"] = repo
     cfg["silo_path"] = (repo / cfg["silo_path"]).resolve()
     cfg["output_path"] = (repo / cfg["output"]).resolve()
-    if cfg["output_path"].parent != (repo / "reports").resolve():
-        raise ReadOnlyViolation(f"{cfg['output_path']} is outside reports/")
+    if cfg["output_path"].parent != (repo / "reports").resolve() or not cfg["output_path"].name.startswith("silo-candidates"):
+        raise ReadOnlyViolation(f"{cfg['output_path']} is not reports/silo-candidates*.md (other reports belong to other tools)")
     return cfg
 
 

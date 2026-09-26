@@ -39,6 +39,44 @@ REVIEW_DATE_RE = re.compile(r"^- Analysis date:\s*(\d{4}-\d{2}-\d{2})", re.M)
 SOURCE_INDEX_RE = re.compile(r"^## Source index\n(.*?)(?=^## |\Z)", re.M | re.S)
 SOURCE_LINE_RE = re.compile(r"^[-*]\s*\**`?([A-Z][A-Z0-9_]*)`?\**\s*[:—–-]")
 
+# Silo files that are generated per product folder, not captured pages (shared with silo-snapshot
+# and silo-candidates so the tools cannot drift apart).
+SILO_GENERATED = frozenset({"README.md", "DIFF.md", "repo_source_strings.md"})
+
+# ---------------------------------------------------------------- matrix IDs
+
+ID_HEADERS = ("Sub-feature ID", "Capability ID")
+ID_TOKEN_RE = re.compile(r"^[A-Z][A-Z0-9]*(?:-[A-Za-z0-9]+)+$")
+
+
+def cell_ids(cell: str) -> list[str]:
+    """IDs in a first-column cell: `A`, `A / B`, `A, B`, or `A` **(PENDING DICTIONARY ADDITION)**."""
+    cell = re.sub(r"\([^)]*\)", " ", cell)  # annotations never hold the row's own ID
+    out = []
+    for part in re.split(r"\s*[/,]\s*", cell):
+        tok = part.replace("`", " ").replace("*", " ").split()
+        if tok and ID_TOKEN_RE.match(tok[0]):
+            out.append(tok[0])
+    return out
+
+
+def matrix_table_ids(text: str) -> tuple[set[str], set[str]]:
+    """(capability IDs, pointer IDs) of one feature matrix.
+
+    A capability table has an ID header and a status column ("Current support" or "Status");
+    an ID table without one ("Moved to", product index) points to rows documented elsewhere.
+    """
+    caps, pointers, table = set(), set(), None
+    for line in text.splitlines():
+        cells = [c.strip() for c in line.strip().strip("|").split("|")] if line.startswith("|") else []
+        if not cells:
+            table = None
+        elif cells[0].startswith(ID_HEADERS):
+            table = caps if ("Current support" in cells or "Status" in cells) else pointers
+        elif table is not None and not set(cells[0]) <= set("-: "):
+            table.update(cell_ids(cells[0]))
+    return caps, pointers - caps
+
 
 # ---------------------------------------------------------------- write guard
 
