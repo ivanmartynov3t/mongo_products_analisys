@@ -19,7 +19,7 @@
       "status": "Shipped",
       "track": "Foundation",
       "web_pages": 1,
-      "web_retrieved": "2026-09-15"
+      "web_written": "2026-09-15"
     },
     {
       "analysis_folder": "",
@@ -37,7 +37,7 @@
       "status": "Live",
       "track": "Foundation",
       "web_pages": 0,
-      "web_retrieved": ""
+      "web_written": ""
     },
     {
       "analysis_folder": "products/3t/3t-explore",
@@ -57,7 +57,7 @@
       "status": "MVP ready to demo",
       "track": "Build Track",
       "web_pages": 1,
-      "web_retrieved": "2026-09-10"
+      "web_written": "2026-09-10"
     },
     {
       "analysis_folder": "",
@@ -75,7 +75,7 @@
       "status": "Live",
       "track": "Web & Design",
       "web_pages": 0,
-      "web_retrieved": ""
+      "web_written": ""
     },
     {
       "analysis_folder": "products/3t/3t-lens",
@@ -95,7 +95,7 @@
       "status": "Active dev",
       "track": "Govern Track",
       "web_pages": 0,
-      "web_retrieved": ""
+      "web_written": ""
     },
     {
       "analysis_folder": "",
@@ -113,7 +113,7 @@
       "status": "Live",
       "track": "Foundation",
       "web_pages": 0,
-      "web_retrieved": ""
+      "web_written": ""
     },
     {
       "analysis_folder": "products/3t/3t-mcp",
@@ -133,7 +133,7 @@
       "status": "Released (experimental)",
       "track": "Build Track",
       "web_pages": 1,
-      "web_retrieved": "2026-09-10"
+      "web_written": "2026-09-10"
     },
     {
       "analysis_folder": "",
@@ -153,7 +153,7 @@
       "status": "Live",
       "track": "Web & Design",
       "web_pages": 217,
-      "web_retrieved": "2026-09-25"
+      "web_written": "2026-09-25"
     },
     {
       "analysis_folder": "products/3t/3tl-bridge",
@@ -173,7 +173,7 @@
       "status": "MVP ready to demo",
       "track": "Pipeline Track",
       "web_pages": 1,
-      "web_retrieved": "2026-09-10"
+      "web_written": "2026-09-10"
     },
     {
       "analysis_folder": "",
@@ -191,7 +191,7 @@
       "status": "PoC",
       "track": "Govern Track",
       "web_pages": 0,
-      "web_retrieved": ""
+      "web_written": ""
     },
     {
       "analysis_folder": "",
@@ -209,7 +209,7 @@
       "status": "Planned",
       "track": "Pipeline Track",
       "web_pages": 0,
-      "web_retrieved": ""
+      "web_written": ""
     },
     {
       "analysis_folder": "",
@@ -227,7 +227,7 @@
       "status": "Working PoC",
       "track": "Govern Track",
       "web_pages": 0,
-      "web_retrieved": ""
+      "web_written": ""
     },
     {
       "analysis_folder": "",
@@ -245,7 +245,7 @@
       "status": "Live",
       "track": "Foundation",
       "web_pages": 0,
-      "web_retrieved": ""
+      "web_written": ""
     },
     {
       "analysis_folder": "",
@@ -263,7 +263,7 @@
       "status": "Shipped",
       "track": "Govern Track",
       "web_pages": 0,
-      "web_retrieved": ""
+      "web_written": ""
     },
     {
       "analysis_folder": "",
@@ -281,7 +281,7 @@
       "status": "Shipped",
       "track": "Govern Track",
       "web_pages": 0,
-      "web_retrieved": ""
+      "web_written": ""
     },
     {
       "analysis_folder": "products/3t/studio-3t",
@@ -305,7 +305,7 @@
       "status": "Live",
       "track": "Build Track",
       "web_pages": 491,
-      "web_retrieved": "2026-09-21"
+      "web_written": "2026-09-21"
     },
     {
       "analysis_folder": "",
@@ -323,7 +323,7 @@
       "status": "Internal demo only",
       "track": "Build Track",
       "web_pages": 0,
-      "web_retrieved": ""
+      "web_written": ""
     },
     {
       "analysis_folder": "",
@@ -343,7 +343,7 @@
       "status": "Alpha",
       "track": "Build Track",
       "web_pages": 50,
-      "web_retrieved": "2026-09-15"
+      "web_written": "2026-09-15"
     },
     {
       "analysis_folder": "products/third-party/datagrip",
@@ -365,7 +365,7 @@
       "status": "",
       "track": "",
       "web_pages": 1033,
-      "web_retrieved": "2026-09-25"
+      "web_written": "2026-09-25"
     },
     {
       "analysis_folder": "products/third-party/dbeaver",
@@ -387,7 +387,7 @@
       "status": "",
       "track": "",
       "web_pages": 814,
-      "web_retrieved": "2026-09-25"
+      "web_written": "2026-09-25"
     },
     {
       "analysis_folder": "products/third-party/mongodb-compass",
@@ -408,7 +408,7 @@
       "status": "",
       "track": "",
       "web_pages": 120,
-      "web_retrieved": "2026-09-25"
+      "web_written": "2026-09-25"
     },
     {
       "analysis_folder": "products/third-party/navicat",
@@ -429,7 +429,7 @@
       "status": "",
       "track": "",
       "web_pages": 15,
-      "web_retrieved": "2026-09-25"
+      "web_written": "2026-09-25"
     },
     {
       "analysis_folder": "products/third-party/nosqlbooster",
@@ -452,7 +452,7 @@
       "status": "",
       "track": "",
       "web_pages": 145,
-      "web_retrieved": "2026-09-21"
+      "web_written": "2026-09-21"
     },
     {
       "analysis_folder": "products/third-party/tableplus",
@@ -474,7 +474,7 @@
       "status": "",
       "track": "",
       "web_pages": 179,
-      "web_retrieved": "2026-09-25"
+      "web_written": "2026-09-25"
     },
     {
       "analysis_folder": "products/third-party/visual-eaf",
@@ -503,7 +503,7 @@
       "status": "",
       "track": "",
       "web_pages": 256,
-      "web_retrieved": "2026-09-25"
+      "web_written": "2026-09-25"
     }
   ],
   "silo": {

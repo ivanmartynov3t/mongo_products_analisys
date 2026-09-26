@@ -66,7 +66,7 @@ def page(url: str, updated: str) -> str:
 
 CATALOG = {
     "version": "1.0",
-    "total_documents": 6,
+    "total_documents": 7,
     "by_product": {
         "alpha": [
             {"path": "3t/alpha/one.md", "category": "3t"},
@@ -75,7 +75,8 @@ CATALOG = {
             {"path": "3t/alpha/src/util.py", "category": "3t"},
             {"path": "3t/delta/repo_docs/x.md", "category": "3t"},  # stored under another product's folder
         ],
-        "gamma": [{"path": "third-party/gamma/index.md", "category": "third-party"}],
+        "gamma": [{"path": "third-party/gamma/index.md", "category": "third-party"},
+                  {"path": "3t/gamma/other.md", "category": "3t"}],  # same slug, other category
     },
 }
 
@@ -192,22 +193,24 @@ def test_snapshot(tmp: Path) -> None:
 
     check("silo commit recorded", snap["silo"]["commit"], sha)
     check("silo commit date", snap["silo"]["commit_date"], "2026-09-24")
-    check("every configured product and every data folder is listed", sorted(rows), ["alpha", "beta", "delta", "gamma"])
+    check("every configured product and every data folder is listed", sorted(set(rows)), ["alpha", "beta", "delta", "gamma"])
     a = rows["alpha"]
     check("web pages exclude dashboards, strings and uncommitted files", a["web_pages"], 2)
     check("repo docs counted", a["repo_docs"], 1)
     check("catalog entries", a["catalog_entries"], 5)
     check("catalog entries that are not stored files are source files (any folder)", a["catalog_source_files"], 2)
-    check("web retrieved is the latest committed updated_at", a["web_retrieved"], "2026-09-22")
+    check("web retrieved is the latest committed updated_at", a["web_written"], "2026-09-22")
     check("repo scraped from repo_symbols_and_strings.json", a["repo_scraped"], "2026-09-23")
     check("seeds from config", (a["entry_urls"], a["sitemap_urls"], a["github_repos"]),
           (["https://alpha.example/"], ["https://alpha.example/sitemap.xml"], 1))
     check("analysis folder matched by slug", a["analysis_folder"], "products/3t/alpha")
     b = rows["beta"]
     check("configured product with no data is listed with zeros",
-          (b["in_config"], b["web_pages"], b["repo_docs"], b["catalog_entries"], b["web_retrieved"], b["analysis_folder"]),
+          (b["in_config"], b["web_pages"], b["repo_docs"], b["catalog_entries"], b["web_written"], b["analysis_folder"]),
           (True, 0, 0, 0, "", ""))
     check("data folder missing from config is flagged", (rows["delta"]["in_config"], rows["delta"]["repo_docs"]), (False, 1))
+    check("catalog entries are counted only under their own category",
+          (rows["gamma"]["catalog_entries"], {(r["category"], r["slug"]) for r in snap["products"]} >= {("3t", "gamma"), ("third-party", "gamma")}), (1, True))
     check("third-party product has no track or status", (rows["gamma"]["track"], rows["gamma"]["status"]), ("", ""))
     check("analysis folders without a silo product", snap["analysis_folders_without_silo_product"], ["products/3t/govern"])
 

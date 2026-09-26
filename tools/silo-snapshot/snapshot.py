@@ -150,7 +150,7 @@ def build_snapshot(silo: dict, repo: Path, products_dir: str) -> dict:
             "repo_docs": len(silo["repo_docs"].get((cat, slug), [])),
             "catalog_entries": len(entries),
             "catalog_source_files": source_files,
-            "web_retrieved": silo["web_dates"].get((cat, slug), ""),
+            "web_written": silo["web_dates"].get((cat, slug), ""),
             "repo_scraped": silo["repo_scraped"].get((cat, slug), ""),
             "entry_urls": sorted(cfg.get("entry_urls") or []),
             "sitemap_urls": sorted(cfg.get("sitemap_urls") or []),
@@ -226,7 +226,7 @@ def render_markdown(snap: dict, output_json: str) -> str:
                 cells += [_cell(r["track"]), _cell(r["status"])]
             cells += [str(r["web_pages"]), str(r["repo_docs"]),
                       f"{r['catalog_entries']} ({r['catalog_source_files']})",
-                      _cell(r["web_retrieved"]), _cell(r["repo_scraped"]), str(seeds), str(r["github_repos"]),
+                      _cell(r["web_written"]), _cell(r["repo_scraped"]), str(seeds), str(r["github_repos"]),
                       "✓" if r["analysis_folder"] else "—"]
             out.append("| " + " | ".join(cells) + " |")
         out.append("")
@@ -240,7 +240,7 @@ def render_markdown(snap: dict, output_json: str) -> str:
         seeds = [*r["entry_urls"], *r["sitemap_urls"]]
         if not seeds:
             continue
-        out.append(f"- **{r['name'] or r['slug']}** (`{r['slug']}`)")
+        out.append(f"- **{_cell(' '.join(str(r['name'] or r['slug']).split()))}** (`{r['slug']}`)")
         out += [f"  - {u}" for u in seeds]
     out.append("")
     return "\n".join(out)
