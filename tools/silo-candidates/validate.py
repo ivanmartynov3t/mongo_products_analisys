@@ -246,7 +246,7 @@ def check_matrix(rel: str, new: str, old: str, ctx: dict, findings: list[Finding
                 if any(nq in h for h in evidence):
                     found_in_evidence = True
                 elif nq not in ctx["dictionary_text"]:   # rows also quote the dictionary's definition of the ID
-                    findings.append(Finding(rel, n, f"quote not found in the cited sources ({', '.join(cited)}): {q[:50]!r}"))
+                    findings.append(Finding(rel, n, f"quote not found in the cited sources ({', '.join(cited)}): {redact(q, ctx)[:50]!r}"))
         if "absent" in classes and not found_in_evidence:
             findings.append(Finding(rel, n, "not-supported status needs a quoted exclusion found in a cited silo page or repository file"))
 
@@ -369,9 +369,11 @@ def validate(vcfg: dict, ccfg: dict, item: str, base: str, silo: Path, ref: str)
             check_matrix(rel, new, old, ctx, findings)
         if rel == vcfg["triage_ledger"] and kind == "product":
             header = "\t".join(candidates.LEDGER_COLUMNS)
-            for n, line in added + removed:
-                if line.strip() and line != header and line.split("\t", 1)[0] != item:
-                    findings.append(Finding(rel, n, f"ledger row for another product than {item!r} added, changed or removed"))
+            for where, changes in (("", added), (" (line number in the base)", removed)):
+                for n, line in changes:
+                    if line.strip() and line != header and line.split("\t", 1)[0].strip() != item:
+                        findings.append(Finding(rel, n, f"ledger row for another product than {item!r} "
+                                                        f"added, changed or removed{where}"))
     if kind == "product":
         # checked whether or not it changed: a ledger edit without a regenerated report leaves it stale
         report = repo / vcfg["candidates_output"]
@@ -413,9 +415,10 @@ def main(argv: list[str] | None = None) -> int:
         return 2
     except Exception as e:  # noqa: BLE001 — the contract is exit 2 for every error, never 1
         if a.debug:
-            raise
-        # no message: it could quote a path or cell from the silo
-        print(f"error: unexpected {type(e).__name__}; re-run with --debug for details", file=sys.stderr)
+            import traceback
+            traceback.print_exc()
+        else:   # no message: it could quote a path or cell from the silo
+            print(f"error: unexpected {type(e).__name__}; re-run with --debug for details", file=sys.stderr)
         return 2
     print(out)
     return rc

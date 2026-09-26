@@ -270,6 +270,13 @@ def test_all(tmp: Path) -> None:
     add_rows(repo, pin, f'| QUERY-{SECRET} | F | {SECRET} maybe | "no such {SECRET} text anywhere here" | S1 {SECRET} | — |\n')
     rc, out = run()
     check("secret in ID, status, quote and Sources cells never printed", (rc, SECRET in out, SECRET.upper() in out), (1, False, False))
+    for lead in range(36, 52):
+        fresh(repo)
+        add_rows(repo, pin, f'| QUERY-new | F | Confirmed | "{"w " * (lead // 2)}{SECRET} tail words here" | S1 | — |\n')
+        out = run()[1]
+        if any(SECRET[:k] in out for k in range(4, len(SECRET) + 1)):
+            failures.append(f"quote cut at 50 characters leaks part of the name (lead {lead})")
+            break
     fresh(repo)
     add_rows(repo, pin, GOOD.replace("| — |\n", f"| {SECRET}-docs, https://github.com/acme/tool and https://x.atlassian.net/wiki/y |\n"))
     rc, out = run()
