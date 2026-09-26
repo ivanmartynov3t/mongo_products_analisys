@@ -22,4 +22,5 @@ exclude = [
     "reports/review-queue.md",          # our own output
     "reports/taxonomy-reconciliation.md",
     "reports/silo-snapshot.md",         # silo seed URLs, not citations
+    "reports/silo-candidates.md",       # silo leads, not citations
 ]
