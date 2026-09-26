@@ -41,9 +41,14 @@ Arguments: `$ARGUMENTS`
 ## 0. Preconditions (stop with a message if any fails)
 
 - **Clean state.** `git status --short` is empty, and `main` is up to date with `origin/main`.
+- **Mechanical stage is clean.** Run `tools/silo-sync/run.sh --no-fetch`.
+  - Stop if it exits 2 (a step failed).
+  - Stop if `git status --short` is no longer empty afterwards: the committed reports were not the current tool output, so the owner reviews and commits them first.
+  - Exit 1 (a check needs a human) does not stop you. Copy its ATTEND lines under *Needs a human* in the next PR.
 - **Fresh reports.** The commit in the header of `reports/silo-candidates.md` equals the first 10 characters of `git -C ../prod_info_silo rev-parse origin/main`. If it differs, the owner runs `tools/silo-sync/run.sh`, reviews and commits the reports, then restarts you.
 - **Fresh batches.** `.local/silo-batches/<product>/README.md` names the same commit. If not, run `uv run tools/silo-candidates/batch.py apply`.
 - **Checklist.** `update-plans/09-product-loop.md` is on `main`, and the item exists and is unticked.
+- **No open PR for the item.** Check with `gh pr list --state open --search "head:port/<item>-"`. If one exists, stop and report its link: its ticks land on `main` only when it is merged, so starting the item again would duplicate it.
 
 ## 1. Per item
 
@@ -59,10 +64,12 @@ Arguments: `$ARGUMENTS`
    - tick each sub-item as it is done;
    - tick the item's heading box only when all its sub-items are ticked.
 
-   An item with nothing to do gets its heading ticked with "— no changes (<date>)" and no PR of its own. Make that tick on the next item's branch, and say so in that PR. If it is the last item, open a one-line PR for the tick.
+   The **PR** sub-item means "opened and reviewed". Tick it in a commit after the review passes; the merge lands the ticks on `main`.
+
+   An item with nothing to do gets its heading ticked with "— no changes (<date>)" and no PR of its own; its sub-items may stay unticked. Make that tick on the next item's branch, and say so in that PR. If it is the last item, open a one-line PR for the tick.
 6. Commit with a message such as `port(<item>): <summary> (Plan 09)`. Push, and open the PR with the body in section 3.
 7. **Review.**
-   - Run the repository's `automation-compliance-review` agent on the PR.
+   - Run the `automation-compliance-review` agent (user-level, not in this repository) on the PR. If it is not available, stop and report; never tick "Code review done" without a review.
    - Check the **content** yourself as well: every new or changed row against its cited page body.
    - Fix the findings, re-validate, and re-review until nothing must be fixed. Record each round on the PR.
 8. **Merge.**
@@ -75,7 +82,7 @@ Arguments: `$ARGUMENTS`
 
 Read `.local/silo-batches/<product>/README.md`, the product's matrices and product report, and the product's rows in `reports/review-queue.md`, `reports/evidence-gaps.md` and the `pins.py repin plan` output.
 
-**candidates.** Decide every candidate in the batch. For each one:
+**candidates.** Decide every open web-backed candidate in the batch (a batch holds only those). For each one:
 1. Read its dictionary definition, then the page bodies (`pages/…`), best probability first, until the question is settled. Read at least the top 3 pages, or every page if there are fewer.
 2. Choose exactly one outcome:
 
@@ -83,7 +90,7 @@ Read `.local/silo-batches/<product>/README.md`, the product's matrices and produ
    |---|---|---|
    | `add-row` | a page shows the capability, a limitation, or an explicit absence | a row in the matching matrix (see below) |
    | `existing-row` | an existing row already covers it under another ID | a mapping in `tools/taxonomy-reconcile/decisions.tsv`, only if the mapping holds for the dictionary in general; otherwise a `needs-human` row with the reason |
-   | `other-product` | the pages describe another product (see "Shared") | ledger row only |
+   | `other-product` | the pages describe another product (the batch's "Shared with another silo product" line is a hint, never proof) | ledger row only |
    | `noise` | the pages do not describe this capability for this product | ledger row only |
    | `needs-human` | ambiguous, a bad capture, or a private source would be needed | ledger row with the reason |
 
@@ -138,7 +145,7 @@ After every product item is merged, cascade the cycle's changes with [weekly pro
 - both gap analyses;
 - the cumulative report.
 
-The cycle's changes are the rows the merged `port/*` PRs added or changed since the cycle started. Log the result in Plan 09's execution log, not Plan 03's.
+The cycle's changes are the rows the merged `port/*` PRs added or changed since the cycle started. Record the result in the PR body and on the item's checklist line, not in an execution log: the plan files are outside this item's scope.
 
 ### `readme`
 
