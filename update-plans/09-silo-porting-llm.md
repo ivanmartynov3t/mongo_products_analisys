@@ -2,7 +2,7 @@
 
 This is part 2 of the silo porting. [Plan 08](08-silo-porting-mechanical.md) built the scripts that surface signals. This plan adds the judgement: whether a signal is a real capability, which ID it maps to, what status it gets, and which source backs it.
 
-Measured 2026-09-26 at silo `55dbb2cb`. **Status: approved (2026-09-26); step 3 in review.** Issues #52–#57.
+Measured 2026-09-26 at silo `55dbb2cb`. **Status: approved (2026-09-26); step 4 next.** Issues #52–#57.
 
 ## Flow
 
@@ -137,7 +137,7 @@ Each step has one issue and one PR.
   - [x] Merge checklist complete
   - [x] Owner approved the merge (standing approval for steps 1–4, see Execution log)
   - [x] Merged to `main` (squash `2e10f8e`); branch deleted; issue closed with a result comment
-- [ ] **Step 3 — L2** · [#54](https://github.com/ivanmartynov3t/mongo_products_analisys/issues/54) · branch `feat/54-evidence-batches`
+- [x] **Step 3 — L2** · [#54](https://github.com/ivanmartynov3t/mongo_products_analisys/issues/54) · branch `feat/54-evidence-batches`
   - [x] Branch created from the latest `main`
   - [x] Implemented (issue scope only)
   - [x] New tests added; full suite passes locally
@@ -148,7 +148,7 @@ Each step has one issue and one PR.
   - [x] Docs updated
   - [x] Merge checklist complete
   - [x] Owner approved the merge (standing approval for steps 1–4, see Execution log)
-  - [ ] Merged to `main` (squash); branch deleted; issue closed with a result comment
+  - [x] Merged to `main` (squash `518eb96`); branch deleted; issue closed with a result comment
 - [ ] **Step 4 — L3** · [#55](https://github.com/ivanmartynov3t/mongo_products_analisys/issues/55)
   - [ ] Branch created from the latest `main`
   - [ ] Implemented (issue scope only)
@@ -186,3 +186,4 @@ Each step has one issue and one PR.
   - **Access date.** Only its presence is checked; the window waits on owner decision 3.
 - 2026-09-26 — Step 2 merged (#59, squash `2e10f8e`) after three review rounds (NOT PASSED, NOT PASSED, PASSED). Owner question: 47 of 86 silo repository and source folder names are treated as public because this repository already mentions them.
 - 2026-09-26 — Step 3 (#54): `batch.py` added and run by `run.sh`. The real run wrote 13 batches with 135 candidates and 681 public pages (about 10 MB, gitignored).
+- 2026-09-26 — Step 3 merged (#60, squash `518eb96`) after two review rounds (both PASSED).
