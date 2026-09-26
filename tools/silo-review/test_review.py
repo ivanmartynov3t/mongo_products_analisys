@@ -134,6 +134,7 @@ def build_repo(root: Path) -> None:
     (root / "reports/summary.md").write_text("Export formats: https://vendor.test/export and https://vendor.test/stable\n"
                                              "Same page again: https://www.vendor.test/export/\n", encoding="utf-8")
     (root / "reports/lastmod.md").write_text("See https://vendor.test/lastmod\n", encoding="utf-8")
+    (root / "reports/both.md").write_text("See https://vendor.test/lastmod and https://vendor.test/export\n", encoding="utf-8")
     (root / "reports/nourl.md").write_text("Cites no URL.\n", encoding="utf-8")
     (root / "products/g/vendor/features/audit").mkdir(parents=True)
     (root / "products/g/vendor/features/audit/feature-matrix.md").write_text(
@@ -226,15 +227,18 @@ def test_end_to_end(tmp: Path) -> None:
     other = report.split("## 1b. Reports and research")[1].split("\n## ")[0]
     check("reports rows: changed first, then server-newer; a URL is counted once per file",
           [l for l in other.splitlines() if l.startswith("| [")], [
+              "| [reports/both.md](../reports/both.md) | 2026-09-02 | 1 | 1 |",
               "| [reports/summary.md](../reports/summary.md) | 2026-09-02 | 1 | 0 |",
               "| [reports/lastmod.md](../reports/lastmod.md) | 2026-09-02 | 0 | 1 |"])
-    check("reports detail lines", [l for l in other.splitlines() if l.startswith("- <")], [
+    check("reports detail lines (changed before server-newer within a file)", [l for l in other.splitlines() if l.startswith("- <")], [
+        "- <https://vendor.test/export> — content changed (2026-09-08) (silo: `data/vendor/prod/changed.md`)",
+        "- <https://vendor.test/lastmod> — server `Last-Modified` 2026-09-07 (silo: `data/vendor/prod/lastmod.md`)",
         "- <https://vendor.test/export> — content changed (2026-09-08) (silo: `data/vendor/prod/changed.md`)",
         "- <https://vendor.test/lastmod> — server `Last-Modified` 2026-09-07 (silo: `data/vendor/prod/lastmod.md`)"])
     check("a report's own Analysis date is its review date", "reports/dated.md" in other, False)
     check("unchanged citations in reports are not queued", "README.md" in other, False)
     check("matrices are not repeated in the reports section", "feature-matrix.md" in other, False)
-    check("reports section counts files that cite a URL", "2 of 4 other files that cite a URL" in other, True)
+    check("reports section counts files that cite a URL", "3 of 5 other files that cite a URL" in other, True)
     check("link targets are URL-encoded", review._link("research/a b/c.md"), "[research/a b/c.md](../research/a%20b/c.md)")
 
     # deterministic: same silo commit, same output
