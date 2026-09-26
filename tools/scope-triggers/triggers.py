@@ -66,10 +66,19 @@ def load_triggers(path: Path) -> dict[str, dict]:
     return products
 
 
+def _valid_row(r) -> bool:
+    """Every field check() reads has the type silo-snapshot writes."""
+    if not (isinstance(r, dict) and isinstance(r.get("slug"), str) and isinstance(r.get("category"), str)):
+        return False
+    n = r.get("catalog_entries", 0)
+    return (isinstance(r.get("status", ""), str) and isinstance(r.get("analysis_folder", ""), str)
+            and isinstance(n, int) and not isinstance(n, bool))
+
+
 def validate_snapshot(snapshot, path: Path) -> None:
     ok = (isinstance(snapshot, dict) and isinstance(snapshot.get("silo"), dict)
           and isinstance(snapshot["silo"].get("commit"), str) and isinstance(snapshot.get("products"), list)
-          and all(isinstance(r, dict) and isinstance(r.get("slug"), str) for r in snapshot["products"]))
+          and all(_valid_row(r) for r in snapshot["products"]))
     if not ok:
         raise TriggerConfigError(f"{path}: not a silo snapshot (needs `silo.commit` and `products` rows with a `slug`); "
                                  "regenerate it with tools/silo-snapshot")
@@ -146,7 +155,7 @@ def main(argv: list[str] | None = None) -> int:
     a = ap.parse_args(argv)
     try:
         code, text = run(a.triggers, a.snapshot)
-    except (OSError, json.JSONDecodeError, tomllib.TOMLDecodeError, TriggerConfigError) as e:
+    except (OSError, ValueError) as e:  # ValueError covers JSON, TOML, UTF-8 and TriggerConfigError
         print(f"error: {e}", file=sys.stderr)
         return 2  # distinct from 1 (a trigger fired), so an automated run can tell them apart
     print(text)

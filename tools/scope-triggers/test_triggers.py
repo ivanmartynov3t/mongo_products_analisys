@@ -154,6 +154,13 @@ def test_config_errors(tmp: Path) -> None:
     snaps = {"no products": '{"silo": {"commit": "a"}}', "not json": "{", "no commit": '{"products": []}',
              "a list": "[1]", "silo a string": '{"silo": "x", "products": []}',
              "row without slug": '{"silo": {"commit": "a"}, "products": [{"category": "3t"}]}'}
+    bad_row = '{"silo": {"commit": "a"}, "products": [{"slug": "s", "category": "3t", %s}]}'
+    snaps |= {"catalog_entries a string": bad_row % '"catalog_entries": "9"',
+              "catalog_entries null": bad_row % '"catalog_entries": null',
+              "catalog_entries a bool": bad_row % '"catalog_entries": true',
+              "analysis_folder a list": bad_row % '"analysis_folder": ["x"]',
+              "status a list": bad_row % '"status": ["Live"]',
+              "category missing": '{"silo": {"commit": "a"}, "products": [{"slug": "s"}]}'}
     for name, text in snaps.items():
         sp = tmp / f"{name}.json"
         sp.write_text(text, encoding="utf-8")
@@ -162,6 +169,12 @@ def test_config_errors(tmp: Path) -> None:
     bad.write_text("[products\n", encoding="utf-8")
     good = tmp / "good.json"
     good.write_text('{"silo": {"commit": "a"}, "products": []}', encoding="utf-8")
+    latin = tmp / "latin.json"
+    latin.write_bytes(b'{"silo": {"commit": "\xe9"}, "products": []}')
+    check("exit 2 on a non-UTF-8 snapshot", triggers.main(["--triggers", str(ok), "--snapshot", str(latin)]), 2)
+    latin_toml = tmp / "latin.toml"
+    latin_toml.write_bytes(b'[products.x]\nrecorded_status = "\xe9"\n')
+    check("exit 2 on a non-UTF-8 TOML", triggers.main(["--triggers", str(latin_toml), "--snapshot", str(good)]), 2)
     check("exit 2 on a TOML syntax error", triggers.main(["--triggers", str(bad), "--snapshot", str(good)]), 2)
     check("exit 2 on a missing snapshot", triggers.main(["--triggers", str(ok), "--snapshot", str(tmp / "none.json")]), 2)
 
