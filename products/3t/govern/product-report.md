@@ -16,7 +16,7 @@
 - Maker: 3T Software Labs
 - Category: Platform track — policy checks, drift alerts, PII classification, governed AI-agent access
 - Analysis date: 2026-09-25
-- Version/release context: **A platform track, not a separately sold product.** The public site presents three tracks with "Govern at the center" and does not name the products that deliver it (source: studio3t.com/governed-data-access-platform, silo copy captured 2026-09-15). Rows `GOV-002`–`GOV-009` moved here from [3T Lens](../3t-lens/product-report.md) on 2026-09-25 by owner decision, because the 3T Lens page that attributed them (studio3t.com/3t-lens/) returned 404 that day.
+- Version/release context: **A platform track, not a separately sold product.** The public site presents three tracks with "Govern at the center" and does not name the products that deliver it (source: studio3t.com/governed-data-access-platform, captured 2026-09-15, silo: `data/3t/3t-website-2026/governed-data-access-platform.md@5ea601db`). Rows `GOV-002`–`GOV-009` moved here from [3T Lens](../3t-lens/product-report.md) on 2026-09-25 by owner decision, because the 3T Lens page that attributed them (studio3t.com/3t-lens/) returned 404 that day.
 
 ## Product summary
 

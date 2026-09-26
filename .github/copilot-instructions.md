@@ -54,6 +54,7 @@ Use this hierarchy for every product:
 - **Sub-feature IDs** (column: `Sub-feature ID`) must come from the feature dictionary.
 - Product report must summarize features using Feature IDs and link to matrix/report.
 - Every major statement must be traceable to a source.
+- When a source was read from `prod_info_silo`, pin the exact copy on its Source index line (in reports without a Source index, inline where the source is cited) as ``silo: `data/<category>/<product>/<file>.md@<commit>` `` (commit SHA, 7+ hex). `tools/silo-pins` lists, checks and re-pins these; don't write silo copies as prose ("silo copy … at silo commit …").
 - Keep feature naming normalized across all products and both groups.
 - Add a `Navigation` section in every new report/template file with relative links to:
   - product report
