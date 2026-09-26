@@ -20,7 +20,7 @@ On a Source index line, after the URL (in reports without a Source index, inline
 - S2: https://studio3t.com/ — homepage (silo: `data/3t/3t-website-2026/index.md@f1e28e8d`)
 ```
 
-One silo file at one silo commit (7–40 hex). Text that looks like a pin but does not match (`Silo:`, no space, `@HEAD`, fewer than 7 hex) is reported as a warning, and `check` exits 1. So is a silo file mentioned without `@<commit>` (silo `data/…/page.md`); directory mentions and names such as `prod_info_silo` are not. Prose such as "silo commit `cde319c7`" without a path is not a pin. The rule is in [`.github/copilot-instructions.md`](../../.github/copilot-instructions.md) and the [matrix template](../../templates/feature-matrix-template.md).
+One silo file at one silo commit (7–40 hex). Text that looks like a pin but does not match (`Silo:`, no space, `@HEAD`, fewer than 7 hex, or a directory instead of one `.md` file) is reported as a warning, and `check` exits 1. So is a silo file mentioned without `@<commit>` (silo `data/…/page.md`). A directory mentioned without `@<commit>` (silo `data/3t/pii-scanner`) and names such as `prod_info_silo` are not. Prose such as "silo commit `cde319c7`" without a path is not a pin. The rule is in [`.github/copilot-instructions.md`](../../.github/copilot-instructions.md) and the [matrix template](../../templates/feature-matrix-template.md).
 
 ## States
 
