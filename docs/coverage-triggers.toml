@@ -1,0 +1,69 @@
+# Machine-readable revisit triggers for docs/coverage-scope.md (issue #35).
+# Checked by tools/scope-triggers against reports/silo-snapshot.json.
+#
+# Per product (silo slug):
+#   decision              the decision in coverage-scope.md, as amended 2026-09-25 (for the report only)
+#   recorded_status       the table's *Silo status*; another status that is not a trigger is only noted
+#   status_in             the *Revisit trigger*: fires when the silo status is one of these
+#   min_catalog_entries   the *Revisit trigger*: fires when the silo's catalog holds at least this many entries
+#   manual                a *Revisit trigger* no script can check; listed for the human, never fires
+#
+# Also fires: a 3T product in the snapshot with no analysis folder and no entry here ("untracked"),
+# an entry here that is missing from the snapshot, and an entry for a product that is now analysed.
+# Out-of-scope rows fire only when the entry itself goes stale (as above); a status change is only noted.
+
+[products.policy-engine]
+decision = "In scope — inside Govern"
+recorded_status = "Shipped"
+manual = "It ships as a standalone product"
+
+[products.pii-scanner]
+decision = "In scope — inside Govern and 3T MCP"
+recorded_status = "Shipped"
+manual = "It ships as a standalone product"
+
+[products.studio-3t-ee]
+decision = "Revisit later — then inside Studio 3T"
+recorded_status = "Alpha"
+status_in = ["GA", "Live", "Shipped", "Released"]
+
+[products.interceptor-proxy]
+decision = "Revisit later"
+recorded_status = "Working PoC"
+status_in = ["Shipped", "Live", "GA"]
+
+[products.studio-3t-ai-chat]
+decision = "Revisit later"
+recorded_status = "Internal demo only"
+status_in = ["Released", "Live", "Shipped", "GA"]
+
+[products.enterprise-data-suite]
+decision = "Revisit later"
+recorded_status = "Planned"
+status_in = ["Shipped", "Live", "GA"]
+min_catalog_entries = 20
+
+[products.cassandra-ui]
+decision = "Out of scope"
+recorded_status = "PoC"
+manual = "This repository widens beyond MongoDB tools"
+
+[products.license-manager]
+decision = "Out of scope"
+recorded_status = "Live"
+
+[products.3t-cognito]
+decision = "Out of scope"
+recorded_status = "Live"
+
+[products.3t-login-page]
+decision = "Out of scope"
+recorded_status = "Live"
+
+[products.3t-website-2026]
+decision = "Out of scope as a product"
+recorded_status = "Live"
+
+[products.3t-internal-tools]
+decision = "Out of scope"
+recorded_status = "Live"

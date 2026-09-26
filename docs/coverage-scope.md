@@ -6,6 +6,10 @@
 
 Evidence per product: release status, track and description from `prod_info_silo/config/products.yaml`; document counts and feature tags from `prod_info_silo/data/catalog_index.json` (silo commit `cde319c742`).
 
+The *Docs* column records the silo's catalog count at the decision (silo `cde319c742`). Current counts: [silo snapshot](../reports/silo-snapshot.md).
+
+**Revisit triggers are machine-checked.** The *Revisit trigger* column is encoded in [`coverage-triggers.toml`](coverage-triggers.toml) and checked by [`tools/scope-triggers`](../tools/scope-triggers/README.md) (`uv run tools/scope-triggers/triggers.py`, exit 1 if any fired). Out-of-scope rows fire only when the entry itself goes stale (the product leaves the snapshot, stops being a 3T product, or gains an analysis folder); a status change that is not a trigger is listed as *noted, no action*. A new 3T silo product with no decision also fires. Change the table and the TOML together; a test checks they match.
+
 ## Decision rule
 
 A product is **in scope** when it is (a) *shipped* and (b) exposes MongoDB-facing capabilities that map onto our Feature IDs. When a shipped component only exists **inside** a product already analysed here, it is covered on that product's pages rather than getting its own product folder. Anything not shipped is **revisit later**, with an explicit trigger. Infrastructure and websites are **out of scope**.
