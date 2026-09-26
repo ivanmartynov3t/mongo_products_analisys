@@ -131,7 +131,14 @@ def build_repo(root: Path) -> None:
     (root / "products/g/vendor/features/data-transfer/feature-matrix.md").write_text(MATRIX, encoding="utf-8")
     (root / "reports").mkdir()
     (root / "README.md").write_text("See https://vendor.test/stable for details.\n", encoding="utf-8")
-    (root / "reports/summary.md").write_text("Export formats: https://vendor.test/export and https://vendor.test/stable\n", encoding="utf-8")
+    (root / "reports/summary.md").write_text("Export formats: https://vendor.test/export and https://vendor.test/stable\n"
+                                             "Same page again: https://www.vendor.test/export/\n", encoding="utf-8")
+    (root / "reports/lastmod.md").write_text("See https://vendor.test/lastmod\n", encoding="utf-8")
+    (root / "reports/nourl.md").write_text("Cites no URL.\n", encoding="utf-8")
+    (root / "products/g/vendor/features/audit").mkdir(parents=True)
+    (root / "products/g/vendor/features/audit/feature-matrix.md").write_text(
+        "# Feature Matrix — Vendor / Audit\n\n## Feature metadata\n\n- Analysis date: 2026-09-03\n\n## Source index\n\n- S1: research file\n",
+        encoding="utf-8")
     (root / "reports/dated.md").write_text("- Analysis date: 2026-09-09\n\nSee https://vendor.test/export\n", encoding="utf-8")
     (root / "tools/silo-review").mkdir(parents=True)
     (root / "tools/silo-review/silo-review.toml").write_text(
@@ -214,13 +221,20 @@ def test_end_to_end(tmp: Path) -> None:
           k("https://github.com/o/r/blob/abc"), k("https://gitlab.com/o/r/blob/abc/a.md")],
           ["github.com/o/r/blob/*/a.md", "github.com/o/r/blob/*/a.md", "github.com/o/r/blob/*/a.md", None, None, None])
 
+    check("uncovered-matrix list stays in section 1",
+          report.index("### Matrices this check cannot cover") < report.index("## 1b. Reports and research"), True)
     other = report.split("## 1b. Reports and research")[1].split("\n## ")[0]
-    check("reports citing a changed page are queued (review date = last commit)",
-          "| [reports/summary.md](../reports/summary.md) | 2026-09-02 | 1 | 0 |" in other, True)
+    check("reports rows: changed first, then server-newer; a URL is counted once per file",
+          [l for l in other.splitlines() if l.startswith("| [")], [
+              "| [reports/summary.md](../reports/summary.md) | 2026-09-02 | 1 | 0 |",
+              "| [reports/lastmod.md](../reports/lastmod.md) | 2026-09-02 | 0 | 1 |"])
+    check("reports detail lines", [l for l in other.splitlines() if l.startswith("- <")], [
+        "- <https://vendor.test/export> — content changed (2026-09-08) (silo: `data/vendor/prod/changed.md`)",
+        "- <https://vendor.test/lastmod> — server `Last-Modified` 2026-09-07 (silo: `data/vendor/prod/lastmod.md`)"])
     check("a report's own Analysis date is its review date", "reports/dated.md" in other, False)
     check("unchanged citations in reports are not queued", "README.md" in other, False)
     check("matrices are not repeated in the reports section", "feature-matrix.md" in other, False)
-    check("reports section counts files", "1 of 3 other files" in other, True)
+    check("reports section counts files that cite a URL", "2 of 4 other files that cite a URL" in other, True)
     check("link targets are URL-encoded", review._link("research/a b/c.md"), "[research/a b/c.md](../research/a%20b/c.md)")
 
     # deterministic: same silo commit, same output
