@@ -58,5 +58,7 @@ Only web-backed candidates are in scope; candidates backed only by repository or
 
 ## Last
 
-- [ ] **Cross-product reports** — low-level comparison, gap analysis, README dashboard (prompt 03), after every product above is merged
+- [ ] **Cross-product reports** — low-level comparison and gap analysis (prompt 03), after every product above is merged
   - [ ] cascade · [ ] validator · [ ] PR
+- [ ] **README dashboard** — rebuild `README.md` with [`update-readme-dashboard.prompt.md`](../.github/prompts/update-readme-dashboard.prompt.md), after the cross-product reports are merged
+  - [ ] README rebuilt · [ ] fixed skeleton kept · [ ] PR

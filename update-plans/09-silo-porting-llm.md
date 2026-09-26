@@ -34,7 +34,8 @@ Measured 2026-09-26 at silo commit `55dbb2cb` and `reports/silo-candidates.md`.
 
 Two items are repository-wide, not per product, so the loop handles each once:
 - **First item: scope triggers.** A fired trigger may add or drop a product.
-- **Last item: the cross-product reports.** These are the low-level comparison, gap analysis and README dashboard. They are cascaded once, after every product is merged.
+- **Second-to-last item: the cross-product reports.** These are the low-level comparison and gap analysis (prompt 03). They are cascaded once, after every product is merged.
+- **Last item: the top-level `README.md` dashboard.** It is rebuilt with the existing prompt [`.github/prompts/update-readme-dashboard.prompt.md`](../.github/prompts/update-readme-dashboard.prompt.md), unchanged. That prompt reads this repository only, so it runs after every other item has merged and reflects the final state.
 
 Out of scope:
 - **Private-source candidates.** The 104 candidates backed only by repository or source documents are an owner decision (§6).
@@ -132,7 +133,10 @@ Each candidate gets exactly one outcome, recorded in the ledger (L1):
   - `.claude/commands/silo-port.md`, a Claude Code slash command;
   - the checklist [`09-product-loop.md`](09-product-loop.md).
 
-  The command reuses the rules of the existing `.github/prompts/weekly-maintenance/` prompts (01 verify, 03 cascade) rather than copying them.
+  The command reuses the existing prompts rather than copying them:
+  - `weekly-maintenance/01` (verify);
+  - `weekly-maintenance/03` (cascade);
+  - `update-readme-dashboard.prompt.md` (the README, last item).
 - **Loop.**
   1. Stop with a message if `run.sh` did not finish cleanly, or its reports are older than the silo ref.
   2. Take the first unticked product in the checklist.
@@ -144,7 +148,7 @@ Each candidate gets exactly one outcome, recorded in the ledger (L1):
   8. Review and merge, per owner decision 5.
   9. Tick the product and move on to the next one.
 
-  The loop ends when every product is ticked. A product with nothing to do is ticked with "no changes" and gets no PR.
+  The loop ends when every item is ticked, the README dashboard last. A product with nothing to do is ticked with "no changes" and gets no PR.
 - **Why products run one after another.** Every product branch starts from a `main` that already holds the previous product's merge. That avoids conflicts in the checklist, the dictionary and the shared reports.
 - **Outputs.**
   - **Matrix edits.** Rows added for `add-row`; rows re-checked from the review queue.
@@ -162,6 +166,7 @@ Each candidate gets exactly one outcome, recorded in the ledger (L1):
   - Edit another product's files.
   - Change an existing row's status without a changed or new cited source.
   - Edit a generated file in `reports/` that a tool owns.
+  - Patch `README.md` by hand; it is only rebuilt by its prompt, in the last item.
 - **Resuming.** Re-running `/silo-port` continues from the first unticked product. A new cycle starts when the owner resets the checklist, for example after a weekly `run.sh` shows new work.
 
 ### L4 — Row validator
@@ -174,7 +179,7 @@ Each candidate gets exactly one outcome, recorded in the ledger (L1):
   4. Every quoted passage appears verbatim, whitespace-normalised, in the pinned document body. This catches invented quotes and badly captured pages.
   5. The diff names no host in `non_public_hosts` and no repository that is not public.
   6. Every candidate in the batch has exactly one ledger row.
-  7. The diff touches only the current product's files, plus the ledger, `decisions.tsv` and the checklist.
+  7. The diff touches only the current product's files, plus the ledger, `decisions.tsv` and the checklist. `README.md` may change only in the README item.
 - **Exit codes.** Same contract as Plan 08: 0 clean, 1 needs a human, 2 error.
 - **Tests.** Offline tests with throwaway git repositories.
 
@@ -248,3 +253,4 @@ For L5 and L6 the review also covers the **content**: every new or changed row i
   - **Runtime.** No API.
   - **Pace.** One product at a time.
   - **Checklist.** A checkbox file lists the products, and the command loops over all of them.
+  - **README.** The Claude stage ends by rebuilding the top-level `README.md` with the existing dashboard prompt.
